@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Learning Path - Archon</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Monaco Editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <!-- WebContainer API (StackBlitz) -->
+    <script src="https://unpkg.com/@webcontainer/api@1.1.0/dist/webcontainer.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">🦞</span>
+                <h1>TypeScript Path</h1>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-section">
+                    <h3>Dasar-Dasar</h3>
+                    <ul class="nav-list" id="nav-basic">
+                        <li data-module="1" class="nav-item">1. Pengenalan TypeScript</li>
+                        <li data-module="2" class="nav-item">2. Tipe Data Dasar</li>
+                        <li data-module="3" class="nav-item">3. Functions & Type Annotations</li>
+                        <li data-module="4" class="nav-item">4. Interfaces & Objects</li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>Menengah</h3>
+                    <ul class="nav-list" id="nav-intermediate">
+                        <li data-module="5" class="nav-item">5. Classes & Inheritance</li>
+                        <li data-module="6" class="nav-item">6. Generics</li>
+                        <li data-module="7" class="nav-item">7. Utility Types</li>
+                        <li data-module="8" class="nav-item">8. Modules & Namespaces</li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h3>Lanjutan</h3>
+                    <ul class="nav-list" id="nav-advanced">
+                        <li data-module="9" class="nav-item">9. Advanced Types</li>
+                        <li data-module="10" class="nav-item">10. TypeScript dengan React</li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="progress-section">
+                <h3>Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="progress-text" id="progress-text">0%</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h2 id="module-title">Selamat Datang di TypeScript Learning Path</h2>
+                <div class="header-actions">
+                    <button id="reset-btn" class="btn btn-secondary">Reset Progress</button>
+                    <button id="run-code-btn" class="btn btn-primary">▶ Run Code</button>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <!-- Lesson Content -->
+                <section class="lesson-section" id="lesson-content">
+                    <div class="lesson-intro" id="lesson-intro">
+                        <h3>Pendahuluan</h3>
+                        <p>TypeScript adalah superset JavaScript yang menambahkan static type checking. TypeScript membantu menulis kode yang lebih aman, mudah dibaca, dan mudah dirawat.</p>
+                        <p>Path belajar ini akan membawa Anda dari konsep dasar hingga advanced TypeScript features dalam 10 module.</p>
+                        <p><strong>Mulai dengan Module 1</strong> atau pilih module dari sidebar.</p>
+                    </div>
+                    <div class="lesson-text" id="lesson-text"></div>
+                    <div class="lesson-code-block" id="lesson-code-block">
+                        <div class="code-header">
+                            <span>Contoh Kode</span>
+                            <button class="copy-btn" id="copy-btn">Copy</button>
+                        </div>
+                        <pre><code id="code-example" class="language-typescript"></code></pre>
+                    </div>
+                </section>
+
+                <!-- Code Editor -->
+                <section class="editor-section">
+                    <div class="editor-header">
+                        <h3>Code Editor</h3>
+                        <span class="editor-hint">Ketik TypeScript code di bawah ini dan klik "Run Code" untuk compile & execute</span>
+                    </div>
+                    <div id="editor-container"></div>
+                    <div class="editor-actions">
+                        <button id="clear-btn" class="btn btn-secondary">Clear</button>
+                        <button id="format-btn" class="btn btn-secondary">Format</button>
+                    </div>
+                </section>
+
+                <!-- Output Console -->
+                <section class="console-section">
+                    <div class="console-header">
+                        <h3>Output Console</h3>
+                        <button id="clear-console-btn" class="btn btn-small">Clear</button>
+                    </div>
+                    <div class="console-output" id="console-output">
+                        <div class="console-placeholder">Output akan muncul di sini setelah menjalankan code...</div>
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section class="quiz-section" id="quiz-section">
+                    <div class="quiz-header">
+                        <h3>Quiz Module</h3>
+                        <span class="quiz-score" id="quiz-score"></span>
+                    </div>
+                    <div class="quiz-content" id="quiz-content">
+                        <p class="quiz-placeholder">Selesaikan module untuk unlocked quiz!</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
