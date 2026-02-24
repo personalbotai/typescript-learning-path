@@ -565,31 +565,85 @@ body {
     font-size: 0.875rem;
 }
 
-/* Responsive Design */
+/* Responsive Design - Mobile First Approach */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 240px;
+    }
+
+    .content-body {
+        padding: 1.5rem;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto auto;
+    }
+
+    .editor-section,
+    .console-section {
+        min-height: 250px;
+    }
+}
+
+/* Mobile (max-width: 767px) */
 @media (max-width: 768px) {
     .app-container {
         flex-direction: column;
+        height: 100vh;
     }
 
     .sidebar {
         width: 100%;
         height: auto;
-        max-height: 40vh;
+        max-height: 35vh;
         order: 2;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+        margin-bottom: 1rem;
+    }
+
+    .nav-section {
+        margin-bottom: 1rem;
+    }
+
+    .nav-section h3 {
+        font-size: 0.75rem;
+    }
+
+    .nav-item {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .progress-section {
+        margin-top: 1rem;
+        padding-top: 0.75rem;
     }
 
     .main-content {
         order: 1;
+        height: 65vh;
     }
 
     .content-body {
         padding: 1rem;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto auto;
+        gap: 1rem;
     }
 
     .content-header {
         flex-direction: column;
         gap: 0.75rem;
         align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .content-header h2 {
+        font-size: 1.1rem;
     }
 
     .header-actions {
@@ -599,5 +653,207 @@ body {
 
     .header-actions .btn {
         flex: 1;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
     }
+
+    .lesson-section {
+        padding: 1rem;
+    }
+
+    .lesson-intro h3,
+    .lesson-text h3 {
+        font-size: 1rem;
+    }
+
+    .lesson-text p {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .code-header {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.75rem;
+    }
+
+    .editor-section {
+        padding: 1rem;
+        min-height: 200px;
+    }
+
+    .editor-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .editor-header h3 {
+        font-size: 0.9rem;
+    }
+
+    .editor-hint {
+        font-size: 0.75rem;
+    }
+
+    #editor-container {
+        min-height: 200px;
+    }
+
+    .editor-actions {
+        justify-content: flex-end;
+    }
+
+    .console-section {
+        padding: 1rem;
+        min-height: 120px;
+    }
+
+    .console-header h3 {
+        font-size: 0.9rem;
+    }
+
+    .console-output {
+        min-height: 80px;
+        max-height: 120px;
+        font-size: 0.8rem;
+    }
+
+    .quiz-section {
+        padding: 1rem;
+    }
+
+    .quiz-header h3 {
+        font-size: 0.9rem;
+    }
+
+    .quiz-question p {
+        font-size: 0.9rem;
+    }
+
+    .quiz-option {
+        padding: 0.6rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .quiz-actions {
+        flex-direction: column;
+    }
+
+    .quiz-actions .btn {
+        width: 100%;
+    }
+}
+
+/* Large Desktop (min-width: 1440px) */
+@media (min-width: 1440px) {
+    .sidebar {
+        width: 320px;
+    }
+
+    .content-body {
+        padding: 2.5rem;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr auto auto;
+    }
+
+    .lesson-section {
+        grid-column: 1 / -1;
+    }
+
+    .editor-section {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .console-section {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .quiz-section {
+        grid-column: 1 / -1;
+        grid-row: 3;
+    }
+}
+
+/* Very Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .sidebar {
+        max-height: 30vh;
+    }
+
+    .main-content {
+        height: 70vh;
+    }
+
+    .content-header {
+        padding: 0.75rem;
+    }
+
+    .content-body {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    #editor-container {
+        min-height: 150px;
+    }
+
+    .console-output {
+        min-height: 60px;
+        max-height: 100px;
+    }
+}
+
+/* Landscape Tablet (768px - 1024px) and Landscape Mobile */
+@media (max-height: 768px) and (orientation: landscape) {
+    .app-container {
+        height: 100vh;
+    }
+
+    .sidebar {
+        max-height: 50vh;
+    }
+
+    .main-content {
+        height: 50vh;
+    }
+
+    .content-body {
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+
+    .editor-section,
+    .console-section {
+        min-height: 150px;
+    }
+}
+
+/* High DPI / Retina Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Dark Mode Support (optional) */
+@media (prefers-color-scheme: dark) {
+    /* Optional: Add dark mode overrides if desired */
+    /* Currently using light theme with dark sidebar */
 }
