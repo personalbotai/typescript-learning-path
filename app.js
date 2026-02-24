@@ -4,7 +4,7 @@
 class TypeScriptLearningApp {
     constructor() {
         this.currentModule = 1;
-        this.totalModules = 10;
+        this.totalModules = 12;
         this.progress = this.loadProgress();
         this.editor = null;
         this.modules = this.defineModules();
@@ -439,6 +439,147 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 };
 `,
                 quiz: [28, 29, 30]
+            },
+            11: {
+                title: "Testing dengan Jest",
+                intro: `
+                    <h3>Unit & Integration Testing</h3>
+                    <p>Testing adalah kunci untuk software yang reliable. TypeScript + Jest memberikan powerful testing experience dengan type safety:</p>
+                `,
+                codeExample: `// math.ts
+export function add(a: number, b: number): number {
+    return a + b;
+}
+export function divide(a: number, b: number): number {
+    if (b === 0) throw new Error("Division by zero");
+    return a / b;
+}
+
+// math.test.ts
+import { add, divide } from './math';
+
+describe('Math functions', () => {
+    test('add should sum two numbers', () => {
+        expect(add(2, 3)).toBe(5);
+        expect(add(-1, 1)).toBe(0);
+    });
+
+    test('divide should throw on zero', () => {
+        expect(() => divide(10, 0)).toThrow("Division by zero");
+    });
+});
+
+// Testing React components
+import { render, screen } from '@testing-library/react';
+import Button from './Button';
+
+test('Button renders with correct label', () => {
+    render(<Button label="Click me" onClick={() => {}} />);
+    expect(screen.getByText('Click me')).toBeInTheDocument();
+});
+
+// Mocking functions
+jest.mock('./api');
+import { fetchUser } from './userService';
+
+test('fetchUser returns user data', async () => {
+    const user = await fetchUser(1);
+    expect(user.name).toBe('Alice');
+});
+`,
+                quiz: [31, 32, 33]
+            },
+            12: {
+                title: "Build Tools & Bundlers",
+                intro: `
+                    <h3>Tooling Modern untuk TypeScript</h3>
+                    <p>Production-ready TypeScript project membutuhkan build tools untuk bundling, minification, dan optimization:</p>
+                `,
+                codeExample: `// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+    plugins: [react()],
+    build: {
+        outDir: 'dist',
+        sourcemap: true,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['react', 'react-dom'],
+                    utils: ['lodash']
+                }
+            }
+        }
+    }
+});
+
+// webpack.config.ts
+import path from 'path';
+import { DefinePlugin } from 'webpack';
+
+export default {
+    entry: './src/index.tsx',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js']
+    },
+    module: {
+        rules: [
+            {
+                test: /\\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            }
+        ]
+    },
+    plugins: [
+        new DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        })
+    ],
+    mode: 'production'
+};
+
+// tsconfig for build
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist"]
+}
+
+// package.json scripts
+{
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "build:webpack": "webpack --mode production",
+        "preview": "vite preview",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "lint": "eslint src --ext .ts,.tsx",
+        "type-check": "tsc --noEmit"
+    }
+}
+`,
+                quiz: [34, 35, 36]
             }
         };
     }
@@ -495,6 +636,16 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                 { q: "React component props didefinisikan dengan:", options: ["Interface", "Type alias", "Both", "Tidak perlu"], a: 2 },
                 { q: "Generic React component:", options: ["function List<T>()", "function <T>List()", "function List<T>(props: ListProps<T>)", "generic List<T>"], a: 2 },
                 { q: "Event handler input di React:", options: ["onChange", "onInput", "onUpdate", "onEvent"], a: 0 }
+            ],
+            11: [
+                { q: "Jest digunakan untuk:", options: ["UI Components", "Testing (unit/integration)", "Build tool", "Linting"], a: 1 },
+                { q: "Testing Library commonly used untuk:", options: ["Unit test only", "DOM testing dengan user behavior simulation", "Performance testing", "API testing"], a: 1 },
+                { q: "Mock function di Jest dibuat dengan:", options: ["jest.fn()", "jest.mock()", "jest.spyOn()", "All of the above"], a: 3 }
+            ],
+            12: [
+                { q: "Vite adalah:", options: ["Test runner", "Build tool & dev server", "Type checker", "Linter"], a: 1 },
+                { q: "tsconfig.json outDir digunakan untuk:", options: ["Input directory", "Output directory untuk compiled JS", "Source maps location", "Declaration files"], a: 1 },
+                { q: "Rollup / Webpack digunakan untuk:", options: ["Type checking", "Bundling modules into single file", "Testing", "Code formatting"], a: 1 }
             ]
         };
     }

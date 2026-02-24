@@ -4,7 +4,7 @@ Interactive tutorial untuk belajar TypeScript dari dasar hingga advanced.
 
 ## Features
 
-- **10 Modules** lengkap dengan lessons, code examples, dan quiz
+- **12 Modules** lengkap dengan lessons, code examples, dan quiz
 - **Monaco Editor** dengan TypeScript syntax highlighting
 - **Live Code Execution** via WebContainer API (compile & run TypeScript di browser)
 - **Progress Tracking** dengan localStorage
