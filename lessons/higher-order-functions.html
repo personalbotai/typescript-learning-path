@@ -2,30 +2,290 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Higher-Order Functions dan Callbacks - Modul 3</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .hoc-box { background: #374151; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #10b981; }
+        .callback-flow { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+        .step { background: #3b82f6; color: white; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem; }
+        .arrow { color: #9ca3af; font-weight: bold; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Higher-Order Functions dan Callbacks</h1>
-        <p class="text-gray-300 mb-4">Modul 3: Functions & Functional Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Higher-Order Functions dan Callbacks</h1>
+            <p class="text-gray-300 text-lg">Modul 3: Functions & Functional Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Higher-Order Functions dan Callbacks
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Higher-Order Functions (HOF)</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Higher-Order Function adalah function yang <strong>menerima function sebagai argument</strong> atau <strong>mengembalikan function</strong>. Ini adalah konsep fundamental dalam functional programming.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-layer-group mr-2"></i>
+                        <strong>Konsep:</strong> Di TypeScript, HOF memiliki type signatures yang harus didefinisikan dengan jelas. Callback function adalah function yang dilewatkan sebagai argument ke HOF.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Function sebagai Argument (Callback)</h2>
+                <p class="mb-4 text-gray-200">Function bisa dilewatkan sebagai parameter ke function lain.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Higher-order function yang menerima callback
+function processNumbers(
+    numbers: number[],
+    callback: (n: number) => number
+): number[] {
+    let result: number[] = [];
+    for (let n of numbers) {
+        result.push(callback(n));
+    }
+    return result;
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Callback functions
+let doubled = (x: number) => x * 2;
+let squared = (x: number) => x * x;
+
+// Gunakan HOF
+let arr = [1, 2, 3];
+console.log(processNumbers(arr, doubled)); // [2,4,6]
+console.log(processNumbers(arr, squared)); // [1,4,9]
+
+// Type signature dari processNumbers:
+// (numbers: number[], callback: (n: number) => number) => number[]</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Function yang Mengembalikan Function</h2>
+                <p class="mb-4 text-gray-200">HOF bisa mengembalikan function baru (closure).</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Function factory
+function createMultiplier(factor: number): (x: number) => number {
+    return (x: number) => x * factor;
+}
+
+let double = createMultiplier(2);
+let triple = createMultiplier(3);
+
+console.log(double(5));   // 10
+console.log(triple(5));   // 15
+
+// Closure: returned function "menangkap" factor dari outer scope
+function createGreeting(greeting: string): (name: string) => string {
+    return (name: string) => `${greeting}, ${name}!`;
+}
+
+let hello = createGreeting("Hello");
+let selamat = createGreeting("Selamat pagi");
+
+console.log(hello("Alice"));       // "Hello, Alice!"
+console.log(selamat("Budi"));      // "Selamat pagi, Budi!"</code></pre>
+                </div>
+                <div class="hoc-box">
+                    <h3 class="text-cyan-300 font-semibold mb-2">Closure</h3>
+                    <p class="text-gray-200 text-sm">Function yang dikembalikan memiliki akses ke variabel-variabel di scope outer-nya, bahkan setelah outer function selesai dieksekusi. Ini disebut closure.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Contoh HOF Populer (Built-in)</h2>
+                <p class="mb-4 text-gray-200">JavaScript/TypeScript memiliki banyak built-in HOF di Array prototype.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// map, filter, reduce adalah HOF!
+[1,2,3].map(x => x * 2);      // map menerima callback
+[1,2,3].filter(x => x > 1);   // filter menerima predicate callback
+[1,2,3].reduce((a,b) => a+b, 0); // reduce menerika accumulator callback
+
+// Set, Map juga punya forEach (HOF)
+let set = new Set([1,2,3]);
+set.forEach(x => console.log(x));
+
+// Function composition dengan HOF
+function compose<T, U, V>(f: (x: U) => V, g: (x: T) => U): (x: T) => V {
+    return (x: T) => f(g(x));
+}
+
+let add1 = (x: number) => x + 1;
+let double = (x: number) => x * 2;
+let add1ThenDouble = compose(double, add1);
+console.log(add1ThenDouble(5)); // (5+1)*2 = 12</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Type Signature untuk HOF</h2>
+                <p class="mb-4 text-gray-200">Sangat penting untuk mendefinisikan type callback dengan jelas.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// HOF dengan callback memiliki 2 atau lebih parameters
+function filter<T>(
+    arr: T[],
+    predicate: (value: T, index: number, array: T[]) => boolean
+): T[] {
+    let result: T[] = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (predicate(arr[i], i, arr)) {
+            result.push(arr[i]);
+        }
+    }
+    return result;
+}
+
+// Predicate callback menerima value, index, dan array
+let numbers = [1,2,3,4,5];
+let evens = filter(numbers, (value, index, arr) => {
+    console.log(index, value, arr.length);
+    return value % 2 === 0;
+});</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Currying (Preview)</h2>
+                <p class="mb-4 text-gray-200">Currying adalah teknik di mana function yang menerima multiple arguments diubah menjadi series of functions yang masing-masing menerima satu argument.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Regular function
+function add(a: number, b: number): number {
+    return a + b;
+}
+
+// Curried version
+function addCurried(a: number): (b: number) => number {
+    return (b: number) => a + b;
+}
+
+let add5 = addCurried(5); // partial application
+console.log(add5(3));     // 8
+
+// Generic curry helper
+function curry<T, U, V>(fn: (a: T, b: U) => V): (a: T) => (b: U) => V {
+    return (a: T) => (b: U) => fn(a, b);
+}
+let curriedAdd = curry(add);
+let add10 = curriedAdd(10);
+console.log(add10(5)); // 15</code></pre>
+                </div>
+                <p class="text-gray-200 mt-4">Currying akan dibahas lebih detail di lesson berikutnya.</p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Build Custom Pipeline</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Buat HOF untuk compose multiple functions
+function pipe<T>(...fns: Array<(arg: T) => T>): (arg: T) => T {
+    return (x: T) => fns.reduce((acc, fn) => fn(acc), x);
+}
+
+// Contoh usage
+let toUpperCase = (s: string) => s.toUpperCase();
+let exclaim = (s: string) => s + "!";
+let shout = pipe(toUpperCase, exclaim);
+
+console.log(shout("hello")); // "HELLO!"
+
+// Type-safe pipe untuk berbagai tipe
+function pipeGeneric<A, B, C>(
+    f1: (a: A) => B,
+    f2: (b: B) => C
+): (a: A) => C {
+    return (a: A) => f2(f1(a));
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Kesalahan Umum</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Lupa type callback</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">function badHOF(arr, cb) { // any types!
+    return arr.map(cb);
+}
+// Selalu specify types!</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Callback hell</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">// Terlalu nested callback
+doA(() => {
+    doB(() => {
+        doC(() => { ... });
+    });
+});
+// Gunakan promise/async-await atau compose</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Higher-Order Function: function yang menerima atau mengembalikan function</li>
+                    <li>Callback: function yang dilewatkan sebagai argument ke HOF</li>
+                    <li>Built-in HOF: <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>forEach</code></li>
+                    <li>Function yang mengembalikan function menghasilkan closure</li>
+                    <li>Type signature untuk callback harus didefinisikan dengan jelas (params dan return type)</li>
+                    <li>Currying adalah teknik HOF untuk partial application (akan dibahas lebih lanjut)</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="arrow-functions.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Arrow Functions
+                </a>
+                <a href="closure.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Closure dan Lexical Scoping<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod3-lesson3-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod3-lesson3-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Higher-Order Functions selesai!');
+        }
+    </script>
 </body>
 </html>

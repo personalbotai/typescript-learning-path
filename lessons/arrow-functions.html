@@ -2,30 +2,315 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arrow Functions dan Lexical this - Modul 3</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+        .comparison > div { background: #374151; padding: 1rem; border-radius: 8px; }
+        .title { color: #60a5fa; font-weight: 700; margin-bottom: 0.5rem; }
+        .warning { color: #fbbf24; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Arrow Functions dan Lexical this</h1>
-        <p class="text-gray-300 mb-4">Modul 3: Functions & Functional Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>15 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Arrow Functions dan Lexical this</h1>
+            <p class="text-gray-300 text-lg">Modul 3: Functions & Functional Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Arrow Functions dan Lexical this
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Arrow Functions (=>)</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Arrow functions adalah syntax alternatif untuk function expression yang lebih ringkas. Punya dua kelebihan utama: <strong>lexical this</strong> dan <strong>tidak memiliki own arguments object</strong>.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-bolt mr-2"></i>
+                        <strong>Introduced:</strong> ES6 (2015). Sekarang sangat umum digunakan, terutama sebagai callback.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Sintaks Arrow Function</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Function expression biasa
+let add = function(a: number, b: number): number {
+    return a + b;
+};
+
+// Arrow function (sama)
+let addArrow = (a: number, b: number): number => {
+    return a + b;
+};
+
+// Single parameter, implicit return (kurung tidak perlu)
+let square = (x: number) => x * x;
+
+// No parameters
+let getNow = () => new Date();
+
+// Multiple statements but implicit return not possible
+let process = (x: number) => {
+    console.log(`Processing ${x}...`);
+    return x * 2;
+};</code></pre>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Kapan pakai kurung parameter?</h3>
+                        <ul class="text-gray-200 text-sm space-y-1">
+                            <li>0 parameter: <code>() => {}</code></li>
+                            <li>1 parameter tanpa type: <code>x => {}</code></li>
+                            <li>1 parameter dengan type: <code>(x: number) => {}</code></li>
+                            <li>>1 parameter: <code>(a, b) => {}</code></li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Implicit return</h3>
+                        <p class="text-gray-200 text-sm">Jika body adalah single expression, bisa tanpa <code>return</code> dan kurung braces:</p>
+                        <pre class="text-xs mt-1"><code class="language-typescript">let add = (a: number, b: number) => a + b;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Lexical this (Penting!)</h2>
+                <p class="mb-4 text-gray-200">Arrow functions <strong>tidak memiliki own <code>this</code></strong>. <code>this</code> diambil dari lexical scope (scope di mana arrow function didefinisikan).</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Regular function: this tergantung cara dipanggil
+class Counter {
+    count: number = 0;
+    incrementRegular() {
+        setTimeout(function() {
+            // 'this' di sini adalah function scope (bukan Counter instance)
+            // this.count; // Error! this undefined atau global
+        }, 1000);
+    }
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Arrow function: this dari lexical scope (Counter instance)
+class CounterFixed {
+    count: number = 0;
+    incrementArrow() {
+        setTimeout(() => {
+            // 'this' di sini adalah CounterFixed instance (lexical)
+            this.count++; // OK!
+        }, 1000);
+    }
+}
+
+// Contoh lain: object method
+let obj = {
+    name: "Object",
+    regularMethod: function() {
+        console.log(this.name); // OK, this = obj
+    },
+    arrowMethod: () => {
+        console.log(this.name); // this dari outer scope (global/undefined), bukan obj!
+    }
+};
+obj.arrowMethod(); // undefined (atau error strict mode)</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <h3 class="text-yellow-300 font-semibold mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Hati-hati:</h3>
+                    <p class="text-yellow-200 text-sm">Jangan gunakan arrow function sebagai method object yang butuh <code>this</code>. Gunakan regular function atau class methods.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Tidak Ada arguments Object</h2>
+                <p class="mb-4 text-gray-200">Arrow functions tidak memiliki <code>arguments</code> object bawaan. Gunakan rest parameters sebagai gantinya.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Regular function: arguments object exists
+function regularSum() {
+    let total = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        total += arguments[i];
+    }
+    return total;
+}
+console.log(regularSum(1,2,3)); // 6
+
+// Arrow function: arguments from outer scope (lexical)
+// Tidak ada arguments sendiri!
+let arrowSum = (...nums: number[]) => nums.reduce((a,b) => a+b, 0);
+console.log(arrowSum(1,2,3)); // 6
+
+// Lexical arguments: arrow function bisa akses arguments dari function luar
+function outer() {
+    let outerArgs = arguments; // arguments dari outer
+    let inner = () => {
+        console.log(outerArgs); // bisa akses!
+    };
+    inner();
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Arrow Functions sebagai Callbacks</h2>
+                <p class="mb-4 text-gray-200">Arrow functions sangat sering digunakan sebagai callback karena ringkas dan lexical this.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Array methods
+[1,2,3].map(x => x * 2);
+[1,2,3].filter(x => x > 1);
+[1,2,3].reduce((acc, x) => acc + x, 0);
+
+// setTimeout/setInterval dengan lexical this
+class Timer {
+    seconds: number = 0;
+    start() {
+        setInterval(() => {
+            this.seconds++; // this dari Timer instance
+            console.log(this.seconds);
+        }, 1000);
+    }
+}
+
+// Promise chains
+fetch("/api/data")
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Bandingkan: Function vs Arrow</h2>
+                <div class="comparison">
+                    <div>
+                        <div class="title">Regular Function</div>
+                        <ul class="text-gray-200 text-sm space-y-2">
+                            <li>✅ <code>this</code> dinamis (bergantung pada cara dipanggil)</li>
+                            <li>✅ Memiliki <code>arguments</code> object</li>
+                            <li>✅ Bisa digunakan sebagai constructor (<code>new</code>)</li>
+                            <li>✅ Cocok untuk object methods yang butuh <code>this</code></li>
+                            <li>❌ Verbose dibanding arrow</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="title">Arrow Function</div>
+                        <ul class="text-gray-200 text-sm space-y-2">
+                            <li>✅ <code>this</code> lexical (dari scope around)</li>
+                            <li>✅ Tidak ada <code>arguments</code> (gunakan rest)</li>
+                            <li>❌ Tidak bisa digunakan sebagai constructor (<code>new</code> error)</li>
+                            <li>✅ Ringkas, bagus untuk callback</li>
+                            <li>❌ Tidak cocok untuk object methods yang butuh <code>this</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Refactor ke Arrow Functions</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Before: regular functions
+[1,2,3,4,5].filter(function(x) { return x % 2 === 0; })
+             .map(function(x) { return x * x; });
+
+// After: arrow functions (lebih readable)
+[1,2,3,4,5].filter(x => x % 2 === 0)
+             .map(x => x * x);
+
+// Class method dengan lexical this
+class DataProcessor {
+    private data: number[] = [];
+    process() {
+        // Before: need .bind(this) atau that = this
+        // this.data.forEach(function(x) { console.log(this); });
+
+        // After: arrow function
+        this.data.forEach(x => console.log(this));
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Kesalahan Umum</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Arrow sebagai object method</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">let obj = {
+    value: 42,
+    getValue: () => this.value // this bukan obj!
+};
+obj.getValue(); // undefined</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Arrow sebagai constructor</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">let Foo = () => {};
+new Foo(); // TypeError: Foo is not a constructor</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Arrow function syntax: <code>(params) => expression</code> atau <code>(params) => { statements }</code></li>
+                    <li><strong>Lexical this</strong>: <code>this</code> dari scope di sekitarnya, tidak berubah</li>
+                    <li>Tidak memiliki <code>arguments</code> object (gunakan rest parameters)</li>
+                    <li>Tidak bisa digunakan sebagai constructor (<code>new</code>)</li>
+                    <li>Ideal untuk callback, array methods, dan situations di mana <code>this</code> harus tetap konsisten</li>
+                    <li>Gunakan regular function untuk object methods yang perlu <code>this</code> mengacu ke object itu sendiri</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="function-types.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Function Types
+                </a>
+                <a href="higher-order-functions.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Higher-Order Functions<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod3-lesson2-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod3-lesson2-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Arrow Functions selesai!');
+        }
+    </script>
 </body>
 </html>

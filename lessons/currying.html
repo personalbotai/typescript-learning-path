@@ -2,30 +2,271 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currying dan Partial Application - Modul 3</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .step { background: #374151; padding: 0.5rem 1rem; border-radius: 6px; margin: 0.25rem 0; display: inline-block; }
+        .highlight { color: #fbbf24; font-weight: 700; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Currying dan Partial Application</h1>
-        <p class="text-gray-300 mb-4">Modul 3: Functions & Functional Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>25 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Currying dan Partial Application</h1>
+            <p class="text-gray-300 text-lg">Modul 3: Functions & Functional Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Currying dan Partial Application
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Apa itu Currying?</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Currying adalah teknik transformasi function yang menerima <strong>beberapa arguments</strong> menjadi <strong>chain of functions</strong>, masing-masing menerima satu argument. Named efter Haskell Curry.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-link mr-2"></i>
+                        <strong>Konsep:</strong> <code>f(a,b,c)</code> menjadi <code>f(a)(b)(c)</code>. Setiap fungsi mengembalikan fungsi baru yang menunggu argument berikutnya.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Currying Manual</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Function biasa (uncurried)
+function add(a: number, b: number, c: number): number {
+    return a + b + c;
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Curried version
+function addCurried(a: number): (b: number) => (c: number) => number {
+    return function(b: number): (c: number) => number {
+        return function(c: number): number {
+            return a + b + c;
+        };
+    };
+}
+
+// Pemanggilan
+let result = addCurried(1)(2)(3); // 6
+
+// Partial application: panggil sebagian arguments
+let add1 = addCurried(1); // (b) => (c) => number
+let add1And2 = add1(2);   // (c) => number
+let final = add1And2(3);  // 6</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Partial Application vs Currying</h2>
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Partial Application</h3>
+                        <p class="text-gray-300 text-sm">Fungsi yang sudah diparitial some arguments, menghasilkan fungsi baru yang menunggu arguments lainnya.</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">function multiply(a: number, b: number) {
+    return a * b;
+}
+let double = (b: number) => multiply(2, b); // partial: a=2
+console.log(double(5)); // 10</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Currying</h3>
+                        <p class="text-gray-300 text-sm">Transformasi khusus yang mengubah function multi-arg menjadi chain single-arg functions.</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">const curriedMultiply = (a: number) => (b: number) => a * b;
+let double = curriedMultiply(2);
+console.log(double(5)); // 10</code></pre>
+                    </div>
+                </div>
+                <p class="text-gray-200"><strong>Catatan:</strong> Currying adalah cara untuk mencapai partial application. Semua curried function memungkinkan partial application, tapi tidak sebaliknya.</p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Generic Currying Helper</h2>
+                <p class="mb-4 text-gray-200">Buat utility function untuk mencurry sembarang function dengan 2 arguments.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">function curry2<T, U, V>(fn: (a: T, b: U) => V): (a: T) => (b: U) => V {
+    return function(a: T): (b: U) => V {
+        return function(b: U): V {
+            return fn(a, b);
+        };
+    };
+}
+
+// Usage
+function add(a: number, b: number): number {
+    return a + b;
+}
+let curriedAdd = curry2(add);
+let add5 = curriedAdd(5);
+console.log(add5(3)); // 8
+
+// Curry dengan lebih banyak arguments (variadic)
+function curryN<T extends any[], R>(fn: (...args: T) => R): 
+    <U extends T['length']>(...args: U extends T['length'] ? [] : [T[U]]) => any {
+    // advanced generic curry - for library authors
+    return function (...args: any[]): any {
+        if (args.length >= fn.length) {
+            return fn(...args as T);
+        } else {
+            return curryN(fn.bind(null, ...args));
+        }
+    };
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Use Cases Currying</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// 1. Create specialized functions
+function logger(prefix: string, message: string) {
+    console.log(`[${prefix}] ${message}`);
+}
+let infoLog = logger.bind(null, "INFO");
+let errorLog = logger.bind(null, "ERROR");
+// Atau dengan curry:
+let curriedLogger = (prefix: string) => (msg: string) => console.log(`[${prefix}] ${msg}`);
+let warnLog = curriedLogger("WARN");
+
+// 2. Event handlers dengan preset config
+function onEvent(eventName: string, handler: (e: Event) => void, capture: boolean = false) {
+    // addEventListener logic...
+}
+let onClick = curry2(onEvent)("click");
+onClick((e) => console.log("clicked!"), true);
+
+// 3. Function composition building blocks
+const compose = <T, U, V>(f: (u: U) => V, g: (t: T) => U) => (x: T) => f(g(x));
+const pipe = <T, U, V>(g: (t: T) => U, f: (u: U) => V) => (x: T) => f(g(x));
+
+// Dengan curry, kita bisa:
+let doubleThenString = pipe((x: number) => x * 2, (x: number) => `Result: ${x}`);
+console.log(doubleThenString(5)); // "Result: 10"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Currying vs Partial Application</h2>
+                <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th class="px-4 py-2 text-left text-cyan-300">Aspect</th>
+                            <th class="px-4 py-2 text-left text-cyan-300">Currying</th>
+                            <th class="px-4 py-2 text-left text-cyan-300">Partial Application</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-200">
+                        <tr class="border-t border-gray-700">
+                            <td class="px-4 py-2">Definition</td>
+                            <td class="px-4 py-2">Transform multi-arg → single-arg chain</td>
+                            <td class="px-4 py-2">Pre-fill some args, return function expecting rest</td>
+                        </tr>
+                        <tr class="border-t border-gray-700">
+                            <td class="px-4 py-2">Arity</td>
+                            <td class="px-4 py-2">Always 1 arg per function</td>
+                            <td class="px-4 py-2">Can have multiple args in returned function</td>
+                        </tr>
+                        <tr class="border-t border-gray-700">
+                            <td class="px-4 py-2">Invocation</td>
+                            <td class="px-4 py-2">f(a)(b)(c)</td>
+                            <td class="px-4 py-2">f(a, b, c) → g(b, c) or g(c)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Build Curry Utility</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Generic curry untuk function dengan 3 arguments
+function curry3<A, B, C, R>(fn: (a: A, b: B, c: C) => R): 
+    (a: A) => (b: B) => (c: C) => R {
+    return function(a: A) {
+        return function(b: B) {
+            return function(c: C): R {
+                return fn(a, b, c);
+            };
+        };
+    };
+}
+
+// Contoh: format string dengan template
+function format(template: string, replacements: Record<string, string>): string {
+    return template.replace(/\{(\w+)\}/g, (_, key) => replacements[key] || "");
+}
+let curriedFormat = curry3(format);
+let formatUser = curriedFormat("Hello, {nama}! Umur: {umur}");
+let result = formatUser({ nama: "Alice", umur: 25 });
+console.log(result); // "Hello, Alice! Umur: 25"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Currying: transform <code>f(a,b,c)</code> → <code>f(a)(b)(c)</code></li>
+                    <li>Partial application: pre-fill beberapa arguments, menghasilkan fungsi baru</li>
+                    <li>Currying memungkinkan <strong>partial application</strong> yang mudah</li>
+                    <li>Berguna untuk membuat specialized functions, function composition, event handlers</li>
+                    <li>Buat generic curry helper untuk function dengan 2-3 arguments</li>
+                    <li>Kombinasi curry + compose = powerful functional pipelines</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="closure.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Closure
+                </a>
+                <a href="class-dan-object.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Class dan Object (Modul 4)<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod3-lesson5-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod3-lesson5-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Currying selesai! Modul 3 (5 lessons) telah diselesaikan.');
+        }
+    </script>
 </body>
 </html>

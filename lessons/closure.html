@@ -2,30 +2,285 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Closure dan Lexical Scoping - Modul 3</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .scope-box { background: #374151; padding: 1rem; border-radius: 8px; margin: 0.5rem 0; border-left: 4px solid #10b981; }
+        .closure-diagram { display: flex; align-items: center; gap: 1rem; margin: 1rem 0; flex-wrap: wrap; }
+        .box { background: #3b82f6; color: white; padding: 0.75rem 1rem; border-radius: 8px; min-width: 120px; text-align: center; }
+        .arrow { color: #9ca3af; font-weight: bold; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Closure dan Lexical Scoping</h1>
-        <p class="text-gray-300 mb-4">Modul 3: Functions & Functional Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>25 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Closure dan Lexical Scoping</h1>
+            <p class="text-gray-300 text-lg">Modul 3: Functions & Functional Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Closure dan Lexical Scoping
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Apa itu Closure?</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Closure adalah function yang <strong>mempertahankan akses ke variabel-variabel di scope outer-nya</strong>, bahkan setelah outer function tersebut sudah selesai dieksekusi. Ini adalah konsep kunci dalam functional programming.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-lock mr-2"></i>
+                        <strong>Konsep inti:</strong> Function di JavaScript/TypeScript memiliki akses ke:
+                    </p>
+                    <ol class="text-cyan-200 text-sm mt-2 pl-6 space-y-1">
+                        <li>Variabel yang didefinisikan di dalamnya sendiri (local)</li>
+                        <li>Variabel di scope outer (lexical scoping)</li>
+                        <li>Variabel global</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Lexical Scoping (Static Scoping)</h2>
+                <p class="mb-4 text-gray-200">Sebelum理解 closure, perlu pahami lexical scoping: variabel diselesaikan berdasarkan <strong>posisi kode di file</strong>, bukan dari stack call.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let globalVar = "global";
+
+function outer() {
+    let outerVar = "outer";
+
+    function inner() {
+        // Lexical scope: bisa akses outerVar dan globalVar
+        console.log(outerVar); // "outer"
+        console.log(globalVar); // "global"
+    }
+
+    inner();
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+outer();
+// console.log(outerVar); // Error: outerVar tidak accessible di sini</code></pre>
+                </div>
+                <p class="text-gray-200 mt-4">Inner function memiliki "closure" atas scope outer-nya (variabel <code>outerVar</code>).</p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Closure: Function dengan Memory</h2>
+                <p class="mb-4 text-gray-200">Ketika function dikembalikan dari outer function, function tersebut "mengingat" environment di mana ia dibuat.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">function createCounter(): () => number {
+    let count: number = 0; // variabel di scope outer
+
+    // Inner function memiliki closure atas 'count'
+    return function(): number {
+        count++; // bisa modifikasi count dari outer!
+        return count;
+    };
+}
+
+let counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+console.log(counter()); // 3
+
+// Setiap panggilan createCounter() membuat closure terpisah
+let counter2 = createCounter();
+console.log(counter2()); // 1 (jauh dari counter)
+console.log(counter());  // 4 (counter masih ingat count=3)</code></pre>
+                </div>
+                <div class="closure-diagram">
+                    <div class="box">createCounter()</div>
+                    <span class="arrow">→</span>
+                    <div class="box">count = 0</div>
+                    <span class="arrow">→</span>
+                    <div class="box">inner function</div>
+                </div>
+                <p class="text-gray-200 mt-4 text-sm">Inner function memiliki closure atas variabel <code>count</code>. Meski <code>createCounter</code> sudah selesai, <code>count</code> tetap hidup di memory karena di-reference oleh inner function.</p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Use Cases Closure</h2>
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Data Encapsulation</h3>
+                        <p class="text-gray-300 text-sm">Simpan state privat tanpa class.</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">function createBankAccount(initial: number) {
+    let balance = initial; // private
+    return {
+        deposit: (amt: number) => { balance += amt; },
+        withdraw: (amt: number) => { balance -= amt; },
+        getBalance: () => balance
+    };
+}</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Function Factory</h3>
+                        <p class="text-gray-300 text-sm">Buat function dengan konfigurasi tetap.</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">function createMultiplier(factor: number) {
+    return (x: number) => x * factor;
+}
+let triple = createMultiplier(3);</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Memoization</h3>
+                        <p class="text-gray-300 text-sm">Cache hasil function untuk optimasi.</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">function memoize<T>(fn: (arg: T) => any) {
+    let cache = new Map<T, any>();
+    return (arg: T) => {
+        if (cache.has(arg)) return cache.get(arg);
+        let result = fn(arg);
+        cache.set(arg, result);
+        return result;
+    };
+}</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Module Pattern</h3>
+                        <p class="text-gray-300 text-sm">Private variables dan methods.</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">const Counter = (() => {
+    let privateCount = 0; // private
+    return {
+        inc: () => ++privateCount,
+        dec: () => --privateCount,
+        get: () => privateCount
+    };
+})();</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Closure dengan Loop - Gotcha!</h2>
+                <p class="mb-4 text-gray-200">Salah penggunaan closure dalam loop sering menyebabkan bug.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// ❌ BUG: closures share same 'i'
+for (var i = 0; i < 3; i++) {
+    setTimeout(() => console.log(i), 100);
+}
+// Output: 3, 3, 3 (bukan 0,1,2) karena 'i' adalah function-scoped (var)
+
+// ✅ FIX 1: use 'let' (block-scoped)
+for (let i = 0; i < 3; i++) {
+    setTimeout(() => console.log(i), 100);
+}
+// Output: 0, 1, 2 (setiap iterasi punya 'i' terpisah)
+
+// ✅ FIX 2: IIFE (Immediately Invoked Function Expression)
+for (var i = 0; i < 3; i++) {
+    (function(j) {
+        setTimeout(() => console.log(j), 100);
+    })(i);
+}
+// Output: 0, 1, 2</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <p class="text-yellow-200 text-sm">
+                        <i class="fas fa-lightbulb mr-2"></i>
+                        <strong>Tips:</strong> Gunakan <code>let</code> atau <code>const</code> (block-scoped) daripada <code>var</code> untuk menghindari closure bugs dalam loop.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Memory Considerations</h2>
+                <p class="mb-4 text-gray-200">Closure membuat variabel di outer scope tidak bisa di-GC selama closure masih direferensi. Hati-hati dengan memory leaks.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">function setupLargeData() {
+    let largeData = new Array(1000000).fill("data"); // besar
+    return () => console.log(largeData.length);
+}
+
+let getter = setupLargeData();
+// largeData tidak bisa di-GC karena closure 'getter' masih hidup
+// Hanya setelah getter = null, largeData bisa di-GC
+
+// Cleanup
+getter = null; // sekarang largeData eligible for GC</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: build once, call many</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Buat function yang mengembalikan function untuk validasi form
+function createValidator(minLength: number, maxLength: number) {
+    return (input: string): boolean => {
+        return input.length >= minLength && input.length <= maxLength;
+    };
+}
+
+let validateUsername = createValidator(3, 20);
+let validatePassword = createValidator(8, 50);
+
+console.log(validateUsername("alice")); // true
+console.log(validateUsername("ab"));     // false
+console.log(validatePassword("secret123")); // true</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Closure: function yang memiliki akses ke variabel di scope outer-nya</li>
+                    <li>Lexical scoping: variabel diselesaikan berdasarkan lokasi kode (static)</li>
+                    <li>Closure mempertahankan state private di antara panggilan</li>
+                    <li>Use cases: encapsulation, function factory, memoization, module pattern</li>
+                    <li>Hati-hati closure dalam loop (gunakan <code>let</code> atau IIFE)</li>
+                    <li>Closure bisa menyebabkan memory leak jika tidak di-cleanup</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="higher-order-functions.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Higher-Order Functions
+                </a>
+                <a href="currying.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Currying dan Partial Application<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod3-lesson4-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod3-lesson4-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Closure selesai!');
+        }
+    </script>
 </body>
 </html>

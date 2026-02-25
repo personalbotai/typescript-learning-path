@@ -2,30 +2,393 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Class dan Object: Sintaks Dasar - Modul 4</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .class-diagram { background: #374151; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; text-align: center; }
+        .member { display: inline-block; background: #3b82f6; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; margin: 0.25rem; font-size: 0.85rem; }
+        .method { background: #10b981; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Class dan Object: Sintaks Dasar</h1>
-        <p class="text-gray-300 mb-4">Modul 4: Object-Oriented Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Class dan Object: Sintaks Dasar</h1>
+            <p class="text-gray-300 text-lg">Modul 4: Object-Oriented Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Class dan Object: Sintaks Dasar
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Object-Oriented Programming di TypeScript</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    TypeScript menyediakan dukungan penuh untuk Object-Oriented Programming (OOP) dengan class, inheritance, interfaces, dan modifiers. Class adalah blueprint untuk membuat object.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-cubes mr-2"></i>
+                        <strong>Konsep OOP:</strong> Encapsulation (enkapsulasi), Inheritance (warisan), Polymorphism (polimorfisme). TypeScript menambahkan static typing ke class.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Class Dasar</h2>
+                <p class="mb-4 text-gray-200">Class didefinisikan dengan keyword <code>class</code>. Berisi properties dan methods.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Person {
+    // Properties (fields)
+    nama: string;
+    umur: number;
+
+    // Constructor - dipanggil saat new
+    constructor(nama: string, umur: number) {
+        this.nama = nama;
+        this.umur = umur;
+    }
+
+    // Method
+    sapa(): string {
+        return `Halo, nama saya ${this.nama}`;
+    }
+
+    // Method dengan parameter
+    tambahUmur(tahun: number): void {
+        this.umur += tahun;
+    }
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Instansiasi (create object)
+let ali = new Person("Ali", 25);
+console.log(ali.sapa()); // "Halo, nama saya Ali"
+ali.tambahUmur(1);
+console.log(ali.umur); // 26</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Property Initializer</h2>
+                <p class="mb-4 text-gray-200">Mulai TypeScript 4.0, bisa inisialisasi property langsung di deklarasi (tanpa constructor).</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Product {
+    // Property dengan initializer
+    id: number;
+    name: string = "Unnamed";
+    price: number = 0;
+    inStock: boolean = true;
+
+    // Constructor bisa hanya untuk assignment
+    constructor(id: number, name: string, price: number) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        // inStock sudah default true
+    }
+}
+
+// Atau dengan parameter properties (shortcut!)
+class User {
+    constructor(
+        public nama: string,
+        private email: string,
+        protected umur: number
+    ) {}
+    // Properties dibuat otomatis dengan modifiers
+}
+
+let user = new User("Alice", "alice@example.com", 25);
+console.log(user.nama); // OK, public
+// console.log(user.email); // Error, private</code></pre>
+                </div>
+                <div class="bg-green-900/20 border-l-4 border-green-500 p-4 rounded mb-6">
+                    <h3 class="text-green-300 font-semibold mb-2">Parameter Properties</h3>
+                    <p class="text-gray-200 text-sm">Gunakan modifier (public, private, protected) di parameter constructor untuk otomatis membuat property. Kurangi boilerplate!</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Access Modifiers</h2>
+                <p class="mb-4 text-gray-200">TypeScript memiliki modifiers untuk kontrol akses properti dan method:</p>
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">public</h3>
+                        <p class="text-gray-300 text-sm">Default. Bisa diakses dari mana saja.</p>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-yellow-300 font-semibold mb-2">private</h3>
+                        <p class="text-gray-300 text-sm">Hanya bisa diakses di dalam class tersebut.</p>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-green-300 font-semibold mb-2">protected</h3>
+                        <p class="text-gray-300 text-sm">Bisa diakses di class tersebut dan subclass (inheritance).</p>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class BankAccount {
+    constructor(
+        public accountNumber: string,
+        private balance: number,
+        protected ownerName: string
+    ) {}
+
+    // Public method - bisa dipanggil dari luar
+    deposit(amount: number): void {
+        this.balance += amount;
+    }
+
+    // Private method - hanya untuk internal use
+    private logTransaction(type: string, amount: number): void {
+        console.log(`[${this.accountNumber}] ${type}: ${amount}`);
+    }
+
+    // Public method yang memanggil private method
+    withdraw(amount: number): boolean {
+        if (amount <= this.balance) {
+            this.balance -= amount;
+            this.logTransaction("withdraw", amount); // OK, dalam class
+            return true;
+        }
+        return false;
+    }
+
+    // Getter untuk private property
+    getBalance(): number {
+        return this.balance;
+    }
+}
+
+let acc = new BankAccount("12345", 1000, "Alice");
+acc.deposit(500);
+// acc.logTransaction("test", 100); // Error! private
+// acc.balance; // Error! private
+console.log(acc.getBalance()); // 1500</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Getter dan Setter</h2>
+                <p class="mb-4 text-gray-200">Gunakan <code>get</code> dan <code>set</code> untuk controlled access ke properties.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Temperature {
+    private _celsius: number = 0;
+
+    // Getter
+    get celsius(): number {
+        return this._celsius;
+    }
+
+    // Setter dengan validation
+    set celsius(value: number) {
+        if (value < -273.15) {
+            throw new Error("Temperature below absolute zero!");
+        }
+        this._celsius = value;
+    }
+
+    // Computed property (get only)
+    get fahrenheit(): number {
+        return (this._celsius * 9/5) + 32;
+    }
+
+    set fahrenheit(value: number) {
+        this.celsius = (value - 32) * 5/9;
+    }
+}
+
+let temp = new Temperature();
+temp.celsius = 25;
+console.log(temp.celsius);    // 25
+console.log(temp.fahrenheit); // 77
+temp.fahrenheit = 212;
+console.log(temp.celsius);    // 100</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Static Members</h2>
+                <p class="mb-4 text-gray-200">Static properties dan methods dimiliki oleh class itu sendiri, bukan instance.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class MathUtils {
+    static PI: number = 3.14159;
+
+    static calculateCircleArea(radius: number): number {
+        return this.PI * radius * radius;
+    }
+
+    static randomInt(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+}
+
+// Panggil tanpa instantiate
+console.log(MathUtils.PI); // 3.14159
+console.log(MathUtils.calculateCircleArea(5)); // 78.53975
+console.log(MathUtils.randomInt(1, 10)); // random 1-10
+
+let m = new MathUtils();
+// m.PI; // Error! static tidak bisa diakses via instance (biasanya)</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">6. Abstract Class</h2>
+                <p class="mb-4 text-gray-200">Abstract class tidak bisa di-instansiate. Digunakan sebagai base class yang harus di-extend. Bisa memiliki abstract methods (tanpa implementation).</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">abstract class Animal {
+    constructor(public nama: string) {}
+
+    // Abstract method - harus diimplementasikan oleh subclass
+    abstract makeSound(): void;
+
+    // Concrete method - bisa digunakan langsung
+    sleep(): void {
+        console.log(`${this.nama} sedang tidur.`);
+    }
+}
+
+class Dog extends Animal {
+    makeSound(): void {
+        console.log(`${this.nama} menggonggong: Woof!`);
+    }
+}
+
+class Cat extends Animal {
+    makeSound(): void {
+        console.log(`${this.nama} mengaum: Meow!`);
+    }
+}
+
+// let a = new Animal(); // Error! abstract class
+let dog = new Dog("Buddy");
+dog.makeSound(); // "Buddy menggonggong: Woof!"
+dog.sleep();     // "Buddy sedang tidur."</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Build Simple Inheritance</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Base class
+class Vehicle {
+    constructor(public brand: string, public year: number) {}
+
+    start(): void {
+        console.log(`${this.brand} (${this.year}) starting...`);
+    }
+
+    stop(): void {
+        console.log(`${this.brand} stopping.`);
+    }
+}
+
+// Subclass
+class Car extends Vehicle {
+    constructor(brand: string, year: number, public doors: number) {
+        super(brand, year); // call parent constructor
+    }
+
+    honk(): void {
+        console.log("Beep beep!");
+    }
+
+    // Override parent method
+    start(): void {
+        super.start(); // call parent version
+        console.log("Car started with ignition.");
+    }
+}
+
+let car = new Car("Toyota", 2024, 4);
+car.start(); // Toyota (2024) starting... Car started with ignition.
+car.honk();  // Beep beep!</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Kesalahan Umum</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Lupa super() di subclass</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">class Base { constructor(public x: number) {} }
+class Derived extends Base {
+    constructor(x: number) {
+        // this.x = x; // Error! x belum diinisialisasi
+        super(x); // harus panggil super() sebelum this
+    }
+}</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Instantiate abstract class</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">abstract class Shape { abstract area(): number; }
+let s = new Shape(); // Error! abstract</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Class: blueprint untuk object, didefinisikan dengan <code>class</code></li>
+                    <li>Constructor: method khusus yang dipanggil saat <code>new</code></li>
+                    <li>Parameter properties: <code>constructor(public x: T)</code> otomatis buat property</li>
+                    <li>Modifiers: <code>public</code> (default), <code>private</code>, <code>protected</code></li>
+                    <li>Getter/Setter: <code>get</code> dan <code>set</code> untuk controlled access</li>
+                    <li>Static: dimiliki class, bukan instance</li>
+                    <li>Abstract class: base class yang tidak bisa di-instantiate, bisa punya abstract methods</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="currying.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Currying (Modul 3)
+                </a>
+                <a href="constructor-properties-methods.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Constructor, Properties, dan Methods<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod4-lesson1-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod4-lesson1-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Class dan Object selesai! 20 lesson telah diselesaikan (30%).');
+        }
+    </script>
 </body>
 </html>
