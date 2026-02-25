@@ -2,30 +2,382 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polymorphism dan Abstract Classes - Modul 4</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .polymorphism-box { background: #374151; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #10b981; }
+        .abstract { color: #f59e0b; font-weight: 700; }
+        .override { color: #60a5fa; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Polymorphism dan Abstract Classes</h1>
-        <p class="text-gray-300 mb-4">Modul 4: Object-Oriented Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Polymorphism dan Abstract Classes</h1>
+            <p class="text-gray-300 text-lg">Modul 4: Object-Oriented Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Polymorphism dan Abstract Classes
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Polymorphism (Banyak Bentuk)</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Polymorphism adalah kemampuan sebuah object untuk mengambil banyak bentuk. Dalam OOP, ini berarti subclass dapat meng-override method dari superclass, dan kita bisa memperlakukan berbagai subclass sama sebagai tipe superclass/interface.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-dice mr-2"></i>
+                        <strong>Konsep:</strong> "Satu interface, banyak implementasi." TypeScript achieve polymorphism melalui inheritance dan interface.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Polymorphism dengan Inheritance</h2>
+                <p class="mb-4 text-gray-200">Subclass meng-override method parent, dan dipanggil melalui reference parent type.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Animal {
+    constructor(public name: string) {}
+
+    // Method yang akan di-override
+    makeSound(): void {
+        console.log(`${this.name} makes a sound.`);
+    }
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+class Dog extends Animal {
+    makeSound(): void {
+        console.log(`${this.name} barks: Woof!`);
+    }
+}
+
+class Cat extends Animal {
+    makeSound(): void {
+        console.log(`${this.name} meows: Meow!`);
+    }
+}
+
+// Polymorphic function - bisa menerima Animal apapun
+function animalConcert(animals: Animal[]): void {
+    for (let animal of animals) {
+        animal.makeSound(); // Dynamic dispatch - panggil versi subclass
+    }
+}
+
+let animals: Animal[] = [
+    new Dog("Buddy"),
+    new Cat("Whiskers"),
+    new Animal("Generic")
+];
+animalConcert(animals);
+// Output:
+// "Buddy barks: Woof!"
+// "Whiskers meows: Meow!"
+// "Generic makes a sound."</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Abstract Class</h2>
+                <p class="mb-4 text-gray-200"><span class="abstract">Abstract class</span> adalah class yang tidak bisa di-instantiate. Digunakan sebagai blueprint untuk subclass. Bisa mengandung <span class="abstract">abstract methods</span> (tanpa implementation) yang harus diimplementasikan oleh subclass.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Abstract class - tidak bisa new Animal()
+abstract class Animal {
+    constructor(public name: string) {}
+
+    // Abstract method - harus diimplementasikan oleh subclass
+    abstract makeSound(): void;
+
+    // Concrete method - bisa memiliki default implementation
+    sleep(): void {
+        console.log(`${this.name} is sleeping.`);
+    }
+}
+
+// Dog harus implement makeSound
+class Dog extends Animal {
+    makeSound(): void {
+        console.log(`${this.name}: Woof!`);
+    }
+}
+
+// Cat juga
+class Cat extends Animal {
+    makeSound(): void {
+        console.log(`${this.name}: Meow!`);
+    }
+}
+
+// let a = new Animal(); // Error! abstract class
+let dog = new Dog("Buddy");
+dog.makeSound(); // "Buddy: Woof!"
+dog.sleep();     // "Buddy is sleeping." (warisan)</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Abstract Methods</h2>
+                <p class="mb-4 text-gray-200">Abstract method hanya deklarasi (tanpa body). Menjamin bahwa subclass akan memiliki implementasi tertentu.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">abstract class Shape {
+    constructor(public color: string) {}
+
+    // Abstract method - MUST be implemented
+    abstract area(): number;
+
+    // Concrete method dengan call ke abstract
+    describe(): string {
+        return `Shape with color ${this.color}, area ${this.area()}`;
+    }
+}
+
+class Circle extends Shape {
+    constructor(color: string, public radius: number) {
+        super(color);
+    }
+
+    // Implementasi abstract method
+    area(): number {
+        return Math.PI * this.radius * this.radius;
+    }
+}
+
+class Rectangle extends Shape {
+    constructor(color: string, public width: number, public height: number) {
+        super(color);
+    }
+
+    area(): number {
+        return this.width * this.height;
+    }
+}
+
+let shapes: Shape[] = [
+    new Circle("red", 5),
+    new Rectangle("blue", 4, 6)
+];
+for (let s of shapes) {
+    console.log(s.describe());
+    // "Shape with color red, area 78.53..."
+    // "Shape with color blue, area 24"
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Polymorphism dengan Interface</h2>
+                <p class="mb-4 text-gray-200">Interface juga memungkinkan polymorphism tanpa inheritance.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface Logger {
+    log(message: string): void;
+}
+
+class ConsoleLogger implements Logger {
+    log(message: string): void {
+        console.log(`[Console] ${message}`);
+    }
+}
+
+class FileLogger implements Logger {
+    log(message: string): void {
+        // write to file...
+        console.log(`[File] ${message}`);
+    }
+}
+
+class DatabaseLogger implements Logger {
+    log(message: string): void {
+        // insert into db...
+        console.log(`[DB] ${message}`);
+    }
+}
+
+// Function polymorphic - accepts any Logger
+function processLogs(logger: Logger, messages: string[]): void {
+    for (let msg of messages) {
+        logger.log(msg);
+    }
+}
+
+let logger: Logger = new ConsoleLogger();
+processLogs(logger, ["Error 1", "Error 2"]);
+// Bisa ganti dengan FileLogger atau DatabaseLogger tanpa ubah function</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. instanceof dan Type Guards</h2>
+                <p class="mb-4 text-gray-200">Saat bekerja dengan polymorphic references, terkadang perlu tahu tipe spesifik instance.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">abstract class Animal {
+    abstract makeSound(): void;
+}
+
+class Dog extends Animal {
+    makeSound(): void { console.log("Woof"); }
+    fetch(): void { console.log("Fetching ball"); }
+}
+
+class Cat extends Animal {
+    makeSound(): void { console.log("Meow"); }
+    climb(): void { console.log("Climbing tree"); }
+}
+
+function interact(animal: Animal): void {
+    animal.makeSound(); // Polymorphic call
+
+    // Type guard untuk cek specific type
+    if (animal instanceof Dog) {
+        animal.fetch(); // TypeScript tahu animal adalah Dog di sini
+    } else if (animal instanceof Cat) {
+        animal.climb();
+    }
+}
+
+let a: Animal = new Dog("Buddy");
+interact(a); // "Woof", "Fetching ball"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Build Shape Hierarchy</h4>
+                <div class="code-block">
+                    <pre><code class="language-typescript">abstract class Shape {
+        constructor(public color: string = "black") {}
+
+        // Abstract methods
+        abstract area(): number;
+        abstract perimeter(): number;
+
+        // Concrete method
+        describe(): string {
+            return `${this.color} shape: area=${this.area().toFixed(2)}, perimeter=${this.perimeter().toFixed(2)}`;
+        }
+    }
+
+    class Circle extends Shape {
+        constructor(color: string, public radius: number) {
+            super(color);
+        }
+
+        area(): number {
+            return Math.PI * this.radius ** 2;
+        }
+
+        perimeter(): number {
+            return 2 * Math.PI * this.radius;
+        }
+    }
+
+    class Rectangle extends Shape {
+        constructor(color: string, public width: number, public height: number) {
+            super(color);
+        }
+
+        area(): number {
+            return this.width * this.height;
+        }
+
+        perimeter(): number {
+            return 2 * (this.width + this.height);
+        }
+    }
+
+    class Triangle extends Shape {
+        constructor(color: string, public a: number, public b: number, public c: number) {
+            super(color);
+        }
+
+        area(): number {
+            // Heron's formula
+            let s = this.perimeter() / 2;
+            return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
+        }
+
+        perimeter(): number {
+            return this.a + this.b + this.c;
+        }
+    }
+
+    // Polymorphic usage
+    let shapes: Shape[] = [
+        new Circle("red", 5),
+        new Rectangle("blue", 4, 6),
+        new Triangle("green", 3, 4, 5)
+    ];
+
+    for (let s of shapes) {
+        console.log(s.describe());
+    }</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li><strong>Polymorphism:</strong> Satu interface, banyak implementasi</li>
+                    <li>Subclass bisa <strong>override</strong> methods dari parent</li>
+                    <li><span class="abstract">Abstract class</span>: tidak bisa di-instantiate, bisa punya abstract methods</li>
+                    <li><span class="abstract">Abstract method</span>: deklarasi tanpa body, harus diimplementasikan subclass</li>
+                    <li><span class="override">override</span> keyword bisa digunakan untuk explicit override (TypeScript 4.3+)</li>
+                    <li>Polymorphism juga bisa via <strong>interface</strong></li>
+                    <li>Gunakan <code>instanceof</code> untuk type guards saat perlu tipe spesifik</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="encapsulation.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Encapsulation
+                </a>
+                <a href="index.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    🎉 Modul 4 Selesai!<i class="fas fa-check ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod4-lesson6-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod4-lesson6-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Polymorphism & Abstract Classes selesai! Modul 4 (6 lessons) telah diselesaikan.');
+        }
+    </script>
 </body>
 </html>

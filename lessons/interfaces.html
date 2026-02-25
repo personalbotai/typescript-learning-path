@@ -2,30 +2,334 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interfaces: Contract untuk Tipe - Modul 4</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .contract { background: #374151; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #10b981; }
+        .keyword { color: #c084fc; }
+        .property { color: #60a5fa; }
+        .method { color: #34d399; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Interfaces: Contract untuk Tipe</h1>
-        <p class="text-gray-300 mb-4">Modul 4: Object-Oriented Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Interfaces: Contract untuk Tipe</h1>
+            <p class="text-gray-300 text-lg">Modul 4: Object-Oriented Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Interfaces: Contract untuk Tipe
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Apa itu Interface?</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Interface adalah <strong>contract</strong> yang mendefinisikan struktur suatu object: properties, methods, dan tipe mereka. Class yang implements interface harus memenuhi kontrak tersebut.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-handshake mr-2"></i>
+                        <strong>Konsep:</strong> Interface mendefinisikan <em>apa</em> yang harus dimiliki sebuah type, bukan <em>bagaimana</em> implementasinya. Ini memisahkan contract dari implementation.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Interface Dasar</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Definisikan interface
+interface User {
+    id: number;
+    nama: string;
+    email: string;
+    isActive?: boolean; // optional
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Class implements interface
+class UserImpl implements User {
+    id: number;
+    nama: string;
+    email: string;
+    isActive: boolean = true; // optional tapi harus ada jika di-declare
+
+    constructor(id: number, nama: string, email: string) {
+        this.id = id;
+        this.nama = nama;
+        this.email = email;
+    }
+}
+
+// Object literal juga bisa type-check terhadap interface
+let user: User = {
+    id: 1,
+    nama: "Alice",
+    email: "alice@example.com"
+    // isActive optional, tidak wajib
+};</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Interface dengan Methods</h2>
+                <p class="mb-4 text-gray-200">Interface bisa mendefinisikan method signatures.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface Animal {
+    nama: string;
+    makeSound(): void;
+    move?(speed: number): void; // optional method
+}
+
+class Dog implements Animal {
+    nama: string;
+    breed: string;
+
+    constructor(nama: string, breed: string) {
+        this.nama = nama;
+        this.breed = breed;
+    }
+
+    makeSound(): void {
+        console.log(`${this.nama}: Woof!`);
+    }
+
+    // optional method bisa diimplementasi atau tidak
+    move(speed: number): void {
+        console.log(`${this.nama} runs at ${speed} km/h`);
+    }
+}
+
+let dog: Animal = new Dog("Buddy", "Golden");
+dog.makeSound(); // "Buddy: Woof!"
+dog.move(10);    // "Buddy runs at 10 km/h"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Interface vs Type Alias</h2>
+                <p class="mb-4 text-gray-200">Keduanya bisa mendefiniskan object shape, tetapi ada perbedaan.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Interface
+interface Point {
+    x: number;
+    y: number;
+}
+
+// Type alias
+type PointType = {
+    x: number;
+    y: number;
+};
+
+// Sebagian besar sama, tapi:
+// - Interface bisa extends interface dan class (bukan type alias)
+// - Type alias bisa union, intersection, mapped types
+// - Interface lebih cocok untuk OOP, type alias untuk complex type manipulation
+
+// Interface extends interface
+interface NamedPoint extends Point {
+    name: string;
+}
+
+// Type alias union
+type ID = number | string;</code></pre>
+                </div>
+                <div class="bg-green-900/20 border-l-4 border-green-500 p-4 rounded mb-6">
+                    <p class="text-green-200 text-sm">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <strong>Tips:</strong> Gunakan <code>interface</code> untuk public API contracts (class, object shape). Gunakan <code>type</code> untuk tipe kompleks (union, tuple, mapped).
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Interface untuk Function</h2>
+                <p class="mb-4 text-gray-200">Interface bisa mendefiniskan function type juga.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Interface untuk function signature
+interface MathOperation {
+    (a: number, b: number): number;
+}
+
+// Function yang sesuai dengan interface
+let add: MathOperation = (a, b) => a + b;
+let multiply: MathOperation = (a, b) => a * b;
+
+console.log(add(2, 3));       // 5
+console.log(multiply(2, 3));  // 6
+
+// Class dengan method yang sesuai interface
+class Calculator {
+    operation: MathOperation;
+    constructor(op: MathOperation) {
+        this.operation = op;
+    }
+    calculate(a: number, b: number): number {
+        return this.operation(a, b);
+    }
+}
+
+let calc = new Calculator(add);
+console.log(calc.calculate(5, 3)); // 8</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Polymorphism via Interface</h2>
+                <p class="mb-4 text-gray-200">Interface memungkinkan polymorphism - berbagai class bisa diperlakukan sama jika implements interface yang sama.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface Renderer {
+    render(): void;
+}
+
+class Button implements Renderer {
+    render(): void {
+        console.log("Render button as HTML button");
+    }
+}
+
+class Link implements Renderer {
+    render(): void {
+        console.log("Render link as HTML anchor");
+    }
+}
+
+function renderAll(renderers: Renderer[]): void {
+    for (let r of renderers) {
+        r.render(); // polymorphic call
+    }
+}
+
+let components: Renderer[] = [new Button(), new Link()];
+renderAll(components);
+// Output:
+// "Render button as HTML button"
+// "Render link as HTML anchor"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Build Payment System</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface PaymentMethod {
+    process(amount: number): Promise&lt;boolean&gt;;
+    getName(): string;
+}
+
+class CreditCard implements PaymentMethod {
+    constructor(public cardNumber: string, public expiry: string) {}
+
+    async process(amount: number): Promise&lt;boolean&gt; {
+        console.log(`Processing $${amount} with credit card ${this.cardNumber}`);
+        return true; // simulate success
+    }
+
+    getName(): string {
+        return "Credit Card";
+    }
+}
+
+class PayPal implements PaymentMethod {
+    constructor(public email: string) {}
+
+    async process(amount: number): Promise&lt;boolean&gt; {
+        console.log(`Processing $${amount} via PayPal (${this.email})`);
+        return true;
+    }
+
+    getName(): string {
+        return "PayPal";
+    }
+}
+
+class PaymentProcessor {
+    constructor(private methods: PaymentMethod[]) {}
+
+    async pay(amount: number): Promise<void> {
+        for (let method of this.methods) {
+            console.log(`Trying ${method.getName()}...`);
+            let success = await method.process(amount);
+            if (success) {
+                console.log("Payment successful!");
+                return;
+            }
+        }
+        throw new Error("All payment methods failed");
+    }
+}
+
+let processor = new PaymentProcessor([
+    new CreditCard("1234-5678", "12/25"),
+    new PayPal("user@example.com")
+]);
+processor.pay(100);</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Interface mendefinisikan kontrak (shape) untuk object atau class</li>
+                    <li>Class menggunakan <code>implements Interface</code> untuk memenuhi kontrak</li>
+                    <li>Properties dan methods harus sesuai dengan signatures di interface</li>
+                    <li>Interface bisa extends interface lain</li>
+                    <li>Bisa juga untuk function types</li>
+                    <li>Interface enables polymorphism - berbagai class bisa diperlakukan sama</li>
+                    <li>Interface vs type alias: interface lebih cocok untuk OOP contracts</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="inheritance.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Inheritance
+                </a>
+                <a href="encapsulation.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Encapsulation<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod4-lesson4-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod4-lesson4-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Interfaces selesai!');
+        }
+    </script>
 </body>
 </html>

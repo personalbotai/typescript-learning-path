@@ -2,30 +2,337 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Constructor, Properties, dan Methods - Modul 4</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .member { background: #374151; padding: 0.5rem 1rem; border-radius: 6px; margin: 0.25rem; display: inline-block; }
+        .property { border-left: 3px solid #3b82f6; }
+        .method { border-left: 3px solid #10b981; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Constructor, Properties, dan Methods</h1>
-        <p class="text-gray-300 mb-4">Modul 4: Object-Oriented Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>15 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Constructor, Properties, dan Methods</h1>
+            <p class="text-gray-300 text-lg">Modul 4: Object-Oriented Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Constructor, Properties, dan Methods
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Class Members</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Class terdiri dari dua jenis member utama: <strong>properties</strong> (data) dan <strong>methods</strong> (function). Constructor adalah method khusus yang digunakan untuk inisialisasi object.
+                </p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Properties (Fields)</h2>
+                <p class="mb-4 text-gray-200">Properties adalah variabel yang menjadi bagian dari class. Dapat memiliki tipe, initializer, dan modifiers.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Car {
+    // Property declarations dengan tipe
+    make: string;
+    model: string;
+    year: number;
+    mileage: number = 0; // dengan default value
+
+    // Readonly property (hanya bisa di-set di constructor)
+    readonly vin: string;
+
+    constructor(make: string, model: string, year: number, vin: string) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.vin = vin; // OK, di-set di constructor
+        // this.vin = "other"; // Error! readonly
+    }
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+let car = new Car("Toyota", "Camry", 2024, "12345");
+console.log(car.make); // Toyota
+car.mileage = 100;     // OK, mutable
+// car.vin = "67890";  // Error! readonly</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Constructor</h2>
+                <p class="mb-4 text-gray-200">Constructor adalah method yang dipanggil saat <code>new Class()</code>. Digunakan untuk menginisialisasi properties.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class User {
+    // Properties
+    id: number;
+    name: string;
+    email: string;
+    createdAt: Date;
+
+    // Constructor dengan parameters
+    constructor(id: number, name: string, email: string) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.createdAt = new Date(); // default value
+    }
+}
+
+// Shortcut: parameter properties
+class Product {
+    // Modifier di parameter constructor otomatis buat property
+    constructor(
+        public id: number,
+        public name: string,
+        private price: number,
+        protected sku: string
+    ) {}
+    // Properties id, name, price, sku otomatis dibuat
+}
+
+let p = new Product(1, "Laptop", 1500000, "LP-001");
+console.log(p.id);    // OK, public
+console.log(p.name);  // OK, public
+// console.log(p.price); // Error, private</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <h3 class="text-yellow-300 font-semibold mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Aturan Constructor</h3>
+                    <ul class="text-yellow-200 text-sm space-y-1">
+                        <li>Nama harus <code>constructor</code></li>
+                        <li>Bisa memiliki parameters (dengan tipe)</li>
+                        <li>Jika subclass, harus panggil <code>super()</code> terlebih dahulu</li>
+                        <li>Tidak memiliki return type (selalu <code>void</code> implicit)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Methods</h2>
+                <p class="mb-4 text-gray-200">Methods adalah function yang menjadi anggota class. Bisa public, private, protected, static.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Calculator {
+    // Instance method (public by default)
+    add(a: number, b: number): number {
+        return a + b;
+    }
+
+    // Private method
+    private logOperation(op: string, result: number): void {
+        console.log(`${op} = ${result}`);
+    }
+
+    // Public method yang memanggil private method
+    calculateAndLog(a: number, b: number): void {
+        let result = this.add(a, b);
+        this.logOperation(`${a} + ${b}`, result);
+    }
+
+    // Static method (dimiliki class, bukan instance)
+    static multiply(a: number, b: number): number {
+        return a * b;
+    }
+
+    // Getter
+    get description(): string {
+        return "Simple calculator";
+    }
+
+    // Setter
+    set precision(decimals: number) {
+        // config precision
+    }
+}
+
+let calc = new Calculator();
+console.log(calc.add(2,3)); // 5
+calc.calculateAndLog(5, 3); // "5 + 3 = 8"
+console.log(Calculator.multiply(4, 5)); // 20 (static call)
+console.log(calc.description); // "Simple calculator"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Property vs Accessor</h2>
+                <p class="mb-4 text-gray-200">TypeScript mendukung <strong>field</strong> (simpan data) dan <strong>accessor</strong> (getter/setter) yang memberikan kontrol lebih.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class BankAccount {
+    // Field (simple property)
+    accountNumber: string;
+
+    // Accessor dengan getter/setter
+    private _balance: number = 0;
+
+    get balance(): number {
+        // Bisa tambah logic
+        console.log("Getting balance...");
+        return this._balance;
+    }
+
+    set balance(value: number) {
+        if (value < 0) {
+            throw new Error("Balance cannot be negative");
+        }
+        this._balance = value;
+    }
+
+    constructor(accountNumber: string, initialBalance: number) {
+        this.accountNumber = accountNumber;
+        this.balance = initialBalance; // panggil setter
+    }
+
+    deposit(amount: number): void {
+        this.balance += amount; // panggil getter, lalu setter
+    }
+}
+
+let acc = new BankAccount("123", 1000);
+console.log(acc.balance); // Getter dipanggil
+acc.deposit(500);
+// acc.balance = -100; // Error via setter validation</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Optional Chaining dengan Class Members</h2>
+                <p class="mb-4 text-gray-200">Gunakan optional chaining (<code>?.</code>) untuk aman mengakses properties/methods yang mungkin null/undefined.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class User {
+    name: string;
+    profile?: {
+        avatar?: string;
+        bio?: string;
+    };
+
+    constructor(name: string) {
+        this.name = name;
+    }
+}
+
+let user = new User("Alice");
+// user.profile = { avatar: "url" };
+
+// Safe access
+let avatar = user.profile?.avatar; // undefined (tidak error)
+let bio = user.profile?.bio;       // undefined
+
+// Optional chaining dengan method
+class Service {
+    config?: { timeout: number };
+    getTimeout(): number {
+        return this.config?.timeout ?? 5000; // default 5000
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Build Class dengan Properties dan Methods</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class ShoppingCart {
+    private items: { id: number; name: string; price: number; qty: number }[] = [];
+
+    addItem(id: number, name: string, price: number, qty: number = 1): void {
+        let existing = this.items.find(i => i.id === id);
+        if (existing) {
+            existing.qty += qty;
+        } else {
+            this.items.push({ id, name, price, qty });
+        }
+    }
+
+    removeItem(id: number): void {
+        this.items = this.items.filter(i => i.id !== id);
+    }
+
+    get total(): number {
+        return this.items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    }
+
+    get itemCount(): number {
+        return this.items.reduce((count, item) => count + item.qty, 0);
+    }
+
+    printCart(): void {
+        console.log("Cart contents:");
+        for (let item of this.items) {
+            console.log(`- ${item.name} x${item.qty}: $${item.price * item.qty}`);
+        }
+        console.log(`Total: $${this.total} (${this.itemCount} items)`);
+    }
+}
+
+let cart = new ShoppingCart();
+cart.addItem(1, "Laptop", 1500000, 1);
+cart.addItem(2, "Mouse", 150000, 2);
+cart.printCart();
+// Total: 1800000 (3 items)</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Properties: data fields dalam class, bisa dengan default value</li>
+                    <li>Constructor: method khusus untuk inisialisasi, dipanggil saat <code>new</code></li>
+                    <li>Parameter properties: <code>constructor(public x: T)</code> otomatis buat property</li>
+                    <li>Methods: function anggota class, bisa instance atau static</li>
+                    <li>Access modifiers: <code>public</code>, <code>private</code>, <code>protected</code></li>
+                    <li>Getter/Setter: kontrol akses property dengan logic tambahan</li>
+                    <li>Readonly: property hanya bisa di-set di constructor</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="class-dan-object.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Class dan Object
+                </a>
+                <a href="inheritance.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Inheritance dengan extends dan super<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod4-lesson2-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod4-lesson2-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Constructor, Properties, dan Methods selesai!');
+        }
+    </script>
 </body>
 </html>

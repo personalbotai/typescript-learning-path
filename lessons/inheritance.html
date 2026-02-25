@@ -2,30 +2,348 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inheritance dengan extends dan super - Modul 4</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .inheritance-diagram { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin: 1.5rem 0; }
+        .class-box { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; }
+        .arrow { color: #9ca3af; font-size: 1.5rem; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Inheritance dengan extends dan super</h1>
-        <p class="text-gray-300 mb-4">Modul 4: Object-Oriented Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Inheritance dengan extends dan super</h1>
+            <p class="text-gray-300 text-lg">Modul 4: Object-Oriented Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Inheritance dengan extends dan super
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Inheritance (Warisan)</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Inheritance memungkinkan class baru (subclass/child) mewarisi properties dan methods dari class lain (superclass/parent). Ini promotes code reuse dan establishes hierarchy.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-code-branch mr-2"></i>
+                        <strong>Kata kunci:</strong> <code>extends</code> untuk warisan, <code>super</code> untuk mengakses parent class.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. extends: Warisan Sederhana</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Parent class (superclass)
+class Animal {
+    constructor(public nama: string, protected umur: number) {}
+
+    eat(): void {
+        console.log(`${this.nama} sedang makan.`);
+    }
+
+    sleep(): void {
+        console.log(`${this.nama} sedang tidur.`);
+    }
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Child class (subclass) extends Animal
+class Dog extends Animal {
+    // Dog mewarisi properties: nama, umur
+    // Dog mewarisi methods: eat(), sleep()
+
+    // Tambah property khusus Dog
+    breed: string;
+
+    constructor(nama: string, umur: number, breed: string) {
+        super(nama, umur); // panggil constructor parent
+        this.breed = breed;
+    }
+
+    // Method khusus Dog
+    bark(): void {
+        console.log(`${this.nama} menggonggong: Woof!`);
+    }
+
+    // Override method parent
+    eat(): void {
+        console.log(`${this.nama} (dog) sedang makan dog food.`);
+        super.eat(); // bisa panggil parent version
+    }
+}
+
+let dog = new Dog("Buddy", 3, "Golden Retriever");
+dog.eat();    // "Buddy (dog) sedang makan dog food." + "Buddy sedang makan."
+dog.sleep(); // "Buddy sedang tidur." (warisan)
+dog.bark();  // "Buddy menggonggong: Woof!"
+console.log(dog.breed); // "Golden Retriever"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. super: Mengakses Parent</h2>
+                <p class="mb-4 text-gray-200"><code>super</code> merujuk ke parent class. Digunakan untuk:</p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-gray-200">
+                    <li><code>super()</code> - panggil constructor parent</li>
+                    <li><code>super.methodName()</code> - panggil method parent</li>
+                    <li><code>super.propertyName</code> - akses property parent (jika accessible)</li>
+                </ul>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Vehicle {
+    constructor(public brand: string) {}
+    start(): void {
+        console.log(`${this.brand} starting...`);
+    }
+}
+
+class Car extends Vehicle {
+    constructor(brand: string, public doors: number) {
+        super(brand); // wajib panggil super() di constructor subclass
+    }
+
+    start(): void {
+        console.log("Car specific start sequence...");
+        super.start(); // panggil parent method
+    }
+}
+
+let car = new Car("Toyota", 4);
+car.start();
+// Output:
+// "Car specific start sequence..."
+// "Toyota starting..."</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-6">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>HARUS panggil super()</h3>
+                    <p class="text-red-200 text-sm">Jika subclass memiliki constructor, <strong>harus panggil <code>super()</code></strong> sebelum mengakses <code>this</code>. TypeScript akan error jika lupa.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Override Methods</h2>
+                <p class="mb-4 text-gray-200">Subclass bisa mengganti (override) method dari parent dengan implementasi baru.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Shape {
+    area(): number {
+        return 0;
+    }
+    toString(): string {
+        return "Shape";
+    }
+}
+
+class Circle extends Shape {
+    constructor(public radius: number) {
+        super();
+    }
+
+    // Override area method
+    area(): number {
+        return Math.PI * this.radius * this.radius;
+    }
+
+    // Override toString
+    toString(): string {
+        return `Circle(radius=${this.radius})`;
+    }
+}
+
+let circle = new Circle(5);
+console.log(circle.area());    // 78.5398... (override)
+console.log(circle.toString()); // "Circle(radius=5)" (override)</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <p class="text-yellow-200 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>Optional:</strong> Gunakan <code>override</code> keyword (TypeScript 4.3+) untuk explicit override. TypeScript akan error jika tidak ada method parent yang sesuai.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. protected Members</h2>
+                <p class="mb-4 text-gray-200"><code>protected</code> members bisa diakses di dalam class <strong>dan</strong> subclass, tapi tidak dari luar.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Person {
+    constructor(public name: string, protected age: number) {}
+
+    getInfo(): string {
+        return `${this.name}, ${this.age} years old`;
+    }
+}
+
+class Student extends Person {
+    constructor(name: string, age: number, public studentId: string) {
+        super(name, age);
+    }
+
+    // Bisa akses protected property 'age' dari parent
+    isAdult(): boolean {
+        return this.age >= 18;
+    }
+
+    getInfo(): string {
+        return `${super.getInfo()}, ID: ${this.studentId}`;
+    }
+}
+
+let student = new Student("Alice", 20, "S123");
+console.log(student.isAdult()); // true (akses this.age)
+console.log(student.getInfo()); // "Alice, 20 years old, ID: S123"
+// console.log(student.age); // Error! protected, hanya class/subclass</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Multilevel Inheritance</h2>
+                <p class="mb-4 text-gray-200">Class bisa extends class yang sudah extends class lain (chain).</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class A {
+    a(): void { console.log("A"); }
+}
+class B extends A {
+    b(): void { console.log("B"); }
+}
+class C extends B {
+    c(): void { console.log("C"); }
+}
+
+let c = new C();
+c.a(); // "A" (warisan dari A → B → C)
+c.b(); // "B"
+c.c(); // "C"</code></pre>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h3 class="text-cyan-300 font-semibold mb-2">⚠️ Diamond Problem</h3>
+                    <p class="text-gray-300 text-sm">TypeScript tidak support multiple inheritance (class tidak bisa extends lebih dari satu class). Gunakan interface atau composition untuk kombinasi behaviors.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Build Vehicle Hierarchy</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">abstract class Vehicle {
+    constructor(public brand: string, public model: string) {}
+
+    abstract start(): void; // abstract method
+
+    stop(): void {
+        console.log(`${this.brand} ${this.model} stopped.`);
+    }
+
+    getDescription(): string {
+        return `${this.brand} ${this.model}`;
+    }
+}
+
+class Motorcycle extends Vehicle {
+    constructor(brand: string, model: string, public hasSidecar: boolean) {
+        super(brand, model);
+    }
+
+    start(): void {
+        console.log(`${this.getDescription()} motorcycle starting with ${this.hasSidecar ? "sidecar" : "solo"}`);
+    }
+
+    wheelie(): void {
+        console.log("Doing a wheelie!");
+    }
+}
+
+class Truck extends Vehicle {
+    constructor(brand: string, model: string, public cargoCapacity: number) {
+        super(brand, model);
+    }
+
+    start(): void {
+        console.log(`${this.getDescription()} truck starting with ${this.cargoCapacity}kg capacity`);
+    }
+
+    loadCargo(weight: number): void {
+        if (weight > this.cargoCapacity) {
+            console.error("Overload!");
+        } else {
+            console.log(`Loaded ${weight}kg`);
+        }
+    }
+}
+
+let moto = new Motorcycle("Honda", "CBR", false);
+moto.start(); // "Honda CBR motorcycle starting with solo"
+moto.wheelie();
+
+let truck = new Truck("Isuzu", "NQR", 5000);
+truck.start(); // "Isuzu NQR truck starting with 5000kg capacity"
+truck.loadCargo(3000);</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Inheritance dengan <code>class Child extends Parent</code></li>
+                    <li><code>super()</code> wajib di constructor subclass untuk memanggil parent constructor</li>
+                    <li><code>super.method()</code> untuk memanggil method parent (override)</li>
+                    <li><code>protected</code> members accessible di subclass</li>
+                    <li>TypeScript tidak support multiple inheritance (single inheritance only)</li>
+                    <li>Gunakan abstract class untuk base class yang tidak bisa di-instantiate</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="constructor-properties-methods.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Constructor, Properties, Methods
+                </a>
+                <a href="interfaces.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Interfaces: Contract untuk Tipe<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod4-lesson3-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod4-lesson3-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Inheritance selesai!');
+        }
+    </script>
 </body>
 </html>

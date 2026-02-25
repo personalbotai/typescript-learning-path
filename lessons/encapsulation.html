@@ -2,30 +2,331 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encapsulation: public, private, protected - Modul 4</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .access-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .access-table th, .access-table td { padding: 0.75rem; border: 1px solid #4b5563; text-align: left; }
+        .access-table th { background: #374151; color: #60a5fa; }
+        .access-table td { background: #1f2937; }
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+        .badge-public { background: #10b981; color: white; }
+        .badge-private { background: #ef4444; color: white; }
+        .badge-protected { background: #f59e0b; color: white; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Encapsulation: public, private, protected</h1>
-        <p class="text-gray-300 mb-4">Modul 4: Object-Oriented Programming</p>
-
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
-
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Encapsulation: public, private, protected
-function contoh(): void {
-    console.log("Hello, TypeScript!");
-}
-
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>15 menit
+                </div>
             </div>
-        </section>
-    </article>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Encapsulation: public, private, protected</h1>
+            <p class="text-gray-300 text-lg">Modul 4: Object-Oriented Programming</p>
+        </header>
+
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Encapsulation (Enkapsulasi)</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Encapsulation adalah prinsip OOP yang menyembunyikan detail implementasi internal dan hanya mengekspos API yang diperlukan. Di TypeScript, kita mencapai ini melalui <strong>access modifiers</strong>: <code>public</code>, <code>private</code>, dan <code>protected</code>.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-lock mr-2"></i>
+                        <strong>Goal:</strong> Lindungi data dari akses eksternal, kurangi coupling, dan tingkatkan maintainability.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. public (Default)</h2>
+                <p class="mb-4 text-gray-200">Public members bisa diakses dari <strong>mana saja</strong>: di dalam class, subclass, dan dari instance eksternal.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Person {
+        constructor(public name: string, public age: number) {} // public by default
+
+        greet(): void {
+            console.log(`Hello, I'm ${this.name}`);
+        }
+    }
+
+    let p = new Person("Alice", 25);
+    console.log(p.name); // OK, public
+    p.greet(); // OK, public</code></pre>
+                </div>
+                <p class="text-gray-200 mt-4"><span class="badge badge-public">public</span> adalah default - tidak perlu ditulis kecuali untuk kejelasan.</p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. private</h2>
+                <p class="mb-4 text-gray-200"><span class="badge badge-private">private</span> members hanya bisa diakses di <strong>dalam class tersebut</strong>. Tidak bisa dari subclass atau instance lain.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class BankAccount {
+        constructor(
+            public accountNumber: string,
+            private balance: number
+        ) {}
+
+        deposit(amount: number): void {
+            this.balance += amount; // OK, dalam class
+        }
+
+        withdraw(amount: number): boolean {
+            if (amount > this.balance) return false;
+            this.balance -= amount;
+            return true;
+        }
+
+        getBalance(): number {
+            return this.balance; // OK, dalam class
+        }
+    }
+
+    let acc = new BankAccount("12345", 1000);
+    // console.log(acc.balance); // Error! private
+    acc.deposit(500); // OK, public method
+    console.log(acc.getBalance()); // 1500</code></pre>
+                </div>
+                <div class="bg-green-900/20 border-l-4 border-green-500 p-4 rounded mb-6">
+                    <h3 class="text-green-300 font-semibold mb-2">Private untuk Data Hiding</h3>
+                    <p class="text-gray-200 text-sm">Gunakan <code>private</code> untuk state internal yang tidak boleh diubah langsung dari luar. Berikan public methods (getter/setter) untuk controlled access.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. protected</h2>
+                <p class="mb-4 text-gray-200"><span class="badge badge-protected">protected</span> members bisa diakses di dalam class <strong>dan subclass-nya</strong>, tapi tidak dari instance eksternal.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Animal {
+        constructor(protected name: string, protected age: number) {}
+
+        getInfo(): string {
+            return `${this.name}, ${this.age} years`;
+        }
+    }
+
+    class Dog extends Animal {
+        breed: string;
+
+        constructor(name: string, age: number, breed: string) {
+            super(name, age);
+            this.breed = breed;
+        }
+
+        // Bisa akses protected 'name' dan 'age' dari parent
+        bark(): void {
+            console.log(`${this.name} (${this.breed}) says woof! Age: ${this.age}`);
+        }
+    }
+
+    let dog = new Dog("Buddy", 3, "Golden");
+    dog.bark(); // OK
+    // console.log(dog.name); // Error! protected, tidak bisa dari luar
+    console.log(dog.getInfo()); // OK, public method</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Access Modifiers Summary</h4>
+                <div class="overflow-x-auto">
+                    <table class="access-table">
+                        <thead>
+                            <tr>
+                                <th>Modifier</th>
+                                <th>Inside Class</th>
+                                <th>Subclass</th>
+                                <th>Instance/External</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge badge-public">public</span></td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-private">private</span></td>
+                                <td>✅</td>
+                                <td>❌</td>
+                                <td>❌</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-protected">protected</span></td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>❌</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Parameter Properties Shortcut</h2>
+                <p class="mb-4 text-gray-200">Modifier di parameter constructor otomatis membuat property dengan modifier tersebut.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Employee {
+        // Parameter properties - otomatis buat property dengan modifier
+        constructor(
+            public id: number,
+            private name: string,
+            protected department: string
+        ) {}
+
+        getInfo(): string {
+            return `ID: ${this.id}, Dept: ${this.department}`;
+            // this.name accessible di sini (private tapi dalam class)
+        }
+    }
+
+    let emp = new Employee(1, "Alice", "Engineering");
+    console.log(emp.id); // OK, public
+    // console.log(emp.name); // Error, private
+    console.log(emp.getInfo()); // "ID: 1, Dept: Engineering"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">6. Getter/Setter untuk Encapsulation</h2>
+                <p class="mb-4 text-gray-200">Gunakan getter/setter untuk memberikan controlled access ke private properties.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Temperature {
+        private _celsius: number = 0;
+
+        get celsius(): number {
+            // Bisa tambah validation atau computation
+            return this._celsius;
+        }
+
+        set celsius(value: number) {
+            if (value < -273.15) {
+                throw new Error("Below absolute zero!");
+            }
+            this._celsius = value;
+        }
+
+        // Computed property (read-only)
+        get fahrenheit(): number {
+            return (this._celsius * 9/5) + 32;
+        }
+    }
+
+    let temp = new Temperature();
+    temp.celsius = 25; // panggil setter
+    console.log(temp.celsius); // panggil getter: 25
+    console.log(temp.fahrenheit); // 77 (computed)
+    // temp.fahrenheit = 100; // Error! no setter</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Encapsulate Shopping Cart</h4>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class SecureShoppingCart {
+        private items: { id: number; name: string; price: number; qty: number }[] = [];
+
+        addItem(id: number, name: string, price: number, qty: number = 1): void {
+            let existing = this.items.find(i => i.id === id);
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                this.items.push({ id, name, price, qty });
+            }
+        }
+
+        removeItem(id: number): void {
+            this.items = this.items.filter(i => i.id !== id);
+        }
+
+        // Read-only computed properties
+        get total(): number {
+            return this.items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        }
+
+        get itemCount(): number {
+            return this.items.reduce((count, item) => count + item.qty, 0);
+        }
+
+        // Public method untuk view contents
+        getItems(): readonly { id: number; name: string; price: number; qty: number }[] {
+            // Return copy to prevent external mutation
+            return this.items.map(item => ({ ...item }));
+        }
+    }
+
+    let cart = new SecureShoppingCart();
+    cart.addItem(1, "Laptop", 1500000);
+    console.log(cart.total); // 1500000 (via getter)
+    console.log(cart.getItems()); // safe copy, original items protected</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li><span class="badge badge-public">public</span>: accessible dari mana saja (default)</li>
+                    <li><span class="badge badge-private">private</span>: hanya dalam class tersebut</li>
+                    <li><span class="badge badge-protected">protected</span>: dalam class dan subclass</li>
+                    <li>Gunakan private untuk state internal, public untuk API</li>
+                    <li>Protected untuk anggota yang perlu diakses subclass</li>
+                    <li>Parameter properties shortcut: <code>constructor(public x: T)</code></li>
+                    <li>Kombinasikan dengan getter/setter untuk encapsulation yang kuat</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="interfaces.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Interfaces
+                </a>
+                <a href="polymorphism.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Polymorphism dan Abstract Classes<i class="fas fa-chevron-right ml-2"></i>
+                </a>
+            </div>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod4-lesson5-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod4-lesson5-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Encapsulation selesai!');
+        }
+    </script>
 </body>
 </html>
