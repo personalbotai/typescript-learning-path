@@ -1,0 +1,75 @@
+            { id: 1, title: "Pengenalan dan Keunggulan TypeScript", slug: "pengenalan-dan-keunggulan", duration: "15 min" },
+            { id: 2, title: "Setup Environment: Node.js, VS Code, dan TypeScript Compiler", slug: "setup-environment", duration: "10 min" },
+            { id: 3, title: "Tipe Data Dasar (string, number, boolean, null, undefined)", slug: "tipe-data-dasar", duration: "20 min" },
+            { id: 4, title: "Operator dan Ekspresi", slug: "operator-dan-ekspresi", duration: "15 min" },
+            { id: 5, title: "Kontrol Alur: if/else, switch, ternary", slug: "kontrol-alur-if-else", duration: "20 min" },
+            { id: 6, title: "Perulangan: for, while, do-while, for...of, for...in", slug: "perulangan", duration: "20 min" },
+            { id: 7, title: "Array dan Tuple", slug: "array-dan-tuple", duration: "15 min" },
+            { id: 8, title: "Object dan Type Literals", slug: "object-dan-type-literals", duration: "20 min" }
+            { id: 1, title: "Array Methods Lengkap (map, filter, reduce, dll)", slug: "array-methods-lengkap", duration: "20 min" },
+            { id: 2, title: "Set, Map, dan WeakMap", slug: "set-map-weakmap", duration: "15 min" },
+            { id: 3, title: "Generics: Kode yang Fleksibel dan Reusable", slug: "generics", duration: "25 min" },
+            { id: 4, title: "Type Utilities: Partial, Pick, Omit, Record", slug: "type-utilities", duration: "20 min" },
+            { id: 5, title: "Conditional Types dan Template Literal Types", slug: "conditional-types", duration: "25 min" },
+            { id: 6, title: "JSON: Serialisasi dan Parsing dengan Tipe", slug: "json-serialisasi", duration: "15 min" }
+            { id: 1, title: "Function Declarations vs Expressions", slug: "function-types", duration: "20 min" },
+            { id: 2, title: "Arrow Functions dan Lexical this", slug: "arrow-functions", duration: "15 min" },
+            { id: 3, title: "Higher-Order Functions dan Callbacks", slug: "higher-order-functions", duration: "20 min" },
+            { id: 4, title: "Closure dan Lexical Scoping", slug: "closure", duration: "25 min" },
+            { id: 5, title: "Currying dan Partial Application", slug: "currying", duration: "25 min" }
+            { id: 1, title: "Class dan Object: Sintaks Dasar", slug: "class-dan-object", duration: "20 min" },
+            { id: 2, title: "Constructor, Properties, dan Methods", slug: "constructor-properties-methods", duration: "15 min" },
+            { id: 3, title: "Inheritance dengan extends dan super", slug: "inheritance", duration: "20 min" },
+            { id: 4, title: "Interfaces: Contract untuk Tipe", slug: "interfaces", duration: "20 min" },
+            { id: 5, title: "Encapsulation: public, private, protected", slug: "encapsulation", duration: "15 min" },
+            { id: 6, title: "Polymorphism dan Abstract Classes", slug: "polymorphism", duration: "20 min" }
+            { id: 1, title: "Try, Catch, Finally, dan Throw", slug: "try-catch-finally", duration: "20 min" },
+            { id: 2, title: "Custom Error Classes", slug: "custom-errors", duration: "15 min" },
+            { id: 3, title: "Debugging dengan VS Code Debugger", slug: "debugging-vscode", duration: "25 min" },
+            { id: 4, title: "Chrome DevTools untuk TypeScript", slug: "debugging-chrome", duration: "25 min" }
+            { id: 1, title: "Built-in Utility Types (Partial, Required, Readonly)", slug: "builtin-utilities", duration: "20 min" },
+            { id: 2, title: "Mapped Types dan Key Remapping", slug: "mapped-types", duration: "25 min" },
+            { id: 3, title: "Type Inference dan Type Assertions", slug: "type-inference", duration: "15 min" },
+            { id: 4, title: "Type Guards dan Type Predicates", slug: "type-guards", duration: "20 min" },
+            { id: 5, title: "Discriminated Unions dan Exhaustiveness Checking", slug: "discriminated-unions", duration: "25 min" },
+            { id: 6, title: "Module System: ES6 vs CommonJS", slug: "module-systems", duration: "20 min" }
+            { id: 1, title: "Promises: then, catch, finally", slug: "promises", duration: "20 min" },
+            { id: 2, title: "Async/Await: Sintaks dan Best Practices", slug: "async-await", duration: "25 min" },
+            { id: 3, title: "Error Handling dalam Async Code", slug: "async-error-handling", duration: "20 min" },
+            { id: 4, title: "Promise Combinators: all, allSettled, race, any", slug: "promise-combinators", duration: "25 min" },
+            { id: 5, title: "Project: Async Data Fetcher dengan UI Loading States", slug: "project-async-fetcher", duration: "45 min", project: true }
+            { id: 1, title: "DOM Manipulation dengan TypeScript", slug: "dom-manipulation", duration: "25 min" },
+            { id: 2, title: "Events: Handling dan Delegasi", slug: "events-handling", duration: "25 min" },
+            { id: 3, title: "Fetch API: HTTP Requests dengan Tipe", slug: "fetch-api", duration: "20 min" },
+            { id: 4, title: "Forms dan Validasi", slug: "forms-validation", duration: "25 min" },
+            { id: 5, title: "Project: To-Do List App dengan TypeScript", slug: "project-todo-list", duration: "45 min", project: true },
+            { id: 6, title: "Project: Weather Dashboard dengan API", slug: "project-weather-dashboard", duration: "45 min", project: true }
+            { id: 1, title: "Testing Fundamentals: Unit vs Integration vs E2E", slug: "testing-fundamentals", duration: "20 min" },
+            { id: 2, title: "Jest Setup dan Configuration", slug: "jest-setup", duration: "25 min" },
+            { id: 3, title: "Writing Test Cases: describe, test, expect", slug: "writing-tests", duration: "25 min" },
+            { id: 4, title: "Mocking dan Spies dengan Jest", slug: "mocking-spies", duration: "30 min" },
+            { id: 5, title: "Test-Driven Development (TDD) Workflow", slug: "tdd-workflow", duration: "30 min" }
+            { id: 1, title: "npm dan package.json: Scripts dan Dependencies", slug: "npm-ecosystem", duration: "20 min" },
+            { id: 2, title: "ES6 Modules: import/export, default vs named", slug: "es6-modules", duration: "15 min" },
+            { id: 3, title: "Babel: Transpiling TypeScript ke JavaScript", slug: "babel-transpiling", duration: "20 min" },
+            { id: 4, title: "Webpack & Vite: Bundling dan Dev Server", slug: "bundlers", duration: "30 min" },
+            { id: 5, title: "ESLint & Prettier: Code Quality & Formatting", slug: "eslint-prettier", duration: "20 min" },
+            { id: 6, title: "TypeScript Compiler Options (tsconfig.json)", slug: "tsconfig-json", duration: "25 min" }
+            { id: 1, title: "Cross-Site Scripting (XSS) Prevention", slug: "xss-prevention", duration: "25 min" },
+            { id: 2, title: "SQL Injection & NoSQL Injection", slug: "sql-nosql-injection", duration: "20 min" },
+            { id: 3, title: "Authentication & Authorization Best Practices", slug: "auth-best-practices", duration: "30 min" },
+            { id: 4, title: "Secure API Design dengan TypeScript", slug: "secure-api-design", duration: "25 min" }
+            { id: 1, title: "Bundle Analysis dengan webpack-bundle-analyzer", slug: "bundle-analysis", duration: "25 min" },
+            { id: 2, title: "Code Splitting & Lazy Loading", slug: "code-splitting", duration: "30 min" },
+            { id: 3, title: "Tree Shaking dan Dead Code Elimination", slug: "tree-shaking", duration: "20 min" },
+            { id: 4, title: "Web Vitals & Performance Monitoring", slug: "web-vitals", duration: "25 min" },
+            { id: 5, title: "Project: Optimize a Real TypeScript Application", slug: "project-optimization", duration: "45 min", project: true }
+            { id: 1, title: "CI/CD Pipelines dengan GitHub Actions", slug: "cicd-github-actions", duration: "30 min" },
+            { id: 2, title: "Docker untuk TypeScript Applications", slug: "docker-typescript", duration: "30 min" },
+            { id: 3, title: "Deploy ke Vercel, Netlify, dan Cloud Platforms", slug: "deployment-platforms", duration: "25 min" },
+            { id: 4, title: "Monitoring dan Logging di Production", slug: "monitoring-logging", duration: "25 min" }
+            { id: 1, title: "Project 1: Interactive Quiz App dengan TypeScript", slug: "project-interactive-quiz", duration: "2 jam", project: true },
+            { id: 2, title: "Project 2: Expense Tracker dengan Charts", slug: "project-expense-tracker", duration: "2.5 jam", project: true },
+            { id: 3, title: "Project 3: Real-time Chat dengan WebSocket", slug: "project-realtime-chat", duration: "3 jam", project: true },
+            { id: 4, title: "Project 4: E-commerce Product Filter & Cart", slug: "project-ecommerce", duration: "2.5 jam", project: true },
+            { id: 5, title: "Final Project: Full-Stack TypeScript App (Node + React)", slug: "final-project-fullstack", duration: "4 jam", project: true, final: true }
