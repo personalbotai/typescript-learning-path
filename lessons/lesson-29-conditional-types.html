@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 29: Conditional Types - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 5: Advanced Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 29 of 40</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 72.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 5</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 29</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Conditional Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Conditional types</strong> memungkinkan kita memilih tipe berdasarkan kondisi. Mirip seperti operator ternary di JavaScript, 
+                tapi bekerja di level tipe. Ini sangat powerful untuk membuat tipe yang adaptable berdasarkan input tipe lainnya.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Tinggi</span>
+                <span>🎯 Tujuan: Pahami cara membuat tipe bersyarat</span>
+            </div>
+        </div>
+
+        <!-- Section 1: Sintaks Dasar -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Sintaks Dasar
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Conditional types menggunakan syntax: <code class="font-mono text-primary">T extends U ? X : Y</code>.
+                Jika tipe <code>T</code> dapat ditetapkan ke <code>U</code>, maka hasilnya adalah <code>X</code>, jika tidak maka <code>Y</code>.
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">type</span> <span class="type">IsString</span>&lt;T&gt; = T <span class="keyword">extends</span> <span class="type">string</span> ? <span class="keyword">true</span> : <span class="keyword">false</span>;
+
+<span class="keyword">type</span> <span class="type">A</span> = <span class="function">IsString</span>&lt;<span class="type">string</span>&gt;;   <span class="comment">// true</span>
+<span class="keyword">type</span> <span class="type">B</span> = <span class="function">IsString</span>&lt;<span class="type">number</span>&gt;;  <span class="comment">// false</span>
+<span class="keyword">type</span> <span class="type">C</span> = <span class="function">IsString</span>&lt;<span class="type">string</span> | <span class="type">number</span>&gt;; <span class="comment">// false (karena union tidak extends string)</span>
+            </div>
+        </section>
+
+        <!-- Section 2: Conditional Types dengan Union -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Conditional Types dengan Union (Distributive)
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Ketika conditional types diterapkan pada <strong>union types</strong>, mereka secara otomatis <em>terdistribusi</em> ke setiap anggota union.
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">type</span> <span class="type">ToArray</span>&lt;T&gt; = T <span class="keyword">extends</span> <span class="keyword">any</span> ? T[] : <span class="keyword">never</span>;
+
+<span class="comment">// Distribusi: string | number → string[] | number[]</span>
+<span class="keyword">type</span> <span class="type">Arr</span> = <span class="function">ToArray</span>&lt;<span class="type">string</span> | <span class="type">number</span>&gt;; <span class="comment">// string[] | number[]</span>
+            </div>
+            <p class="text-gray-700">
+                Ini membantu membuat tipe seperti <code>Flatten&lt;T&gt;</code> atau <code>ReturnType&lt;T&gt;</code> yang bekerja dengan union.
+            </p>
+        </section>
+
+        <!-- Section 3: Infer Keyword -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Infer (Mengekstrak Tipe)
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Kata kunci <code class="font-mono text-primary">infer</code> memungkinkan kita <strong>mengambil (extract)</strong> tipe dari suatu tipe lain di dalam conditional type.
+                Berguna untuk membuat utility types seperti <code>ReturnType</code>, <code>Parameters</code>, dll.
+            </p>
+            <div class="code-block mb-4">
+<span class="comment">// Extract return type dari function</span>
+<span class="keyword">type</span> <span class="type">ReturnType</span>&lt;T&gt; = T <span class="keyword">extends</span> (...args: <span class="keyword">any</span>[]) => <span class="keyword">infer</span> R ? R : <span class="keyword">never</span>;
+
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="type">string</span>): <span class="type">string</span> { <span class="keyword">return</span> <span class="string">"Hello "</span> + name; }
+
+<span class="keyword">type</span> <span class="type">GreetReturn</span> = <span class="function">ReturnType</span>&lt;<span class="keyword">typeof</span> greet&gt;; <span class="comment">// string</span>
+
+<span class="comment">// Extract first parameter</span>
+<span class="keyword">type</span> <span class="type">FirstParam</span>&lt;T&gt; = T <span class="keyword">extends</span> (arg: <span class="keyword">infer</span> P, ...rest: <span class="keyword">any</span>[]) => <span class="keyword">any</span> ? P : <span class="keyword">never</span>;
+
+<span class="keyword">type</span> <span class="type">GreetFirst</span> = <span class="function">FirstParam</span>&lt;<span class="keyword">typeof</span> greet&gt;; <span class="comment">// string</span>
+            </div>
+        </section>
+
+        <!-- Section 4: Conditional Types Bersarang -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                Conditional Types Bersarang
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Kita bisa menumpuk conditional types untuk membuat logika yang lebih kompleks.
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">type</span> <span class="type">Flatten</span>&lt;T&gt; = T <span class="keyword">extends</span> <span class="keyword">any</span>[] 
+    ? T[<span class="type">number</span>] 
+    : T <span class="keyword">extends</span> <span class="keyword">object</span> 
+        ? T <span class="keyword">extends</span> <span class="function">Function</span> 
+            ? T 
+            : T <span class="keyword">extends</span> <span class="keyword">null</span> | <span class="keyword">undefined</span> 
+                ? T 
+                : T
+        : T;
+
+<span class="comment">// Contoh penggunaan</span>
+<span class="keyword">type</span> <span class="type">T1</span> = <span class="function">Flatten</span>&lt;<span class="type">string</span>[]&gt;;      <span class="comment">// string</span>
+<span class="keyword">type</span> <span class="type">T2</span> = <span class="function">Flatten</span>&lt;<span class="type">number</span>&gt;;       <span class="comment">// number</span>
+<span class="keyword">type</span> <span class="type">T3</span> = <span class="function">Flatten</span>&lt;<span class="type">string</span> | <span class="type">number</span>&gt;; <span class="comment">// string | number</span>
+            </div>
+        </section>
+
+        <!-- Section 5: Contoh Praktis - Utility Types -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                Contoh Praktis: Parameter & ReturnType
+            </h2>
+            <p class="text-gray-700 mb-4">
+                TypeScript sudah menyediakan beberapa conditional types bawaan. Mari kita lihat implementasinya:
+            </p>
+            <div class="code-block mb-4">
+<span class="comment">// Parameters (mengambil tipe parameter dari function)</span>
+<span class="keyword">type</span> <span class="type">Parameters</span>&lt;T&gt; = T <span class="keyword">extends</span> (...args: <span class="keyword">infer</span> P) => <span class="keyword">any</span> ? P : <span class="keyword">never</span>;
+
+<span class="comment">// ConstructorParameters (untuk class constructor)</span>
+<span class="keyword">type</span> <span class="type">ConstructorParameters</span>&lt;T <span class="keyword">extends</span> <span class="keyword">new</span> (...args: <span class="keyword">any</span>[]) =&gt; <span class="keyword">any</span>&gt; = T <span class="keyword">extends</span> <span class="keyword">new</span> (...args: <span class="keyword">infer</span> P) => <span class="keyword">any</span> ? P : <span class="keyword">never</span>;
+
+<span class="comment">// Contoh:</span>
+<span class="keyword">function</span> <span class="function">foo</span>(x: <span class="type">number</span>, y: <span class="type">string</span>) { }
+<span class="keyword">type</span> <span class="type">FooParams</span> = <span class="function">Parameters</span>&lt;<span class="keyword">typeof</span> foo&gt;; <span class="comment">// [number, string]</span>
+            </div>
+        </section>
+
+        <!-- Section 6: Common Patterns -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
+                Pola Umum & Pitfalls
+            </h2>
+            <div class="space-y-4">
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                    <h4 class="font-semibold text-blue-900 mb-1">💡 Non-nullable</h4>
+                    <code class="text-sm text-blue-800 block">
+                        type NonNullable&lt;T&gt; = T extends null | undefined ? never : T;
+                    </code>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                    <h4 class="font-semibold text-blue-900 mb-1">💡 Extract Return Type</h4>
+                    <code class="text-sm text-blue-800 block">
+                        type ReturnType&lt;T&gt; = T extends (...args: any[]) => infer R ? R : any;
+                    </code>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                    <h4 class="font-semibold text-red-900 mb-1">⚠️ Jangan lupa: Distribusi bisa tidak diinginkan</h4>
+                    <code class="text-sm text-red-800 block">
+                        // Jika ingin conditional bekerja pada keseluruhan union (tidak terdistribusi),<br>
+                        // bungkus dengan array: [T] extends [U] ? X : Y<br>
+                        type IsArray&lt;T&gt; = [T] extends [any[]] ? true : false;
+                    </code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">✅ Quick Quiz</h2>
+            <div class="space-y-4">
+                <div class="quiz-question" data-question="1">
+                    <p class="font-medium text-gray-900 mb-3">1. Apa yang dilakukan conditional type <code>T extends U ? X : Y</code>?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">Mengecek apakah T sama persis dengan U</button>
+                        <button class="quiz-option" data-correct="true">Jika T dapat ditetapkan ke U, hasilkan X, jika tidak hasilkan Y</button>
+                        <button class="quiz-option" data-correct="false">Menggabungkan T dan U menjadi X atau Y</button>
+                        <button class="quiz-option" data-correct="false">Mengubah T menjadi U secara otomatis</button>
+                    </div>
+                </div>
+                <div class="quiz-question" data-question="2">
+                    <p class="font-medium text-gray-900 mb-3">2. Apa fungsi kata kunci <code>infer</code>?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">Mengganti tipe dengan tipe lain</button>
+                        <button class="quiz-option" data-correct="true">Mengekstrak (menghasilkan) tipe dari suatu tipe untuk digunakan dalam conditional</button>
+                        <button class="quiz-option" data-correct="false">Menghentikan evaluasi conditional type</button>
+                        <button class="quiz-option" data-correct="false">Mewajibkan tipe untuk memenuhi syarat</button>
+                    </div>
+                </div>
+                <div class="quiz-question" data-question="3">
+                    <p class="font-medium text-gray-900 mb-3">3. Apa yang terjadi jika conditional type diterapkan ke union (misal <code>A | B</code>)?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">Hanya anggota pertama yang dievaluasi</button>
+                        <button class="quiz-option" data-correct="true">Ter-distribusi: setiap anggota union dievaluasi terpisah</button>
+                        <button class="quiz-option" data-correct="false">Union diubah menjadi intersection</button>
+                        <button class="quiz-option" data-correct="false">TypeScript akan memberikan error</button>
+                    </div>
+                </div>
+            </div>
+            <div id="quiz-feedback" class="mt-4 p-4 rounded-lg hidden"></div>
+            <button id="check-answers" class="mt-4 px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+                Periksa Jawaban
+            </button>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" id="prev-lesson" onclick="window.location.href='lesson-28-type-aliases-vs-interfaces.html'">
+                ← Previous
+            </button>
+            <div class="text-center">
+                <span class="text-gray-600">Lesson </span>
+                <span class="font-bold text-gray-900" id="current-lesson">29</span>
+                <span class="text-gray-600"> of 40</span>
+            </div>
+            <button class="nav-btn primary" id="next-lesson">
+                Next →
+            </button>
+        </nav>
+
+        <!-- Completion Message -->
+        <div id="completion-banner" class="hidden mt-6 bg-green-50 border-2 border-green-500 rounded-xl p-6 text-center">
+            <div class="text-4xl mb-3">🎉</div>
+            <h3 class="text-xl font-bold text-green-900 mb-2">Lesson 29 Complete!</h3>
+            <p class="text-green-800 mb-4">You've mastered Conditional Types. Ready for the final lesson of this module?</p>
+            <button class="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors" onclick="markComplete()">
+                Continue to Lesson 30 →
+            </button>
+        </div>
+    </main>
+
+    <script>
+        let lessonCompleted = localStorage.getItem('lesson-29-completed') === 'true';
+        let progress = 72.5; // 29/40 = 72.5%
+        let currentLessonNum = 29;
+        let totalLessons = 65;
+
+        function updateProgress() {
+            const percent = (progress / totalLessons) * 100;
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = `Lesson ${currentLessonNum} of ${totalLessons}`;
+        }
+
+        const quizAnswers = {};
+        document.querySelectorAll('.quiz-option').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.closest('.quiz-question');
+                const qNum = question.dataset.question;
+                question.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                this.classList.add('selected');
+                quizAnswers[qNum] = this.dataset.correct === 'true';
+            });
+        });
+
+        document.getElementById('check-answers').addEventListener('click', function() {
+            let allCorrect = true;
+            document.querySelectorAll('.quiz-question').forEach(question => {
+                const qNum = question.dataset.question;
+                const selected = question.querySelector('.selected');
+                if (!selected) {
+                    allCorrect = false;
+                    return;
+                }
+                const isCorrect = quizAnswers[qNum];
+                if (isCorrect) {
+                    selected.classList.add('correct');
+                } else {
+                    selected.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+            if (allCorrect) {
+                feedback.className = 'mt-4 p-4 rounded-lg bg-green-50 border-2 border-green-500';
+                feedback.innerHTML = `
+                    <div class="flex items-center gap-2 text-green-800">
+                        <span class="text-2xl">✅</span>
+                        <div>
+                            <p class="font-bold">Semua benar!</p>
+                            <p class="text-sm">Lanjutkan ke lesson berikutnya.</p>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('completion-banner').classList.remove('hidden');
+                lessonCompleted = true;
+                localStorage.setItem('lesson-29-completed', 'true');
+                progress += 1;
+                updateProgress();
+            } else {
+                feedback.className = 'mt-4 p-4 rounded-lg bg-yellow-50 border-2 border-yellow-500';
+                feedback.innerHTML = `
+                    <div class="flex items-center gap-2 text-yellow-800">
+                        <span class="text-2xl">⚠️</span>
+                        <div>
+                            <p class="font-bold">Beberapa jawaban belum tepat</p>
+                            <p class="text-sm">Coba periksa kembali dan pilih jawaban yang benar.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById('next-lesson').addEventListener('click', function() {
+            if (lessonCompleted) {
+                window.location.href = 'lesson-30-mapped-types.html';
+            } else {
+                alert('Selesaikan quiz terlebih dahulu!');
+            }
+        });
+
+        function markComplete() {
+            window.location.href = 'lesson-30-mapped-types.html';
+        }
+
+        updateProgress();
+        if (lessonCompleted) {
+            document.getElementById('completion-banner').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{
+  "lesson": 28,
+  "title": "Type Aliases vs Interfaces",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Apa yang bisa dilakukan oleh type alias tapi tidak oleh interface?",
+      "options": [
+        "Digunakan oleh class implements",
+        "Membuat union types (|)",
+        "Declaration merging",
+        "Extends dari interface lain"
+      ],
+      "correct": 1,
+      "explanation": "Type alias bisa membuat union types, intersection, tuple, dan tipe lainnya, sedangkan interface hanya untuk object shape."
+    },
+    {
+      "id": 2,
+      "question": "Kapan sebaiknya menggunakan interface?",
+      "options": [
+        "Saat mendefinisikan bentuk objek dan akan di-implement oleh class",
+        "Saat butuh union atau tuple",
+        "Saat membuat tipe function",
+        "Saat butuh mapped types"
+      ],
+      "correct": 0,
+      "explanation": "Interface cocok untuk mendefinisikan struktur objek yang akan diimplementasikan oleh class atau digunakan untuk declaration merging."
+    },
+    {
+      "id": 3,
+      "question": "Apakah interface bisa di-extend oleh type alias?",
+      "options": [
+        "Tidak, interface hanya bisa di-extend oleh interface lain",
+        "Ya, interface bisa di-extend oleh type alias menggunakan &",
+        "Ya, dengan kata kunci 'implements'",
+        "Tidak, type alias tidak bisa meng-extend apa pun"
+      ],
+      "correct": 1,
+      "explanation": "Type alias bisa meng-extend interface menggunakan operator intersection (&). Sebaliknya, interface bisa extends type alias juga."
+    },
+    {
+      "id": 4,
+      "question": "Fitur mana yang dimiliki oleh interface?",
+      "options": [
+        "Union types",
+        "Declaration merging",
+        "Mapped types",
+        "Conditional types"
+      ],
+      "correct": 1,
+      "explanation": "Declaration merging adalah fitur khas interface di TypeScript, di mana beberapa deklarasi interface dengan nama sama akan di-merge."
+    },
+    {
+      "id": 5,
+      "question": "Kapan memilih type alias untuk object shape?",
+      "options": [
+        "Sekarang tidak ada lagi keuntungan, selalu pakai interface",
+        "Saat butuh union atau interseksi dengan tipe lain",
+        "Saat ingin implements oleh class",
+        "Saat butuh declaration merging"
+      ],
+      "correct": 1,
+      "explanation": "Gunakan type alias untuk object shape jika Anda membutuhkan union, intersection, atau kombinasi dengan tipe non-object."
+    }
+  ]
+}

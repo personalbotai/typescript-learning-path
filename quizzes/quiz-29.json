@@ -1,0 +1,66 @@
+{
+  "lesson": 29,
+  "title": "Conditional Types",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Apa yang dilakukan conditional type `T extends U ? X : Y`?",
+      "options": [
+        "Mengecek apakah T sama persis dengan U",
+        "Jika T dapat ditetapkan ke U, hasilkan X, jika tidak hasilkan Y",
+        "Menggabungkan T dan U menjadi X atau Y",
+        "Mengubah T menjadi U secara otomatis"
+      ],
+      "correct": 1,
+      "explanation": "Conditional types memeriksa apakah tipe T memenuhi syarat (assignable to) U. Jika ya, hasilnya X; jika tidak, Y."
+    },
+    {
+      "id": 2,
+      "question": "Apa fungsi kata kunci `infer`?",
+      "options": [
+        "Mengganti tipe dengan tipe lain",
+        "Mengekstrak (menghasilkan) tipe dari suatu tipe untuk digunakan dalam conditional",
+        "Menghentikan evaluasi conditional type",
+        "Mewajibkan tipe untuk memenuhi syarat"
+      ],
+      "correct": 1,
+      "explanation": "`infer` digunakan dalam conditional types untuk mengekstrak tipe dari suatu tipe (misalnya return type dari function) agar bisa digunakan di bagian hasil."
+    },
+    {
+      "id": 3,
+      "question": "Apa yang terjadi jika conditional type diterapkan ke union (misal `A | B`)?",
+      "options": [
+        "Hanya anggota pertama yang dievaluasi",
+        "Ter-distribusi: setiap anggota union dievaluasi terpisah",
+        "Union diubah menjadi intersection",
+        "TypeScript akan memberikan error"
+      ],
+      "correct": 1,
+      "explanation": "Conditional types secara default ter-distribusi ke setiap anggota union. `A | B` extends U ? X : Y menjadi `(A extends U ? X : Y) | (B extends U ? X : Y)`."
+    },
+    {
+      "id": 4,
+      "question": "Apa yang dilakukan `[T] extends [U]` (dengan array wrapper)?",
+      "options": [
+        "Membuat array dari T",
+        "Mencegah distribusi conditional type, memeriksa keseluruhan union",
+        "Mengekstrak elemen pertama dari T",
+        "Mengubah T menjadi optional"
+      ],
+      "correct": 1,
+      "explanation": "Membungkus T dan U dalam array mencegah distribusi. `[T] extends [U]` akan mengevaluasi union sebagai satu keseluruhan, bukan per-anggota."
+    },
+    {
+      "id": 5,
+      "question": "Contoh conditional type mana yang benar?",
+      "options": [
+        "type A = T ? X : Y",
+        "type A = T extends U ? X : Y",
+        "type A = if T then X else Y",
+        "type A = T ? X : Y : Z"
+      ],
+      "correct": 1,
+      "explanation": "Sintaks conditional type adalah `T extends U ? X : Y`. Operator `extends` digunakan, bukan `?` saja."
+    }
+  ]
+}

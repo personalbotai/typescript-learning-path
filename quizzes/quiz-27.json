@@ -1,0 +1,66 @@
+{
+  "lesson": 27,
+  "title": "Type Guards dan Type Assertions",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Apa yang dilakukan type guard?",
+      "options": [
+        "Mengubah tipe variabel secara permanen",
+        "Memeriksa tipe suatu nilai saat runtime dan memperketat tipe di TypeScript",
+        "Menyembunyikan error type",
+        "Menggabungkan dua tipe menjadi satu"
+      ],
+      "correct": 1,
+      "explanation": "Type guard memeriksa tipe nilai saat runtime dan membolehkan TypeScript memperketat (narrow) tipe di dalam blok kode."
+    },
+    {
+      "id": 2,
+      "question": "Kapan sebaiknya menggunakan type assertion?",
+      "options": [
+        "Selalu, karena lebih cepat",
+        "Hanya ketika kita yakin lebih baik daripada TypeScript tentang tipe nilai tersebut",
+        "Sebagai pengganti type guard",
+        "Untuk menambahkan properti baru ke objek"
+      ],
+      "correct": 1,
+      "explanation": "Type assertion digunakan hanya ketika kita benar-benar yakin tentang tipe nilai tersebut. Tidak memeriksa di runtime, jadi bisa berbahaya jika salah."
+    },
+    {
+      "id": 3,
+      "question": "Apa keuntungan discriminated union?",
+      "options": [
+        "Membuat kode lebih singkat",
+        "TypeScript dapat melakukan exhaustive checking, mencegah lupa menangani kasus",
+        "Menggabungkan semua tipe menjadi any",
+        "Menghapus kebutuhan type guard"
+      ],
+      "correct": 1,
+      "explanation": "Discriminated union memungkinkan TypeScript melakukan exhaustive checking di switch statements, sehingga jika ada kasus yang tidak ditangani, akan muncul error."
+    },
+    {
+      "id": 4,
+      "question": "Operator apa yang digunakan untuk type guard tipe primitif?",
+      "options": [
+        "instanceof",
+        "typeof",
+        "as",
+        "in"
+      ],
+      "correct": 1,
+      "explanation": "typeof digunakan untuk type guard tipe primitif seperti string, number, boolean, symbol, undefined, object, function."
+    },
+    {
+      "id": 5,
+      "question": "Apa yang terjadi jika type assertion salah?",
+      "options": [
+        "TypeScript akan memberikan compile-time error",
+        "Tidak ada error, tapi bisa menyebabkan runtime error",
+        "TypeScript akan otomatis mengonversi nilai",
+        "Program akan berjalan dengan aman"
+      ],
+      "correct": 1,
+      "explanation": "Type assertion tidak di-check di runtime. Jika salah, program bisa crash atau berperilaku tidak terduga saat runtime."
+    }
+  ]
+}

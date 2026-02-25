@@ -1,0 +1,66 @@
+{
+  "lesson": 30,
+  "title": "Mapped Types",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Apa yang dilakukan mapped type `{ [P in keyof T]: T[P] }`?",
+      "options": [
+        "Menghapus semua properti dari T",
+        "Membuat tipe baru dengan semua properti dari T (salinan)",
+        "Menggabungkan T dengan tipe lain",
+        "Mengubah tipe T menjadi any"
+      ],
+      "correct": 1,
+      "explanation": "Mapped type membuat tipe baru dengan meng-iterate semua properti dari T dan menyalin tipe asli untuk setiap properti."
+    },
+    {
+      "id": 2,
+      "question": "Apa fungsi `-?` setelah `in keyof T`?",
+      "options": [
+        "Membuat properti menjadi readonly",
+        "Menghapus modifier optional (membuat required)",
+        "Membuat properti menjadi nullable",
+        "Menambahkan prefix pada nama properti"
+      ],
+      "correct": 1,
+      "explanation": "`-?` menghapus optional modifier, membuat properti menjadi required. `+?` (default) membuat optional."
+    },
+    {
+      "id": 3,
+      "question": "Apa yang dilakukan `as` clause dalam mapped type?",
+      "options": [
+        "Mengubah tipe nilai properti",
+        "Mengubah (remap) nama properti menjadi nama lain",
+        "Menambahkan type assertion",
+        "Menggabungkan dua mapped type"
+      ],
+      "correct": 1,
+      "explanation": "`as` clause memungkinkan remapping nama properti, misalnya menambahkan prefix atau mengubah case."
+    },
+    {
+      "id": 4,
+      "question": "Apa yang dilakukan `keyof T`?",
+      "options": [
+        "Mengembalikan tipe nilai dari properti T",
+        "Mengembalikan union string literal dari nama properti T",
+        "Mengembalikan jumlah properti di T",
+        "Mengembalikan tipe function"
+      ],
+      "correct": 1,
+      "explanation": "`keyof T` menghasilkan union type dari string literal yang merupakan nama-nama properti dari T."
+    },
+    {
+      "id": 5,
+      "question": "Built-in utility type mana yang dibuat dengan mapped type?",
+      "options": [
+        "`ReturnType<T>`",
+        "`Parameters<T>`",
+        "`Partial<T>`",
+        "`ThisType<T>`"
+      ],
+      "correct": 2,
+      "explanation": "`Partial<T>` didefinisikan sebagai `{ [P in keyof T]?: T[P] }`, contoh mapped type. `ReturnType` dan `Parameters` menggunakan conditional types dengan `infer`."
+    }
+  ]
+}

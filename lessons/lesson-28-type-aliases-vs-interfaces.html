@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 28: Type Aliases vs Interfaces - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 5: Advanced Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 28 of 40</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 70%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 5</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 28</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Type Aliases vs Interfaces</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Di TypeScript, kita bisa mendefinisikan tipe custom menggunakan <code>type</code> (type alias) atau <code>interface</code>. 
+                Keduanya mirip, tapi ada beberapa perbedaan penting yang perlu dipahami untuk memilih yang tepat.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>🎯 Tujuan: Pahami perbedaan dan kapan memakai mana</span>
+            </div>
+        </div>
+
+        <!-- Section 1: Interface -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Interface (Antarmuka)
+            </h2>
+            <p class="text-gray-700 mb-4">
+                <code>interface</code> digunakan untuk mendefiniskan <strong>bentuk objek</strong> (object shape). 
+                Dapat di-<strong>extend</strong> (mewarisi) dan di-<strong>implement</strong> oleh class.
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">interface</span> <span class="type">User</span> {
+    name: <span class="type">string</span>;
+    age: <span class="type">number</span>;
+    email?: <span class="type">string</span>; <span class="comment">// optional</span>
+}
+
+<span class="comment">// Extending interface</span>
+<span class="keyword">interface</span> <span class="type">Admin</span> <span class="keyword">extends</span> <span class="type">User</span> {
+    role: <span class="type">string</span>;
+}
+
+<span class="keyword">class</span> <span class="type">PersonService</span> {
+    <span class="function">createUser</span>(user: <span class="type">User</span>) { <span class="comment">/* ... */</span> }
+}
+            </div>
+        </section>
+
+        <!-- Section 2: Type Alias -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Type Alias (Alias Tipe)
+            </h2>
+            <p class="text-gray-700 mb-4">
+                <code>type</code> membuat alias untuk <strong>tipe apapun</strong>, bukan hanya object. Bisa digunakan untuk union, tuple, function types, dll.
+            </p>
+            <div class="code-block mb-4">
+<span class="comment">// Type alias untuk object</span>
+<span class="keyword">type</span> <span class="type">User</span> = {
+    name: <span class="type">string</span>;
+    age: <span class="type">number</span>;
+    email?: <span class="type">string</span>;
+};
+
+<span class="comment">// Bisa juga untuk union, tuple, dll</span>
+<span class="keyword">type</span> <span class="type">ID</span> = <span class="type">string</span> | <span class="type">number</span>;
+<span class="keyword">type</span> <span class="type">Coordinates</span> = [<span class="type">number</span>, <span class="type">number</span>];
+<span class="keyword">type</span> <span class="type">Callback</span> = (data: <span class="type">string</span>) => <span class="keyword">void</span>;
+
+<span class="comment">// Type alias bisa menggunakan union dengan intersection</span>
+<span class="keyword">type</span> <span class="type">AdminUser</span> = <span class="type">User</span> & { role: <span class="type">string</span> };
+            </div>
+        </section>
+
+        <!-- Section 3: Perbandingan -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Perbandingan Langsung
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">Fitur</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">interface</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-900">type alias</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Object shape</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">✅ Ya</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">✅ Ya</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Union/Intersection</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">❌ Tidak (hanya extends)</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">✅ Ya</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Tuple</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">❌ Tidak</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">✅ Ya</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Mapped types</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">⚠️ Terbatas</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">✅ Ya</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Extends (warisan)</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">✅ Ya (interface extends)</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">✅ Ya (type extends)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Implement oleh class</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">✅ Ya</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">❌ Tidak</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-900 font-medium">Declaration merging</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">✅ Ya</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">❌ Tidak</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 4: Kapan Memilih Apa? -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                Kapan Memilih Interface?
+            </h2>
+            <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                <li>Mendefinisikan <strong>bentuk objek</strong> saja (tanpa union, tuple, dll)</li>
+                <li>Butuh <strong>declaration merging</strong> (API bisa diperluas di tempat lain)</li>
+                <li>Akan di-<strong>implement</strong> oleh class</li>
+                <li>Mau menggunakan <strong>extends</strong> untuk warisan interface (lebih familiar)</li>
+            </ul>
+
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                Kapan Memilih Type Alias?
+            </h2>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>Butuh <strong>union</strong>, <strong>intersection</strong>, atau <strong>tuple</strong></li>
+                <li>Mendefinisikan <strong>tipe function</strong> (callback signatures)</li>
+                <li>Membuat <strong>mapped types</strong> atau conditional types</li>
+                <li>Tipe yang lebih kompleks atau tidak hanya object</li>
+            </ul>
+        </section>
+
+        <!-- Section 5: Contoh Praktis -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
+                Contoh Kombinasi
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Seringkali kita gunakan <strong>keduanyabersamaan</strong>. Interface untuk objek utama, type alias untuk union atau tipe lain.
+            </p>
+            <div class="code-block mb-4">
+<span class="comment">// Interface untuk objek utama</span>
+<span class="keyword">interface</span> <span class="type">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+}
+
+<span class="comment">// Type alias untuk union state</span>
+<span class="keyword">type</span> <span class="type">UserState</span> = <span class="string">"active"</span> | <span class="string">"inactive"</span> | <span class="string">"banned"</span>;
+
+<span class="keyword">interface</span> <span class="type">ExtendedUser</span> <span class="keyword">extends</span> <span class="type">User</span> {
+    state: <span class="type">UserState</span>; <span class="comment">// menggunakan type alias di dalam interface</span>
+}
+
+<span class="keyword">const</span> user: <span class="type">ExtendedUser</span> = {
+    id: <span class="type">1</span>,
+    name: <span class="string">"Alice"</span>,
+    state: <span class="string">"active"</span>
+};
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">✅ Quick Quiz</h2>
+            <div class="space-y-4">
+                <div class="quiz-question" data-question="1">
+                    <p class="font-medium text-gray-900 mb-3">1. Apa yang bisa dilakukan oleh type alias tapi tidak oleh interface?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">Digunakan oleh class implements</button>
+                        <button class="quiz-option" data-correct="true">Membuat union types (|)</button>
+                        <button class="quiz-option" data-correct="false">Declaration merging</button>
+                        <button class="quiz-option" data-correct="false">Extends dari interface lain</button>
+                    </div>
+                </div>
+                <div class="quiz-question" data-question="2">
+                    <p class="font-medium text-gray-900 mb-3">2. Kapan sebaiknya menggunakan interface?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="true">Saat mendefinisikan bentuk objek dan akan di-implement oleh class</button>
+                        <button class="quiz-option" data-correct="false">Saat butuh union atau tuple</button>
+                        <button class="quiz-option" data-correct="false">Saat membuat tipe function</button>
+                        <button class="quiz-option" data-correct="false">Saat butuh mapped types</button>
+                    </div>
+                </div>
+                <div class="quiz-question" data-question="3">
+                    <p class="font-medium text-gray-900 mb-3">3. Apakah interface bisa di-extend oleh type alias?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">Tidak, interface hanya bisa di-extend oleh interface lain</button>
+                        <button class="quiz-option" data-correct="true">Ya, interface bisa di-extend oleh type alias menggunakan &</button>
+                        <button class="quiz-option" data-correct="false">Ya, dengan kata kunci 'implements'</button>
+                        <button class="quiz-option" data-correct="false">Tidak, type alias tidak bisa meng-extend apa pun</button>
+                    </div>
+                </div>
+            </div>
+            <div id="quiz-feedback" class="mt-4 p-4 rounded-lg hidden"></div>
+            <button id="check-answers" class="mt-4 px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+                Periksa Jawaban
+            </button>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" id="prev-lesson" onclick="window.location.href='lesson-27-type-guards-type-assertions.html'">
+                ← Previous
+            </button>
+            <div class="text-center">
+                <span class="text-gray-600">Lesson </span>
+                <span class="font-bold text-gray-900" id="current-lesson">28</span>
+                <span class="text-gray-600"> of 40</span>
+            </div>
+            <button class="nav-btn primary" id="next-lesson">
+                Next →
+            </button>
+        </nav>
+
+        <!-- Completion Message -->
+        <div id="completion-banner" class="hidden mt-6 bg-green-50 border-2 border-green-500 rounded-xl p-6 text-center">
+            <div class="text-4xl mb-3">🎉</div>
+            <h3 class="text-xl font-bold text-green-900 mb-2">Lesson 28 Complete!</h3>
+            <p class="text-green-800 mb-4">You've mastered Type Aliases vs Interfaces. Ready for the next lesson?</p>
+            <button class="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors" onclick="markComplete()">
+                Continue to Lesson 29 →
+            </button>
+        </div>
+    </main>
+
+    <script>
+        let lessonCompleted = localStorage.getItem('lesson-28-completed') === 'true';
+        let progress = 70; // 28/40 = 70%
+        let currentLessonNum = 28;
+        let totalLessons = 65;
+
+        function updateProgress() {
+            const percent = (progress / totalLessons) * 100;
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = `Lesson ${currentLessonNum} of ${totalLessons}`;
+        }
+
+        const quizAnswers = {};
+        document.querySelectorAll('.quiz-option').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.closest('.quiz-question');
+                const qNum = question.dataset.question;
+                question.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                this.classList.add('selected');
+                quizAnswers[qNum] = this.dataset.correct === 'true';
+            });
+        });
+
+        document.getElementById('check-answers').addEventListener('click', function() {
+            let allCorrect = true;
+            document.querySelectorAll('.quiz-question').forEach(question => {
+                const qNum = question.dataset.question;
+                const selected = question.querySelector('.selected');
+                if (!selected) {
+                    allCorrect = false;
+                    return;
+                }
+                const isCorrect = quizAnswers[qNum];
+                if (isCorrect) {
+                    selected.classList.add('correct');
+                } else {
+                    selected.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+            if (allCorrect) {
+                feedback.className = 'mt-4 p-4 rounded-lg bg-green-50 border-2 border-green-500';
+                feedback.innerHTML = `
+                    <div class="flex items-center gap-2 text-green-800">
+                        <span class="text-2xl">✅</span>
+                        <div>
+                            <p class="font-bold">Semua benar!</p>
+                            <p class="text-sm">Lanjutkan ke lesson berikutnya.</p>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('completion-banner').classList.remove('hidden');
+                lessonCompleted = true;
+                localStorage.setItem('lesson-28-completed', 'true');
+                progress += 1;
+                updateProgress();
+            } else {
+                feedback.className = 'mt-4 p-4 rounded-lg bg-yellow-50 border-2 border-yellow-500';
+                feedback.innerHTML = `
+                    <div class="flex items-center gap-2 text-yellow-800">
+                        <span class="text-2xl">⚠️</span>
+                        <div>
+                            <p class="font-bold">Beberapa jawaban belum tepat</p>
+                            <p class="text-sm">Coba periksa kembali dan pilih jawaban yang benar.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById('next-lesson').addEventListener('click', function() {
+            if (lessonCompleted) {
+                window.location.href = 'lesson-29-conditional-types.html';
+            } else {
+                alert('Selesaikan quiz terlebih dahulu!');
+            }
+        });
+
+        function markComplete() {
+            window.location.href = 'lesson-29-conditional-types.html';
+        }
+
+        updateProgress();
+        if (lessonCompleted) {
+            document.getElementById('completion-banner').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

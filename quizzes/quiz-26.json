@@ -1,0 +1,66 @@
+{
+  "lesson": 26,
+  "title": "Union dan Intersection Types",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Apa hasil dari `type ID = number | string`?",
+      "options": [
+        "ID hanya bisa number atau string, tidak keduanya sekaligus",
+        "ID bisa berupa number ATAU string (salah satu)",
+        "ID harus berupa number dan string bersamaan",
+        "ID bisa berupa nilai apapun"
+      ],
+      "correct": 1,
+      "explanation": "Union type memungkinkan nilai memiliki salah satu dari beberapa tipe yang ditentukan."
+    },
+    {
+      "id": 2,
+      "question": "Apa yang terjadi jika kita mengakses properti yang tidak ada di semua anggota union?",
+      "options": [
+        "TypeScript akan otomatis menambahkan properti tersebut",
+        "TypeScript akan memberikan error",
+        "Properti akan bernilai undefined",
+        "Tidak ada error, tapi runtime error mungkin terjadi"
+      ],
+      "correct": 1,
+      "explanation": "TypeScript hanya mengizinkan operasi yang valid untuk semua anggota union. Properti yang tidak ada di semua anggota akan menyebabkan error."
+    },
+    {
+      "id": 3,
+      "question": "Apa tujuan dari intersection type `A & B`?",
+      "options": [
+        "Memilih salah satu dari A atau B",
+        "Menggabungkan semua properti dari A dan B menjadi satu tipe",
+        "Membandingkan apakah A sama dengan B",
+        "Membuat tipe baru yang hanya berlaku untuk A atau B"
+      ],
+      "correct": 1,
+      "explanation": "Intersection type menggabungkan beberapa tipe menjadi satu tipe yang memiliki semua properti dari setiap tipe yang digabung."
+    },
+    {
+      "id": 4,
+      "question": "Kapan union type Berguna?",
+      "options": [
+        "Saat sebuah nilai bisa memiliki lebih dari satu tipe",
+        "Saat kita ingin memaksa tipe tertentu",
+        "Saat membuat class",
+        "Saat butuh inheritance"
+      ],
+      "correct": 0,
+      "explanation": "Union type digunakan ketika sebuah nilai mungkin memiliki salah satu dari beberapa tipe yang berbeda."
+    },
+    {
+      "id": 5,
+      "question": "Apa yang terjadi jika dua interface memiliki properti dengan nama yang sama di intersection?",
+      "options": [
+        "Properti akan di-merge",
+        "Properti akan diambil dari tipe pertama",
+        "Properti akan bertipe never (tidak mungkin)",
+        "Tidak ada masalah"
+      ],
+      "correct": 2,
+      "explanation": "Jika properti namanya sama tetapi tipe berbeda, intersection akan menghasilkan tipe never untuk properti tersebut karena tidak mungkin memenuhi kedua tipe."
+    }
+  ]
+}

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 26: Union dan Intersection Types - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 5: Advanced Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 26 of 40</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 65%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 5</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 26</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Union dan Intersection Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript menyediakan dua operator powerful untuk menggabungkan tipe: <code class="text-primary font-mono">|</code> (Union) dan <code class="text-primary font-mono">&</code> (Intersection). 
+                Mengerti kedua konsep ini esensial untuk membuat tipe yang fleksibel namun tetap type-safe.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>🎯 Tujuan: Pahami cara menggabungkan tipe</span>
+            </div>
+        </div>
+
+        <!-- Section 1: Union Types -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Union Types (|)
+            </h2>
+            <p class="text-gray-700 mb-4">
+                <strong>Union type</strong> memungkinkan sebuah nilai memiliki <em>salah satu</em> dari beberapa tipe yang ditentukan. 
+                Gunakan operator <code class="font-mono text-primary">|</code> untuk memisahkan tipe-tipe tersebut.
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">function</span> <span class="function">printId</span>(id: <span class="type">number</span> | <span class="type">string</span>) {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> id === <span class="string">"string"</span>) {
+        console.log(<span class="string">"ID sebagai string:"</span>, id.toUpperCase());
+    } <span class="keyword">else</span> {
+        console.log(<span class="string">"ID sebagai number:"</span>, id.toFixed(<span class="type">2</span>));
+    }
+}
+
+<span class="function">printId</span>(<span class="type">101</span>);      <span class="comment">// OK</span>
+<span class="function">printId</span>(<span class="string">"202"</span>);    <span class="comment">// OK</span>
+<span class="comment">// printId(true); // Error: Argumen bertipe 'boolean' tidak dapat ditetapkan ke parameter bertipe 'number | string'</span>
+            </div>
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+                <p class="text-sm text-yellow-800">
+                    <strong>⚠️ Penting:</strong> Ketika menggunakan union, TypeScript hanya mengizinkan operasi yang valid untuk <em>semua</em> anggota union. 
+                    Untuk mengakses properti/metode spesifik, gunakan <strong>type guards</strong> (akan dibahas di Lesson 27).
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 2: Intersection Types -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Intersection Types (&)
+            </h2>
+            <p class="text-gray-700 mb-4">
+                <strong>Intersection type</strong> menggabungkan beberapa tipe menjadi <em>satu tipe yang memiliki semua properti</em> dari setiap tipe yang digabung. 
+                Gunakan operator <code class="font-mono text-primary">&</code>.
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">interface</span> <span class="type">User</span> {
+    name: <span class="type">string</span>;
+    age: <span class="type">number</span>;
+}
+
+<span class="keyword">interface</span> <span class="type">Contact</span> {
+    email: <span class="type">string</span>;
+    phone: <span class="type">string</span>;
+}
+
+<span class="comment">// Gabungkan User dan Contact menjadi Admin</span>
+<span class="keyword">type</span> <span class="type">Admin</span> = <span class="type">User</span> & <span class="type">Contact</span>;
+
+<span class="keyword">const</span> superAdmin: <span class="type">Admin</span> = {
+    name: <span class="string">"Budi"</span>,
+    age: <span class="type">35</span>,
+    email: <span class="string">"budi@company.com"</span>,
+    phone: <span class="string">"+628123456789"</span>
+    <span class="comment">// ^? Admin memiliki semua properti dari User dan Contact</span>
+};
+            </div>
+            <p class="text-gray-700">
+                Intersection sangat berguna untuk <strong>mixing</strong> tipe, misalnya menggabungkan <code>interface</code> dengan <code>type</code>, 
+                atau menggabungkan beberapa interface menjadi tipe baru yang lebih kaya.
+            </p>
+        </section>
+
+        <!-- Section 3: Practical Use Cases -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Use Cases Praktis
+            </h2>
+            
+            <h3 class="font-semibold text-gray-900 mb-2">a. Event Handlers</h3>
+            <div class="code-block mb-4">
+<span class="keyword">type</span> <span class="type">MouseEvent</span> = { x: <span class="type">number</span>; y: <span class="type">number</span> };
+<span class="keyword">type</span> <span class="type">KeyboardEvent</span> = { key: <span class="type">string</span>; ctrlKey: <span class="type">boolean</span> };
+
+<span class="keyword">function</span> <span class="function">handleEvent</span>(e: <span class="type">MouseEvent</span> | <span class="type">KeyboardEvent</span>) {
+    <span class="keyword">if</span> (<span class="string">"x"</span> <span class="keyword">in</span> e) {
+        console.log(<span class="string">`Mouse di (${e.x}, ${e.y})`</span>);
+    } <span class="keyword">else</span> {
+        console.log(<span class="string">`Tombol: ${e.key}`</span>);
+    }
+}
+            </div>
+
+            <h3 class="font-semibold text-gray-900 mb-2">b. Config Objects</h3>
+            <div class="code-block mb-4">
+<span class="keyword">interface</span> <span class="type">ServerConfig</span> {
+    host: <span class="type">string</span>;
+    port: <span class="type">number</span>;
+}
+
+<span class="keyword">interface</span> <span class="type">DatabaseConfig</span> {
+    dbName: <span class="type">string</span>;
+    user: <span class="type">string</span>;
+    password: <span class="type">string</span>;
+}
+
+<span class="keyword">type</span> <span class="type">AppConfig</span> = <span class="type">ServerConfig</span> & <span class="type">DatabaseConfig</span>;
+
+<span class="keyword">const</span> config: <span class="type">AppConfig</span> = {
+    host: <span class="string">"localhost"</span>,
+    port: <span class="type">5432</span>,
+    dbName: <span class="string">"mydb"</span>,
+    user: <span class="string">"admin"</span>,
+    password: <span class="string">"secret"</span>
+};
+            </div>
+        </section>
+
+        <!-- Section 4: Common Pitfalls -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                Common Pitfalls
+            </h2>
+            <div class="space-y-4">
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                    <h4 class="font-semibold text-red-900 mb-1">❌ Union tidak bisa mengakses properti spesifik tanpa type guard</h4>
+                    <code class="text-sm text-red-800 block">
+                        // id: string | number<br>
+                        // id.length // Error! 'length' hanya ada di string
+                    </code>
+                </div>
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                    <h4 class="font-semibold text-red-900 mb-1">❌ Intersection mungkin bertabrakan jika properti namanya sama</h4>
+                    <code class="text-sm text-red-800 block">
+                        interface A { x: number; }<br>
+                        interface B { x: string; }<br>
+                        type C = A & B; // x: never (tidak mungkin) - bertabrakan!
+                    </code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">✅ Quick Quiz</h2>
+            <div class="space-y-4">
+                <div class="quiz-question" data-question="1">
+                    <p class="font-medium text-gray-900 mb-3">1. Apa hasil dari <code>type ID = number | string</code>?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">ID hanya bisa number atau string, tidak keduanya sekaligus</button>
+                        <button class="quiz-option" data-correct="true">ID bisa berupa number ATAU string (salah satu)</button>
+                        <button class="quiz-option" data-correct="false">ID harus berupa number dan string bersamaan</button>
+                        <button class="quiz-option" data-correct="false">ID bisa berupa nilai apapun</button>
+                    </div>
+                </div>
+                <div class="quiz-question" data-question="2">
+                    <p class="font-medium text-gray-900 mb-3">2. Apa yang terjadi jika kita mengakses properti yang tidak ada di semua anggota union?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">TypeScript akan otomatis menambahkan properti tersebut</button>
+                        <button class="quiz-option" data-correct="true">TypeScript akan memberikan error</button>
+                        <button class="quiz-option" data-correct="false">Properti akan bernilai undefined</button>
+                        <button class="quiz-option" data-correct="false">Tidak ada error, tapi runtime error mungkin terjadi</button>
+                    </div>
+                </div>
+                <div class="quiz-question" data-question="3">
+                    <p class="font-medium text-gray-900 mb-3">3. Apa tujuan dari intersection type <code>A & B</code>?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">Memilih salah satu dari A atau B</button>
+                        <button class="quiz-option" data-correct="true">Menggabungkan semua properti dari A dan B menjadi satu tipe</button>
+                        <button class="quiz-option" data-correct="false">Membandingkan apakah A sama dengan B</button>
+                        <button class="quiz-option" data-correct="false">Membuat tipe baru yang hanya berlaku untuk A atau B</button>
+                    </div>
+                </div>
+            </div>
+            <div id="quiz-feedback" class="mt-4 p-4 rounded-lg hidden"></div>
+            <button id="check-answers" class="mt-4 px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+                Periksa Jawaban
+            </button>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" id="prev-lesson" disabled>
+                ← Previous
+            </button>
+            <div class="text-center">
+                <span class="text-gray-600">Lesson </span>
+                <span class="font-bold text-gray-900" id="current-lesson">26</span>
+                <span class="text-gray-600"> of 40</span>
+            </div>
+            <button class="nav-btn primary" id="next-lesson">
+                Next →
+            </button>
+        </nav>
+
+        <!-- Completion Message (hidden until quiz passed) -->
+        <div id="completion-banner" class="hidden mt-6 bg-green-50 border-2 border-green-500 rounded-xl p-6 text-center">
+            <div class="text-4xl mb-3">🎉</div>
+            <h3 class="text-xl font-bold text-green-900 mb-2">Lesson 26 Complete!</h3>
+            <p class="text-green-800 mb-4">You've mastered Union and Intersection Types. Ready for the next lesson?</p>
+            <button class="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors" onclick="markComplete()">
+                Continue to Lesson 27 →
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // State
+        let lessonCompleted = localStorage.getItem('lesson-26-completed') === 'true';
+        let progress = 65; // 25/65 = 38.5% ≈ 65% progress bar (since 40 lessons in Modul 5)
+        let currentLessonNum = 26;
+        let totalLessons = 65;
+
+        // Update progress on load
+        function updateProgress() {
+            const percent = (progress / totalLessons) * 100;
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = `Lesson ${currentLessonNum} of ${totalLessons}`;
+        }
+
+        // Quiz Logic
+        const quizAnswers = {};
+        document.querySelectorAll('.quiz-option').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.closest('.quiz-question');
+                const qNum = question.dataset.question;
+                question.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                    opt.classList.remove('correct');
+                    opt.classList.remove('incorrect');
+                });
+                this.classList.add('selected');
+                quizAnswers[qNum] = this.dataset.correct === 'true';
+            });
+        });
+
+        document.getElementById('check-answers').addEventListener('click', function() {
+            let allCorrect = true;
+            let score = 0;
+            document.querySelectorAll('.quiz-question').forEach(question => {
+                const qNum = question.dataset.question;
+                const selected = question.querySelector('.selected');
+                if (!selected) {
+                    allCorrect = false;
+                    return;
+                }
+                const isCorrect = quizAnswers[qNum];
+                if (isCorrect) {
+                    selected.classList.add('correct');
+                    score++;
+                } else {
+                    selected.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+            if (allCorrect) {
+                feedback.className = 'mt-4 p-4 rounded-lg bg-green-50 border-2 border-green-500';
+                feedback.innerHTML = `
+                    <div class="flex items-center gap-2 text-green-800">
+                        <span class="text-2xl">✅</span>
+                        <div>
+                            <p class="font-bold">Semua benar!</p>
+                            <p class="text-sm">Lanjutkan ke lesson berikutnya.</p>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('completion-banner').classList.remove('hidden');
+                lessonCompleted = true;
+                localStorage.setItem('lesson-26-completed', 'true');
+                progress += 1;
+                updateProgress();
+            } else {
+                feedback.className = 'mt-4 p-4 rounded-lg bg-yellow-50 border-2 border-yellow-500';
+                feedback.innerHTML = `
+                    <div class="flex items-center gap-2 text-yellow-800">
+                        <span class="text-2xl">⚠️</span>
+                        <div>
+                            <p class="font-bold">Beberapa jawaban belum tepat</p>
+                            <p class="text-sm">Coba periksa kembali dan pilih jawaban yang benar.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        // Navigation
+        document.getElementById('next-lesson').addEventListener('click', function() {
+            if (lessonCompleted) {
+                window.location.href = 'lesson-27-type-guards-type-assertions.html';
+            } else {
+                alert('Selesaikan quiz terlebih dahulu!');
+            }
+        });
+
+        function markComplete() {
+            window.location.href = 'lesson-27-type-guards-type-assertions.html';
+        }
+
+        // Initialize
+        updateProgress();
+        if (lessonCompleted) {
+            document.getElementById('completion-banner').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
