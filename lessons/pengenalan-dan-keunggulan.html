@@ -2,44 +2,207 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Modul 1: Dasar-Dasar TypeScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengenalan dan Keunggulan TypeScript - Modul 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .keyword { color: #c084fc; }
+        .string { color: #86efac; }
+        .comment { color: #64748b; }
+        .function { color: #60a5fa; }
+        .btn-run { background: #10b981; color: white; padding: 0.5rem 1rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+        .btn-run:hover { background: #059669; }
+        .progress-bar { height: 8px; background: #374151; border-radius: 4px; overflow: hidden; margin: 1rem 0; }
+        .progress-fill { height: 100%; background: #3b82f6; transition: width 0.3s; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Modul 1: Dasar-Dasar TypeScript</h1>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>15 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Pengenalan dan Keunggulan TypeScript</h1>
+            <p class="text-gray-300 text-lg">Modul 1: Dasar-Dasar TypeScript</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">1. Pengenalan dan Keunggulan TypeScript</h2>
-            <p class="mb-4">TypeScript adalah superset JavaScript yang menambahkan static typing. TypeScript membantu menulis kode yang lebih aman, mudah dibaca, dan mudah di-maintain.</p>
+        <!-- Progress Tracking -->
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <h3 class="text-xl font-medium mb-2">Keunggulan TypeScript:</h3>
-            <ul class="list-disc pl-6 mb-4 space-y-1">
-                <li>Type checking pada waktu kompilasi</li>
-                <li>Autocompletion yang lebih baik di IDE</li>
-                <li>Refactoring yang lebih aman</li>
-                <li>Self-documenting code melalui tipe</li>
-                <li>Kompatibel 100% dengan JavaScript</li>
-            </ul>
+        <!-- Main Content -->
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Apa itu TypeScript?</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    TypeScript adalah <strong class="text-cyan-300">superset</strong> dari JavaScript yang dikembangkan oleh Microsoft. Artinya, semua kode JavaScript valid juga merupakan kode TypeScript yang valid. TypeScript menambahkan <em>static typing</em> (tipe statis) ke JavaScript, yang memungkinkan pengecekan tipe pada saat <em>compile time</em> (waktu kompilasi), bukan hanya di runtime.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200">
+                        <i class="fas fa-lightbulb mr-2"></i>
+                        <strong>Konsep kunci:</strong> TypeScript <em>tidak</em> menggantikan JavaScript. Kode TypeScript dikompilasi (transpile) menjadi JavaScript yang bisa dijalankan di browser atau Node.js.
+                    </p>
+                </div>
+            </section>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">let nama: string = "Archon";
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Keunggulan TypeScript</h2>
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-cyan-500 transition">
+                        <div class="text-cyan-400 text-2xl mb-3"><i class="fas fa-shield-alt"></i></div>
+                        <h3 class="text-xl font-medium mb-2">Type Safety</h3>
+                        <p class="text-gray-300 text-sm">Mendeteksi kesalahan tipe saat kompilasi, mencegah bug yang sulit ditangkap di runtime.</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-cyan-500 transition">
+                        <div class="text-cyan-400 text-2xl mb-3"><i class="fas fa-code"></i></div>
+                        <h3 class="text-xl font-medium mb-2">Better IDE Support</h3>
+                        <p class="text-gray-300 text-sm">Autocompletion, go-to-definition, refactoring, dan error highlighting yang lebih pintar.</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-cyan-500 transition">
+                        <div class="text-cyan-400 text-2xl mb-3"><i class="fas fa-file-alt"></i></div>
+                        <h3 class="text-xl font-medium mb-2">Self-Documenting</h3>
+                        <p class="text-gray-300 text-sm">Kode menjadi lebih mudah dibaca dan dipahami karena deklarasi tipe yang eksplisit.</p>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-cyan-500 transition">
+                        <div class="text-cyan-400 text-2xl mb-3"><i class="fas fa-check-circle"></i></div>
+                        <h3 class="text-xl font-medium mb-2">100% JavaScript Compatible</h3>
+                        <p class="text-gray-300 text-sm">Setiap library JavaScript bisa digunakan langsung di TypeScript.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Contoh: JavaScript vs TypeScript</h2>
+                <p class="mb-4 text-gray-200">Perbandingan kode yang menunjukkan bagaimana TypeScript mencegah error tipe.</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-medium mb-3 text-red-300">JavaScript (tanpa type checking)</h3>
+                        <div class="code-block">
+                            <pre><code class="language-javascript">function tambah(a, b) {
+    return a + b;
+}
+
+console.log(tambah(5, 10));      // 15 - OK
+console.log(tambah("5", 10));    // "510" - Bug!</code></pre>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2">Error hanya terlihat saat runtime, bisa sulit ditrace.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-medium mb-3 text-green-300">TypeScript (dengan type checking)</h3>
+                        <div class="code-block">
+                            <pre><code class="language-typescript">function tambah(a: number, b: number): number {
+    return a + b;
+}
+
+console.log(tambah(5, 10));      // 15 - OK
+console.log(tambah("5", 10));    // Error di compile time!</code></pre>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2">Error terdeteksi sebelum kode dijalankan.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Cara Pakai TypeScript</h2>
+                <p class="mb-4 text-gray-200">Ada beberapa cara menggunakan TypeScript:</p>
+                <ol class="list-decimal pl-6 space-y-3 mb-6">
+                    <li class="text-gray-200"><strong>TypeScript CLI:</strong> Install global dan compile file .ts ke .js</li>
+                    <li class="text-gray-200"><strong>ts-node:</strong> Jalankan file .ts langsung tanpa compile terlebih dahulu</li>
+                    <li class="text-gray-200"><strong>Bundler (Webpack, Vite, esbuild):</strong> Integrasi dengan build tool modern</li>
+                    <li class="text-gray-200"><strong>Online Playground:</strong> Coba cepat di <a href="https://www.typescriptlang.org/play" class="text-cyan-400 hover:underline">TypeScript Playground</a></li>
+                </ol>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan Interaktif</h2>
+                <p class="mb-4 text-gray-200">Coba ubah kode berikut dan lihat hasilnya:</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Deklarasi variabel dengan tipe eksplisit
+let nama: string = "Archon";
 let umur: number = 42;
 let aktif: boolean = true;
 
+// Function dengan tipe parameter dan return
 function sapa(nama: string): string {
-    return `Halo, ${nama}!`;
+    return `Halo, ${nama}! Selamat belajar TypeScript.`;
 }
 
 console.log(sapa(nama));</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
+                </div>
+                <button class="btn-run" onclick="runCode(this)">
                     <i class="fas fa-play mr-2"></i>Jalankan Kode
                 </button>
-            </div>
-        </section>
+                <div id="output" class="code-block mt-4 bg-gray-800 hidden">
+                    <pre class="text-green-400"></pre>
+                </div>
+            </section>
 
-        <!-- More lessons will be added incrementally -->
-        <p class="text-gray-400 italic">More lessons are being developed...</p>
-    </article>
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>TypeScript adalah superset JavaScript dengan static typing</li>
+                    <li>Mendeteksi error di compile time, bukan di runtime</li>
+                    <li>IDE support lebih baik, kode lebih self-documenting</li>
+                    <li>100% kompatibel dengan ekosistem JavaScript</li>
+                    <li>Bisa dikompilasi ke JavaScript untuk dijalankan di mana saja</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="#" class="text-gray-400 hover:text-cyan-400 disabled">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous
+                </a>
+                <a href="setup-environment.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Setup Environment<i class="fas fa-chevron-right ml-2"></i>
+                </a>
+            </div>
+        </article>
+
+        <!-- Footer -->
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path. Dibuat dengan <i class="fas fa-heart text-red-500"></i> untuk komunitas.</p>
+        </footer>
+    </div>
+
+    <script src="../js/run-code.js"></script>
+    <script>
+        // Progress tracking
+        const progressKey = 'ts-mod1-lesson1-progress';
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem(progressKey);
+            if (saved === 'completed') {
+                updateProgress(100);
+            }
+        });
+
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        function markComplete() {
+            localStorage.setItem(progressKey, 'completed');
+            updateProgress(100);
+            alert('🎉 Lesson selesai! Lanjut ke lesson berikutnya.');
+        }
+    </script>
 </body>
 </html>

@@ -2,30 +2,209 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Setup Environment: Node.js, VS Code, dan TypeScript Compiler - Modul 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Environment - Modul 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .btn-run { background: #10b981; color: white; padding: 0.5rem 1rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+        .btn-run:hover { background: #059669; }
+        .checklist-item { display: flex; align-items: flex-start; margin: 0.75rem 0; }
+        .checklist-item input { margin-right: 0.75rem; margin-top: 0.25rem; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Setup Environment: Node.js, VS Code, dan TypeScript Compiler</h1>
-        <p class="text-gray-300 mb-4">Modul 1: Dasar-Dasar TypeScript</p>
-
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
-
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Setup Environment: Node.js, VS Code, dan TypeScript Compiler
-function contoh(): void {
-    console.log("Hello, TypeScript!");
-}
-
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>10 menit
+                </div>
             </div>
-        </section>
-    </article>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Setup Environment: Node.js, VS Code, dan TypeScript Compiler</h1>
+            <p class="text-gray-300 text-lg">Modul 1: Dasar-Dasar TypeScript</p>
+        </header>
+
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Persiapan Lingkungan Pengembangan</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Sebelum mulai menulis kode TypeScript, kita perlu menyiapkan beberapa tools. Tutorial ini akan memandu instalasi:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li class="text-gray-200"><strong>Node.js</strong> - Runtime JavaScript untuk menjalankan TypeScript</li>
+                    <li class="text-gray-200"><strong>Visual Studio Code</strong> - Editor dengan dukungan TypeScript terintegrasi</li>
+                    <li class="text-gray-200"><strong>TypeScript Compiler (tsc)</strong> - Untuk mengubah .ts menjadi .js</li>
+                </ul>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Instal Node.js</h2>
+                <p class="mb-4 text-gray-200">TypeScript berjalan di atas Node.js. Unduh dan instal Node.js dari <a href="https://nodejs.org" class="text-cyan-400 hover:underline">situs resmi</a>.</p>
+                <div class="bg-gray-800 p-4 rounded-lg mb-4">
+                    <h3 class="text-lg font-medium mb-3 text-yellow-300"><i class="fas fa-exclamation-triangle mr-2"></i>Pilih Versi LTS</h3>
+                    <p class="text-gray-300 text-sm">Pilih versi <strong>LTS (Long Term Support)</strong> untuk stabilitas. Saat ini, Node.js 20.x atau 18.x direkomendasikan.</p>
+                </div>
+                <div class="code-block">
+                    <pre><code class="language-bash"># Setelah instalasi, verifikasi instalasi:
+node --version    # Misal: v20.11.0
+npm --version     # Misal: 10.2.4</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Instal Visual Studio Code</h2>
+                <p class="mb-4 text-gray-200">VS Code adalah editor yang sangat cocok untuk TypeScript dengan built-in support.</p>
+                <ol class="list-decimal pl-6 space-y-3 mb-6">
+                    <li class="text-gray-200">Kunjungi <a href="https://code.visualstudio.com/" class="text-cyan-400 hover:underline">code.visualstudio.com</a></li>
+                    <li class="text-gray-200">Download untuk OS Anda (Windows, macOS, Linux)</li>
+                    <li class="text-gray-200">Instal seperti aplikasi biasa</li>
+                </ol>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-magic mr-2"></i>
+                        <strong>Tip:</strong> Instal ekstensi <code>TypeScript ESLint</code> dan <code>Prettier</code> untuk kode yang lebih rapi.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Instal TypeScript Compiler (tsc)</h2>
+                <p class="mb-4 text-gray-200">TypeScript dilengkapi dengan compiler yang bisa diinstal secara global via npm.</p>
+                <div class="code-block">
+                    <pre><code class="language-bash"># Instal TypeScript secara global
+npm install -g typescript
+
+# Verifikasi instalasi
+tsc --version
+# Output: Version 5.x.x</code></pre>
+                </div>
+                <p class="text-gray-200 mt-4">Setelah instalasi, perintah <code>tsc</code> akan tersedia di terminal untuk mengompile file .ts.</p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Buat Project Pertama</h2>
+                <p class="mb-4 text-gray-200">Mari buat project TypeScript sederhana untuk memastikan semua tools berfungsi.</p>
+                <div class="code-block">
+                    <pre><code class="language-bash"># 1. Buat direktori project
+mkdir belajar-typescript
+cd belajar-typescript
+
+# 2. Inisialisasi package.json
+npm init -y
+
+# 3. Buat file TypeScript
+echo 'let pesan: string = "Hello, TypeScript!";
+console.log(pesan);' > app.ts
+
+# 4. Compile ke JavaScript
+tsc app.ts
+
+# 5. Jalankan hasil JavaScript
+node app.js</code></pre>
+                </div>
+                <p class="text-green-400 mt-4">✅ Jika berhasil, akan muncul output: <code>Hello, TypeScript!</code></p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Konfigurasi TypeScript (tsconfig.json)</h2>
+                <p class="mb-4 text-gray-200">File <code>tsconfig.json</code> mengontrol perilaku compiler TypeScript.</p>
+                <div class="code-block">
+                    <pre><code class="language-json">{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*"]
+}</code></pre>
+                </div>
+                <p class="text-gray-200 mb-4">Dengan konfigurasi ini:</p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-gray-200">
+                    <li><code>src/</code> berisi file .ts</li>
+                    <li>Hasil kompilasi .js masuk ke <code>dist/</code></li>
+                    <li><code>strict: true</code> mengaktifkan semua pemeriksaan tipe ketat</li>
+                </ul>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Checklist Persiapan</h2>
+                <div class="bg-gray-800 p-5 rounded-lg">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check1" onchange="updateProgressFromChecks()">
+                        <label for="check1" class="text-gray-200">Node.js terinstal (<code>node --version</code> berhasil)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check2" onchange="updateProgressFromChecks()">
+                        <label for="check2" class="text-gray-200">VS Code terinstal dan bisa dibuka</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check3" onchange="updateProgressFromChecks()">
+                        <label for="check3" class="text-gray-200">TypeScript terinstal global (<code>tsc --version</code> berhasil)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check4" onchange="updateProgressFromChecks()">
+                        <label for="check4" class="text-gray-200">Project <code>belajar-typescript</code> dibuat dan berhasil di-compile</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="check5" onchange="updateProgressFromChecks()">
+                        <label for="check5" class="text-gray-200">File <code>tsconfig.json</code> sudah dikonfigurasi</label>
+                    </div>
+                </div>
+                <button class="btn-run mt-4" onclick="markComplete()">
+                    <i class="fas fa-check mr-2"></i>Tandai Selesai
+                </button>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="pengenalan-dan-keunggulan.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Pengenalan
+                </a>
+                <a href="tipe-data-dasar.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Tipe Data Dasar<i class="fas fa-chevron-right ml-2"></i>
+                </a>
+            </div>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgressFromChecks() {
+            const checks = document.querySelectorAll('input[type="checkbox"]');
+            const checked = Array.from(checks).filter(c => c.checked).length;
+            const percent = Math.round((checked / checks.length) * 100);
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        function markComplete() {
+            localStorage.setItem('ts-mod1-lesson2-progress', 'completed');
+            document.getElementById('progress-fill').style.width = '100%';
+            document.getElementById('progress-text').textContent = '100%';
+            alert('🎉 Setup environment selesai! Selamat belajar TypeScript.');
+        }
+    </script>
 </body>
 </html>

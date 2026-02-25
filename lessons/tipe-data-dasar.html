@@ -2,30 +2,249 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Tipe Data Dasar (string, number, boolean, null, undefined) - Modul 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipe Data Dasar - Modul 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .type-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; margin: 0.25rem; }
+        .type-string { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid #22c55e; }
+        .type-number { background: rgba(59, 130, 246, 0.2); color: #3b82f6; border: 1px solid #3b82f6; }
+        .type-boolean { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+        .type-null { background: rgba(156, 163, 175, 0.2); color: #9ca3af; border: 1px solid #9ca3af; }
+        .type-undefined { background: rgba(168, 85, 247, 0.2); color: #a855f7; border: 1px solid #a855f7; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Tipe Data Dasar (string, number, boolean, null, undefined)</h1>
-        <p class="text-gray-300 mb-4">Modul 1: Dasar-Dasar TypeScript</p>
-
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
-
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Tipe Data Dasar (string, number, boolean, null, undefined)
-function contoh(): void {
-    console.log("Hello, TypeScript!");
-}
-
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
             </div>
-        </section>
-    </article>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Tipe Data Dasar (string, number, boolean, null, undefined)</h1>
+            <p class="text-gray-300 text-lg">Modul 1: Dasar-Dasar TypeScript</p>
+        </header>
+
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Pengantar Tipe Data</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    TypeScript memiliki sistem tipe yang kuat dan statis. Setiap variabel harus memiliki tipe yang jelas, atau TypeScript akan mencarinya melalui <em>type inference</em>. Mari kita bahas tipe data primitif yang paling sering digunakan.
+                </p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. String (Teks)</h2>
+                <p class="mb-4 text-gray-200">Tipe <code>string</code> untuk teks, bisa menggunakan tanda kutip ganda, tanda kutip tunggal, atau backtick (template literal).</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Deklarasi string
+let nama: string = "Archon";
+let pesan: string = 'Hello, World!';
+let template: string = `Nama: ${nama}, Umur: 42`;
+
+// Operasi string
+console.log(pesan.length);           // 13
+console.log(pesan.toUpperCase());    // "HELLO, WORLD!"
+console.log(pesan.slice(0, 5));      // "Hello"</code></pre>
+                </div>
+                <div class="mt-4">
+                    <span class="type-badge type-string">string</span>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Number (Angka)</h2>
+                <p class="mb-4 text-gray-200">Tipe <code>number</code> mencakup integer, float, hex, octal, binary, dan bigint.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Angka biasa
+let usia: number = 42;
+let phi: number = 3.14159;
+let hex: number = 0xff;      // 255
+let binary: number = 0b1010; // 10
+
+// Operasi matematika
+let hasil: number = 10 + 5;   // 15
+let pembagian: number = 10 / 3; // 3.333...
+
+// BigInt untuk angka sangat besar
+let big: bigint = 9007199254740991n;</code></pre>
+                </div>
+                <div class="mt-4">
+                    <span class="type-badge type-number">number</span>
+                    <span class="type-badge type-number">bigint</span>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Boolean (Logika)</h2>
+                <p class="mb-4 text-gray-200">Tipe <code>boolean</code> hanya punya dua nilai: <code>true</code> atau <code>false</code>.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let aktif: boolean = true;
+let selesai: boolean = false;
+
+// Operasi logika
+let dan: boolean = aktif && selesai;   // false
+let atau: boolean = aktif || selesai;  // true
+let negasi: boolean = !aktif;          // false
+
+// Perbandingan
+let lebihBesar: boolean = 10 > 5;      // true
+let sama: boolean = 10 === "10";       // false (strict equality)</code></pre>
+                </div>
+                <div class="mt-4">
+                    <span class="type-badge type-boolean">boolean</span>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Null dan Undefined</h2>
+                <p class="mb-4 text-gray-200"><code>null</code> dan <code>undefined</code> adalah tipe khusus yang menandakan "tidak ada nilai".</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-800 p-5 rounded-lg">
+                        <h3 class="text-lg font-medium mb-3 text-yellow-300">Null</h3>
+                        <p class="text-gray-300 text-sm mb-3">Null adalah nilai yang sengaja dikelilingi untuk menandakan "tidak ada objek".</p>
+                        <div class="code-block">
+                            <pre><code class="language-typescript">let data: string | null = null;
+data = "Ada nilai"; // valid</code></pre>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 p-5 rounded-lg">
+                        <h3 class="text-lg font-medium mb-3 text-purple-300">Undefined</h3>
+                        <p class="text-gray-300 text-sm mb-3">Undefined berarti variabel belum diberi nilai.</p>
+                        <div class="code-block">
+                            <pre><code class="language-typescript">let belumDiatur: undefined = undefined;
+let optional: string | undefined;</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="type-badge type-null">null</span>
+                    <span class="type-badge type-undefined">undefined</span>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Type Inference (Inferensi Tipe)</h2>
+                <p class="mb-4 text-gray-200">TypeScript bisa menebak tipe berdasarkan nilai yang diberikan. Anda tidak selalu harus menulis tipe secara eksplisit.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// TypeScript menebak tipe otomatis
+let pesan = "Hello";      // string
+let angka = 42;           // number
+let aktif = true;         // boolean
+let campur = "text";      // string (tetap string, tidak jadi any)
+
+// Tapi hati-hati:
+let arr = [1, 2, 3];     // number[]
+arr.push("4");            // Error! Tidak bisa menambahkan string ke number[]</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <p class="text-yellow-200 text-sm">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <strong>Catatan:</strong> Gunakan <code>any</code> hanya jika benar-benar perlu. Hindari karena akan melemahkan type-checking.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Tentukan Tipe</h2>
+                <p class="mb-4 text-gray-200">Apa tipe dari nilai-nilai berikut? (Jawab tanpa menjalankan kode)</p>
+                <div class="bg-gray-800 p-5 rounded-lg space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-200">1. <code>"TypeScript"</code></span>
+                        <span class="type-badge type-string">string</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-200">2. <code>3.14</code></span>
+                        <span class="type-badge type-number">number</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-200">3. <code>false</code></span>
+                        <span class="type-badge type-boolean">boolean</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-200">4. <code>null</code></span>
+                        <span class="type-badge type-null">null</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-200">5. <code>undefined</code></span>
+                        <span class="type-badge type-undefined">undefined</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Kesalahan Umum</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Type Mismatch</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">let angka: number = "42"; // Error: Type 'string' is not assignable to type 'number'</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Implicit any</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">function foo(x) { return x; } // Error: Parameter 'x' implicitly has an 'any' type</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li><code>string</code> untuk teks</li>
+                    <li><code>number</code> untuk angka (termasuk <code>bigint</code>)</li>
+                    <li><code>boolean</code> untuk true/false</li>
+                    <li><code>null</code> dan <code>undefined</code> untuk nilai kosong</li>
+                    <li>Type inference membantu mengurangi boilerplate, tapi tambahkan tipe eksplisit untuk clearer code</li>
+                    <li>Hindari <code>any</code> jika memungkinkan</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="setup-environment.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Setup Environment
+                </a>
+                <a href="operator-dan-ekspresi.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Operator dan Ekspresi<i class="fas fa-chevron-right ml-2"></i>
+                </a>
+            </div>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod1-lesson3-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod1-lesson3-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Tipe data dasar selesai!');
+        }
+    </script>
 </body>
 </html>
