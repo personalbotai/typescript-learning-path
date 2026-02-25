@@ -2,30 +2,297 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Function Declarations vs Expressions - Modul 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Types - Modul 3</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .signature { background: #374151; padding: 0.75rem; border-radius: 6px; margin: 0.5rem 0; font-family: monospace; border-left: 3px solid #3b82f6; }
+        .param { color: #f472b6; }
+        .return { color: #34d399; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Function Declarations vs Expressions</h1>
-        <p class="text-gray-300 mb-4">Modul 3: Functions & Functional Programming</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Function Types: Function Declarations vs Expressions</h1>
+            <p class="text-gray-300 text-lg">Modul 3: Functions & Functional Programming</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Function Declarations vs Expressions
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Function Types di TypeScript</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Di TypeScript, function adalah "first-class citizens" - bisa disimpan di variabel, dikembalikan dari function lain, dan diatribusikan tipe dengan ketat. Memahami function types adalah kunci untuk type-safe code.
+                </p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Function Declaration vs Expression</h2>
+                <p class="mb-4 text-gray-200">Dua cara mendefinisikan function, masing-masing punya karakteristik type inference yang berbeda.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Function Declaration (named function)
+function tambah(a: number, b: number): number {
+    return a + b;
+}
+// Type: (a: number, b: number) => number
+
+// Function Expression (assign ke variabel)
+let kali = function(x: number, y: number): number {
+    return x * y;
+};
+// Type: (x: number, y: number) => number
+
+// Arrow Function Expression
+const bagi = (x: number, y: number): number => {
+    return x / y;
+};
+// Type: (x: number, y: number) => number
+
+// Type inference: jika tidak ada explicit return type, TypeScript akan menebak
+let tanpaTipe = function(a, b) { return a + b; };
+// Error: Parameter 'a' implicitly has an 'any' type (strict mode)
+// Harus: let tanpaTipe = (a: number, b: number) => a + b;</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Type Alias untuk Function</h2>
+                <p class="mb-4 text-gray-200">Buat type alias khusus untuk function signature agar reusable.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Define function type
+type BinaryOperation = (a: number, b: number) => number;
+
+// Gunakan type alias
+let tambah: BinaryOperation = (a, b) => a + b;
+let kali: BinaryOperation = (a, b) => a * b;
+
+// Bisa juga dengan generic
+type Comparator<T> = (a: T, b: T) => number; // -1, 0, 1
+
+let numberComparator: Comparator<number> = (a, b) => a - b;
+let stringComparator: Comparator<string> = (a, b) => a.localeCompare(b);
+
+// Function type dengan optional dan rest parameters
+type ConfigFunction = (debug?: boolean, ...args: string[]) => void;
+let config: ConfigFunction = (debug = false, ...args) => {
+    if (debug) console.log(args);
+};</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Optional dan Default Parameters</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Optional parameter ( Dengan ?)
+function greet(name: string, greeting?: string): string {
+    if (greeting) {
+        return `${greeting}, ${name}!`;
+    }
+    return `Hello, ${name}!`;
+}
+greet("Alice"); // "Hello, Alice!"
+greet("Bob", "Hi"); // "Hi, Bob!"
+
+// Default parameter
+function power(base: number, exponent: number = 2): number {
+    return Math.pow(base, exponent);
+}
+power(5);    // 25 (exponent default 2)
+power(2, 3); // 8
+
+// Kombinasi
+function createUser(name: string, age: number = 18, active: boolean = true): User {
+    return { name, age, active };
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Rest Parameters</h2>
+                <p class="mb-4 text-gray-200">Collect semua arguments menjadi array.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Rest parameter (...args)
+function sumAll(...numbers: number[]): number {
+    return numbers.reduce((a, b) => a + b, 0);
+}
+sumAll(1, 2, 3, 4); // 10
+
+function concatStrings(sep: string, ...strings: string[]): string {
+    return strings.join(sep);
+}
+concatStrings("-", "a", "b", "c"); // "a-b-c"
+
+// Rest harus parameter terakhir
+// function badRest(...a: number, b: string) {} // Error!</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Function Overloads</h2>
+                <p class="mb-4 text-gray-200">TypeScript memungkinkan mendefinisikan beberapa signatures untuk satu implementation. Berguna ketika function bisa dipanggil dengan argumen berbeda tipe.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Overload signatures
+function format(input: string): string;
+function format(input: number): string;
+function format(input: boolean): string;
+// Implementation (harus兼容 semua signatures)
+function format(input: any): string {
+    if (typeof input === "string") {
+        return `String: ${input.toUpperCase()}`;
+    } else if (typeof input === "number") {
+        return `Number: ${input.toFixed(2)}`;
+    } else if (typeof input === "boolean") {
+        return `Boolean: ${input ? "true" : "false"}`;
+    }
+    return "Unknown";
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Pemanggilan
+format("hello"); // OK, returns string
+format(42);      // OK, returns string
+format(true);    // OK, returns string
+// format({});    // Error - tidak ada overload untuk object</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <p class="text-yellow-200 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>Aturan:</strong> Overload signatures hanya berisi deklarasi (tanpa body). Implementation harus ditulis sekali dengan parameter <code>any</code> atau union type yang mencakup semua overloads.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">6. This Parameters</h2>
+                <p class="mb-4 text-gray-200">Kadang function menggunakan <code>this</code>. TypeScript butuh bantuan untuk tahu tipe <code>this</code>.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface Person {
+    nama: string;
+    greet(this: Person): string; // explicit this type
+}
+
+let p: Person = { nama: "Alice", greet: function() { return `Hi, ${this.nama}`; } };
+console.log(p.greet()); // "Hi, Alice"
+
+// Arrow function tidak memiliki own this, gunakan lexical this
+class Counter {
+    count: number = 0;
+    increment = () => { this.count++; }; // arrow, this lexical dari class instance
+    getCount = (): number => this.count;
+}
+
+// Function dengan this parameter bisa dipanggil dengan call/apply
+function logThis(this: any) {
+    console.log(this);
+}
+logThis.call({ x: 1 }); // OK, this = {x:1}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Build Type-Safe Event Emitter</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">type EventHandler<T> = (data: T) => void;
+
+class EventEmitter<Events extends Record<string, any>> {
+    private listeners: Partial<Record<keyof Events, EventHandler<Events[keyof Events]>[]>> = {};
+
+    on<K extends keyof Events>(event: K, handler: EventHandler<Events[K]>): void {
+        if (!this.listeners[event]) {
+            this.listeners[event] = [];
+        }
+        this.listeners[event]!.push(handler);
+    }
+
+    emit<K extends keyof Events>(event: K, data: Events[K]): void {
+        const handlers = this.listeners[event];
+        if (handlers) {
+            for (let handler of handlers) {
+                handler(data);
+            }
+        }
+    }
+}
+
+// Usage:
+interface MyEvents {
+    "user:login": { username: string; timestamp: Date };
+    "error": { message: string; code: number };
+}
+
+let emitter = new EventEmitter<MyEvents>();
+emitter.on("user:login", (data) => {
+    console.log(`${data.username} logged in at ${data.timestamp}`);
+});
+emitter.emit("user:login", { username: "alice", timestamp: new Date() });
+// Type-safe: emit dengan data yang sesuai signature event</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Function types: <code>(params) => returnType</code></li>
+                    <li>Bisa buat type alias untuk function signature</li>
+                    <li>Optional parameters <code>?</code>, default parameters, rest parameters <code>...</code></li>
+                    <li>Function overloads untuk multiple signatures</li>
+                    <li><code>this</code> parameter untuk explicit this typing</li>
+                    <li>TypeScript mengecek jumlah dan tipe argumen, serta tipe return</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="conditional-types.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Conditional Types (Modul 2)
+                </a>
+                <a href="arrow-functions.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Arrow Functions<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod3-lesson1-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod3-lesson1-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Function Types selesai! 15 lesson telah diselesaikan.');
+        }
+    </script>
 </body>
 </html>

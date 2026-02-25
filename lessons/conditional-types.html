@@ -2,30 +2,235 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conditional Types dan Template Literal Types - Modul 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .conditional { color: #fbbf24; font-weight: 700; }
+        .type-result { background: #374151; padding: 0.5rem 1rem; border-radius: 6px; margin: 0.5rem 0; font-family: monospace; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Conditional Types dan Template Literal Types</h1>
-        <p class="text-gray-300 mb-4">Modul 2: Struktur Data & Algoritma</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>25 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Conditional Types dan Template Literal Types</h1>
+            <p class="text-gray-300 text-lg">Modul 2: Struktur Data & Algoritma</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Conditional Types dan Template Literal Types
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Conditional Types</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Conditional types memungkinkan kita membuat tipe yang bergantung pada kondisi pada tipe lain. Mirip seperti ternary operator di tingkat tipe.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-code-branch mr-2"></i>
+                        <strong>Syntax:</strong> <code>T extends U ? X : Y</code> - jika T assignable ke U, maka hasilnya X, selain Y.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Conditional Type Dasar</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Conditional type sederhana
+type IsString<T> = T extends string ? true : false;
+
+type A = IsString<string>;     // true
+type B = IsString<number>;    // false
+type C = IsString<string | number>; // false? Actually conditional distributes: (string extends string? true:false) | (number extends string? false:false) = true | false = boolean. To avoid distribution, wrap in tuple.
+
+// Contoh practical: extract nullable type
+type NonNullable<T> = T extends null | undefined ? never : T;
+type X = NonNullable<string | null | undefined>; // string
+
+// Conditional dengan union types
+type Message<T> = T extends { reply: T } ? T : never;
+// Complex, but illustrates power</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Conditional Type Distribution</h2>
+                <p class="mb-4 text-gray-200">Ketika conditional type diterapkan pada union type, TypeScript akan <em>distribute</em> ke setiap anggota union.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">type ToArray<T> = T extends any ? T[] : never;
+
+// Without distribution, ToArray<string | number> would be (string | number)[]
+// With distribution, it becomes (string[] | number[])
+type Distributed = ToArray<string | number>; // string[] | number[]
+
+// To prevent distribution, wrap in tuple:
+type NoDistribute<T> = [T] extends [any] ? T[] : never;
+type NotDistributed = NoDistribute<string | number>; // (string | number)[]</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Conditional Types dengan infer</h2>
+                <p class="mb-4 text-gray-200"><code>infer</code> memungkinkan kita menangkap tipe di dalam conditional type untuk digunakan nanti.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Extract return type of a function
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+
+function foo(): number { return 42; }
+type FooReturn = ReturnType<typeof foo>; // number
+
+// Extract first element of array
+type First<T> = T extends (infer U)[] ? U : never;
+type X = First<string[]>; // string
+type Y = First<number[]>; // number
+
+// Extract parameters of function
+type Parameters<T> = T extends (...args: infer P) => any ? P : never;
+type FooParams = Parameters<typeof foo>; // [] (empty tuple)</code></pre>
+                </div>
+                <div class="bg-green-900/20 border-l-4 border-green-500 p-4 rounded mb-6">
+                    <p class="text-green-200 text-sm">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <strong>Powerful:</strong> Dengan <code>infer</code>, kita bisa membuat type manipulation yang sangat advanced, seperti yang digunakan dalam TypeScript utility types (<code>ReturnType</code>, <code>Parameters</code>, dll).
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Template Literal Types</h2>
+                <p class="mb-4 text-gray-200">Template literal types memungkinkan kita membuat tipe string berdasarkan template literal, mirip seperti template strings di JavaScript.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Concatenate string literal types
+type Name = "Alice" | "Bob";
+type Greeting = `Hello, ${Name}!`;
+// Equivalent to: "Hello, Alice!" | "Hello, Bob!"
+
+// Build event names
+type EventName = "click" | "scroll";
+type HandlerName = `on${EventName}`;
+// "onclick" | "onscroll"
+
+// Uppercase first letter
+type Capitalized<T extends string> = T extends `${infer First}${infer Rest}`
+    ? `${Uppercase<First>}${Rest}`
+    : T;
+type X = Capitalized<"hello">; // "Hello"
+
+// Combine with conditional types
+type FileExtension = "json" | "txt" | "csv";
+type FileName<T extends string> = `${T}.${FileExtension}`;
+type MyFiles = FileName<"data">; // "data.json" | "data.txt" | "data.csv"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Contoh: API Endpoint Builder</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">type Resource = "users" | "posts" | "comments";
+type Method = "GET" | "POST" | "PUT" | "DELETE";
+
+type Endpoint<M extends Method, R extends Resource> = 
+    M extends "GET" ? `/api/${R}` :
+    M extends "POST" ? `/api/${R}/create` :
+    M extends "PUT" ? `/api/${R}/:id/update` :
+    M extends "DELETE" ? `/api/${R}/:id/delete` :
+    never;
+
+type GetUsers = Endpoint<"GET", "users">; // "/api/users"
+type CreatePost = Endpoint<"POST", "posts">; // "/api/posts/create"
+type UpdateComment = Endpoint<"PUT", "comments">; // "/api/comments/:id/update"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Type-Safe Object Mapper</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Given an object type, create a new type with all values as strings
+type StringifyValues<T> = {
+    [K in keyof T]: T[K] extends Function ? string : `${T[K]}`;
+};
+
+interface Person {
+    nama: string;
+    umur: number;
+    aktif: boolean;
+    greet: () => void;
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+type StringifiedPerson = StringifyValues<Person>;
+// Equivalent:
+// type StringifiedPerson = {
+//     nama: string;
+//     umur: string;
+//     aktif: string;
+//     greet: string; // function becomes string
+// }</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Conditional types: <code>T extends U ? X : Y</code></li>
+                    <li>Distribusi conditional types otomatis pada union types</li>
+                    <li>Gunakan <code>infer</code> untuk menangkap tipe dalam conditional (misal <code>infer R</code>)</li>
+                    <li>Template literal types: <code>`prefix-${T}-suffix`</code></li>
+                    <li>Kombinasi conditional + template literal enables advanced type programming</li>
+                    <li>Berguna untuk membuat type-safe helpers, API builders, dll</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="type-utilities.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Type Utilities
+                </a>
+                <a href="function-types.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Function Types (Modul 3)<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod2-lesson5-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod2-lesson5-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Conditional Types selesai! Modul 2 (6 lessons) telah diselesaikan.');
+        }
+    </script>
 </body>
 </html>

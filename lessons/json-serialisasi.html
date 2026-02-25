@@ -2,30 +2,298 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JSON: Serialisasi dan Parsing dengan Tipe - Modul 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .json-key { color: #f472b6; }
+        .json-string { color: #86efac; }
+        .json-number { color: #60a5fa; }
+        .json-boolean { color: #f87171; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">JSON: Serialisasi dan Parsing dengan Tipe</h1>
-        <p class="text-gray-300 mb-4">Modul 2: Struktur Data & Algoritma</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>15 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">JSON: Serialisasi dan Parsing dengan Tipe</h1>
+            <p class="text-gray-300 text-lg">Modul 2: Struktur Data & Algoritma</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk JSON: Serialisasi dan Parsing dengan Tipe
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">JSON di TypeScript</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    JSON (JavaScript Object Notation) adalah format pertukaran data yang populer. TypeScript memiliki dukungan built-in untuk serialisasi (object → JSON string) dan parsing (JSON string → object) dengan type safety.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <strong>Catatan:</strong> JSON hanya mendukung tipe tertentu: string, number, boolean, null, array, object. <code>undefined</code>, <code>function</code>, <code>symbol</code> tidak bisa di-serialize.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. JSON.stringify() - Serialisasi</h2>
+                <p class="mb-4 text-gray-200">Ubah JavaScript/TypeScript object menjadi JSON string.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface User {
+    nama: string;
+    umur: number;
+    aktif: boolean;
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+let user: User = {
+    nama: "Alice",
+    umur: 25,
+    aktif: true
+};
+
+// Serialisasi ke JSON string
+let jsonString: string = JSON.stringify(user);
+console.log(jsonString);
+// Output: '{"nama":"Alice","umur":25,"aktif":true}'
+
+// Pretty print dengan indentasi
+let pretty: string = JSON.stringify(user, null, 2);
+console.log(pretty);
+// Output:
+// {
+//   "nama": "Alice",
+//   "umur": 25,
+//   "aktif": true
+// }</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <h3 class="text-yellow-300 font-semibold mb-2">Replacer Function</h3>
+                    <p class="text-gray-300 text-sm mb-2">Bisa filter properti dengan callback:</p>
+                    <pre class="text-xs"><code class="language-typescript">// Hanya sertakan nama dan umur
+let filtered = JSON.stringify(user, (key, value) => {
+    if (key === "aktif") return undefined; // exclude
+    return value;
+});
+// '{"nama":"Alice","umur":25}'</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. JSON.parse() - Parsing</h2>
+                <p class="mb-4 text-gray-200">Ubah JSON string kembali menjadi object. TypeScript perlu type assertion atau type guard untuk keamanan tipe.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let jsonString = '{"nama":"Bob","umur":30,"aktif":false}';
+
+// Parsing ke any (tidak aman)
+let obj: any = JSON.parse(jsonString);
+console.log(obj.nama); // "Bob"
+
+// Dengan type assertion (lebih aman, tapi masih bisa error jika JSON tidak sesuai)
+interface User {
+    nama: string;
+    umur: number;
+    aktif: boolean;
+}
+let user = JSON.parse(jsonString) as User;
+console.log(user.nama); // "Bob" (dengan type safety)
+
+// Type guard untuk validasi (paling aman)
+function isUser(obj: any): obj is User {
+    return obj &&
+        typeof obj.nama === "string" &&
+        typeof obj.umur === "number" &&
+        typeof obj.aktif === "boolean";
+}
+
+let parsed = JSON.parse(jsonString);
+if (isUser(parsed)) {
+    console.log(`Nama: ${parsed.nama}, Umur: ${parsed.umur}`);
+} else {
+    console.error("Data user tidak valid");
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Reviver dan Replacer</h2>
+                <p class="mb-4 text-gray-200">Fungsi reviver (parse) dan replacer (stringify) memberikan kontrol penuh atas proses.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Reviver: transform nilai saat parsing
+let json = '{"tgl":"2024-01-15","nilai":123}';
+let parsed = JSON.parse(json, (key, value) => {
+    if (key === "tgl") return new Date(value); // convert ke Date object
+    return value;
+});
+console.log(parsed.tgl instanceof Date); // true
+
+// Replacer: filter/transform saat stringify
+let data = {
+    nama: "Alice",
+    password: "secret123", // sensitif!
+    token: "abc-token"
+};
+let safeJson = JSON.stringify(data, (key, value) => {
+    if (key === "password" || key === "token") return undefined; // exclude
+    return value;
+});
+console.log(safeJson); // '{"nama":"Alice"}'</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Error Handling</h2>
+                <p class="mb-4 text-gray-200">JSON.parse bisa throw error jika string tidak valid. Always wrap in try-catch.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let invalidJson = "{ nama: 'Alice' }"; // single quotes - invalid JSON
+
+try {
+    let parsed = JSON.parse(invalidJson);
+    console.log(parsed);
+} catch (error) {
+    console.error("JSON tidak valid:", error);
+    // Handle error: default value, user notification, dll
+}
+
+// Validasi JSON sebelum parse
+function isValidJson(str: string): boolean {
+    try {
+        JSON.parse(str);
+        return true;
+    } catch {
+        return false;
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Circular References</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-6">
+                    <p class="text-red-200 text-sm">
+                        <i class="fas fa-times-circle mr-2"></i>
+                        <strong>DON'T:</strong> JSON.stringify akan throw <code>TypeError: cyclic object value</code> jika ada circular reference.
+                    </p>
+                    <pre class="text-red-200 text-sm mt-2"><code class="language-typescript">let a: any = {};
+let b: any = { parent: a };
+a.child = b; // circular!
+JSON.stringify(a); // TypeError!</code></pre>
+                </div>
+                <p class="text-gray-200">Gunakan replacer untuk handle circular, atau library seperti <code>flatted</code>.</p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Config Loader dengan JSON</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface AppConfig {
+    apiUrl: string;
+    timeout: number;
+    retries: number;
+    features: {
+        analytics: boolean;
+        darkMode: boolean;
+    };
+}
+
+// Load config dari JSON string
+function loadConfig(json: string): AppConfig {
+    try {
+        let parsed = JSON.parse(json);
+        // Validate required fields
+        if (!parsed.apiUrl || typeof parsed.apiUrl !== "string") {
+            throw new Error("Invalid apiUrl");
+        }
+        return parsed as AppConfig;
+    } catch (error) {
+        console.error("Failed to load config:", error);
+        // Return default config
+        return {
+            apiUrl: "http://localhost:3000",
+            timeout: 5000,
+            retries: 3,
+            features: { analytics: false, darkMode: false }
+        };
+    }
+}
+
+let configJson = `{
+    "apiUrl": "https://api.example.com",
+    "timeout": 10000,
+    "retries": 5,
+    "features": {
+        "analytics": true,
+        "darkMode": true
+    }
+}`;
+
+let config = loadConfig(configJson);
+console.log(config.apiUrl); // "https://api.example.com"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li><code>JSON.stringify(obj)</code> - object ke JSON string</li>
+                    <li><code>JSON.parse(json)</code> - JSON string ke object</li>
+                    <li>Gunakan type assertion <code>as T</code> atau type guard untuk keamanan tipe</li>
+                    <li>Replacer (stringify) dan reviver (parse) untuk transformasi</li>
+                    <li>Always handle errors dengan try-catch pada parse</li>
+                    <li>JSON tidak support <code>undefined</code>, <code>function</code>, <code>symbol</code></li>
+                    <li>Hati-hati circular references - akan error saat stringify</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="set-map-weakmap.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Set, Map, WeakMap
+                </a>
+                <a href="function-types.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Function Types<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod2-lesson6-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod2-lesson6-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 JSON Serialisasi & Parsing selesai! Modul 2 (6 lessons) telah diselesaikan.');
+        }
+    </script>
 </body>
 </html>

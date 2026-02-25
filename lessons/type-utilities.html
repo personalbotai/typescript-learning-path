@@ -2,30 +2,288 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Type Utilities: Partial, Pick, Omit, Record - Modul 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .utility { background: #374151; padding: 1rem; border-radius: 8px; margin: 0.75rem 0; border-left: 4px solid #10b981; }
+        .utility-name { color: #34d399; font-weight: 700; font-family: monospace; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Type Utilities: Partial, Pick, Omit, Record</h1>
-        <p class="text-gray-300 mb-4">Modul 2: Struktur Data & Algoritma</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Type Utilities: Partial, Pick, Omit, Record</h1>
+            <p class="text-gray-300 text-lg">Modul 2: Struktur Data & Algoritma</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Type Utilities: Partial, Pick, Omit, Record
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Type Utilities di TypeScript</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    TypeScript menyediakan <strong>utility types</strong> bawaan yang membantu kita memanipulasi tipe dengan cara yang aman dan reusable.Utility types ini adalah generic types yang sudah disediakan.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-box-open mr-2"></i>
+                        <strong>Konsep:</strong> Utility types melakukan transformasi pada tipe yang ada. Mereka mengembalikan tipe baru berdasarkan tipe input.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Partial&lt;T&gt;</h2>
+                <p class="mb-4 text-gray-200">Membuat semua properti dari <code>T</code> menjadi <strong>opsional</strong>.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface User {
+    id: number;
+    nama: string;
+    email: string;
+    umur: number;
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Partial<User> membuat semua properti opsional
+type PartialUser = Partial<User>;
+// Equivalent to:
+// type PartialUser = {
+//     id?: number;
+//     nama?: string;
+//     email?: string;
+//     umur?: number;
+// }
+
+// Use case: Update function yang menerima sebagian field
+function updateUser(id: number, updates: Partial<User>): User {
+    // fetch existing user...
+    let existing: User = { id, nama: "Alice", email: "alice@example.com", umur: 25 };
+    // Apply updates
+    Object.assign(existing, updates);
+    return existing;
+}
+
+// Bisa panggil dengan hanya satu field:
+updateUser(1, { nama: "Bob" }); // OK
+updateUser(1, { email: "new@example.com", umur: 30 }); // OK
+// updateUser(1, { invalid: "x" }); // Error - properti tidak ada di User</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Pick&lt;T, K&gt;</h2>
+                <p class="mb-4 text-gray-200">Pilih <strong>sebagian properti</strong> dari <code>T</code> berdasarkan union of keys <code>K</code>.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface User {
+    id: number;
+    nama: string;
+    email: string;
+    umur: number;
+    createdAt: Date;
+}
+
+// Pick hanya 'nama' dan 'email'
+type UserPreview = Pick<User, "nama" | "email">;
+// Equivalent to:
+// type UserPreview = { nama: string; email: string; }
+
+// Use case: DTO (Data Transfer Object) yang hanya perlu subset
+function sendUserPreview(user: User): UserPreview {
+    return { nama: user.nama, email: user.email };
+}
+
+let u: User = { id: 1, nama: "Ali", email: "ali@example.com", umur: 25, createdAt: new Date() };
+let preview = sendUserPreview(u);
+console.log(preview); // { nama: "Ali", email: "ali@example.com" }
+// preview.id; // Error! id tidak ada di UserPreview</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Omit&lt;T, K&gt;</h2>
+                <p class="mb-4 text-gray-200">Kebalikan dari <code>Pick</code>. Kecualikan (exclude) properti <code>K</code> dari <code>T</code>.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface User {
+    id: number;
+    nama: string;
+    email: string;
+    password: string; // sensitif
+}
+
+// Omit password untuk response API public
+type PublicUser = Omit<User, "password">;
+// Equivalent to:
+// type PublicUser = { id: number; nama: string; email: string; }
+
+function toPublicUser(user: User): PublicUser {
+    const { password, ...publicData } = user;
+    return publicData;
+}
+
+let user: User = { id: 1, nama: "Alice", email: "alice@example.com", password: "secret123" };
+let publicUser = toPublicUser(user);
+console.log(publicUser); // { id:1, nama:"Alice", email:"alice@example.com" }
+// publicUser.password; // Error! password excluded</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Record&lt;K extends keyof any, T&gt;</h2>
+                <p class="mb-4 text-gray-200">Membuat tipe object dengan keys bertipe <code>K</code> dan semua values bertipe <code>T</code>.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Record dengan keys string
+type StringMap = Record<string, number>;
+let scores: StringMap = {
+    alice: 95,
+    bob: 87,
+    charlie: 92
+};
+
+// Record dengan keys literal union
+type Role = "admin" | "user" | "guest";
+type Permissions = Record<Role, boolean>;
+let perms: Permissions = {
+    admin: true,
+    user: true,
+    guest: false
+};
+
+// Convert array ke Record dengan key function
+interface Person {
+    id: number;
+    nama: string;
+}
+let people: Person[] = [
+    { id: 1, nama: "Ali" },
+    { id: 2, nama: "Budi" }
+];
+let peopleById: Record<number, Person> = {};
+for (let p of people) {
+    peopleById[p.id] = p;
+}
+// peopleById: {1: {id:1, nama:"Ali"}, 2: {id:2, nama:"Budi"}}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Other Utility Types</h2>
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Required&lt;T&gt;</h3>
+                        <p class="text-gray-300 text-sm">Membuat semua properti menjadi required (kebalikan Partial).</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">type RequiredUser = Required<Partial<User>>;</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">Readonly&lt;T&gt;</h3>
+                        <p class="text-gray-300 text-sm">Membuat semua properti readonly.</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">type ReadonlyUser = Readonly<User>;</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">NonNullable&lt;T&gt;</h3>
+                        <p class="text-gray-300 text-sm">Exclude null dan undefined dari tipe T.</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">type NotNull = NonNullable<string | null | undefined>; // string</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">ReturnType&lt;T&gt;</h3>
+                        <p class="text-gray-300 text-sm">Mendapatkan tipe return dari function type.</p>
+                        <pre class="text-xs mt-2"><code class="language-typescript">function foo(): number { return 42; }
+type FooReturn = ReturnType<typeof foo>; // number</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: API Response Types</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// API response biasanya punya metadata dan data
+interface ApiResponse<T> {
+    data: T;
+    status: number;
+    message: string;
+    timestamp: Date;
+}
+
+// Untuk list endpoint, kita cuma butuh data
+interface User { id: number; nama: string; }
+type UserListResponse = Pick<ApiResponse<User[]>, "data">;
+// Equivalent: { data: User[] }
+
+// Untuk create/update, kita cuma butuh subset fields
+type CreateUserDto = Omit<User, "id">; // { nama: string } - tanpa id
+type UpdateUserDto = Partial<User>;     // semua opsional
+
+// Build DTO dari form input (partial)
+function buildUpdateDto(input: Partial<User>): UpdateUserDto {
+    return input;
+}
+
+let dto = buildUpdateDto({ nama: "New Name" }); // OK</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li><code>Partial&lt;T&gt;</code> - semua properti opsional</li>
+                    <li><code>Pick&lt;T, K&gt;</code> - pilih subset properti</li>
+                    <li><code>Omit&lt;T, K&gt;</code> - kecualikan properti</li>
+                    <li><code>Record&lt;K, T&gt;</code> - object dengan keys K dan values T</li>
+                    <li>Lainnya: <code>Required</code>, <code>Readonly</code>, <code>NonNullable</code>, <code>ReturnType</code></li>
+                    <li>Utility types sangat berguna untuk DTO, API contracts, dan form handling</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="generics.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Generics
+                </a>
+                <a href="conditional-types.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Conditional Types<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod2-lesson4-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod2-lesson4-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Type Utilities selesai!');
+        }
+    </script>
 </body>
 </html>

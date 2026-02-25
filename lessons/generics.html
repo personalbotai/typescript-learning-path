@@ -2,30 +2,329 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generics: Kode yang Fleksibel dan Reusable - Modul 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .highlight { color: #fbbf24; font-weight: 700; }
+        .type-param { color: #c084fc; font-style: italic; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Generics: Kode yang Fleksibel dan Reusable</h1>
-        <p class="text-gray-300 mb-4">Modul 2: Struktur Data & Algoritma</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>25 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Generics: Kode yang Fleksibel dan Reusable</h1>
+            <p class="text-gray-300 text-lg">Modul 2: Struktur Data & Algoritma</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Generics: Kode yang Fleksibel dan Reusable
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Apa itu Generics?</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Generics memungkinkan kita menulis <strong class="highlight">tipe yang bersifat parameter</strong>. Dengan generics, kita bisa membuat function, interface, atau class yang bekerja dengan berbagai tipe tanpa mengorbankan type safety.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-code mr-2"></i>
+                        <strong>Konsep:</strong> Mirip seperti parameter function, tapi untuk tipe. Kita punya <em>type parameter</em> (biasanya <code>T</code>, <code>U</code>, <code>V</code>) yang bisa diisi dengan tipe manapun saat pemakaian.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Generic Function</h2>
+                <p class="mb-4 text-gray-200">Contoh: function yang mengembalikan nilai yang sama tipe dengan inputnya.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Non-generic: hanya untuk string
+function echoString(x: string): string {
+    return x;
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Generic: bisa untuk <span class="highlight">any type</span>
+function identity<T>(x: T): T {
+    return x;
+}
+
+// Pemakaian:
+let a = identity<string>("hello");    // T diisi string
+let b = identity<number>(42);         // T diisi number
+let c = identity("hi");               // Type inference: T = string
+let d = identity(true);               // T = boolean
+
+// Function dengan multiple type parameters
+function swap<T, U>(a: T, b: U): [U, T] {
+    return [b, a];
+}
+let swapped = swap("text", 123);     // ["text", 123]? actually [123, "text"]
+// Hasil: [123, "text"] (U=number, T=string)</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Generic Interface</h2>
+                <p class="mb-4 text-gray-200">Interface bisa memiliki type parameters.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Generic interface untuk pair values
+interface Pair<T, U> {
+    first: T;
+    second: U;
+}
+
+let p1: Pair<string, number> = { first: "age", second: 25 };
+let p2: Pair<number, boolean> = { first: 1, second: true };
+
+// Generic interface untuk container
+interface Box<T> {
+    value: T;
+    isEmpty: boolean;
+}
+
+let box1: Box<string> = { value: "hello", isEmpty: false };
+let box2: Box<number[]> = { value: [1,2,3], isEmpty: false };</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Generic Class</h2>
+                <p class="mb-4 text-gray-200">Class juga bisa generic, misalnya untuk collection.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">class Stack<T> {
+    private items: T[] = [];
+
+    push(item: T): void {
+        this.items.push(item);
+    }
+
+    pop(): T | undefined {
+        return this.items.pop();
+    }
+
+    peek(): T | undefined {
+        return this.items[this.items.length - 1];
+    }
+
+    size(): number {
+        return this.items.length;
+    }
+}
+
+// Usage:
+let numberStack = new Stack<number>();
+numberStack.push(1);
+numberStack.push(2);
+console.log(numberStack.pop()); // 2
+
+let stringStack = new Stack<string>();
+stringStack.push("a");
+stringStack.push("b");</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Generic Constraints (Keterbatasan Tipe)</h2>
+                <p class="mb-4 text-gray-200">Kadang kita butuh membatasi tipe parameter hanya untuk tipe tertentu. Gunakan <code>extends</code>.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Tanpa constraint, tidak bisa akses properti object
+function logLength<T>(arg: T): T {
+    // console.log(arg.length); // Error! T mungkin tidak punya length
+    return arg;
+}
+
+// Dengan constraint: T harus memiliki property 'length'
+interface Lengthwise {
+    length: number;
+}
+function logLength2<T extends Lengthwise>(arg: T): T {
+    console.log(arg.length); // OK! T pasti punya length
+    return arg;
+}
+
+// Contoh penggunaan:
+logLength2("hello");      // OK, string punya length
+logLength2([1,2,3]);      // OK, array punya length
+logLength2({ length: 10 }); // OK, object dengan length
+// logLength2(123);        // Error! number tidak punya length</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Keyof dan Type Inference</h2>
+                <p class="mb-4 text-gray-200">TypeScript punya operator <code>keyof</code> untuk mendapatkan union type dari property names.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface Person {
+    nama: string;
+    umur: number;
+    email: string;
+}
+
+// Union type dari keys: "nama" | "umur" | "email"
+type PersonKeys = keyof Person;
+
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+    return obj[key];
+}
+
+let person: Person = { nama: "Ali", umur: 25, email: "ali@example.com" };
+let name: string = getProperty(person, "nama"); // OK
+let age: number = getProperty(person, "umur"); // OK
+// getProperty(person, "invalid"); // Error! bukan keyof Person</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">6. Default Type Parameters</h2>
+                <p class="mb-4 text-gray-200">Beri default value untuk type parameter agar tidak selalu harus ditulis.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Generic dengan default type
+class Container<T = string> {
+    content: T;
+    constructor(content: T) {
+        this.content = content;
+    }
+}
+
+// Dengan default, bisa tanpa specify tipe
+let c1 = new Container("hello"); // T = string (default)
+let c2 = new Container<number>(123); // T = number (override)
+
+// Default bisa juga untuk multiple parameters
+interface Dictionary<T = any, U = any> {
+    [key: string]: T | U;
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Generic Repository Pattern</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Generic repository untuk CRUD operations
+interface Repository<T, ID> {
+    findById(id: ID): T | undefined;
+    save(entity: T): ID;
+    update(id: ID, entity: Partial<T>): boolean;
+    delete(id: ID): boolean;
+}
+
+// Implementasi untuk User
+interface User {
+    id: number;
+    nama: string;
+    email: string;
+}
+
+class UserRepository implements Repository<User, number> {
+    private users: Map<number, User> = new Map();
+
+    findById(id: number): User | undefined {
+        return this.users.get(id);
+    }
+
+    save(user: User): number {
+        let id = user.id || Date.now();
+        user.id = id;
+        this.users.set(id, user);
+        return id;
+    }
+
+    update(id: number, updates: Partial<User>): boolean {
+        let existing = this.users.get(id);
+        if (!existing) return false;
+        Object.assign(existing, updates);
+        return true;
+    }
+
+    delete(id: number): boolean {
+        return this.users.delete(id);
+    }
+}
+
+let repo = new UserRepository();
+repo.save({ id: 1, nama: "Alice", email: "alice@example.com" });
+console.log(repo.findById(1)); // { id:1, nama:"Alice", email:"..." }</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Kesalahan Umum</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Forgetting constraints</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">function getLength<T>(arg: T) {
+    return arg.length; // Error: T可能没有length
+}</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Using any</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">function badGeneric<T>(x: T): any { return x; }
+// Avoid any - defeats purpose of generics</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Generics memungkinkan kode yang <strong>tipe-agnostic</strong> namun tetap type-safe</li>
+                    <li>Sintaks: <code>function identity&lt;T&gt;(arg: T): T</code></li>
+                    <li>Bisa digunakan di function, interface, class</li>
+                    <li>Gunakan <code>extends</code> untuk constraint (misal <code>T extends { length: number }</code>)</li>
+                    <li><code>keyof T</code> untuk mendapatkan union property names</li>
+                    <li>Default type parameters: <code>&lt;T = string&gt;</code></li>
+                    <li>Generics adalah tools utama untuk membuat library reusable</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="json-serialisasi.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: JSON Serialisasi
+                </a>
+                <a href="type-utilities.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Type Utilities<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod2-lesson3-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod2-lesson3-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Generics selesai!');
+        }
+    </script>
 </body>
 </html>
