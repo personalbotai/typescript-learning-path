@@ -2,30 +2,322 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Array dan Tuple - Modul 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .array-visual { display: flex; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
+        .array-item { background: #3b82f6; color: white; padding: 0.5rem 0.75rem; border-radius: 6px; font-family: monospace; min-width: 40px; text-align: center; }
+        .tuple-visual { display: inline-flex; gap: 0.25rem; margin: 0.5rem; }
+        .tuple-item { background: #10b981; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-family: monospace; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Array dan Tuple</h1>
-        <p class="text-gray-300 mb-4">Modul 1: Dasar-Dasar TypeScript</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>15 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Array dan Tuple</h1>
+            <p class="text-gray-300 text-lg">Modul 1: Dasar-Dasar TypeScript</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Array dan Tuple
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Array di TypeScript</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Array adalah kumpulan nilai yang disimpan dalam urutan tertentu. TypeScript menambahkan type annotation untuk array, sehingga kita bisa menentukan tipe elemen yang diizinkan.
+                </p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Deklarasi Array</h2>
+                <p class="mb-4 text-gray-200">Beberapa cara mendeklarasikan array dengan tipe:</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Array of number
+let scores: number[] = [95, 88, 76, 92];
+// Atau
+let scores2: Array&lt;number&gt; = [95, 88, 76, 92];
+
+// Array of string
+let names: string[] = ["Alice", "Bob", "Charlie"];
+
+// Array of boolean
+let flags: boolean[] = [true, false, true];
+
+// Array bisa kosong
+let empty: number[] = [];
+
+// Mixed types (hindari jika memungkinkan)
+let mixed: (string | number)[] = ["text", 123];</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <p class="text-yellow-200 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>Hindari any[]:</strong> Jangan gunakan <code>any[]</code> kecuali benar-benar perlu. TypeScript kehilangan manfaat type-checking.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Akses dan Modifikasi Array</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let fruits: string[] = ["Apple", "Banana", "Cherry"];
+
+// Akses elemen (zero-based index)
+console.log(fruits[0]); // "Apple"
+console.log(fruits[2]); // "Cherry"
+
+// Modifikasi elemen
+fruits[1] = "Blueberry";
+console.log(fruits); // ["Apple", "Blueberry", "Cherry"]
+
+// Panjang array
+console.log(fruits.length); // 3
+
+// Tambah elemen di akhir
+fruits.push("Durian");
+console.log(fruits); // ["Apple", "Blueberry", "Cherry", "Durian"]
+
+// Hapus elemen terakhir
+let last = fruits.pop();
+console.log(last); // "Durian"
+
+// Tambah di awal
+fruits.unshift("Avocado");
+console.log(fruits); // ["Avocado", "Apple", ...]
+
+// Hapus di awal
+let first = fruits.shift();
+console.log(first); // "Avocado"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Array Methods Penting</h2>
+                <p class="mb-4 text-gray-200">TypeScript memiliki method built-in untuk array (sama seperti JavaScript).</p>
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">map()</h3>
+                        <p class="text-gray-300 text-sm mb-2">Transform setiap elemen</p>
+                        <pre class="text-xs"><code class="language-typescript">let nums = [1,2,3];
+let doubled = nums.map(x => x*2);
+// [2,4,6]</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">filter()</h3>
+                        <p class="text-gray-300 text-sm mb-2">Saring elemen berdasarkan kondisi</p>
+                        <pre class="text-xs"><code class="language-typescript">let nums = [1,2,3,4];
+let evens = nums.filter(x => x%2===0);
+// [2,4]</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">reduce()</h3>
+                        <p class="text-gray-300 text-sm mb-2">Kumpulkan ke satu nilai</p>
+                        <pre class="text-xs"><code class="language-typescript">let nums = [1,2,3,4];
+let sum = nums.reduce((a,b) => a+b, 0);
+// 10</code></pre>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded">
+                        <h3 class="text-cyan-300 font-semibold mb-2">find()</h3>
+                        <p class="text-gray-300 text-sm mb-2">Cari elemen pertama yang cocok</p>
+                        <pre class="text-xs"><code class="language-typescript">let nums = [1,2,3,4];
+let found = nums.find(x => x>2);
+// 3</code></pre>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let numbers: number[] = [1, 2, 3, 4, 5];
+
+// map: kalikan setiap angka dengan 2
+let doubled: number[] = numbers.map(n => n * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+
+// filter: ambil angka genap
+let evens: number[] = numbers.filter(n => n % 2 === 0);
+console.log(evens); // [2, 4]
+
+// reduce: jumlahkan semua
+let sum: number = numbers.reduce((acc, n) => acc + n, 0);
+console.log(sum); // 15
+
+// find: cari angka pertama > 3
+let found: number | undefined = numbers.find(n => n > 3);
+console.log(found); // 4</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Tuple (Array dengan Fixed Tipe dan Length)</h2>
+                <p class="mb-4 text-gray-200">Tuple adalah array dengan jumlah elemen tetap dan tipe tertentu untuk setiap posisi. Berguna untuk data structur seperti koordinat atau pasangan nilai.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Tuple: 2 elemen, pertama string, kedua number
+let person: [string, number] = ["Alice", 25];
+console.log(person[0]); // "Alice" (string)
+console.log(person[1]); // 25 (number)
+
+// Tuple dengan 3 elemen
+let coordinate: [number, number, number] = [10, 20, 30];
+
+// Bisa akses dengan destructuring
+let [x, y, z] = coordinate;
+console.log(x, y, z); // 10 20 30
+
+// TypeScript mengecek tipe setiap posisi
+person = ["Bob", "tiga puluh"]; // Error! Harus number untuk posisi 2
+
+// Tuple bisa memiliki optional elements
+let optionalTuple: [string, number?] = ["satu"]; // OK, kedua opsional</code></pre>
+                </div>
+                <div class="bg-green-900/20 border-l-4 border-green-500 p-4 rounded mb-6">
+                    <p class="text-green-200 text-sm">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <strong>Use case:</strong> Gunakan tuple untuk data yang memiliki struktur tetap, seperti <code>[tanggal: string, waktu: string]</code> atau <code>[nama: string, usia: number]</code>.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Array vs Tuple</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
+                        <thead class="bg-gray-700">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-cyan-300">Feature</th>
+                                <th class="px-4 py-2 text-left text-cyan-300">Array</th>
+                                <th class="px-4 py-2 text-left text-cyan-300">Tuple</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-200">
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">Length</td>
+                                <td class="px-4 py-2">Flexible (bisa grow/shrink)</td>
+                                <td class="px-4 py-2">Fixed (ditentukan saat deklarasi)</td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">Element Types</td>
+                                <td class="px-4 py-2">Semua elemen sama (homogen)</td>
+                                <td class="px-4 py-2">Setiap posisi bisa berbeda (heterogen)</td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">Use Case</td>
+                                <td class="px-4 py-2">Koleksi data serupa</td>
+                                <td class="px-4 py-2">Data dengan struktur tetap (pair, triple)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Manipulasi Array</h2>
+                <p class="mb-4 text-gray-200">Buat fungsi untuk mengubah array angka menjadi array baru dengan nilai-nilai yang sudah diproses.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">function processScores(scores: number[]): { avg: number, max: number, min: number } {
+    if (scores.length === 0) {
+        throw new Error("Array tidak boleh kosong");
+    }
+
+    let sum: number = 0;
+    let max: number = scores[0];
+    let min: number = scores[0];
+
+    for (let score of scores) {
+        sum += score;
+        if (score > max) max = score;
+        if (score < min) min = score;
+    }
+
+    let avg: number = sum / scores.length;
+
+    return { avg, max, min };
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+let data = [85, 90, 78, 92, 88];
+let result = processScores(data);
+console.log(result);
+// { avg: 86.6, max: 92, min: 78 }</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Kesalahan Umum</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Out of bounds</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">let arr = [1,2,3];
+console.log(arr[5]); // undefined, bukan error!</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Mutasi yang tidak diinginkan</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">let original = [1,2,3];
+let copy = original; // Ini salinan referensi, bukan deep copy!
+copy.push(4);
+console.log(original); // [1,2,3,4] - original ikut berubah!</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Array: kumpulan elemen homogen dengan length dinamis</li>
+                    <li>Deklarasi: <code>number[]</code> atau <code>Array&lt;number&gt;</code></li>
+                    <li>Tuple: array dengan panjang dan tipe tetap per posisi, <code>[string, number]</code></li>
+                    <li>Gunakan array untuk koleksi data serupa, tuple untuk data berstruktur tetap</li>
+                    <li>Pelajari method built-in: <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>find</code></li>
+                    <li>Hati-hati dengan out-of-bounds dan mutasi tidak sengaja</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="perulangan.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Perulangan
+                </a>
+                <a href="object-dan-type-literals.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Object dan Type Literals<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod1-lesson7-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod1-lesson7-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Array dan Tuple selesai!');
+        }
+    </script>
 </body>
 </html>

@@ -2,30 +2,343 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Array Methods Lengkap (map, filter, reduce, dll) - Modul 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Methods Lengkap - Modul 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .method-card { background: #374151; padding: 1rem; border-radius: 8px; margin: 0.75rem 0; border-left: 4px solid #3b82f6; }
+        .method-name { color: #60a5fa; font-weight: 700; font-family: monospace; }
+        .signature { color: #a78bfa; font-family: monospace; font-size: 0.9rem; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Array Methods Lengkap (map, filter, reduce, dll)</h1>
-        <p class="text-gray-300 mb-4">Modul 2: Struktur Data & Algoritma</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Array Methods Lengkap (map, filter, reduce, dll)</h1>
+            <p class="text-gray-300 text-lg">Modul 2: Struktur Data & Algoritma</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Array Methods Lengkap (map, filter, reduce, dll)
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Functional Array Methods</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    TypeScript (seperti JavaScript) menyediakan banyak method built-in untuk array yang membuat manipulasi data menjadi lebih declarative dan powerful. Method-method ini biasanya mengembalikan array baru tanpa mengubah array asli (immutable).
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-magic mr-2"></i>
+                        <strong>Functional Programming:</strong> Method seperti <code>map</code>, <code>filter</code>, <code>reduce</code> adalah basic building blocks untuk functional style. Mereka menerima callback function dan mengembalikan hasil baru.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. map()</h2>
+                <p class="mb-4 text-gray-200">Transform setiap elemen array menjadi nilai baru. <strong>Tidak mengubah array asli.</strong></p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let numbers: number[] = [1, 2, 3, 4, 5];
+
+// Kali setiap angka dengan 2
+let doubled: number[] = numbers.map(n => n * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+console.log(numbers); // [1, 2, 3, 4, 5] (unchanged)
+
+// Konversi ke string
+let strings: string[] = numbers.map(n => `Angka ${n}`);
+console.log(strings); // ["Angka 1", "Angka 2", ...]
+
+// Dari object ke array string
+let users = [
+    { nama: "Ali", umur: 20 },
+    { nama: "Budi", umur: 25 }
+];
+let names: string[] = users.map(u => u.nama);
+console.log(names); // ["Ali", "Budi"]</code></pre>
+                </div>
+                <div class="method-card">
+                    <div class="method-name">map&lt;U&gt;(callback: (value: T, index: number, array: T[]) => U): U[]</div>
+                    <p class="text-gray-300 text-sm mt-2">Mengembalikan array baru dengan hasil callback untuk setiap elemen.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. filter()</h2>
+                <p class="mb-4 text-gray-200">Saring elemen berdasarkan kondisi. Hanya elemen yang membuat callback return true yang dimasukkan.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let numbers: number[] = [1, 2, 3, 4, 5, 6];
+
+// Ambil angka genap
+let evens: number[] = numbers.filter(n => n % 2 === 0);
+console.log(evens); // [2, 4, 6]
+
+// Ambil angka > 3
+let greater: number[] = numbers.filter(n => n > 3);
+console.log(greater); // [4, 5, 6]
+
+// Dari array object
+let users = [
+    { nama: "Ali", umur: 17 },
+    { nama: "Budi", umur: 21 },
+    { nama: "Citra", umur: 19 }
+];
+let adults = users.filter(u => u.umur >= 21);
+console.log(adults); // [{ nama: "Budi", umur: 21 }]</code></pre>
+                </div>
+                <div class="method-card">
+                    <div class="method-name">filter(callback: (value: T, index: number, array: T[]) => boolean): T[]</div>
+                    <p class="text-gray-300 text-sm mt-2">Mengembalikan array baru dengan elemen yang lolos filter.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. reduce()</h2>
+                <p class="mb-4 text-gray-200">Kumpulkan semua elemen menjadi satu nilai tunggal (accumulator). Sangat fleksibel untuk summing, grouping, dll.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let numbers: number[] = [1, 2, 3, 4, 5];
+
+// Jumlahkan semua
+let sum: number = numbers.reduce((acc, n) => acc + n, 0);
+console.log(sum); // 15
+
+// Cari maksimum
+let max: number = numbers.reduce((acc, n) => (n > acc ? n : acc), numbers[0]);
+console.log(max); // 5
+
+// Hitung frekuensi
+let chars: string[] = ['a', 'b', 'a', 'c', 'b', 'a'];
+let freq: { [key: string]: number } = chars.reduce((acc, char) => {
+    acc[char] = (acc[char] || 0) + 1;
+    return acc;
+}, {});
+console.log(freq); // { a: 3, b: 2, c: 1 }</code></pre>
+                </div>
+                <div class="method-card">
+                    <div class="method-name">reduce&lt;U&gt;(callback: (acc: U, value: T, index: number, array: T[]) => U, initial: U): U</div>
+                    <p class="text-gray-300 text-sm mt-2">Mengembalikan nilai akumulasi setelah iterasi semua elemen.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. find() dan findIndex()</h2>
+                <p class="mb-4 text-gray-200"><code>find()</code> mengembalikan <strong>elemen pertama</strong> yang memenuhi kondisi. <code>findIndex()</code> mengembalikan indeksnya.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let numbers: number[] = [1, 2, 3, 4, 5];
+
+// Cari angka pertama > 3
+let found: number | undefined = numbers.find(n => n > 3);
+console.log(found); // 4
+
+let idx: number = numbers.findIndex(n => n > 3);
+console.log(idx); // 3 (indeks angka 4)
+
+// Jika tidak ditemukan,返回 undefined / -1
+let notFound: number | undefined = numbers.find(n => n > 10);
+console.log(notFound); // undefined
+
+let notFoundIdx: number = numbers.findIndex(n => n > 10);
+console.log(notFoundIdx); // -1</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. some() dan every()</h2>
+                <p class="mb-4 text-gray-200"><code>some()</code> mengecek apakah <strong>setidaknya satu</strong> elemen memenuhi kondisi. <code>every()</code> mengecek apakah <strong>semua</strong> elemen memenuhi.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let numbers: number[] = [1, 2, 3, 4, 5];
+
+// Ada yang genap?
+let adaGenap: boolean = numbers.some(n => n % 2 === 0);
+console.log(adaGenap); // true
+
+// Semua positif?
+let semuaPositif: boolean = numbers.every(n => n > 0);
+console.log(semuaPositif); // true
+
+// Semua > 3?
+let semuaLebihDari3: boolean = numbers.every(n => n > 3);
+console.log(semuaLebihDari3); // false</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">6. sort()</h2>
+                <p class="mb-4 text-gray-200">Mengurutkan array <strong>in-place</strong> (mengubah array asli). Hati-hati karena default sort adalah sebagai string!</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let numbers: number[] = [3, 1, 4, 1, 5];
+
+// SALAH: default sort sebagai string
+numbers.sort();
+console.log(numbers); // [1, 1, 3, 4, 5] - OK untuk angka kecil, tapi tidak selalu
+
+// BENAR: berikan compare function
+numbers.sort((a, b) => a - b); // ascending
+console.log(numbers); // [1, 1, 3, 4, 5]
+
+numbers.sort((a, b) => b - a); // descending
+console.log(numbers); // [5, 4, 3, 1, 1]
+
+// Sort string
+let fruits: string[] = ["cherry", "apple", "banana"];
+fruits.sort(); // alphabetical ascending
+console.log(fruits); // ["apple", "banana", "cherry"]</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-6">
+                    <p class="text-red-200 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>Never forget compare function for numbers!</strong> <code>arr.sort()</code> tanpa callback akan convert ke string dan mengurutkan lexicographically (e.g., [10, 2] → [10, 2] karena "10" < "2").
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">7. slice() dan splice()</h2>
+                <p class="mb-4 text-gray-200"><code>slice()</code> mengembalikan potongan array baru (immutable). <code>splice()</code> mengubah array asli (menghapus/tambahkan).</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let arr: number[] = [1, 2, 3, 4, 5];
+
+// slice(start, end?) - end eksklusif
+let part: number[] = arr.slice(1, 4);
+console.log(part); // [2, 3, 4]
+console.log(arr); // [1,2,3,4,5] unchanged
+
+// slice tanpa end: dari start sampai akhir
+let tail: number[] = arr.slice(2);
+console.log(tail); // [3,4,5]
+
+// clone array dengan slice
+let clone: number[] = arr.slice();
+
+// splice(start, deleteCount, ...items) - MUTATES array
+let removed: number[] = arr.splice(2, 2); // hapus 2 elemen dari index 2
+console.log(removed); // [3,4]
+console.log(arr); // [1,2,5] - arr berubah!
+
+// splice juga bisa insert
+arr.splice(1, 0, 99); // insert 99 di index 1
+console.log(arr); // [1,99,2,5]</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">8. concat() dan join()</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let a: number[] = [1, 2];
+let b: number[] = [3, 4];
+
+// concat: gabung array (immutable)
+let combined: number[] = a.concat(b);
+console.log(combined); // [1,2,3,4]
+console.log(a); // [1,2] unchanged
+
+// join: convert ke string dengan separator
+let str: string = combined.join("-");
+console.log(str); // "1-2-3-4"
+
+let csv: string = combined.join(",");
+console.log(csv); // "1,2,3,4"</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Pipeline Data dengan Functional Methods</h2>
+                <p class="mb-4 text-gray-200">Gunakan kombinasi map, filter, reduce untuk memproses data mahasiswa.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface Mahasiswa {
+    nama: string;
+    nilai: number[];
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+let data: Mahasiswa[] = [
+    { nama: "Ali", nilai: [80, 85, 90] },
+    { nama: "Budi", nilai: [70, 75, 65] },
+    { nama: "Citra", nilai: [90, 95, 92] }
+];
+
+// 1. Hitung IPK setiap mahasiswa
+let ipk = data.map(m => ({
+    nama: m.nama,
+    ipk: m.nilai.reduce((a, b) => a + b, 0) / m.nilai.length
+}));
+// [{nama:"Ali", ipk:85}, {nama:"Budi", ipk:70}, {nama:"Citra", ipk:92.33}]
+
+// 2. Filter yang IPK >= 80
+let cumlaude = ipk.filter(m => m.ipk >= 80);
+// [{nama:"Ali",...}, {nama:"Citra",...}]
+
+// 3. Ekstrak hanya nama cumlaude
+let namaCumlaude = cumlaude.map(m => m.nama);
+console.log(namaCumlaude); // ["Ali", "Citra"]</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li><code>map()</code> - transform elemen</li>
+                    <li><code>filter()</code> - saring elemen</li>
+                    <li><code>reduce()</code> - kumpulkan ke satu nilai</li>
+                    <li><code>find()</code> / <code>findIndex()</code> - cari elemen/indeks pertama</li>
+                    <li><code>some()</code> / <code>every()</code> - cek kondisi parsial/total</li>
+                    <li><code>sort()</code> - urutkan (berikan compare function untuk numbers!)</li>
+                    <li><code>slice()</code> - potong (immutable), <code>splice()</code> - hapus/tambah (mutable)</li>
+                    <li><code>concat()</code> - gabung array, <code>join()</code> - ke string</li>
+                    <li>Kombinasi method-function enables powerful data pipelines</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="object-dan-type-literals.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Object dan Type Literals (Modul 1)
+                </a>
+                <a href="set-map-weakmap.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Set, Map, dan WeakMap<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod2-lesson1-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod2-lesson1-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Array Methods Lengkap selesai!');
+        }
+    </script>
 </body>
 </html>

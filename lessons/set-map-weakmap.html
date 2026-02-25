@@ -2,30 +2,336 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set, Map, dan WeakMap - Modul 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .collection-box { background: #374151; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+        .item { display: inline-block; background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; margin: 0.25rem; font-size: 0.85rem; }
+        .key { background: #10b981; }
+        .value { background: #f59e0b; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Set, Map, dan WeakMap</h1>
-        <p class="text-gray-300 mb-4">Modul 2: Struktur Data & Algoritma</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>15 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Set, Map, dan WeakMap</h1>
+            <p class="text-gray-300 text-lg">Modul 2: Struktur Data & Algoritma</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Set, Map, dan WeakMap
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Collection Types di TypeScript</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Selain array, TypeScript menyediakan collection types lain yang lebih specialized: <code>Set</code>, <code>Map</code>, dan <code>WeakMap</code>. Mereka memiliki karakteristik unik untuk use-case tertentu.
+                </p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Set</h2>
+                <p class="mb-4 text-gray-200"><code>Set</code> adalah koleksi <strong>unik</strong> nilai. Tidak ada duplikat. Nilai bisa berupa primitive atau object.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Membuat Set
+let numbers = new Set<number>([1, 2, 3, 4, 5, 5, 5]);
+console.log(numbers); // Set { 1, 2, 3, 4, 5 } - duplikat otomatis dihapus
+
+// Tambah nilai
+numbers.add(6);
+numbers.add(2); // tidak ditambahkan karena sudah ada
+console.log(numbers.size); // 6
+
+// Cek keberadaan
+console.log(numbers.has(3)); // true
+console.log(numbers.has(10)); // false
+
+// Hapus nilai
+numbers.delete(1);
+console.log(numbers.has(1)); // false
+
+// Clear semua
+numbers.clear();
+console.log(numbers.size); // 0
+
+// Iterasi
+let fruits = new Set<string>(["apple", "banana", "cherry"]);
+for (let fruit of fruits) {
+    console.log(fruit);
+}
+// apple, banana, cherry (urutan insert)
+
+// Convert ke array
+let arr: string[] = Array.from(fruits);
+console.log(arr); // ["apple", "banana", "cherry"]</code></pre>
+                </div>
+                <div class="bg-green-900/20 border-l-4 border-green-500 p-4 rounded mb-6">
+                    <p class="text-green-200 text-sm">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <strong>Use case:</strong> Gunakan Set ketika Anda butuh koleksi <em>unik</em> tanpa duplikat, misalnya daftar ID, tag, atau username yang sudah diproses.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Map</h2>
+                <p class="mb-4 text-gray-200"><code>Map</code> adalah koleksi pasangan <strong>key-value</strong> di mana <strong>key bisa berupa tipe apa pun</strong> (tidak hanya string/symbol seperti object).</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Membuat Map
+let scores = new Map<string, number>();
+scores.set("Alice", 95);
+scores.set("Bob", 87);
+scores.set("Charlie", 92);
+
+// Ambil nilai
+console.log(scores.get("Alice")); // 95
+console.log(scores.get("David")); // undefined
+
+// Cek key
+console.log(scores.has("Bob")); // true
+
+// Ukuran
+console.log(scores.size); // 3
+
+// Hapus
+scores.delete("Bob");
+console.log(scores.has("Bob")); // false
+
+// Iterasi
+for (let [name, score] of scores) {
+    console.log(`${name}: ${score}`);
+}
+// Alice: 95, Charlie: 92
+
+// Keys, Values, Entries
+console.log([...scores.keys()]); // ["Alice", "Charlie"]
+console.log([...scores.values()]); // [95, 92]
+console.log([...scores.entries()]); // [["Alice",95],["Charlie",92]]
+
+// Clear
+scores.clear();</code></pre>
+                </div>
+                <div class="method-card" style="border-left-color: #10b981;">
+                    <div class="method-name" style="color: #34d399;">Map&lt;K, V&gt;</div>
+                    <p class="text-gray-300 text-sm mt-2">Key bisa berupa object, number, boolean - apa saja. Perfect untuk dictionary dinamis.</p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. WeakMap</h2>
+                <p class="mb-4 text-gray-200"><code>WeakMap</code> mirip Map, tetapi <strong>key harus berupa object</strong> dan <strong>tidak mencegah garbage collection</strong>. Jika key tidak direferensi lagi, entry akan dihapus otomatis.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// WeakMap: key harus object
+let weakMap = new WeakMap<object, string>();
+
+let obj1 = { id: 1 };
+let obj2 = { id: 2 };
+
+weakMap.set(obj1, "data untuk obj1");
+weakMap.set(obj2, "data untuk obj2");
+
+console.log(weakMap.get(obj1)); // "data untuk obj1"
+
+// Tidak ada .size, .clear(), .keys(), .values() karena weak
+// weakMap.size; // Error!
+
+// Hanya ada: get, set, has, delete
+
+// Jika obj1 tidak direferensi, entry akan dihapus oleh GC
+obj1 = null; // sekarang weakMap mungkin sudah kosong untuk key itu</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <p class="text-yellow-200 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>WeakMap use case:</strong> Simpan metadata tambahan untuk object tanpa mencegah object tersebut di-GC. Contoh: private data, cache per-instance.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Perbandingan: Object, Map, WeakMap</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
+                        <thead class="bg-gray-700">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-cyan-300">Feature</th>
+                                <th class="px-4 py-2 text-left text-cyan-300">Object</th>
+                                <th class="px-4 py-2 text-left text-cyan-300">Map</th>
+                                <th class="px-4 py-2 text-left text-cyan-300">WeakMap</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-200">
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">Key types</td>
+                                <td class="px-4 py-2">string | symbol</td>
+                                <td class="px-4 py-2"><strong>any</strong></td>
+                                <td class="px-4 py-2"><strong>object only</strong></td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">Key uniqueness</td>
+                                <td class="px-4 py-2">string keys</td>
+                                <td class="px-4 py-2">=== (strict)</td>
+                                <td class="px-4 py-2">=== (object identity)</td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">Iteration order</td>
+                                <td class="px-4 py-2">No guaranteed</td>
+                                <td class="px-4 py-2">Insertion order</td>
+                                <td class="px-4 py-2">N/A (no iteration)</td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">Size property</td>
+                                <td class="px-4 py-2">Manual count</td>
+                                <td class="px-4 py-2"><code>.size</code></td>
+                                <td class="px-4 py-2">None</td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">Garbage collection</td>
+                                <td class="px-4 py-2">Prevents GC</td>
+                                <td class="px-4 py-2">Prevents GC</td>
+                                <td class="px-4 py-2"><strong>Does NOT prevent GC</strong></td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2">Use case</td>
+                                <td class="px-4 py-2">Simple dict, JSON</td>
+                                <td class="px-4 py-2">General key-value</td>
+                                <td class="px-4 py-2">Metadata, private data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Contoh Praktis: Cache dengan Map</h2>
+                <p class="mb-4 text-gray-200">Gunakan Map untuk membuat cache yang efisien.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Simple memoization cache
+let fibonacciCache = new Map<number, bigint>();
+
+function fibonacci(n: number): bigint {
+    // Cek cache
+    if (fibonacciCache.has(n)) {
+        return fibonacciCache.get(n)!; // non-null assertion
+    }
+
+    // Hitung
+    let result: bigint;
+    if (n <= 1) {
+        result = BigInt(n);
+    } else {
+        result = fibonacci(n - 1) + fibonacci(n - 2);
+    }
+
+    // Simpan ke cache
+    fibonacciCache.set(n, result);
+    return result;
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+console.log(fibonacci(50)); // Cached after first call
+console.log(`Cache size: ${fibonacciCache.size}`); // 51</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Remove Duplicates dengan Set</h2>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Fungsi untuk menghapus duplikat dari array
+function unique<T>(arr: T[]): T[] {
+    return [...new Set(arr)];
+}
+
+// Contoh
+let numbers = [1, 2, 2, 3, 4, 4, 5];
+console.log(unique(numbers)); // [1,2,3,4,5]
+
+let strings = ["a", "b", "a", "c", "b"];
+console.log(unique(strings)); // ["a","b","c"]
+
+// Complex objects? hati-hati:
+let objs = [{id:1}, {id:1}];
+console.log(unique(objs)); // [{id:1}, {id:1}] - berbeda reference!</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Kesalahan Umum</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>WeakMap iteration</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">let wm = new WeakMap();
+wm.forEach((v,k) => console.log(k,v)); // Error! WeakMap tidak support iteration</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Object as Map</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">let obj = {};
+obj[1] = "one";   // key di-convert ke string: "1"
+obj[[1,2]] = "array"; // "[1,2]" - bukan array reference!
+// Gunakan Map untuk non-string keys!</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li><code>Set</code>: koleksi unik, otomatis hapus duplikat</li>
+                    <li><code>Map</code>: key-value dengan key bisa <em>any type</em>, insertion order preserved</li>
+                    <li><code>WeakMap</code>: Map dengan key object-only, GC-friendly (key bisa di-GC)</li>
+                    <li>Gunakan Set untuk deduplication, Map untuk dictionary dinamis, WeakMap untuk metadata</li>
+                    <li>WeakMap tidak memiliki size, iteration, atau clear()</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="array-methods-lengkap.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Array Methods Lengkap
+                </a>
+                <a href="generics.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Generics<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod2-lesson2-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod2-lesson2-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Set, Map, dan WeakMap selesai! Batch 2 (lessons 6-10) telah selesai.');
+        }
+    </script>
 </body>
 </html>

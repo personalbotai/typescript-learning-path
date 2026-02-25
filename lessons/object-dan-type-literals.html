@@ -2,30 +2,304 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Object dan Type Literals - Modul 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .type-box { background: #374151; padding: 1rem; border-radius: 8px; margin: 0.5rem 0; border-left: 4px solid #3b82f6; }
+        .key { color: #f472b6; }
+        .string { color: #86efac; }
+        .number { color: #60a5fa; }
+        .boolean { color: #f87171; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Object dan Type Literals</h1>
-        <p class="text-gray-300 mb-4">Modul 1: Dasar-Dasar TypeScript</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Object dan Type Literals</h1>
+            <p class="text-gray-300 text-lg">Modul 1: Dasar-Dasar TypeScript</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Object dan Type Literals
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Object di TypeScript</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Object adalah koleksi properti yang diidentifikasi oleh key (string atau symbol). TypeScript memberikan kontrol tipe yang ketat untuk properti object.
+                </p>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. Object Literal (Inline)</h2>
+                <p class="mb-4 text-gray-200">Cara paling sederhana membuat object langsung dengan curly braces.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Object dengan properti string dan number
+let user = {
+    nama: "Alice",
+    umur: 25,
+    aktif: true
+};
+
+// Akses properti
+console.log(user.nama); // "Alice"
+console.log(user["umur"]); // 25 (bracket notation)
+
+// TypeScript inferred: { nama: string; umur: number; aktif: boolean; }
+
+// Modifikasi properti
+user.umur = 26;
+user.email = "alice@example.com"; // Error! 'email' tidak ada di tipe inferred</code></pre>
+                </div>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <strong>Note:</strong> TypeScript membuat tipe otomatis dari object literal. Setelah dibuat, tidak bisa menambahkan properti baru tanpa error.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. Interface untuk Object Tipe</h2>
+                <p class="mb-4 text-gray-200">Gunakan <code>interface</code> untuk mendefinisikan kontrak object yang bisa digunakan di banyak tempat.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Definisikan interface
+interface User {
+    nama: string;
+    umur: number;
+    email?: string; // optional property
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Gunakan interface untuk type annotation
+let user1: User = {
+    nama: "Bob",
+    umur: 30,
+    email: "bob@example.com"
+};
+
+let user2: User = {
+    nama: "Charlie",
+    umur: 25
+    // email opsional, tidak wajib
+};
+
+// TypeScript akan memeriksa:
+// - semua required properties ada
+// - tipe setiap properti sesuai
+// - tidak ada properti ekstra (strict mode)
+
+// Function yang menerima User
+function greet(user: User): string {
+    return `Halo, ${user.nama}!`;
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. Type Alias untuk Object</h2>
+                <p class="mb-4 text-gray-200">Selain interface, bisa pakai <code>type</code> untuk membuat tipe object.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Type alias untuk object
+type Product = {
+    id: number;
+    name: string;
+    price: number;
+    inStock: boolean;
+};
+
+// Gunakan seperti interface
+let p1: Product = {
+    id: 1,
+    name: "Laptop",
+    price: 1500000,
+    inStock: true
+};
+
+// Interface vs Type Alias:
+// - Interface bisa di-extends, type alias bisa union/intersection
+// - Keduanya bisa untuk object, pilih sesuai preferensi</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. Optional, Readonly, dan Index Signatures</h2>
+                <p class="mb-4 text-gray-200">TypeScript memberikan modifiers untuk menyesuaikan object types.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Optional property (?)
+interface Config {
+    host: string;
+    port: number;
+    ssl?: boolean; // optional, bisa tidak ada
+}
+
+// Readonly property
+interface Point {
+    readonly x: number;
+    readonly y: number;
+}
+
+let p: Point = { x: 10, y: 20 };
+p.x = 30; // Error! x adalah readonly
+
+// Index signature (dynamic keys)
+interface Dictionary {
+    [key: string]: number; // semua properti string → number
+}
+
+let dict: Dictionary = {
+    satu: 1,
+    dua: 2,
+    tiga: 3
+};</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. Type Inference untuk Object</h2>
+                <p class="mb-4 text-gray-200">TypeScript bisa menebak tipe object literal tanpa explicit annotation.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// TypeScript inferred type dari object literal
+let car = {
+    brand: "Toyota",
+    year: 2020,
+    isElectric: false
+};
+// Inferred type: { brand: string; year: number; isElectric: boolean; }
+
+// Bisa explicit jika ingin
+let car2: { brand: string; year: number } = {
+    brand: "Honda",
+    year: 2022
+};</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">6. Object Methods</h2>
+                <p class="mb-4 text-gray-200">Function bisa menjadi properti object.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface Calculator {
+    tambah(a: number, b: number): number;
+    kurangi(a: number, b: number): number;
+}
+
+let calc: Calculator = {
+    tambah: (a, b) => a + b,
+    kurangi: (a, b) => a - b
+};
+
+console.log(calc.tambah(5, 3)); // 8
+console.log(calc.kurangi(5, 3)); // 2</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Modelling Data Mahasiswa</h2>
+                <p class="mb-4 text-gray-200">Buat interface untuk mahasiswa dan function untuk menghitung IPK.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">interface Mahasiswa {
+    nama: string;
+    nim: string;
+    nilai: number[]; // array of grades (0-100)
+}
+
+function hitungIPK(m: Mahasiswa): number {
+    if (m.nilai.length === 0) return 0;
+    let sum = 0;
+    for (let n of m.nilai) {
+        sum += n;
+    }
+    return sum / m.nilai.length;
+}
+
+let andi: Mahasiswa = {
+    nama: "Andi",
+    nim: "123456",
+    nilai: [80, 85, 90, 78]
+};
+
+console.log(`IPK ${andi.nama}: ${hitungIPK(andi).toFixed(2)}`);
+// IPK Andi: 83.25</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Kesalahan Umum</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Property missing</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">interface User { name: string; age: number; }
+let u: User = { name: "Ali" }; // Error: Property 'age' missing</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Extra property</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">interface User { name: string; }
+let u: User = { name: "Ali", extra: 123 }; // Error: 'extra' not in interface</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li>Object literal: <code>{ key: value, ... }</code></li>
+                    <li>Gunakan <code>interface</code> atau <code>type</code> untuk mendefinisikan tipe object yang reusable</li>
+                    <li>Optional properties: <code>prop?: type</code></li>
+                    <li>Readonly properties: <code>readonly prop: type</code></li>
+                    <li>Index signatures untuk dynamic keys: <code>[key: string]: type</code></li>
+                    <li>TypeScript melakukan strict checking pada object shape</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="array-dan-tuple.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Array dan Tuple
+                </a>
+                <a href="index.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Selesai Modul 1!<i class="fas fa-check ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod1-lesson8-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod1-lesson8-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Object dan Type Literals selesai! Modul 1 (8 lessons) telah diselesaikan.');
+        }
+    </script>
 </body>
 </html>

@@ -2,30 +2,322 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Perulangan: for, while, do-while, for...of, for...in - Modul 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perulangan - Modul 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block { background: #1e293b; border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-size: 0.9rem; }
+        .loop-diagram { background: #374151; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; text-align: center; }
+        .loop-step { display: inline-block; padding: 0.5rem 1rem; background: #4b5563; border-radius: 4px; margin: 0.25rem; min-width: 60px; }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 p-8">
-    <article class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Perulangan: for, while, do-while, for...of, for...in</h1>
-        <p class="text-gray-300 mb-4">Modul 1: Dasar-Dasar TypeScript</p>
+<body class="bg-gray-900 text-gray-100 p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-8 pb-6 border-b border-gray-700">
+            <div class="flex items-center justify-between mb-4">
+                <a href="../index.html" class="text-cyan-400 hover:text-cyan-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Modul
+                </a>
+                <div class="text-sm text-gray-400">
+                    <i class="far fa-clock mr-1"></i>20 menit
+                </div>
+            </div>
+            <h1 class="text-3xl font-bold text-cyan-400 mb-2">Perulangan: for, while, do-while, for...of, for...in</h1>
+            <p class="text-gray-300 text-lg">Modul 1: Dasar-Dasar TypeScript</p>
+        </header>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-3">Konsep Dasar</h2>
-            <p class="mb-4">Konten untuk pelajaran ini sedang dalam pengembangan.</p>
+        <div class="bg-gray-800 p-4 rounded-lg mb-8">
+            <div class="flex justify-between text-sm mb-2">
+                <span>Kemajuan Belajar</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-700 rounded overflow-hidden">
+                <div class="h-full bg-cyan-500 transition-all duration-300" id="progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
 
-            <div class="bg-gray-800 p-4 rounded-lg mb-4">
-                <h4 class="text-cyan-300 mb-2">Contoh kode TypeScript:</h4>
-                <pre class="bg-gray-900 p-3 rounded text-sm overflow-x-auto"><code class="language-typescript">// Contoh kode untuk Perulangan: for, while, do-while, for...of, for...in
-function contoh(): void {
-    console.log("Hello, TypeScript!");
+        <article class="prose prose-invert max-w-none">
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Apa itu Perulangan?</h2>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Perulangan (loop) memungkinkan kita mengeksekusi blok kode berulang kali tanpa menulis kode yang sama berulang. Ini esensial untuk bekerja dengan koleksi data atau melakukan tugas repetitif.
+                </p>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200">
+                        <i class="fas fa-sync mr-2"></i>
+                        <strong>Konsep:</strong> TypeScript menggunakan loop yang sama seperti JavaScript. TypeScript menambahkan type safety pada variabel loop dan koleksi.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">1. for loop ( tradisional)</h2>
+                <p class="mb-4 text-gray-200">Loop dengan counter yang sudah ditentukan jumlah iterasinya.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Syntax: for (init; kondisi; increment) { ... }
+
+// Mencetak angka 1-5
+for (let i: number = 1; i <= 5; i++) {
+    console.log(i);
+}
+// Output: 1, 2, 3, 4, 5
+
+// Loop dengan array
+let buah: string[] = ["Apel", "Jeruk", "Mangga"];
+for (let index: number = 0; index < buah.length; index++) {
+    console.log(buah[index]);
+}
+// Output: Apel, Jeruk, Mangga</code></pre>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg mt-4">
+                    <h3 class="text-lg font-medium mb-2 text-yellow-300">Komponen for loop:</h3>
+                    <ul class="list-disc pl-6 space-y-1 text-gray-200 text-sm">
+                        <li><strong>init:</strong> Inisialisasi variabel counter (biasanya <code>let i = 0</code>)</li>
+                        <li><strong>kondisi:</strong> Loop terus selama kondisi true</li>
+                        <li><strong>increment:</strong> Update counter tiap iterasi (<code>i++</code>, <code>i+=2</code>, dll)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">2. while loop</h2>
+                <p class="mb-4 text-gray-200">Loop selama kondisi true. Cocok ketika jumlah iterasi tidak diketahui sebelumnya.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let counter: number = 0;
+
+while (counter < 5) {
+    console.log(`Counter: ${counter}`);
+    counter++;
+    // HATI-HATI: lupa increment → infinite loop!
 }
 
-contoh();</code></pre>
-                <button class="run-code-btn mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded text-white text-sm font-semibold">
-                    <i class="fas fa-play mr-2"></i>Jalankan Kode
-                </button>
+// Contoh: cari angka pertama yang habis dibagi 17
+let x: number = 1;
+while (x % 17 !== 0) {
+    x++;
+}
+console.log(`Angka ${x} habis dibagi 17`); // 17</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-6">
+                    <p class="text-red-200 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>Warning:</strong> Pastikan kondisi while akan pernah menjadi false, atau akan terjadi infinite loop.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">3. do-while loop</h2>
+                <p class="mb-4 text-gray-200">Mirip while, tapi blok dijalankan <strong>setidaknya sekali</strong> sebelum kondisi dicek.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">let input: string;
+
+do {
+    input = prompt("Masukkan kata (ketik 'stop' untuk berhenti):") || "";
+    console.log(`Anda mengetik: ${input}`);
+} while (input !== "stop");
+
+// Ini akan selalu mengeksekusi setidaknya 1 kali,
+// bahkan jika kondisi awal sudah false.</code></pre>
+                </div>
+                <div class="bg-cyan-900/20 border-l-4 border-cyan-500 p-4 rounded mb-6">
+                    <p class="text-cyan-200 text-sm">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <strong>Gunakan do-while</strong> ketika Anda butuh eksekusi minimal 1 kali, misalnya menu interaktif.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">4. for...of loop (ES6)</h2>
+                <p class="mb-4 text-gray-200">Loop langsung melalui nilai-elemen dari iterable (array, string, Map, Set, dll). Sangat ringkas!</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Loop array
+let angka: number[] = [10, 20, 30, 40];
+for (let nilai of angka) {
+    console.log(nilai);
+}
+// Output: 10, 20, 30, 40
+
+// Loop string
+for (let char of "Hello") {
+    console.log(char);
+}
+// Output: H, e, l, l, o
+
+// TypeScript tahu tipe elemen secara otomatis
+let fruits: string[] = ["Apple", "Banana"];
+for (let fruit of fruits) {
+    // fruit bertipe string (inferred)
+    console.log(fruit.toUpperCase());
+}</code></pre>
+                </div>
+                <div class="bg-green-900/20 border-l-4 border-green-500 p-4 rounded mb-6">
+                    <p class="text-green-200 text-sm">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <strong>Rekomendasi:</strong> Gunakan <code>for...of</code> untuk kebanyakan kasus loop array/string. Lebih readable dan less error-prone.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">5. for...in loop</h2>
+                <p class="mb-4 text-gray-200">Loop melalui <strong>key/property</strong> dari object atau indeks array.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">// Loop object
+let orang = { nama: "Andi", umur: 25, kota: "Jakarta" };
+for (let key in orang) {
+    console.log(`${key}: ${orang[key]}`);
+}
+// Output:
+// nama: Andi
+// umur: 25
+// kota: Jakarta
+
+// Loop array (dapat indeks)
+let colors = ["Merah", "Hijau", "Biru"];
+for (let index in colors) {
+    console.log(`Index ${index}: ${colors[index]}`);
+}
+// Output:
+// Index 0: Merah
+// Index 1: Hijau
+// Index 2: Biru</code></pre>
+                </div>
+                <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded mb-6">
+                    <p class="text-yellow-200 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>Hati-hati:</strong> <code>for...in</code> akan loop semua enumerable properties, termasuk yang diwarisi dari prototype. Gunakan <code>hasOwnProperty</code> jika perlu filter.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Perbandingan Loop</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-gray-800 rounded-lg overflow-hidden mb-6">
+                        <thead class="bg-gray-700">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-cyan-300">Loop Type</th>
+                                <th class="px-4 py-2 text-left text-cyan-300">Kapan Digunakan</th>
+                                <th class="px-4 py-2 text-left text-cyan-300">Contoh</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-200">
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2"><code>for</code></td>
+                                <td class="px-4 py-2">Ketika butuh kontrol penuh (counter, step custom)</td>
+                                <td class="px-4 py-2"><code>for (let i=0; i<n; i+=2)</code></td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2"><code>while</code></td>
+                                <td class="px-4 py-2">Jumlah iterasi tidak diketahui sebelumnya</td>
+                                <td class="px-4 py-2"><code>while (input !== "exit")</code></td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2"><code>do-while</code></td>
+                                <td class="px-4 py-2">Harus dieksekusi minimal 1 kali</td>
+                                <td class="px-4 py-2"><code>do {...} while(condition)</code></td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2"><code>for...of</code></td>
+                                <td class="px-4 py-2">Loop nilai elemen (array, string, iterable)</td>
+                                <td class="px-4 py-2"><code>for (let x of arr)</code></td>
+                            </tr>
+                            <tr class="border-t border-gray-700">
+                                <td class="px-4 py-2"><code>for...in</code></td>
+                                <td class="px-4 py-2">Loop keys/properties object</td>
+                                <td class="px-4 py-2"><code>for (let key in obj)</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Latihan: Hitung Faktorial</h2>
+                <p class="mb-4 text-gray-200">Tulis fungsi untuk menghitung faktorial suatu angka menggunakan loop.</p>
+                <div class="code-block">
+                    <pre><code class="language-typescript">function faktorial(n: number): number {
+    if (n < 0) {
+        throw new Error("Faktorial tidak didefinisikan untuk negatif");
+    }
+    let hasil: number = 1;
+    for (let i: number = 2; i <= n; i++) {
+        hasil *= i;
+    }
+    return hasil;
+}
+
+console.log(faktorial(5)); // 120 (5*4*3*2*1)
+console.log(faktorial(0)); // 1 (dasar matematika)</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Kesalahan Umum</h2>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Off-by-one Error</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">// Salah: loop hanya sampai 4
+for (let i = 0; i < 5; i++) { ... } // BENAR: i < 5 berarti 0,1,2,3,4 (5 iterasi)
+// Atau: for (let i = 1; i <= 5; i++) { ... } // juga 5 iterasi</code></pre>
+                </div>
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded mb-4">
+                    <h3 class="text-red-300 font-semibold mb-2"><i class="fas fa-times-circle mr-2"></i>Infinite Loop</h3>
+                    <pre class="text-red-200 text-sm"><code class="language-typescript">let i = 0;
+while (i < 5) {
+    console.log(i);
+    // lupa i++ → infinite loop!
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="mb-10">
+                <h2 class="text-2xl font-semibold text-cyan-300 mb-4">Rangkuman</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-200">
+                    <li><code>for</code> - kontrol penuh, cocok untuk count-based loop</li>
+                    <li><code>while</code> - loop selama kondisi true, jumlah iterasi tidak tentu</li>
+                    <li><code>do-while</code> - seperti while tapi minimal 1 eksekusi</li>
+                    <li><code>for...of</code> - loop nilai elemen (array, string, iterable) - <strong>recommended untuk array</strong></li>
+                    <li><code>for...in</code> - loop keys/properties object atau indeks array</li>
+                    <li>Pilih loop yang tepat untuk kasus Anda, hindari infinite loop dan off-by-one errors</li>
+                </ul>
+            </section>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-12 pt-6 border-t border-gray-700">
+                <a href="kontrol-alur-if-else.html" class="text-gray-400 hover:text-cyan-400">
+                    <i class="fas fa-chevron-left mr-2"></i>Previous: Kontrol Alur
+                </a>
+                <a href="array-dan-tuple.html" class="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold transition">
+                    Next: Array dan Tuple<i class="fas fa-chevron-right ml-2"></i>
+                </a>
             </div>
-        </section>
-    </article>
+        </article>
+
+        <footer class="mt-12 pt-6 border-t border-gray-700 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TypeScript Learning Path.</p>
+        </footer>
+    </div>
+
+    <script>
+        function updateProgress(percent) {
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = percent + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('ts-mod1-lesson6-progress');
+            if (saved === 'completed') updateProgress(100);
+        });
+
+        function markComplete() {
+            localStorage.setItem('ts-mod1-lesson6-progress', 'completed');
+            updateProgress(100);
+            alert('🎉 Perulangan selesai! Batch 2 (lessons 6-10) sedang dibuat.');
+        }
+    </script>
 </body>
 </html>
