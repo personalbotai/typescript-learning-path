@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5: ReturnType, Parameters, ConstructorParameters, dan ThisType - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 11: Advanced Utility Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 5 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 62.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 11</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 5</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">ReturnType, Parameters, ConstructorParameters, dan ThisType</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript menyediakan <strong>utility types</strong> tingkat lanjut untuk bekerja dengan tipe fungsi dan konstruktor. Di lesson ini, kita akan mempelajari <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ReturnType&lt;T&gt;</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Parameters&lt;T&gt;</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ConstructorParameters&lt;T&gt;</code>, dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ThisType&lt;T&gt;</code> - utility types yang memungkinkan kita mengekstrak dan memanipulasi tipe dari function signatures.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 25 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+                <span>📚 Tipe: Utility Types</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Setelah menyelesaikan lesson ini, kamu akan mampu:
+            </p>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-primary mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ReturnType&lt;T&gt;</code> untuk mengambil tipe return dari sebuah fungsi</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-primary mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    <span>Menerapkan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Parameters&lt;T&gt;</code> untuk mendapatkan tuple tipe parameter fungsi</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-primary mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ConstructorParameters&lt;T&gt;</code> untuk konstruktor class</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-primary mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    <span>Memahami <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ThisType&lt;T&gt;</code> untuk typing this context di object literals</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-primary mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                    <span>Mengintegrasikan utility types ini dalam aplikasi real-world</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konsep Inti</h2>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">1. ReturnType&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ReturnType&lt;T&gt;</code> mengambil tipe return dari sebuah <strong>function type</strong>. Utility type ini sangat berguna ketika kita ingin membuat tipe yang sesuai dengan return value dari fungsi yang sudah ada.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Contoh: Mengambil tipe return dari fungsi</span>
+<span class="keyword">function</span> <span class="function">calculateTotal</span>(<span class="type">price</span>: <span class="type">number</span>, <span class="type">quantity</span>: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> price * quantity;
+}
+
+<span class="comment">// ReturnType menghasilkan tipe 'number'</span>
+<span class="keyword">type</span> <span class="type">TotalType</span> = <span class="function">ReturnType</span>&lt;<span class="keyword">typeof</span> <span class="function">calculateTotal</span>&gt;; <span class="comment">// number</span>
+
+<span class="keyword">const</span> <span class="type">result</span>: <span class="type">TotalType</span> = <span class="function">calculateTotal</span>(100, 3); <span class="comment">// OK</span>
+
+<span class="comment">// Error: ReturnType hanya bisa digunakan pada function type</span>
+<span class="keyword">interface</span> <span class="type">User</span> { <span class="type">name</span>: <span class="type">string</span>; }
+<span class="keyword">type</span> <span class="type">UserReturnType</span> = <span class="function">ReturnType</span>&lt;<span class="type">User</span>&gt;; <span class="comment">// Error: Type 'User' does not satisfy the constraint '(...args: any) => any'</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">2. Parameters&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Parameters&lt;T&gt;</code> menghasilkan <strong>tuple</strong> yang berisi tipe-tipe parameter dari sebuah fungsi. Ini sangat berguna untuk membuat higher-order functions yang perlu merekonstruksi parameter.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Contoh: Mengambil tuple parameter dari fungsi</span>
+<span class="keyword">function</span> <span class="function">createUser</span>(<span class="type">name</span>: <span class="type">string</span>, <span class="type">age</span>: <span class="type">number</span>, <span class="type">email</span>: <span class="type">string</span>): <span class="type">User</span> {
+    <span class="keyword">return</span> { name, age, email };
+}
+
+<span class="comment">// Parameters menghasilkan tuple [string, number, string]</span>
+<span class="keyword">type</span> <span class="type">CreateUserParams</span> = <span class="function">Parameters</span>&lt;<span class="keyword">typeof</span> <span class="function">createUser</span>&gt;;
+
+<span class="comment">// Bisa digunakan untuk memvalidasi argumen</span>
+<span class="keyword">function</span> <span class="function">validateCreateUser</span>(...<span class="type">args</span>: <span class="type">CreateUserParams</span>): <span class="type">boolean</span> {
+    <span class="keyword">const</span> [name, age, email] = args;
+    <span class="keyword">return</span> name.length > 0 && age > 0 && email.includes(<span class="string">'@'</span>);
+}
+
+<span class="comment">// Higher-order function yang meneruskan parameter</span>
+<span class="keyword">function</span> <span class="function">wrapWithLogging</span>(<span class="type">fn</span>: (...<span class="type">args</span>: <span class="function">Parameters</span>&lt;<span class="keyword">typeof</span> <span class="type">fn</span>&gt;) => <span class="function">ReturnType</span>&lt;<span class="keyword">typeof</span> <span class="type">fn</span>&gt;) {
+    <span class="keyword">return</span> (...args: <span class="function">Parameters</span>&lt;<span class="keyword">typeof</span> <span class="type">fn</span>&gt;) => {
+        console.<span class="function">log</span>(<span class="string">`Calling with: `</span>, args);
+        <span class="keyword">return</span> <span class="function">fn</span>(...args);
+    };
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">3. ConstructorParameters&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ConstructorParameters&lt;T&gt;</code> bekerja seperti <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Parameters&lt;T&gt;</code> tetapi untuk <strong>constructor</strong> atau class. Ia menghasilkan tuple parameter konstruktor.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Person</span> {
+    <span class="keyword">constructor</span>(<span class="type">public</span> <span class="type">name</span>: <span class="type">string</span>, <span class="type">private</span> <span class="type">age</span>: <span class="type">number</span>) {}
+}
+
+<span class="comment">// ConstructorParameters menghasilkan [string, number]</span>
+<span class="keyword">type</span> <span class="type">PersonConstructorParams</span> = <span class="function">ConstructorParameters</span>&lt;<span class="keyword">typeof</span> <span class="type">Person</span>&gt;; <span class="comment">// [string, number]</span>
+
+<span class="comment">// Factory function menggunakan ConstructorParameters</span>
+<span class="keyword">function</span> <span class="function">createInstance</span>&lt;<span class="type">T</span> <span class="keyword">extends</span> <span class="keyword">new</span>(...<span class="type">args</span>: <span class="keyword">any</span>[]) =&gt; <span class="keyword">any</span>&gt;(<span class="type">cls</span>: <span class="type">T</span>, ...<span class="type">args</span>: <span class="function">ConstructorParameters</span>&lt;<span class="type">T</span>&gt;): <span class="function">InstanceType</span>&lt;<span class="type">T</span>&gt; {
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="function">cls</span>(...args);
+}
+
+<span class="keyword">const</span> <span class="type">person</span> = <span class="function">createInstance</span>(<span class="type">Person</span>, <span class="string">"Budi"</span>, 30); <span class="comment">// Person</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">4. ThisType&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ThisType&lt;T&gt;</code> adalah utility type khusus untuk mengontrol tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">this</code> dalam <strong>object literals</strong>. Ia hanya berfungsi ketika <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">--noImplicitThis</code> option diaktifkan di tsconfig.json.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Contoh: ThisType untuk mengontrol 'this' di object literal</span>
+<span class="keyword">interface</span> <span class="type">Calculator</span> {
+    (value: <span class="type">number</span>): <span class="type">number</span>;
+    <span class="type">currentValue</span>: <span class="type">number</span>;
+    <span class="function">reset</span>(): <span class="keyword">void</span>;
+}
+
+<span class="keyword">function</span> <span class="function">createCalculator</span>(<span class="type">initialValue</span>: <span class="type">number</span> = 0): <span class="type">Calculator</span> {
+    <span class="keyword">let</span> <span class="type">current</span> = initialValue;
+
+    <span class="comment">// Gunakan ThisType<Calculator> untuk memberi tahu TypeScript</span>
+    <span class="comment">// bahwa 'this' di object literal memiliki tipe Calculator</span>
+    <span class="keyword">const</span> <span class="type">calc</span>: <span class="function">ThisType</span>&lt;<span class="type">Calculator</span>&gt; = {
+        <span class="type">currentValue</span>: current,
+        <span class="function">reset</span>: <span class="keyword">function</span>() {
+            <span class="keyword">this</span>.<span class="type">currentValue</span> = 0; <span class="comment">// OK: 'this' memiliki tipe Calculator</span>
+        },
+        <span class="function">[Symbol.toPrimitive]</span>: <span class="keyword">function</span>() {
+            <span class="keyword">return</span> <span class="keyword">this</span>.<span class="type">currentValue</span>; <span class="comment">// OK</span>
+        }
+    };
+
+    <span class="comment">// Tambahkan method callable</span>
+    (<span class="type">calc</span> <span class="keyword">as</span> <span class="keyword">any</span>).<span class="function">apply</span> = <span class="keyword">function</span>(<span class="type">value</span>: <span class="type">number</span>) {
+        <span class="keyword">this</span>.<span class="type">currentValue</span> += value;
+        <span class="keyword">return</span> <span class="keyword">this</span>.<span class="type">currentValue</span>;
+    };
+
+    <span class="keyword">return</span> <span class="type">calc</span> <span class="keyword">as</span> <span class="type">Calculator</span>;
+}
+
+<span class="keyword">const</span> <span class="type">calc</span> = <span class="function">createCalculator</span>(10);
+console.<span class="function">log</span>(<span class="function">calc</span>(5)); <span class="comment">// 15</span>
+<span class="function">calc</span>.<span class="function">reset</span>();
+console.<span class="function">log</span>(<span class="function">calc</span>.<span class="type">currentValue</span>); <span class="comment">// 0</span></code></pre>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-6 mb-6">
+                <h4 class="font-semibold text-blue-800 mb-2">💡 When to Use These Utility Types</h4>
+                <ul class="space-y-2 text-blue-800">
+                    <li><strong>ReturnType</strong>: Saat membuat wrapper functions atau ingin mengetahuai return type dari existing function tanpa manual define ulang.</li>
+                    <li><strong>Parameters</strong>: Untuk higher-order functions, middleware, atau decorator yang perlu mempertahankan signature asli.</li>
+                    <li><strong>ConstructorParameters</strong>: Factory functions, dependency injection containers, atau reflection utilities.</li>
+                    <li><strong>ThisType</strong>: Saat membuat object literals dengan methods yang menggunakan <code class="bg-blue-100 px-2 py-1 rounded font-mono text-sm">this</code>, seperti builder pattern atau configuration objects.</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">5. Real-World Application: API Client Wrapper</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Mari lihat contoh praktis menggabungkan utility types ini untuk membuat type-safe API client wrapper.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// API function definitions</span>
+<span class="keyword">interface</span> <span class="type">ApiMethods</span> {
+    <span class="function">getUser</span>(<span class="type">id</span>: <span class="type">number</span>): <span class="keyword">Promise</span>&lt;<span class="type">User</span>&gt;;
+    <span class="function">createUser</span>(<span class="type">data</span>: <span class="type">CreateUserDto</span>): <span class="keyword">Promise</span>&lt;<span class="type">User</span>&gt;;
+    <span class="function">updateUser</span>(<span class="type">id</span>: <span class="type">number</span>, <span class="type">data</span>: <span class="type">UpdateUserDto</span>): <span class="keyword">Promise</span>&lt;<span class="type">User</span>&gt;;
+    <span class="function">deleteUser</span>(<span class="type">id</span>: <span class="type">number</span>): <span class="keyword">Promise</span>&lt;<span class="keyword">void</span>&gt;;
+}
+
+<span class="keyword">const</span> <span class="type">api</span>: <span class="type">ApiMethods</span> = {
+    <span class="comment">// implementation...</span>
+};
+
+<span class="comment">// Type-safe wrapper dengan logging</span>
+<span class="keyword">function</span> <span class="function">withLogging</span>&lt;<span class="type">T</span> <span class="keyword">extends</span> <span class="keyword">keyof</span> <span class="type">ApiMethods</span>&gt;(<span class="type">methodName</span>: <span class="type">T</span>): <span class="function">ReturnType</span>&lt;<span class="type">ApiMethods</span>[<span class="type">T</span>]&gt; {
+    <span class="keyword">return</span> <span class="keyword">async</span> (...<span class="type">args</span>: <span class="function">Parameters</span>&lt;<span class="type">ApiMethods</span>[<span class="type">T</span>]&gt;): <span class="keyword">Promise</span>&lt;<span class="function">ReturnType</span>&lt;<span class="type">ApiMethods</span>[<span class="type">T</span>]&gt;&gt; =&gt; {
+        console.<span class="function">log</span>(<span class="string">`Calling ${String(methodName)} with: `</span>, args);
+        <span class="keyword">const</span> <span class="type">result</span> = <span class="keyword">await</span> <span class="function">api</span>[<span class="type">methodName</span>](...args);
+        console.<span class="function">log</span>(<span class="string">`Result: `</span>, result);
+        <span class="keyword">return</span> result;
+    };
+}
+
+<span class="comment">// Penggunaan: Type tetap terjaga!</span>
+<span class="keyword">const</span> <span class="type">loggedGetUser</span> = <span class="function">withLogging</span>(<span class="string">"getUser"</span>);
+<span class="comment">// loggedGetUser(id: number): Promise&lt;User&gt; - type aman!</span>
+<span class="keyword">const</span> <span class="type">user</span> = <span class="keyword">await</span> <span class="function">loggedGetUser</span>(123);</code></pre>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-400 p-6 mb-6">
+                <h4 class="font-semibold text-red-800 mb-2">⚠️ Common Pitfalls</h4>
+                <ul class="space-y-2 text-red-800">
+                    <li><code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">ReturnType</code> dan <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">Parameters</code> hanya bisa digunakan pada <strong>function types</strong>, bukan pada interface atau type lain.</li>
+                    <li>Hasil dari <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">Parameters</code> adalah <strong>readonly tuple</strong> - tidak bisa di-modify.</li>
+                    <li><code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">ThisType</code> tidak berfungsi pada regular functions, hanya object literals dengan contextual typing.</li>
+                    <li>Hindari nested utility types yang terlalu dalam - bisa menyebabkan performance issues pada type checking.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💪 Latihan Praktek</h2>
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 1: Event Handler Type</h3>
+                    <p class="text-gray-700 mb-3">Buat utility type <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">EventHandler</code> menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Parameters</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ReturnType</code> yang mengekstrak signature dari event handler function dan menghasilkan type yang sesuai untuk addEventListener.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Petunjuk: Gunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Parameters&lt;T&gt;[0]</code> untuk mengambil tipe event object.</p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 2: Constructor Factory</h3>
+                    <p class="text-gray-700 mb-3">Buat generic factory function <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">createInstance</code> yang menerima class constructor dan argument, menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ConstructorParameters</code> untuk type safety.</p>
+                </div>
+
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 3: Builder Pattern dengan ThisType</h3>
+                    <p class="text-gray-700 mb-3">Implementasikan builder pattern untuk membuat object complex menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">ThisType</code> agar method chaining memiliki type inference yang benar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📝 Quiz: Utility Types Lanjutan</h2>
+            <p class="text-gray-600 mb-6">Jawab pertanyaan berikut untuk menguji pemahaman kamu tentang ReturnType, Parameters, ConstructorParameters, dan ThisType.</p>
+
+            <div id="quiz-container" class="space-y-6">
+                <!-- Quiz will be loaded by app.js -->
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <p class="text-yellow-800">Quiz akan dimuat setelah semua lesson diselesaikan. Pastikan kamu telah menyelesaikan semua materi di lesson ini.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" id="prev-lesson">
+                <span>&larr; Lesson Sebelumnya</span>
+            </button>
+            <button class="nav-btn primary" id="next-lesson">
+                <span>Lesson Berikutnya &rarr;</span>
+            </button>
+        </nav>
+    </main>
+
+    <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-gray-500 text-sm">
+        <p>&copy; 2026 TypeScript Learning Path. Dibuat dengan ❤️ untuk developer Indonesia.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

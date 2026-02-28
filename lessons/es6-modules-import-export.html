@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: ES6 Modules - import dan export - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 8: Modules dan Namespaces</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 7</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 14.29%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 8</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">ES6 Modules: import dan export</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>ES6 Modules</strong> adalah sistem modular bawaan TypeScript/JavaScript modern yang memungkinkan kita memecah kode menjadi file-file terpisah, mengatur dependencies, dan mengontrol akses ke kode. Module system ini adalah fondasi untuk arsitektur aplikasi yang skalabel dan maintainable.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Konsep Penting</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami konsep <strong>ES6 Modules</strong> dan mengapa modularization penting</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export</code> untuk mengekspor nilai (variables, functions, classes, types, interfaces) dari module</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">import</code> untuk mengimpor nilai dari module lain</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Membedakan <strong>named exports</strong> vs <strong>default exports</strong></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengkonfigurasi TypeScript compiler untuk module system yang sesuai (CommonJS vs ES Modules)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami <strong>module resolution</strong> dan cara TypeScript menemukan file module</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Apa itu ES6 Modules?</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Sebelum ES6 (ECMAScript 2015), JavaScript tidak memiliki sistem modular bawaan. Developer menggunakan pattern seperti <strong>IIFE</strong> (Immediately Invoked Function Expression), <strong>CommonJS</strong> (Node.js), atau <strong>AMD</strong> (Asynchronous Module Definition) untuk mengorganisir kode. ES6 memperkenalkan <strong>Modules</strong> sebagai fitur bawaan bahasa, yang kemudian diadopsi oleh TypeScript sebagai sistem modular utama.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-blue-900 mb-2">🔑 Poin Penting:</h3>
+                <p class="text-blue-800">
+                    <strong>Module</strong> adalah file JavaScript/TypeScript yang berisi kode yang dieksekusi sekali saja saat diimpor pertama kali. Setiap module memiliki <strong>scope sendiri</strong> (variabel di dalam module tidak bocor ke global scope) dan dapat mengekspor nilai tertentu agar bisa digunakan oleh module lain.
+                </p>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Mengapa Modularization Penting?</h3>
+            <ul class="list-disc list-inside space-y-2 text-gray-700 mb-8">
+                <li><strong>Encapsulation</strong>: Setiap module memiliki scope sendiri, mencegah naming conflicts</li>
+                <li><strong>Reusability</strong>: Kode bisa digunakan kembali di berbagai tempat</li>
+                <li><strong>Maintainability</strong>: Kode terorganisir menjadi file-file kecil dengan tanggung jawab spesifik</li>
+                <li><strong>Testability</strong>: Module bisa di-test secara terpisah</li>
+                <li><strong>Tree Shaking</strong>: Bundler bisa menghapus kode yang tidak digunakan, mengurangi ukuran bundle</li>
+                <li><strong>Lazy Loading</strong>: Module bisa dimuat hanya ketika dibutuhkan</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Export: Mengekspor Nilai dari Module</h3>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript mendukung dua jenis export: <strong>Named Exports</strong> dan <strong>Default Exports</strong>. Setiap module bisa mengekspor satu atau lebih nilai dengan mendahului deklarasi dengan kata kunci <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export</code>.
+            </p>
+
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">1. Named Exports</h4>
+            <p class="text-gray-700 mb-4">
+                Named exports memungkinkan kita mengekspor beberapa nilai dari module. Setiap nilai yang diekspor harus diimpor dengan nama yang sama persis (atau dengan alias menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">as</code>).
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: math-utils.ts</span>
+<span class="keyword">export</span> <span class="type">const</span> <span class="function">PI</span> = <span class="string">3.14159</span>;
+
+<span class="keyword">export function</span> <span class="function">add</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="keyword">export function</span> <span class="function">multiply</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> a * b;
+}
+
+<span class="keyword">export class</span> <span class="function">Calculator</span> {
+    private value: <span class="type">number</span> = <span class="string">0</span>;
+    
+    <span class="function">add</span>(num: <span class="type">number</span>): <span class="type">void</span> {
+        <span class="keyword">this</span>.value += num;
+    }
+    
+    <span class="function">getResult</span>(): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.value;
+    }
+}
+
+<span class="comment">// Type export juga didukung</span>
+<span class="keyword">export interface</span> <span class="function">MathOperation</span> {
+    (a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span>;
+}
+
+<span class="keyword">export type</span> <span class="function">OperationResult</span> = {
+    success: <span class="type">boolean</span>;
+    value?: <span class="type">number</span>;
+    error?: <span class="type">string</span>;
+};
+            </div>
+
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">2. Default Exports</h4>
+            <p class="text-gray-700 mb-4">
+                Setiap module bisa memiliki <strong>satu default export</strong>. Default export diimpor tanpa nama (bisa pakai nama apa saja) dan tidak menggunakan kurung kurawal.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: logger.ts</span>
+<span class="keyword">default class</span> <span class="function">Logger</span> {
+    private prefix: <span class="type">string</span>;
+    
+    <span class="function">constructor</span>(prefix: <span class="type">string</span> = <span class="string">''</span>) {
+        <span class="keyword">this</span>.prefix = prefix;
+    }
+    
+    <span class="function">log</span>(message: <span class="type">string</span>): <span class="type">void</span> {
+        console.log(<span class="string">`[${<span class="keyword">this</span>.prefix}]</span> <span class="string">${message}</span>`);
+    }
+    
+    <span class="function">error</span>(message: <span class="type">string</span>): <span class="type">void</span> {
+        console.error(<span class="string">`[ERROR]</span> <span class="string">${message}</span>`);
+    }
+}
+
+<span class="comment">// Atau default export untuk function/value</span>
+<span class="keyword">export default</span> <span class="keyword">function</span> <span class="function">formatDate</span>(date: <span class="type">Date</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> date.toISOString().split(<span class="string">'T'</span>)[<span class="string">0</span>];
+}
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Import: Mengimpor Nilai dari Module</h3>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Untuk menggunakan nilai yang diekspor dari module lain, kita menggunakan kata kunci <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">import</code>. Cara import bergantung pada jenis export (named vs default).
+            </p>
+
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">1. Import Named Exports</h4>
+            <p class="text-gray-700 mb-4">
+                Named exports diimpor dengan menggunakan kurung kurawal <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">{}</code> dan nama ekspor yang persis sama.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: app.ts</span>
+<span class="keyword">import</span> { add, multiply, Calculator, MathOperation, OperationResult } <span class="keyword">from</span> <span class="string">'./math-utils'</span>;
+<span class="keyword">import</span> { PI } <span class="keyword">from</span> <span class="string">'./math-utils'</span>;
+
+<span class="keyword">const</span> calc = <span class="keyword">new</span> <span class="function">Calculator</span>();
+calc.<span class="function">add</span>(<span class="string">10</span>);
+calc.<span class="function">add</span>(<span class="string">20</span>);
+console.<span class="function">log</span>(<span class="string">`Result: <span class="string">${calc.getResult()}</span>`</span>); <span class="comment">// Output: Result: 30</span>
+
+<span class="keyword">const</span> sum = <span class="function">add</span>(<span class="string">5</span>, <span class="string">7</span>);
+<span class="keyword">const</span> product = <span class="function">multiply</span>(<span class="string">4</span>, <span class="string">6</span>);
+console.<span class="function">log</span>(<span class="string">`Sum: <span class="string">${sum}</span>, Product: <span class="string">${product}</span>`</span>);
+            </div>
+
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">2. Import Default Export</h4>
+            <p class="text-gray-700 mb-4">
+                Default export diimpor tanpa kurung kurawal. Nama yang digunakan bisa berbeda dari nama asli export (alias).
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: app.ts (lanjutan)</span>
+<span class="keyword">import</span> Logger <span class="keyword">from</span> <span class="string">'./logger'</span>;
+<span class="keyword">import</span> formatDate <span class="keyword">from</span> <span class="string">'./date-utils'</span>;
+
+<span class="keyword">const</span> logger = <span class="keyword">new</span> <span class="function">Logger</span>(<span class="string">'APP'</span>);
+logger.<span class="function">log</span>(<span class="string">'Application started'</span>);
+
+<span class="keyword">const</span> today = <span class="function">formatDate</span>(<span class="keyword">new</span> <span class="function">Date</span>());
+logger.<span class="function">log</span>(<span class="string">`Today is <span class="string">${today}</span>`</span>);
+            </div>
+
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">3. Import dengan Alias (Renaming)</h4>
+            <p class="text-gray-700 mb-4">
+                Kita bisa mengganti nama import menggunakan kata kunci <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">as</code>. Ini berguna ketika ada naming conflict atau untuk membuat nama yang lebih deskriptif.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: app.ts</span>
+<span class="keyword">import</span> { add <span class="keyword">as</span> sumNumbers, multiply <span class="keyword">as</span> productNumbers } <span class="keyword">from</span> <span class="string">'./math-utils'</span>;
+
+<span class="keyword">const</span> result1 = <span class="function">sumNumbers</span>(<span class="string">10</span>, <span class="string">20</span>);  <span class="comment">// 30</span>
+<span class="keyword">const</span> result2 = <span class="function">productNumbers</span>(<span class="string">5</span>, <span class="string">4</span>);  <span class="comment">// 20</span>
+            </div>
+
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">4. Import Semua (Namespace Import)</h4>
+            <p class="text-gray-700 mb-4">
+                Kita bisa mengimpor semua named exports dari module sebagai single object menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">* as</code>. Ini berguna untuk grouping atau ketika kita butuh akses ke banyak export dari module yang sama.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: app.ts</span>
+<span class="keyword">import</span> * <span class="keyword">as</span> MathUtils <span class="keyword">from</span> <span class="string">'./math-utils'</span>;
+
+<span class="keyword">const</span> sum = MathUtils.<span class="function">add</span>(<span class="string">10</span>, <span class="string">15</span>);
+<span class="keyword">const</span> product = MathUtils.<span class="function">multiply</span>(<span class="string">5</span>, <span class="string">3</span>);
+<span class="keyword">const</span> calc = <span class="keyword">new</span> MathUtils.<span class="function">Calculator</span>();
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-yellow-900 mb-2">⚠️ Penting:</h3>
+                <p class="text-yellow-800">
+                    <strong>Named exports dan default exports TIDAK bisa diimpor bersamaan dalam satu perintah import.</strong> Jika module memiliki default export sekaligus named exports, kita harus melakukan import terpisah atau menggunakan kombinasi:
+                </p>
+                <div class="code-block mt-4">
+<span class="comment">// module.ts</span>
+<span class="keyword">export default class</span> <span class="function">Service</span> { }
+<span class="keyword">export function</span> <span class="function">helper</span>() { }
+
+<span class="comment">// app.ts - CARA 1 (pisah)</span>
+<span class="keyword">import</span> Service <span class="keyword">from</span> <span class="string">'./module'</span>;
+<span class="keyword">import</span> { helper } <span class="keyword">from</span> <span class="string">'./module'</span>;
+
+<span class="comment">// app.ts - CARA 2 (gabung)</span>
+<span class="keyword">import</span> Service, { helper } <span class="keyword">from</span> <span class="string">'./module'</span>;
+                </div>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Membuat Module Utilitas</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat file <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">string-utils.ts</code> yang mengekspor fungsi-fungsi untuk manipulasi string:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">capitalize(text: string): string</code> - kapitalkan huruf pertama</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">reverse(text: string): string</code> - balik urutan string</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">truncate(text: string, maxLength: number): string</code> - potong string dengan ellipsis</li>
+                    </ul>
+                    <p class="text-gray-700 mb-2">
+                        Lalu buat file <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">app.ts</code> yang mengimpor dan menggunakan fungsi-fungsi tersebut.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Default Export Class</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat module <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">UserService.ts</code> yang berisi class <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">UserService</code> sebagai default export. Class ini harus memiliki method:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">addUser(name: string, email: string): void</code></li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">getUser(id: number): User | undefined</code></li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">listUsers(): User[]</code></li>
+                    </ul>
+                    <p class="text-gray-700">
+                        Impor class tersebut di file lain dan gunakan untuk mengelola daftar user.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Mixed Exports</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat module <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">config.ts</code> yang mengekspor:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li><strong>Named exports</strong>: constant <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">API_URL</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">TIMEOUT</code></li>
+                        <li><strong>Default export</strong>: interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">AppConfig</code></li>
+                        <li><strong>Named export</strong>: function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">validateConfig(config: AppConfig): boolean</code></li>
+                    </ul>
+                    <p class="text-gray-700">
+                        Import semua nilai tersebut di file <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">main.ts</code> dengan cara yang efisien.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" disabled>
+                ← Sebelumnya
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 8, Lesson 2)')">
+                Selanjutnya: Default vs Named Exports →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: ES6 Modules
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        // Inisialisasi quiz untuk lesson ini
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module8', 'es6-modules-import-export');
+            }
+        });
+    </script>
+</body>
+</html>

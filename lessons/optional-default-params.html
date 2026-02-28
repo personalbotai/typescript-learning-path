@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Optional dan Default Parameters - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 5: Functions & Arrow Functions</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 60%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 5</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Optional dan Default Parameters</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript memungkinkan kita mendefinisikan function parameters sebagai <strong>optional</strong> (dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code>) atau memberikan <strong>default values</strong>. Keduanya membuat function lebih fleksibel dan mengurangi boilerplate code untuk handling undefined values.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Functions</span>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mendefinisikan optional parameters dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memberikan default values untuk parameters</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami urutan parameters (required, optional, rest)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Type checking untuk optional dan default parameters</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Optional parameters memungkinkan function dipanggil tanpa memberikan nilai untuk parameter tersebut. Default parameters memberikan nilai default jika parameter tidak disediakan. Keduanya meningkatkan fleksibilitas function API.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Optional Parameters (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code>)</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Parameter 'greeting' adalah optional</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="type">string</span>, greeting?: <span class="type">string</span>): <span class="type">string</span> {
+    <span class="keyword">const</span> g = greeting || <span class="string">"Hello"</span>;
+    <span class="keyword">return</span> <span class="string">`</span>${g}<span class="string">, </span>${name}<span class="string">!`</span>;
+}
+
+<span class="function">greet</span>(<span class="string">"Alice"</span>);                <span class="comment">// "Hello, Alice!"</span>
+<span class="function">greet</span>(<span class="string">"Bob"</span>, <span class="string">"Hi"</span>);         <span class="comment">// "Hi, Bob!"</span></code></pre>
+                </div>
+
+                <p class="mb-4">
+                    Parameter optional secara implisit memiliki tipe <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">T | undefined</code>. TypeScript akan memaksa kita melakukan check sebelum menggunakan nilai optional.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Default Parameters</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Default value untuk parameter</span>
+<span class="keyword">function</span> <span class="function">connect</span>(url: <span class="type">string</span>, timeout: <span class="type">number</span> = <span class="type">5000</span>, retries: <span class="type">number</span> = <span class="type">3</span>) {
+    console.<span class="function">log</span>(<span class="string">`Connecting to </span>${url}<span class="string"> with timeout </span>${timeout}<span class="string">, retries </span>${retries}<span class="string">`</span>);
+}
+
+<span class="function">connect</span>(<span class="string">"https://api.example.com"</span>);  <span class="comment">// timeout=5000, retries=3</span>
+<span class="function">connect</span>(<span class="string">"https://api.example.com"</span>, <span class="type">10000</span>);  <span class="comment">// retries=3</span>
+<span class="function">connect</span>(<span class="string">"https://api.example.com"</span>, <span class="type">10000</span>, <span class="type">5</span>);  <span class="comment">// all specified</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Optional vs Default: Perbedaan</h3>
+                <ul class="list-disc pl-6 mb-4 space-y-2">
+                    <li><strong>Optional (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code>)</strong>: Parameter bisa dilewati. Tipe menjadi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">T | undefined</code>. Harus check manual.</li>
+                    <li><strong>Default</strong>: Parameter bisa dilewati, tapi nilai default akan digunakan. Tipe tetap <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">T</code> (bukan union dengan undefined).</li>
+                </ul>
+
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Optional - harus handle undefined</span>
+<span class="keyword">function</span> <span class="function">optExample</span>(x?: <span class="type">number</span>) {
+    <span class="comment">// x: number | undefined</span>
+    <span class="keyword">if</span> (x === <span class="keyword">undefined</span>) { <span class="comment">/* handle */</span> }
+}
+
+<span class="comment">// Default - tidak perlu handle undefined</span>
+<span class="keyword">function</span> <span class="function">defaultExample</span>(x: <span class="type">number</span> = <span class="type">0</span>) {
+    <span class="comment">// x: number (selalu ada nilai)</span>
+    console.<span class="function">log</span>(x);  <span class="comment">// OK - tidak perlu check undefined</span>
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Aturan Urutan Parameters</h3>
+                <p class="mb-2">
+                    Dalam function signature, urutan parameters harus: <strong>required → optional → rest</strong>.
+                </p>
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+                    <p class="text-red-800">
+                        <strong>❌ Error:</strong> Optional parameter tidak boleh ada sebelum required parameter.
+                    </p>
+                </div>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// SALAH: optional sebelum required</span>
+<span class="comment">// function bad(a?: string, b: number) {}</span>
+
+<span class="comment">// BENAR: required dulu, lalu optional</span>
+<span class="keyword">function</span> <span class="function">good</span>(a: <span class="type">string</span>, b?: <span class="type">number</span>) {}</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Default Values dengan expressions</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">function</span> <span class="function">createUser</span>(name: <span class="type">string</span>, role: <span class="type">string</span> = <span class="string">"user"</span>, active: <span class="keyword">boolean</span> = <span class="keyword">true</span>) {
+    <span class="keyword">return</span> { name, role, active };
+}
+
+<span class="comment">// Default bisa berupa expression</span>
+<span class="keyword">function</span> <span class="function">withDefault</span>(x: <span class="type">number</span> = <span class="function">Math</span>.<span class="function">random</span>()) {
+    <span class="keyword">return</span> x;
+}</code></pre>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                    <p class="text-blue-800">
+                        <strong>💡 Tips:</strong> Gunakan default parameters ketika Anda punya nilai fallback yang masuk akal. Gunakan optional parameters ketika parameter benar-benar opsional dan absence-nya bermakana (nullish). Default parameters lebih aman karena tidak menghasilkan undefined.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Optional Parameter dengan Check</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">formatName</code> dengan parameter <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">firstName: string</code> (required) dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">lastName?: string</code> (optional). Jika lastName diberikan, return "<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">lastName, firstName</code>". Jika tidak, return "<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">firstName</code>".
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">function</span> <span class="function">formatName</span>(firstName: <span class="type">string</span>, lastName?: <span class="type">string</span>): <span class="type">string</span> {
+    <span class="keyword">if</span> (lastName) {
+        <span class="keyword">return</span> <span class="string">`</span>${lastName}<span class="string">, </span>${firstName}<span class="string">`</span>;
+    }
+    <span class="keyword">return</span> firstName;
+}
+
+<span class="function">formatName</span>(<span class="string">"John"</span>, <span class="string">"Doe"</span>);  <span class="comment">// "Doe, John"</span>
+<span class="function">formatName</span>(<span class="string">"Jane"</span>);        <span class="comment">// "Jane"</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: Default Parameters untuk Config</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">createServer</code> dengan parameter <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">port: number = 3000</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">host: string = "localhost"</code>. Function harus return object config.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">interface</span> <span class="function">ServerConfig</span> {
+    port: <span class="type">number</span>;
+    host: <span class="type">string</span>;
+}
+
+<span class="keyword">function</span> <span class="function">createServer</span>(port: <span class="type">number</span> = <span class="type">3000</span>, host: <span class="type">string</span> = <span class="string">"localhost"</span>): ServerConfig {
+    <span class="keyword">return</span> { port, host };
+}
+
+<span class="function">createServer</span>();            <span class="comment">// { port: 3000, host: "localhost" }</span>
+<span class="function">createServer</span>(<span class="type">8080</span>);       <span class="comment">// { port: 8080, host: "localhost" }</span>
+<span class="function">createServer</span>(<span class="type">8080</span>, <span class="string">"0.0.0.0"</span>); <span class="comment">// { port: 8080, host: "0.0.0.0" }</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn primary" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 5 - Lesson 3 dari 5
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        console.log('Optional dan Default Parameters lesson loaded');
+    </script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 7: Tipe Primitif: string, number, boolean - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 2: Tipe Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 16.67%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 2</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Tipe Primitif: string, number, boolean</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript memiliki tipe primitif yang mirip dengan JavaScript. Memahami tipe primitif adalah langkah pertama untuk mastering type system TypeScript. Di lesson ini, kita akan belajar tentang tipe <strong>string</strong>, <strong>number</strong>, dan <strong>boolean</strong> - tiga tipe dasar yang paling sering digunakan dalam programming.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Pemula</span>
+                <span>✅ prerequisites: Module 1</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami tipe primitif <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">string</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">number</code>, dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">boolean</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mendeklarasikan variabel dengan explicit type annotations</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan type inference untuk type safety otomatis</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menghindari common pitfalls dengan tipe primitif</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Materi</h2>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">1. Tipe String</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">string</code> merepresentasikan teks atau urutan karakter. Di TypeScript, string dapat dideklarasikan dengan tanda kutip ganda ("), tanda kutip tunggal ('), atau backtick (`) untuk template literals.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Deklarasi string dengan explicit type</span>
+<span class="keyword">let</span> <span class="type">nama</span>: <span class="type">string</span> = <span class="string">"Budi"</span>;
+<span class="keyword">let</span> <span class="type">pesan</span>: <span class="type">string</span> = <span class="string">'Hello, World!'</span>;
+<span class="keyword">let</span> <span class="type">template</span>: <span class="type">string</span> = <span class="string">`Nama: ${nama}, Usia: 25`</span>;
+
+<span class="comment">// Type inference - TypeScript otomatis menebak tipe</span>
+<span class="keyword">let</span> <span class="type">kota</span> = <span class="string">"Jakarta"</span>; <span class="comment">// inferred as string</span>
+<span class="keyword">let</span> <span class="type">deskripsi</span> = <span class="string">`Kota ${kota} adalah ibu kota Indonesia`</span>;
+
+<span class="comment">// Operasi string umum</span>
+<span class="keyword">let</span> <span class="type">panjang</span>: <span class="type">number</span> = nama.<span class="function">length</span>;
+<span class="keyword">let</span> <span class="type">hurufPertama</span>: <span class="type">string</span> = nama[0];
+<span class="keyword">let</span> <span class="type">upper</span>: <span class="type">string</span> = nama.<span class="function">toUpperCase</span>();
+<span class="keyword">let</span> <span class="type">lower</span>: <span class="type">string</span> = nama.<span class="function">toLowerCase</span>();</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">2. Tipe Number</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">number</code> merepresentasikan nilai numerik, termasuk integer, floating-point, dan special values seperti <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">NaN</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Infinity</code>. TypeScript menggunakan floating-point representation seperti JavaScript (IEEE 754).
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Number dengan explicit type</span>
+<span class="keyword">let</span> <span class="type">umur</span>: <span class="type">number</span> = 25;
+<span class="keyword">let</span> <span class="type">harga</span>: <span class="type">number</span> = 1999.99;
+<span class="keyword">let</span> <span class="type">scientific</span>: <span class="type">number</span> = 1.23e4; <span class="comment">// 12300</span>
+
+<span class="comment">// Type inference</span>
+<span class="keyword">let</span> <span class="type">quantity</span> = 10; <span class="comment">// inferred as number</span>
+<span class="keyword">let</span> <span class="type">pi</span> = 3.14159;
+
+<span class="comment">// Special number values</span>
+<span class="keyword">let</span> <span class="type">notNumber</span>: <span class="type">number</span> = NaN;
+<span class="keyword">let</span> <span class="type">positiveInf</span>: <span class="type">number</span> = Infinity;
+<span class="keyword">let</span> <span class="type">negativeInf</span>: <span class="type">number</span> = -Infinity;
+
+<span class="comment">// Operasi matematika</span>
+<span class="keyword">let</span> <span class="type">hasil</span>: <span class="type">number</span> = (umur * 2) + harga;
+<span class="keyword">let</span> <span class="type">pembulatan</span>: <span class="type">number</span> = <span class="function">Math</span>.<span class="function">round</span>(harga);
+<span class="keyword">let</span> <span class="type">max</span>: <span class="type">number</span> = <span class="function">Math</span>.<span class="function">max</span>(umur, quantity);</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">3. Tipe Boolean</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">boolean</code> hanya memiliki dua nilai: <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">true</code> atau <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">false</code>. Boolean digunakan untuk merepresentasikan nilai logika, sering digunakan dalam kondisi (if/else) dan perbandingan.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Boolean dengan explicit type</span>
+<span class="keyword">let</span> <span class="type">isActive</span>: <span class="type">boolean</span> = <span class="keyword">true</span>;
+<span class="keyword">let</span> <span class="type">isLoggedIn</span>: <span class="type">boolean</span> = <span class="keyword">false</span>;
+
+<span class="comment">// Type inference</span>
+<span class="keyword">let</span> <span class="type">isAdult</span> = umur >= 18; <span class="comment">// inferred as boolean</span>
+<span class="keyword">let</span> <span class="type">isEmpty</span> = nama === <span class="string">""</span>;
+
+<span class="comment">// Boolean dalam kondisi</span>
+<span class="keyword">if</span> (isActive) {
+    console.<span class="function">log</span>(<span class="string">"User aktif"</span>);
+} <span class="keyword">else</span> {
+    console.<span class="function">log</span>(<span class="string">"User tidak aktif"</span>);
+}
+
+<span class="comment">// Logical operators</span>
+<span class="keyword">let</span> <span class="type">combined</span>: <span class="type">boolean</span> = isActive && isLoggedIn;
+<span class="keyword">let</span> <span class="type">either</span>: <span class="type">boolean</span> = isActive || isLoggedIn;
+<span class="keyword">let</span> <span class="type">negated</span>: <span class="type">boolean</span> = !isActive;</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">4. Type Inference (Inferensi Tipe)</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                TypeScript memiliki kemampuan <strong>type inference</strong> - kemampuan menebak tipe variabel berdasarkan nilai yang diberikan. Ketika Anda menginisialisasi variabel dengan nilai, TypeScript otomatis menentukan tipenya tanpa perlu explicit type annotation.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Type inference bekerja otomatis</span>
+<span class="keyword">let</span> <span class="type">message</span> = <span class="string">"Hello"</span>; <span class="comment">// string</span>
+<span class="keyword">let</span> <span class="type">count</span> = 42; <span class="comment">// number</span>
+<span class="keyword">let</span> <span class="type">flag</span> = <span class="keyword">true</span>; <span class="comment">// boolean</span>
+
+<span class="comment">// Ketika variabel dideklarasikan tanpa inisialisasi, tipe adalah any</span>
+<span class="keyword">let</span> <span class="type">uninitialized</span>; <span class="comment">// any (hindari ini!)</span>
+uninitialized = <span class="string">"teks"</span>;
+uninitialized = 100;
+
+<span class="comment">// Best practice: Gunakan explicit type jika tidak ada inisialisasi</span>
+<span class="keyword">let</span> <span class="type">status</span>: <span class="type">string</span> | <span class="type">number</span>;
+status = <span class="string">"pending"</span>;
+status = 200;</code></pre>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 mb-6">
+                <h4 class="font-semibold text-yellow-800 mb-2">⚠️ Common Pitfalls</h4>
+                <ul class="space-y-2 text-yellow-800">
+                    <li>Jangan gunakan <code class="bg-yellow-100 px-2 py-1 rounded font-mono text-sm">any</code> untuk tipe primitif - ini menonaktifkan type checking</li>
+                    <li>Hindari variabel tanpa inisialisasi (default ke any)</li>
+                    <li>Number dan string bisa saling bertransisi - berhati-hati dengan operasi matematika pada string</li>
+                    <li>Boolean bisa dikonversi ke number (true = 1, false = 0) - hindari implicit conversion</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">5. Practical Examples</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Mari kita lihat contoh praktis penggunaan tipe primitif dalam fungsi dan objek.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Contoh fungsi dengan tipe primitif</span>
+<span class="keyword">function</span> <span class="function">greetUser</span>(<span class="type">name</span>: <span class="type">string</span>, <span class="type">age</span>: <span class="type">number</span>, <span class="type">isMember</span>: <span class="type">boolean</span>): <span class="type">string</span> {
+    <span class="keyword">let</span> <span class="type">title</span>: <span class="type">string</span> = isMember ? <span class="string">"Member"</span> : <span class="string">"Guest"</span>;
+    <span class="keyword">return</span> <span class="string">`Selamat datang, ${title} ${name}! Usia: ${age} tahun.`</span>;
+}
+
+<span class="comment">// Pemanggilan fungsi</span>
+<span class="keyword">const</span> <span class="type">pesan</span> = <span class="function">greetUser</span>(<span class="string">"Ani"</span>, 25, <span class="keyword">true</span>);
+console.<span class="function">log</span>(pesan); <span class="comment">// "Selamat datang, Member Ani! Usia: 25 tahun."</span>
+
+<span class="comment">// Objek dengan tipe primitif</span>
+<span class="keyword">interface</span> <span class="type">User</span> {
+    <span class="type">id</span>: <span class="type">number</span>;
+    <span class="type">name</span>: <span class="type">string</span>;
+    <span class="type">email</span>: <span class="type">string</span>;
+    <span class="type">isActive</span>: <span class="type">boolean</span>;
+}
+
+<span class="keyword">function</span> <span class="function">createUser</span>(<span class="type">id</span>: <span class="type">number</span>, <span class="type">name</span>: <span class="type">string</span>, <span class="type">email</span>: <span class="type">string</span>): <span class="type">User</span> {
+    <span class="keyword">return</span> { id, name, email, isActive: <span class="keyword">true</span> };
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💪 Latihan Praktek</h2>
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 1: Kalkulator Sederhana</h3>
+                    <p class="text-gray-700 mb-3">Buat fungsi calculator yang menerima dua number dan mengembalikan hasil operasi aritmatika dalam string.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Petunjuk: Buat fungsi <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">calculate(a: number, b: number, operation: string): string</code></p>
+                        <p class="text-sm text-gray-600">Expected output: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">"Hasil penjumlahan: 15"</code></p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 2: Validasi Form</h3>
+                    <p class="text-gray-700 mb-3">Buat fungsi yang memvalidasi input form dengan tipe string dan boolean.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Buat fungsi <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">validateForm(username: string, age: number, agreeTerms: boolean): {valid: boolean, message: string}</code></p>
+                        <p class="text-sm text-gray-600">Username minimal 3 karakter, age minimal 18, agreeTerms harus true</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Preview -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📝 Quiz</h2>
+            <p class="text-gray-600 mb-4">Setelah memahami materi ini, coba kerjakan quiz di akhir modul untuk menguji pemahaman Anda tentang tipe primitif TypeScript.</p>
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+                <span>📌 Module 2 Quiz</span>
+                <span>•</span>
+                <span>10 questions</span>
+                <span>•</span>
+                <span>Passing score: 70%</span>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <button class="nav-btn" disabled>
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Next lesson: any-dan-unknown.html')">
+                Next Lesson →
+            </button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Barrel Files dan Re-export - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 8: Modules dan Namespaces</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 7</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 42.86%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 8</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Barrel Files dan Re-export</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Barrel files</strong> adalah pattern di mana kita membuat file <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">index.ts</code> yang mengekspor ulang (re-export) semua public API dari module tertentu. Pattern ini menyederhanakan import paths dan memberikan single entry point untuk consuming code.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Best Practice</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami konsep <strong>barrel file</strong> (index.ts) dan tujuannya</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export * from './module'</code> untuk re-export semua named exports</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export { default } from './module'</code> untuk re-export default</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export { name1, name2 } from './module'</code> untuk re-export selektif</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengenal manfaat barrel files: <strong>cleaner imports</strong>, <strong>easier refactoring</strong>, <strong>public API definition</strong></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami trade-offs: <strong>tree shaking</strong> vs <strong>convenience</strong></span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Apa itu Barrel File?</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>Barrel file</strong> (biasanya bernama <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">index.ts</code>) adalah file yang berfungsi sebagai <strong>aggregator</strong> atau <strong>public API surface</strong> untuk sekelompok module. Alih-alih import langsung dari file-file spesifik, consuming code mengimpor dari barrel file yang kemudian re-export semua yang diperlukan.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-blue-900 mb-2">🔑 Karakteristik Barrel File:</h3>
+                <ul class="list-disc list-inside text-blue-800 space-y-2">
+                    <li>Biasanya berada di folder yang mengelompokkan module terkait</li>
+                    <li>Nama file: <code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">index.ts</code> (bisa juga nama lain)</li>
+                    <li>Hanya berisi perintah <code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">export</code> (re-export), tidak ada logic</li>
+                    <li>Mendefinisikan <strong>public API</strong> dari package/folder</li>
+                    <li>Memungkinkan import path yang lebih pendek dan stabil</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Struktur Folder dengan Barrel</h3>
+            
+            <div class="code-block mb-6">
+src/
+├── utils/
+│   ├── string-utils.ts
+│   ├── number-utils.ts
+│   ├── date-utils.ts
+│   └── index.ts          ← Barrel file
+├── services/
+│   ├── user-service.ts
+│   ├── auth-service.ts
+│   └── index.ts          ← Barrel file
+└── app.ts
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Re-export Patterns</h3>
+
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">1. Re-export Semua Named Exports</h4>
+            <p class="text-gray-700 mb-4">
+                Gunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export * from './module'</code> untuk re-export semua named exports dari module. Default export TIDAK termasuk.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: src/utils/index.ts (barrel)</span>
+<span class="keyword">export *</span> <span class="keyword">from</span> <span class="string">'./string-utils'</span>;
+<span class="keyword">export *</span> <span class="keyword">from</span> <span class="string">'./number-utils'</span>;
+<span class="keyword">export *</span> <span class="keyword">from</span> <span class="string">'./date-utils'</span>;
+            </div>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: src/utils/string-utils.ts</span>
+<span class="keyword">export function</span> <span class="function">capitalize</span>(text: <span class="type">string</span>): <span class="type">string</span> { ... }
+<span class="keyword">export function</span> <span class="function">reverse</span>(text: <span class="type">string</span>): <span class="type">string</span> { ... }
+<span class="keyword">export const</span> <span class="function">MAX_LENGTH</span> = <span class="string">100</span>;
+
+<span class="comment">// File: src/app.ts</span>
+<span class="keyword">import</span> { capitalize, reverse, MAX_LENGTH } <span class="keyword">from</span> <span class="string">'./utils'</span>;  <span class="comment">// Import dari barrel, bukan langsung ke file!</span>
+            </div>
+
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">2. Re-export Default Export</h4>
+            <p class="text-gray-700 mb-4">
+                Untuk re-export default export, gunakan sintaks <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export { default } from './module'</code> atau <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export { default as alias } from './module'</code>.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: src/services/auth-service.ts</span>
+<span class="keyword">default class</span> <span class="function">AuthService</span> { ... }
+<span class="keyword">export interface</span> <span class="function">User</span> { ... }
+
+<span class="comment">// File: src/services/index.ts</span>
+<span class="keyword">export *</span> <span class="keyword">from</span> <span class="string">'./auth-service'</span>;  <span class="comment">// Named exports (User)</span>
+<span class="keyword">export { default as AuthService }</span> <span class="keyword">from</span> <span class="string">'./auth-service'</span>;  <span class="comment">// Default export di-rename</span>
+
+<span class="comment">// File: src/app.ts</span>
+<span class="keyword">import</span> { AuthService, User } <span class="keyword">from</span> <span class="string">'./services'</span>;
+            </div>
+
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">3. Re-export Selektif</h4>
+            <p class="text-gray-700 mb-4">
+                Kita bisa memilih hanya beberapa export yang ingin di-expose ke public API dengan re-export selektif.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: src/utils/index.ts</span>
+<span class="keyword">export *</span> <span class="keyword">from</span> <span class="string">'./string-utils'</span>;  <span class="comment">// Semua string utils</span>
+<span class="keyword">export *</span> <span class="keyword">from</span> <span class="string">'./number-utils'</span>;  <span class="comment">// Semua number utils</span>
+<span class="keyword">export { formatDate, parseDate }</span> <span class="keyword">from</span> <span class="string">'./date-utils'</span>;  <span class="comment">// Hanya 2 fungsi dari date-utils</span>
+<span class="comment">// (formatTime dan parseTime TIDAK di-export, jadi private)</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Manfaat Barrel Files</h2>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                    <h3 class="font-bold text-green-900 mb-3">✅ Keuntungan</h3>
+                    <ul class="list-disc list-inside text-green-800 space-y-2 text-sm">
+                        <li><strong>Import paths lebih pendek</strong>: <code class="bg-green-100 px-2 py-1 rounded">from './utils'</code> vs <code class="bg-green-100 px-2 py-1 rounded">from './utils/string-utils'</code></li>
+                        <li><strong>Single source of truth</strong>: public API didefinisikan di satu tempat</li>
+                        <li><strong>Refactoring mudah</strong>: ubah struktur file internal tanpa ubah import di consuming code</li>
+                        <li><strong>Organisasi yang jelas</strong>: barrel menjadi entry point untuk package/folder</li>
+                        <li><strong>Mengurangi import spaghetti</strong>: konsumen tidak perlu tahu struktur internal</li>
+                    </ul>
+                </div>
+
+                <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+                    <h3 class="font-bold text-red-900 mb-3">⚠️ Trade-offs</h3>
+                    <ul class="list-disc list-inside text-red-800 space-y-2 text-sm">
+                        <li><strong>Tree shaking kurang optimal</strong>: <code class="bg-red-100 px-2 py-1 rounded">export *</code> bisa menarik semua module walau cuma butuh satu fungsi</li>
+                        <li><strong>Incremental compilation slower</strong>: TypeScript harus traverse barrel chain</li>
+                        <li><strong>Circular dependency risk</strong>: lebih mudah terjadi circular import dengan barrel</li>
+                        <li><strong>Extra file</strong>: tambahan <code class="bg-red-100 px-2 py-1 rounded">index.ts</code> maintenance overhead</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-purple-900 mb-2">💡 Tips:</h3>
+                <p class="text-purple-800">
+                    Gunakan barrel files untuk <strong>public API packages</strong> (seperti library yang akan dipublish) atau <strong>domain grouping</strong> (utils, services, components). Untuk aplikasi besar dengan bundle size concern, pertimbangkan <strong>selective re-export</strong> atau hindari barrel untuk hot paths. Bundler modern (Webpack 5, Rollup, esbuild) sudah cukup smart untuk tree shaking meski ada barrel.
+                </p>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Contoh Lengkap: Barrel File untuk Utilitas</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: src/utils/string-utils.ts</span>
+<span class="keyword">export function</span> <span class="function">capitalize</span>(text: <span class="type">string</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> text.charAt(<span class="string">0</span>).toUpperCase() + text.slice(<span class="string">1</span>);
+}
+
+<span class="keyword">export function</span> <span class="function">reverse</span>(text: <span class="type">string</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> text.split(<span class="string">''</span>).reverse().join(<span class="string">''</span>);
+}
+
+<span class="keyword">export function</span> <span class="function">truncate</span>(text: <span class="type">string</span>, max: <span class="type">number</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> text.length > max ? text.substring(<span class="string">0</span>, max) + <span class="string">'...'</span> : text;
+}
+
+<span class="comment">// File: src/utils/number-utils.ts</span>
+<span class="keyword">export function</span> <span class="function">formatNumber</span>(num: <span class="type">number</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> num.toLocaleString(<span class="string">'id-ID'</span>);
+}
+
+<span class="keyword">export function</span> <span class="function">round</span>(num: <span class="type">number</span>, decimals: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> <span class="function">Math</span>.<span class="function">round</span>(num * <span class="function">Math</span>.<span class="function">pow</span>(<span class="string">10</span>, decimals)) / <span class="function">Math</span>.<span class="function">pow</span>(<span class="string">10</span>, decimals);
+}
+
+<span class="comment">// File: src/utils/index.ts (BARREL)</span>
+<span class="keyword">export *</span> <span class="keyword">from</span> <span class="string">'./string-utils'</span>;
+<span class="keyword">export *</span> <span class="keyword">from</span> <span class="string">'./number-utils'</span>;
+
+<span class="comment">// File: src/app.ts</span>
+<span class="keyword">import</span> { capitalize, truncate, formatNumber, round } <span class="keyword">from</span> <span class="string">'./utils'</span>;
+
+console.<span class="function">log</span>(<span class="function">capitalize</span>(<span class="string">'hello world'</span>));  <span class="comment">// "Hello world"</span>
+console.<span class="function">log</span>(<span class="function">formatNumber</span>(<span class="string">1234567</span>));     <span class="comment">// "1.234.567"</span>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Buat Barrel untuk Components</h3>
+                    <p class="text-gray-700 mb-4">
+                        Dalam folder <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">src/components/</code> Anda punya:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">button.tsx</code> (export default Button component)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">input.tsx</code> (export default Input component)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">modal.tsx</code> (export default Modal component)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">types.ts</code> (named exports: ButtonProps, InputProps, ModalProps)</li>
+                    </ul>
+                    <p class="text-gray-700 mb-2">
+                        Buat <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">src/components/index.ts</code> yang:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Re-export semua named exports dari <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">types.ts</code></li>
+                        <li>Re-export default components dengan alias yang jelas (Button, Input, Modal)</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Selective Re-export</h3>
+                    <p class="text-gray-700 mb-4">
+                        Anda memiliki module <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">validation.ts</code> dengan 10 fungsi validasi. Hanya 3 fungsi yang umum digunakan (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">isEmail</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">isPhone</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">isStrongPassword</code>). Buat barrel file yang hanya expose 3 fungsi tersebut (bukan semua 10).
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Nested Barrel Files</h3>
+                    <p class="text-gray-700 mb-4">
+                        Struktur folder:
+                    </p>
+                    <div class="code-block mb-4">
+src/
+├── ui/
+│   ├── buttons/
+│   │   ├── primary-button.ts
+│   │   ├── secondary-button.ts
+│   │   └── index.ts
+│   ├── inputs/
+│   │   ├── text-input.ts
+│   │   ├── number-input.ts
+│   │   └── index.ts
+│   └── index.ts
+└── app.ts
+                    </div>
+                    <p class="text-gray-700">
+                        Buat barrel files di setiap subfolder (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">buttons/index.ts</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">inputs/index.ts</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">ui/index.ts</code>) sehingga di <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">app.ts</code> bisa import dengan path <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">from './ui'</code> saja.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Navigate to previous lesson (Module 8, Lesson 2)')">
+                ← Sebelumnya: Default vs Named Exports
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 8, Lesson 4)')">
+                Selanjutnya: Dynamic Import dan Code Splitting →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: Barrel Files
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module8', 'barrel-files');
+            }
+        });
+    </script>
+</body>
+</html>

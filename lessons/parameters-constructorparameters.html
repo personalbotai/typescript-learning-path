@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6: Parameters & ConstructorParameters Utility Types - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 11: Advanced Utility Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 6 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 75%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 11</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 6</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Parameters & ConstructorParameters Utility Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Parameters&lt;T&gt;</strong> dan <strong>ConstructorParameters&lt;T&gt;</strong> adalah utility types untuk mengekstrak tuple types dari function signatures dan class constructors. Sangat berguna untuk higher-order functions dan type inference.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Tinggi</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami Parameters&lt;T&gt; untuk mengekstrak function parameter types sebagai tuple</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan ConstructorParameters&lt;T&gt; untuk class constructor parameters</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Mengaplikasikan utility types dalam higher-order functions (compose, curry)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami batasan dan edge cases</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Parameters&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Parameters&lt;T&gt;</code> menghasilkan tuple type yang merepresentasikan parameter types dari function type <code class="bg-gray-100 px-1 rounded">T</code>. Ini adalah conditional type yang mengekstrak signature.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Function dengan beberapa parameters</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="type">string</span>, age: <span class="type">number</span>, isAdmin: <span class="keyword">boolean</span>): <span class="type">void</span> {
+  console.log(<span class="string">`Hello ${name}`</span>);
+}
+
+<span class="comment">// Extract parameters sebagai tuple</span>
+<span class="keyword">type</span> GreetParams = Parameters&lt;<span class="keyword">typeof</span> greet&gt;;
+<span class="comment">// Equivalent to: [string, number, boolean]</span>
+
+<span class="keyword">function</span> <span class="function">callGreet</span>(...args: GreetParams) {
+  greet(...args);
+}
+
+callGreet(<span class="string">"Alice"</span>, <span class="type">30</span>, <span class="keyword">true</span>);  <span class="comment">// ✅ OK</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">ConstructorParameters&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">ConstructorParameters&lt;T&gt;</code> mengekstrak parameter types dari class constructor atau constructor function.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="keyword">class</span> <span class="function">User</span> {
+  <span class="keyword">constructor</span>(
+    <span class="keyword">public</span> id: <span class="type">number</span>,
+    <span class="keyword">public</span> name: <span class="type">string</span>,
+    <span class="keyword">public</span> email: <span class="type">string</span>
+  ) {}
+}
+
+<span class="comment">// Extract constructor parameters</span>
+<span class="keyword">type</span> UserCtorParams = ConstructorParameters&lt;<span class="keyword">typeof</span> User&gt;;
+<span class="comment">// Equivalent to: [number, string, string]</span>
+
+<span class="keyword">function</span> <span class="function">createUser</span>(...args: UserCtorParams) {
+  <span class="keyword">return new</span> User(...args);
+}
+
+<span class="keyword">const</span> user = createUser(<span class="type">1</span>, <span class="string">"Alice"</span>, <span class="string">"alice@example.com"</span>);
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Use Cases</h3>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">1. Higher-Order Functions</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Membuat wrapper functions yang preserve original signature:
+            </p>
+            <div class="code-block mb-6">
+<span class="keyword">function</span> <span class="function">log</span>&lt;T extends (...args: <span class="keyword">any</span>[]) =&gt; <span class="keyword">any</span>&gt;(fn: T) {
+  <span class="keyword">return function</span>(...args: Parameters&lt;T&gt;): ReturnType&lt;T&gt; {
+    console.log(<span class="string">`Calling ${fn.name} with`</span>, args);
+    <span class="keyword">return</span> fn(...args);
+  };
+}
+
+<span class="keyword">function</span> <span class="function">add</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+  <span class="keyword">return</span> a + b;
+}
+
+<span class="keyword">const</span> loggedAdd = log(add);
+loggedAdd(<span class="type">2</span>, <span class="type">3</span>);  <span class="comment">// Type-safe, parameters inferred as [number, number]</span>
+            </div>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">2. Currying</h4>
+            <div class="code-block mb-6">
+<span class="keyword">function</span> <span class="function">curry</span>&lt;T extends (...args: <span class="keyword">any</span>[]) =&gt; <span class="keyword">any</span>&gt;(fn: T) {
+  <span class="keyword">return function</span>(first: Parameters&lt;T&gt;[<span class="type">0</span>]) {
+    <span class="keyword">return function</span>(...rest: Parameters&lt;T&gt;) {
+      <span class="keyword">return</span> fn(first, ...rest);
+    };
+  };
+}
+
+<span class="keyword">function</span> <span class="function">multiply</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+  <span class="keyword">return</span> a * b;
+}
+
+<span class="keyword">const</span> curriedMultiply = curry(multiply);
+<span class="keyword">const</span> double = curriedMultiply(<span class="type">2</span>);
+double(<span class="type">5</span>);  <span class="comment">// 10</span>
+            </div>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">3. Factory Functions</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Mempertahankan constructor signature saat membuat factory:
+            </p>
+            <div class="code-block mb-6">
+<span class="keyword">function</span> <span class="function">createInstance</span>&lt;T&gt;(Ctor: new (...args: ConstructorParameters&lt;T&gt;) =&gt; T, ...args: ConstructorParameters&lt;T&gt;) {
+  <span class="keyword">return new</span> Ctor(...args);
+}
+
+<span class="keyword">class</span> <span class="function">Person</span> {
+  <span class="keyword">constructor</span>(<span class="keyword">public</span> name: <span class="type">string</span>, <span class="keyword">public</span> age: <span class="type">number</span>) {}
+}
+
+<span class="keyword">const</span> p = createInstance(Person, <span class="string">"Bob"</span>, <span class="type">25</span>);  <span class="comment">// Type-safe</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Edge Cases & Limitations</h3>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                <h4 class="font-semibold text-yellow-800 mb-2">Functions with Rest Parameters</h4>
+                <p class="text-yellow-800 text-sm"><code class="bg-gray-100 px-1 rounded">Parameters</code> menangani rest parameters sebagai array.</p>
+                <div class="code-block mt-2 text-sm">
+function foo(...args: <span class="type">string</span>[]) {}
+<span class="keyword">type</span> FooParams = Parameters&lt;<span class="keyword">typeof</span> foo&gt;;  <span class="comment">// [args: string[]]</span>
+                </div>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                <h4 class="font-semibold text-yellow-800 mb-2">Overloaded Functions</h4>
+                <p class="text-yellow-800 text-sm"><code class="bg-gray-100 px-1 rounded">Parameters</code> menggunakan signature terakhir (last overload).</p>
+                <div class="code-block mt-2 text-sm">
+function bar(x: <span class="type">string</span>): <span class="type">void</span>;
+function bar(x: <span class="type">number</span>): <span class="keyword">void</span>;
+function bar(x: <span class="keyword">any</span>) {}
+<span class="keyword">type</span> BarParams = Parameters&lt;<span class="keyword">typeof</span> bar&gt;;  <span class="comment">// [x: any] (last signature)</span>
+                </div>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                <h4 class="font-semibold text-yellow-800 mb-2">Methods vs Functions</h4>
+                <p class="text-yellow-800 text-sm">Untuk class methods, gunakan <code class="bg-gray-100 px-1 rounded">ThisParameterType</code> atau explicit <code class="bg-gray-100 px-1 rounded">this</code> parameter.</p>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Related Utility Types</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                TypeScript juga menyediakan:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li><code class="bg-gray-100 px-1 rounded">ReturnType&lt;T&gt;</code> - Extract return type dari function</li>
+                <li><code class="bg-gray-100 px-1 rounded">ThisParameterType&lt;T&gt;</code> - Extract <code class="bg-gray-100 px-1 rounded">this</code> parameter type</li>
+                <li><code class="bg-gray-100 px-1 rounded">OmitThisParameter&lt;T&gt;</code> - Remove <code class="bg-gray-100 px-1 rounded">this</code> parameter</li>
+                <li><code class="bg-gray-100 px-1 rounded">InstanceType&lt;T&gt;</code> - Get instance type dari constructor function</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Parameter Extraction</h3>
+                    <p class="text-gray-700 mb-3">Gunakan Parameters untuk type inference.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat function <code class="bg-gray-100 px-1 rounded">sendRequest(url: string, method: string, body?: object)</code></li>
+                        <li>Extract parameters dengan <code class="bg-gray-100 px-1 rounded">type RequestParams = Parameters&lt;typeof sendRequest&gt;</code></li>
+                        <li>Buat wrapper function yang accept <code class="bg-gray-100 px-1 rounded">...args: RequestParams</code></li>
+                        <li>Verify type safety maintained</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: Constructor Wrapper</h3>
+                    <p class="text-gray-700 mb-3">Gunakan ConstructorParameters untuk factory.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat class <code class="bg-gray-100 px-1 rounded">Logger</code> dengan constructor(prefix: string, level: number)</li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">type LoggerParams = ConstructorParameters&lt;typeof Logger&gt;</code></li>
+                        <li>Buat function <code class="bg-gray-100 px-1 rounded">createLogger(...args: LoggerParams)</code> yang return new Logger(...args)</li>
+                        <li>Test dengan various arguments</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Compose Functions</h3>
+                    <p class="text-gray-700 mb-3">Buat generic compose function menggunakan Parameters.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">function compose&lt;A, B, C&gt;(f: (a: A) => B, g: (b: B) => C): (a: A) => C</code></li>
+                        <li>Gunakan Parameters dan ReturnType untuk membuat generic version</li>
+                        <li>Test compose dengan functions yang berbeda signatures</li>
+                        <li>Pastikan type inference bekerja dengan baik</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

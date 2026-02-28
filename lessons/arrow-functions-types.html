@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5: Arrow Functions & Types - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 5: Functions & Arrow Functions</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 5 of 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 5</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 5</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Arrow Functions & Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Arrow Functions</strong> adalah sintaks alternatif untuk function expressions yang lebih ringkas. Di TypeScript, arrow functions memiliki <strong>lexical scoping</strong> untuk <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">arguments</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">super</code>, dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">new.target</code>. Memahami arrow functions dan typing-nya penting untuk modern TypeScript development.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Mudah</span>
+                <span>📚 Tipe: Functions</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Memahami sintaks arrow function dan perbandingan dengan regular functions</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Mengetik arrow functions dengan parameter dan return types</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Memahami lexical scoping dan perilaku <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code> di arrow functions</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Menggunakan arrow functions sebagai callbacks dan higher-order functions</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📘 Arrow Function Syntax</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Arrow functions menggunakan sintaks <code class="bg-gray-100 px-2 py-1 rounded font-mono">=></code> untuk mendefinisikan function body. Ada beberapa bentuk syntax tergantung jumlah parameter dan explicit return.
+            </p>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+                <p class="text-yellow-800">
+                    <strong>🔑 Key Difference:</strong> Arrow functions tidak memiliki <em>own</em> <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code>. Mereka mengambil <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code> dari <em>enclosing lexical scope</em>. Ini membuat them ideal untuk callbacks di mana regular functions akan memiliki <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code> yang berbeda.
+                </p>
+            </div>
+        </section>
+
+        <!-- Code Example 1 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">💻 Contoh 1: Basic Arrow Function</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Berikut perbandingan regular function dan arrow function:
+            </p>
+
+            <div class="code-block mb-4">
+<pre><code><span class="comment">// Regular function</span>
+<span class="keyword">function</span> <span class="function">add</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="comment">// Arrow function (explicit return)</span>
+<span class="keyword">const</span> addArrow = (a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> => {
+    <span class="keyword">return</span> a + b;
+};
+
+<span class="comment">// Arrow function (implicit return, single expression)</span>
+<span class="keyword">const</span> addShort = (a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> => a + b;
+
+<span class="comment">// Single parameter bisa tanpa parentheses</span>
+<span class="keyword">const</span> square = (x: <span class="type">number</span>): <span class="type">number</span> => x * x;</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed">
+                Arrow functions dengan <em>implicit return</em> (tanpa kurung kurawal) hanya bisa digunakan jika body adalah <em>single expression</em>. TypeScript akan menebak return type otomatis, atau kita bisa specify explicit return type seperti contoh di atas.
+            </p>
+        </section>
+
+        <!-- Code Example 2 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">💻 Contoh 2: Arrow Functions dengan Callbacks</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Arrow functions sangat umum digunakan sebagai callbacks karena lexical <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code>:
+            </p>
+
+            <div class="code-block mb-4">
+<pre><code><span class="keyword">class</span> <span class="type">Counter</span> {
+    private count = 0;
+
+    increment(): <span class="keyword">void</span> {
+        <span class="keyword">const</span> numbers = [1, 2, 3, 4, 5];
+
+        <span class="comment">// Arrow function: 'this' dari Counter class</span>
+        numbers.forEach((num) => {
+            <span class="keyword">this</span>.count += num;  <span class="comment">// ✅ this adalah Counter instance</span>
+        });
+
+        <span class="comment">// Regular function: 'this' undefined atau global</span>
+        <span class="comment">// numbers.forEach(function(num) { this.count += num; }); // ❌ Error</span>
+    }
+
+    getCount(): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.count;
+    }
+}</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed">
+                Di dalam arrow function, <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code> mengacu pada <code class="bg-gray-100 px-2 py-1 rounded font-mono">Counter</code> instance (lexical scope). Regular function di callback akan memiliki <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code> sendiri (undefined di strict mode).
+            </p>
+        </section>
+
+        <!-- Code Example 3 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">💻 Contoh 3: Typing Arrow Functions dengan Interfaces</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Kita bisa assign type ke arrow function menggunakan type annotations atau interfaces:
+            </p>
+
+            <div class="code-block mb-4">
+<pre><code><span class="comment">// Define a function type</span>
+<span class="keyword">type</span> <span class="type">MathOperation</span> = (x: <span class="type">number</span>, y: <span class="type">number</span>) => <span class="type">number</span>;
+
+<span class="comment">// Arrow function with explicit type</span>
+<span class="keyword">const</span> multiply: MathOperation = (x: <span class="type">number</span>, y: <span class="type">number</span>): <span class="type">number</span> => x * y;
+
+<span class="comment">// TypeScript bisa infer type dari context</span>
+<span class="keyword">const</span> divide: MathOperation = (x, y) => x / y; <span class="comment">// Parameters的类型被推断为 any，需要显式注解或开启 noImplicitAny</span>
+
+<span class="comment">// Better with explicit parameter types</span>
+<span class="keyword">const</span> divideSafe = (x: <span class="type">number</span>, y: <span class="type">number</span>): <span class="type">number</span> => x / y;
+
+<span class="comment">// Arrow function dengan rest parameters</span>
+<span class="keyword">const</span> sumAll = (...nums: <span class="type">number</span>[]): <span class="type">number</span> => nums.reduce((a, b) => a + b, 0);</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed">
+                Ketika assign arrow function ke typed variable, TypeScript akan check bahwa function signature sesuai. Jika kita assign <code class="bg-gray-100 px-2 py-1 rounded font-mono">(x, y) => x + y</code> ke variable bertipe <code class="bg-gray-100 px-2 py-1 rounded font-mono">(a: string, b: string) => string</code>, TypeScript akan memberikan error karena tipe parameter tidak match.
+            </p>
+        </section>
+
+        <!-- Code Example 4 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">💻 Contoh 4: Arrow Functions dalam Higher-Order Functions</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Arrow functions sering digunakan dengan array methods (<code class="bg-gray-100 px-2 py-1 rounded font-mono">map</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">filter</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">reduce</code>) dan other higher-order functions:
+            </p>
+
+            <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="type">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    age: <span class="type">number</span>;
+}
+
+<span class="keyword">const</span> users: User[] = [
+    { id: 1, name: <span class="string">"Alice"</span>, age: 25 },
+    { id: 2, name: <span class="string">"Bob"</span>, age: 30 },
+    { id: 3, name: <span class="string">"Charlie"</span>, age: 35 }
+];
+
+<span class="comment">// Arrow function dengan explicit typing di map</span>
+<span class="keyword">const</span> names: string[] = users.map((user: User): <span class="type">string</span> => user.name);
+
+<span class="comment">// TypeScript bisa infer parameter type dari array context</span>
+<span class="keyword">const</span> adults = users.filter(user => user.age >= 18); <span class="comment">// user bertipe User</span>
+
+<span class="comment">// Complex transformation</span>
+<span class="keyword">const</span> nameLengths = users
+    .map(user => ({ ...user, nameLength: user.name.length }))
+    .filter(u => u.nameLength > 4)
+    .map(u => u.nameLength);</code></pre>
+            </div>
+        </section>
+
+        <!-- Best Practices -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">💡 Best Practices</h2>
+            <div class="space-y-4">
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <h3 class="font-bold text-blue-900 mb-2">1. Gunakan arrow functions untuk callbacks</h3>
+                    <p class="text-blue-800">Arrow functions menjaga <code class="bg-blue-100 px-1 rounded font-mono">this</code> lexical context, sangat berguna sebagai callbacks di object methods atau event handlers.</p>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <h3 class="font-bold text-blue-900 mb-2">2. Explicit types untuk public APIs</h3>
+                    <p class="text-blue-800">Untuk function yang diekspos sebagai public API, selalu specify parameter dan return types secara eksplisit.</p>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <h3 class="font-bold text-blue-900 mb-2">3. Implicit return untuk simple expressions</h3>
+                    <p class="text-blue-800">Gunakan implicit return (tanpa kurung kurawal) untuk single-expression functions seperti callbacks <code class="bg-blue-100 px-1 rounded font-mono">map</code>, <code class="bg-blue-100 px-1 rounded font-mono">filter</code>.</p>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <h3 class="font-bold text-blue-900 mb-2">4. Jangan gunakan arrow functions sebagai constructors</h3>
+                    <p class="text-blue-800">Arrow functions tidak bisa digunakan dengan <code class="bg-blue-100 px-1 rounded font-mono">new</code> keyword. Mereka tidak memiliki <code class="bg-blue-100 px-1 rounded font-mono">[[Construct]]</code> internal method.</p>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <h3 class="font-bold text-blue-900 mb-2">5. Gunakan regular functions untuk method yang butuh <code class="bg-blue-100 px-1 rounded font-mono">this</code></h3>
+                    <p class="text-blue-800">Jika method perlu akses ke object's <code class="bg-blue-100 px-1 rounded font-mono">this</code> (bukan lexical), gunakan regular function, bukan arrow.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Pitfalls -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">⚠️ Common Pitfalls</h2>
+            <div class="space-y-4">
+                <div class="bg-red-50 border-l-4 border-red-400 p-4">
+                    <h3 class="font-bold text-red-900 mb-2">1. Arrow functions tidak bisa dipakai sebagai methods</h3>
+                    <p class="text-red-800">
+                        Jika kita assign arrow function sebagai object property, <code class="bg-red-100 px-1 rounded font-mono">this</code> tidak akan mengacu ke object tersebut:
+                    </p>
+                    <div class="code-block mt-2">
+<pre><code><span class="keyword">const</span> obj = {
+    value: 42,
+    <span class="comment">// Arrow function - this lexical, bukan obj</span>
+    getValue: () => <span class="keyword">this</span>.value  <span class="comment">// this mungkin window atau undefined</span>
+};
+console.log(obj.getValue()); <span class="comment">// undefined atau error</span></code></pre>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-400 p-4">
+                    <h3 class="font-bold text-red-900 mb-2">2. Arrow functions tidak memiliki <code class="bg-red-100 px-1 rounded font-mono">arguments</code> object</h3>
+                    <p class="text-red-800">
+                        Arrow functions tidak memiliki <code class="bg-red-100 px-1 rounded font-mono">arguments</code> binding. Gunakan rest parameters untuk menangkap semua arguments:
+                    </p>
+                    <div class="code-block mt-2">
+<pre><code><span class="keyword">function</span> <span class="function">regular</span>() {
+    console.log(<span class="keyword">arguments</span>); <span class="comment">// ArgumentsObject [1, 2, 3]</span>
+}
+regular(1, 2, 3);
+
+<span class="keyword">const</span> arrow = () => {
+    console.log(<span class="keyword">arguments</span>); <span class="comment">// ReferenceError: arguments is not defined</span>
+};
+arrow(1, 2, 3);
+
+<span class="comment">// Gunakan rest parameters:</span>
+<span class="keyword">const</span> arrowWithRest = (...args: <span class="keyword">any</span>[]) => {
+    console.log(args); <span class="comment">// [1, 2, 3]</span>
+};</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🏋️ Latihan</h2>
+            <div class="space-y-6">
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="font-bold text-gray-900 mb-3">Latihan 1: Transformasi Array</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat arrow function yang mengubah array of numbers menjadi array of strings yang representasi currency:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Input: <code class="bg-gray-100 px-2 py-1 rounded font-mono">[100, 200, 300]</code></li>
+                        <li>Output: <code class="bg-gray-100 px-2 py-1 rounded font-mono">["Rp 100", "Rp 200", "Rp 300"]</code></li>
+                        <li>Gunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">map</code> dengan arrow function</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="font-bold text-gray-900 mb-3">Latihan 2: Event Handler dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code></h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Timer</code> yang menggunakan arrow function sebagai event handler agar <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code> tetap merujuk ke instance:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Property <code class="bg-gray-100 px-2 py-1 rounded font-mono">seconds: number</code></li>
+                        <li>Method <code class="bg-gray-100 px-2 py-1 rounded font-mono">start()</code> yang menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">setInterval</code> dengan arrow function</li>
+                        <li>Arrow function increment <code class="bg-gray-100 px-2 py-1 rounded font-mono">this.seconds</code> setiap detik</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Preview -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📝 Quiz</h2>
+            <p class="text-gray-600 mb-4">
+                Setelah mempelajari lesson ini, cobalah quiz untuk menguji pemahaman Anda. Quiz akan otomatis dimuat dari <code class="bg-gray-100 px-2 py-1 rounded font-mono">quizzes/</code> folder.
+            </p>
+            <div class="bg-green-50 border-l-4 border-green-400 p-4">
+                <p class="text-green-800">
+                    <strong>✅ Quiz Tersedia:</strong> Mencakup arrow function syntax, lexical this, typing, dan penggunaan sebagai callbacks.
+                </p>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn primary" onclick="alert('Previous lesson: Function Overloads')">
+                ← Sebelumnya
+            </button>
+            <span class="text-sm font-medium text-gray-500">Lesson 5 of 5</span>
+            <button class="nav-btn" disabled>
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-gray-500 text-sm">
+        <p>© 2026 TypeScript Learning Path. Dibuat dengan ❤️ untuk komunitas developer Indonesia.</p>
+    </footer>
+</body>
+</html>

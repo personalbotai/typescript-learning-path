@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 12: Type Assertions - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 2: Tipe Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 6 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 2</span>
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">Final Lesson</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Type Assertions</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Type assertions adalah cara untuk memberitahu TypeScript bahwa Anda tahu tipe suatu nilai lebih baik daripada TypeScript. Ini seperti type casting di bahasa lain, tetapi tidak mengubah runtime behavior - hanya mengubah cara TypeScript memandang tipe tersebut. Gunakan dengan hati-hati karena dapat menonaktifkan type safety.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Intermediate</span>
+                <span>✅ prerequisites: Tipe Primitif, any/unknown</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami dua sintaks type assertion: <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">as</code> dan angle-bracket</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mengetahui kapan menggunakan type assertion</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Membedakan type assertion dengan type casting</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menghindari pitfalls dan unsafe assertions</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Materi</h2>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">1. Sintaks Type Assertion</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                TypeScript menyediakan dua cara untuk melakukan type assertion: menggunakan kata kunci <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">as</code> (rekomendasi) atau angle-bracket syntax <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">&lt;Type&gt;value</code>. Keduanya setara, tetapi <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">as</code> lebih disukai karena lebih jelas dan tidak bentrok dengan JSX.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Dua sintaks type assertion (setara)</span>
+<span class="keyword">let</span> <span class="type">someValue</span>: <span class="type">unknown</span> = <span class="string">"hello"</span>;
+
+<span class="comment">// Sintaks 1: "as" (rekomendasi)</span>
+<span class="keyword">let</span> <span class="type">strLength1</span>: <span class="type">number</span> = (someValue <span class="keyword">as</span> <span class="type">string</span>).<span class="function">length</span>;
+
+<span class="comment">// Sintaks 2: angle-bracket (hindari jika pakai JSX)</span>
+<span class="keyword">let</span> <span class="type">strLength2</span>: <span class="type">number</span> = (&lt;<span class="type">string</span>&gt;someValue).<span class="function">length</span>;
+
+<span class="comment">// Keduanya sama - pilih salah satu konsisten</span>
+console.<span class="function">log</span>(strLength1, strLength2); <span class="comment">// 5, 5</span>
+
+<span class="comment">// Type assertion tidak mengubah nilai runtime</span>
+<span class="keyword">let</span> <span class="type">mixed</span>: <span class="type">unknown</span> = 123;
+<span class="keyword">let</span> <span class="type">asString</span>: <span class="type">string</span> = mixed <span class="keyword">as</span> <span class="type">string</span>;
+<span class="comment">// Runtime: asString adalah number 123, tapi TypeScript anggap string</span>
+<span class="comment">// asString.length akan error di runtime! (123 tidak punya length)</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">2. Kapan Menggunakan Type Assertion?</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Gunakan type assertion ketika Anda lebih tahu tentang tipe suatu nilai daripada TypeScript. Ini umum dalam situasi:
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+                <li>DOM manipulation (element yang dikembalikan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">as HTMLElement</code>)</li>
+                <li>Data dari eksternal API dengan tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code> atau <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code></li>
+                <li>Migrasi dari JavaScript ke TypeScript</li>
+                <li>Interoperabilitas dengan library tanpa type definitions</li>
+            </ul>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Contoh: DOM manipulation</span>
+<span class="keyword">const</span> <span class="type">button</span> = document.<span class="function">getElementById</span>(<span class="string">"myBtn"</span>) <span class="keyword">as</span> <span class="type">HTMLButtonElement</span>;
+button.<span class="function">disabled</span> = <span class="keyword">true</span>; <span class="comment">// TypeScript tahu button memiliki properti disabled</span>
+
+<span class="comment">// Contoh: Data API dengan any</span>
+<span class="keyword">const</span> <span class="type">response</span>: <span class="type">any</span> = <span class="function">fetch</span>(<span class="string">'/api/user'</span>).<span class="function">then</span>(r => r.<span class="function">json</span>());
+<span class="keyword">const</span> <span class="type">userName</span>: <span class="type">string</span> = response.data.name <span class="keyword">as</span> <span class="type">string</span>;
+
+<span class="comment">// Contoh: Union type narrowing</span>
+<span class="keyword">function</span> <span class="function">process</span>(<span class="type">value</span>: <span class="type">string</span> | <span class="type">number</span>) {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">"string"</span>) {
+        console.<span class="function">log</span>(value.<span class="function">length</span>);
+    } <span class="keyword">else</span> {
+        <span class="comment">// Di sini TypeScript tahu value adalah number</span>
+        console.<span class="function">log</span>((value <span class="keyword">as</span> <span class="type">number</span>).<span class="function">toFixed</span>(2));
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">3. Type Assertion vs Type Casting</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Type assertion <strong>bukan</strong> type casting. Type casting mengubah nilai dari satu tipe ke tipe lain pada runtime (seperti <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Number("123")</code>). Type assertion hanya memberi tahu TypeScript untuk memperlakukan nilai sebagai tipe tertentu - tidak ada konversi runtime, tidak ada overhead.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Type assertion: HANYA compile-time, tidak mengubah nilai</span>
+<span class="keyword">let</span> <span class="type">someValue</span>: <span class="type">unknown</span> = <span class="string">"123"</span>;
+<span class="keyword">let</span> <span class="type">str1</span>: <span class="type">string</span> = someValue <span class="keyword">as</span> <span class="type">string</span>;
+
+<span class="comment">// Type casting: MELAKUKAN konversi nilai pada runtime</span>
+<span class="keyword">let</span> <span class="type">num</span>: <span class="type">number</span> = <span class="keyword">Number</span>(someValue); <span class="comment">// converts "123" ke 123</span>
+
+<span class="comment">// Perbandingan:</span>
+<span class="keyword">let</span> <span class="type">val1</span> = <span class="string">"123"</span> <span class="keyword">as</span> <span class="type">number</span>; <span class="comment">// compile OK, tapi val1 masih string "123"</span>
+<span class="keyword">let</span> <span class="type">val2</span> = <span class="keyword">Number</span>(<span class="string">"123"</span>); <span class="comment">// runtime: 123 (number)</span>
+console.<span class="function">log</span>(<span class="keyword">typeof</span> val1, <span class="keyword">typeof</span> val2); <span class="comment">// "string", "number"</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">4. Double Assertion (Assertion berturut-turut)</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Anda bisa melakukan multiple assertions berturut-turut untuk mengubah tipe ke tipe yang lebih spesifik. Ini berguna ketika Anda memiliki union type kompleks.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Double assertion dari union ke specific type</span>
+<span class="keyword">let</span> <span class="type">value</span>: <span class="type">string</span> | <span class="type">number</span> = <span class="string">"hello"</span>;
+
+<span class="comment">// Assertion ke any dulu, lalu ke specific type</span>
+<span class="keyword">let</span> <span class="type">asNumber</span>: <span class="type">number</span> = (value <span class="keyword">as</span> <span class="keyword">any</span>) <span class="keyword">as</span> <span class="type">number</span>;
+<span class="comment">// TIDAK DISARANKAN - ini memaksa TypeScript menerima apapun</span>
+
+<span class="comment">// Cara yang lebih aman: gunakan type guards terlebih dahulu</span>
+<span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">"number"</span>) {
+    <span class="keyword">let</span> <span class="type">num</span>: <span class="type">number</span> = value; <span class="comment">// OK setelah check</span>
+}</code></pre>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-400 p-6 mb-6">
+                <h4 class="font-semibold text-red-800 mb-2">⚠️ DANGER: Unsafe Assertions</h4>
+                <p class="text-red-800 mb-3">Type assertion <strong>tidak melakukan</strong> runtime checking. Jika Anda salah assertion, error akan terjadi saat runtime, bukan compile time.</p>
+                <div class="code-block bg-red-100 border border-red-300 mb-3">
+                    <pre><code><span class="comment">// UNSAFE - akan crash di runtime!</span>
+<span class="keyword">let</span> <span class="type">x</span>: <span class="type">unknown</span> = 123;
+<span class="keyword">let</span> <span class="type">str</span>: <span class="type">string</span> = x <span class="keyword">as</span> <span class="type">string</span>;
+console.<span class="function">log</span>(str.<span class="function">length</span>); <span class="comment">// Runtime Error: 123.length is undefined</span></code></pre>
+                </div>
+                <p class="text-red-800">Selalu pastikan Anda benar-benar tahu tipe nilai sebelum melakukan assertion. Gunakan type guards (<code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">typeof</code>, <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">instanceof</code>) untuk aman.</p>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">5. Best Practices</h3>
+            <ul class="space-y-3 text-gray-700 mb-6">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">•</span>
+                    <span><strong>Hindari assertion jika memungkinkan</strong> - gunakan type guards atau type narrowing</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">•</span>
+                    <span><strong>Gunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">as</code> syntax</strong> - lebih jelas, kompatibel dengan JSX</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">•</span>
+                    <span><strong>Jangan assertion dari <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code> ke tipe spesifik</strong> - gunakan any hanya sebagai last resort</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">•</span>
+                    <span><strong>Double assertion berisiko</strong> - hindari assertion ke <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code> lalu ke tipe lain</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">•</span>
+                    <span><strong>Prefer type guards</strong> - <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">typeof</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">instanceof</code>, custom type guards</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💪 Latihan Praktek</h2>
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 1: Safe DOM Access</h3>
+                    <p class="text-gray-700 mb-3">Gunakan type assertion untuk mengakses DOM element dengan tipe yang tepat.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Buat fungsi <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">getInputValue(id: string): string</code> yang mengambil input element dan mengembalikan <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">value</code>-nya.</p>
+                        <p class="text-sm text-gray-600">Gunakan <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">document.getElementById(id) as HTMLInputElement</code> untuk type assertion.</p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 2: API Response Parser</h3>
+                    <p class="text-gray-700 mb-3">Buat fungsi yang parse JSON response dengan properti kompleks menggunakan type assertion.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Interface <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">ApiResponse</code>: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">{ status: number, data: { users: {id: number, name: string}[] } }</code></p>
+                        <p class="text-sm text-gray-600">Fungsi <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">parseResponse(json: unknown): ApiResponse</code> - gunakan <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">as</code> assertion untuk mengubah <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">unknown</code> ke <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">ApiResponse</code>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Preview -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📝 Quiz</h2>
+            <p class="text-gray-600 mb-4">Quiz ini akan menguji pemahaman Anda tentang type assertion, perbedaan dengan type casting, dan penggunaan yang aman.</p>
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+                <span>📌 Module 2 Quiz</span>
+                <span>•</span>
+                <span>10 questions</span>
+                <span>•</span>
+                <span>Passing score: 70%</span>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <button class="nav-btn primary" onclick="alert('Previous lesson: void-never-dan-tipe-khusus.html')">
+                ← Previous Lesson
+            </button>
+            <button class="nav-btn primary" onclick="alert('Module 2 Complete! Next: union-types.html (Module 3)')">
+                Complete Module →
+            </button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

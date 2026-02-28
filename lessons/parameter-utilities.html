@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6: Parameter Utilities - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 7: Generics</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 6 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 7</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 6</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Parameter Utilities: Partial, Required, Pick, Omit</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Parameter utility types</strong> - <code class="bg-gray-100 px-2 py-1 rounded font-mono">Partial</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">Required</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">Pick</code>, dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Omit</code> - adalah utility types paling sering digunakan dalam everyday TypeScript development. Mereka memungkinkan transformasi tipe dengan cara yang predictable dan composable, terutama untuk DTOs, API contracts, dan function parameters.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 25 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Partial</code> untuk optional fields (update operations)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Required</code> untuk enforce all fields</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Membuat subset types dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Pick</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menghapus properties dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Omit</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Composing utility types untuk complex transformations</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Real-world patterns: DTOs, API responses, form handling</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Deep Dive into Parameter Utilities</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Parameter utility types adalah transformation tools yang memodifikasi properties dari sebuah type. Mereka adalah building blocks untuk creating flexible, type-safe APIs.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Partial&lt;T&gt; - Optional Everything</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono">Partial</code> mengubah semua properties menjadi optional. Ini adalah utility type paling sering digunakan, terutama untuk:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Update/PATCH operations</li>
+                <li>Form input models</li>
+                <li>Configuration objects</li>
+                <li>Optional constructor parameters</li>
+            </ul>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+    age: <span class="type">number</span>;
+}
+
+<span class="comment">// Partial makes all properties optional</span>
+<span class="keyword">type</span> <span class="type">UserUpdate</span> = <span class="type">Partial</span>&lt;<span class="type">User</span>&gt;;
+<span class="comment">// { id?: number; name?: string; email?: string; age?: number; }</span>
+
+<span class="keyword">function</span> <span class="function">updateUser</span>(id: <span class="type">number</span>, updates: <span class="type">UserUpdate</span>): <span class="type">User</span> {
+    <span class="keyword">const</span> existing = getUser(id); <span class="comment">// assume exists</span>
+    <span class="keyword">return</span> { ...existing, ...updates };
+}
+
+<span class="comment">// Can update just one field</span>
+updateUser(<span class="type">1</span>, { name: <span class="string">"New Name"</span> });
+
+<span class="comment">// Or multiple fields</span>
+updateUser(<span class="type">2</span>, { email: <span class="string">"new@email.com"</span>, age: <span class="type">25</span> });</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Required&lt;T&gt; - All or Nothing</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono">Required</code> adalah kebalikan dari <code class="bg-gray-100 px-2 py-1 rounded font-mono">Partial</code> - membuat semua optional properties menjadi required. Berguna ketika Anda memiliki interface dengan optional fields tapi perlu enforce completeness di certain context.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">Config</span> {
+    host?: <span class="type">string</span>;
+    port?: <span class="type">number</span>;
+    ssl?: <span class="keyword">boolean</span>;
+}
+
+<span class="comment">// All optional become required</span>
+<span class="keyword">type</span> <span class="type">StrictConfig</span> = <span class="type">Required</span>&lt;<span class="type">Config</span>&gt;;
+<span class="comment">// { host: string; port: number; ssl: boolean; }</span>
+
+<span class="keyword">function</span> <span class="function">connectStrict</span>(config: <span class="type">StrictConfig</span>): <span class="type">void</span> {
+    <span class="comment">// Must provide all fields</span>
+    console.log(<span class="string">`\${config.host}:\${config.port} (\${config.ssl ? 'SSL' : 'no SSL'})`</span>);
+}
+
+<span class="comment">// OK</span>
+connectStrict({ host: <span class="string">"localhost"</span>, port: <span class="type">8080</span>, ssl: <span class="keyword">false</span> });
+
+<span class="comment">// Error - missing ssl</span>
+<span class="comment">// connectStrict({ host: "localhost", port: 8080 });</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Pick&lt;T, K&gt; - Select Specific Properties</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono">Pick</code> membuat type baru dengan hanya properties yang dipilih dari <code class="bg-gray-100 px-2 py-1 rounded font-mono">T</code>. Sangat berguna untuk:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Creating public views of internal types</li>
+                <li>API response contracts</li>
+                <li>Extracting subsets for specific use cases</li>
+            </ul>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+    password: <span class="type">string</span>;
+    salt: <span class="type">string</span>;
+}
+
+<span class="comment">// Pick only safe-to-expose properties</span>
+<span class="keyword">type</span> <span class="type">UserPublic</span> = <span class="type">Pick</span>&lt;<span class="type">User</span>, <span class="string">"id"</span> | <span class="string">"name"</span> | <span class="string">"email"</span>&gt;;
+<span class="comment">// { id: number; name: string; email: string; }</span>
+
+<span class="keyword">function</span> <span class="function">toPublicUser</span>(user: <span class="type">User</span>): <span class="type">UserPublic</span> {
+    <span class="keyword">return</span> {
+        id: user.id,
+        name: user.name,
+        email: user.email
+    };
+}
+
+<span class="keyword">const</span> public = toPublicUser({
+    id: <span class="type">1</span>,
+    name: <span class="string">"Alice"</span>,
+    email: <span class="string">"alice@example.com"</span>,
+    password: <span class="string">"secret"</span>,
+    salt: <span class="string">"xyz"</span>
+}); <span class="comment">// password dan salt tidak termasuk</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Omit&lt;T, K&gt; - Exclude Properties</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono">Omit</code> adalah kebalikan dari <code class="bg-gray-100 px-2 py-1 rounded font-mono">Pick</code> - mengambil semua properties kecuali yang disebutkan. Bergitu untuk menghapus fields sensitif atau internal.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+    password: <span class="type">string</span>;
+    createdAt: <span class="type">Date</span>;
+}
+
+<span class="comment">// Omit sensitive/internal fields</span>
+<span class="keyword">type</span> <span class="type">UserSafe</span> = <span class="type">Omit</span>&lt;<span class="type">User</span>, <span class="string">"password"</span> | <span class="string">"createdAt"</span>&gt;;
+<span class="comment">// { id: number; name: string; email: string; }</span>
+
+<span class="keyword">function</span> <span class="function">sanitizeUser</span>(user: <span class="type">User</span>): <span class="type">UserSafe</span> {
+    <span class="keyword">const</span> { password, createdAt, ...safe } = user;
+    <span class="keyword">return</span> safe;
+}
+
+<span class="keyword">const</span> safeUser = sanitizeUser({
+    id: <span class="type">1</span>,
+    name: <span class="string">"Alice"</span>,
+    email: <span class="string">"alice@example.com"</span>,
+    password: <span class="string">"super-secret"</span>,
+    createdAt: <span class="keyword">new</span> <span class="type">Date</span>()
+}); <span class="comment">// password dan createdAt di-removed</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Composing Utility Types</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Utility types bisa dikombinasikan untuk membuat complex transformations. Urutan matters!
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+    password: <span class="type">string</span>;
+    role: <span class="type">string</span>;
+}
+
+<span class="comment">// Omit sensitive, then make all remaining readonly</span>
+<span class="keyword">type</span> <span class="type">PublicUser</span> = <span class="type">Readonly</span>&lt;<span class="type">Omit</span>&lt;<span class="type">User</span>, <span class="string">"password"</span> | <span class="string">"role"</span>&gt;&gt;;
+<span class="comment">// { id: number; name: string; email: string; } - all readonly</span>
+
+<span class="keyword">const</span> public: <span class="type">PublicUser</span> = {
+    id: <span class="type">1</span>,
+    name: <span class="string">"Alice"</span>,
+    email: <span class="string">"alice@example.com"</span>
+};
+
+<span class="comment">// Error - readonly</span>
+<span class="comment">// public.name = "Bob";</span>
+
+<span class="comment">// Partial of Pick - only some fields, all optional</span>
+<span class="keyword">type</span> <span class="type">UserPatch</span> = <span class="type">Partial</span>&lt;<span class="type">Pick</span>&lt;<span class="type">User</span>, <span class="string">"name"</span> | <span class="string">"email"</span>&gt;&gt;;
+<span class="comment">// { name?: string; email?: string; }</span>
+
+<span class="keyword">function</span> <span class="function">patchUser</span>(id: <span class="type">number</span>, patch: <span class="type">UserPatch</span>): <span class="type">void</span> {
+    <span class="comment">// Only name and/or email can be updated</span>
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Practical Patterns</h3>
+
+            <h4 class="font-bold text-gray-900 mb-2">DTO (Data Transfer Object)</h4>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// API Request DTO</span>
+<span class="keyword">interface</span> <span class="type">CreateUserRequest</span> {
+    name: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+    password: <span class="type">string</span>;
+}
+
+<span class="comment">// API Response DTO (no password)</span>
+<span class="keyword">type</span> <span class="type">CreateUserResponse</span> = <span class="type">Omit</span>&lt;<span class="type">CreateUserRequest</span>, <span class="string">"password"</span>&gt;;
+
+<span class="keyword">function</span> <span class="function">createUser</span>(req: <span class="type">CreateUserRequest</span>): <span class="type">CreateUserResponse</span> {
+    <span class="keyword">const</span> user = saveToDb(req);
+    <span class="keyword">const</span> { password, ...response } = user;
+    <span class="keyword">return</span> response;
+}</code></pre>
+            </div>
+
+            <h4 class="font-bold text-gray-900 mb-2">Form Handling</h4>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">FormValues</span> {
+    username: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+    password: <span class="type">string</span>;
+    confirmPassword: <span class="type">string</span>;
+}
+
+<span class="comment">// Only fields that are filled in (partial form state)</span>
+<span class="keyword">type</span> <span class="type">FormState</span> = <span class="type">Partial</span>&lt;<span class="type">FormValues</span>&gt;;
+
+<span class="keyword">let</span> state: <span class="type">FormState</span> = {};
+state.username = <span class="string">"alice"</span>; <span class="comment">// OK</span>
+state.email = <span class="string">"alice@example.com"</span>; <span class="comment">// OK</span>
+<span class="comment">// state.password not set yet - no error because optional</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+            
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">1. Update DTO</h3>
+                    <p class="text-gray-700 mb-3">
+                        Given interface <code class="bg-gray-100 px-2 py-1 rounded font-mono">Product</code> dengan fields: <code class="bg-gray-100 px-2 py-1 rounded font-mono">id</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">name</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">price</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">stock</code>. Buat type <code class="bg-gray-100 px-2 py-1 rounded font-mono">ProductUpdate</code> menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Partial</code>. Implementasikan <code class="bg-gray-100 px-2 py-1 rounded font-mono">updateProduct(id: number, updates: ProductUpdate): Product</code>.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">2. Public API Response</h3>
+                    <p class="text-gray-700 mb-3">
+                        Interface <code class="bg-gray-100 px-2 py-1 rounded font-mono">User</code> memiliki fields: <code class="bg-gray-100 px-2 py-1 rounded font-mono">id</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">username</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">email</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">passwordHash</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">salt</code>. Buat type <code class="bg-gray-100 px-2 py-1 rounded font-mono">UserPublic</code> yang exclude <code class="bg-gray-100 px-2 py-1 rounded font-mono">passwordHash</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">salt</code> menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Omit</code>.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">3. Readonly Subset</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat type <code class="bg-gray-100 px-2 py-1 rounded font-mono">ImmutableIdName</code> dari interface <code class="bg-gray-100 px-2 py-1 rounded font-mono">Entity</code> yang hanya include <code class="bg-gray-100 px-2 py-1 rounded font-mono">id</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">name</code> dan keduanya readonly. Gunakan kombinasi <code class="bg-gray-100 px-2 py-1 rounded font-mono">Pick</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Readonly</code>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat setelah semua lesson selesai')">
+                Quiz Module →
+            </button>
+        </nav>
+    </main>
+
+    <script src="/typescript-curriculum/app.js"></script>
+</body>
+</html>

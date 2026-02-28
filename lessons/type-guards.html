@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Type Guards dan Type Narrowing - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 3: Advanced Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 10</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 30%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 3</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Type Guards dan Type Narrowing</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Type Guards</strong> adalah teknik untuk mengecek tipe suatu nilai pada runtime, memungkinkan TypeScript untuk "narrow" tipe tersebut ke tipe yang lebih spesifik. Type guards sangat penting saat bekerja dengan union types, any, atau unknown, agar kita bisa mengakses properties dan methods dengan aman.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 25 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Advanced Types</span>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami apa itu type guards dan mengapa diperlukan</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan built-in type guards: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">typeof</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">instanceof</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">in</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Membuat custom type guard functions</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menerapkan type narrowing dalam fungsi dan conditional logic</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Ketika variabel memiliki tipe union atau <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">any</code>/<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">unknown</code>, TypeScript tidak tahu tipe spesifik apa yang ada di suatu blok kode. <strong>Type narrowing</strong> adalah proses dimana TypeScript mengevaluasi kondisi (seperti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">if</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">switch</code>, atau pengecekan tipe) dan mempersempat (narrow) tipe variabel ke tipe yang lebih spesifik dalam blok tersebut.
+                </p>
+
+                <p class="mb-4">
+                    <strong>Type guard</strong> adalah ekspresi yang melakukan pengecekan pada runtime dan mengembalikan boolean. TypeScript menggunakan type guard untuk melakukan type narrowing.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Built-in Type Guards</h3>
+
+                <h4 class="text-lg font-medium text-gray-800 mb-2"><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">typeof</code></h4>
+                <p class="mb-2">Mengecek tipe primitif pada runtime:</p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">function</span> <span class="function">printValue</span>(value: <span class="type">string</span> | <span class="type">number</span>) {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">"string"</span>) {
+        <span class="comment">// TypeScript窄化 value menjadi string di sini</span>
+        console.<span class="function">log</span>(value.<span class="function">toUpperCase</span>());  <span class="comment">// OK</span>
+    } <span class="keyword">else</span> {
+        <span class="comment">// Di sini value adalah number</span>
+        console.<span class="function">log</span>(value.<span class="function">toFixed</span>(<span class="type">2</span>));  <span class="comment">// OK</span>
+    }
+}</code></pre>
+                </div>
+
+                <h4 class="text-lg font-medium text-gray-800 mb-2"><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">instanceof</code></h4>
+                <p class="mb-2">Mengecek apakah object adalah instance dari class tertentu:</p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">class</span> <span class="function">Dog</span> { <span class="function">bark</span>() {} }
+<span class="keyword">class</span> <span class="function">Cat</span> { <span class="function">meow</span>() {} }
+
+<span class="keyword">function</span> <span class="function">makeSound</span>(animal: Dog | Cat) {
+    <span class="keyword">if</span> (animal <span class="keyword">instanceof</span> Dog) {
+        animal.<span class="function">bark</span>();  <span class="comment">// OK - TypeScript tahu ini Dog</span>
+    } <span class="keyword">else</span> {
+        animal.<span class="function">meow</span>();  <span class="comment">// OK - ini Cat</span>
+    }
+}</code></pre>
+                </div>
+
+                <h4 class="text-lg font-medium text-gray-800 mb-2"><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">in</code></h4>
+                <p class="mb-2">Mengecek apakah property ada dalam object (untuk narrowing interface):</p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Car</span> { drive(): <span class="keyword">void</span>; }
+<span class="keyword">interface</span> <span class="function">Boat</span> { sail(): <span class="keyword">void</span>; }
+
+<span class="keyword">function</span> <span class="function">operate</span>(vehicle: Car | Boat) {
+    <span class="keyword">if</span> (<span class="string">"drive"</span> <span class="keyword">in</span> vehicle) {
+        vehicle.<span class="function">drive</span>();  <span class="comment">// OK - TypeScript tahu ini Car</span>
+    } <span class="keyword">else</span> {
+        vehicle.<span class="function">sail</span>();  <span class="comment">// OK - ini Boat</span>
+    }
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Custom Type Guard Functions</h3>
+                <p class="mb-4">
+                    Kita bisa membuat fungsi khusus yang berfungsi sebagai type guard. Fungsi ini mengembalikan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">value is Tipe</code> (return type predicate).
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Custom type guard untuk Fish</span>
+<span class="keyword">interface</span> <span class="function">Fish</span> { swim(): <span class="keyword">void</span>; }
+<span class="keyword">interface</span> <span class="function">Bird</span> { fly(): <span class="keyword">void</span>; }
+
+<span class="keyword">function</span> <span class="function">isFish</span>(pet: Fish | Bird): pet is Fish {
+    <span class="keyword">return</span> (pet <span class="keyword">as</span> Fish).swim !== <span class="keyword">undefined</span>;
+}
+
+<span class="keyword">function</span> <span class="function">getPet</span>(pet: Fish | Bird) {
+    <span class="keyword">if</span> (<span class="function">isFish</span>(pet)) {
+        <span class="comment">// TypeScript tahu pet adalah Fish di sini</span>
+        pet.<span class="function">swim</span>();
+    } <span class="keyword">else</span> {
+        <span class="comment">// TypeScript tahu pet adalah Bird</span>
+        pet.<span class="function">fly</span>();
+    }
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Type Narrowing dengan Equality Checks</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">function</span> <span class="function">handle</span>(x: <span class="type">string</span> | <span class="type">number</span> | <span class="keyword">boolean</span>) {
+    <span class="keyword">if</span> (x === <span class="string">"hello"</span>) {
+        <span class="comment">// x adalah string</span>
+    } <span class="keyword">else</span> <span class="keyword">if</span> (x === <span class="type">42</span>) {
+        <span class="comment">// x adalah number</span>
+    } <span class="keyword">else</span> {
+        <span class="comment">// x adalah boolean</span>
+    }
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Narrowing dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">unknown</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">any</code></h3>
+                <p class="mb-4">
+                    With <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">unknown</code>, TypeScript memaksa kita melakukan type checking sebelum menggunakan nilai. With <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">any</code>, type checking tidak terjadi (bypass type system).
+                </p>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                    <p class="text-yellow-800">
+                        <strong>⚠️ Tips:</strong> Gunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">unknown</code> ketika Anda tidak tahu tipe data (misal: data dari API eksternal). TypeScript akan memaksa Anda melakukan type guard sebelum menggunakan nilai tersebut. Ini lebih aman dari <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">any</code>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Custom Type Guard untuk Shape</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Square</code> (side: number) dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Rectangle</code> (width: number, height: number). Buat function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">isSquare</code> sebagai type guard, lalu function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">calculateArea</code> yang menerima <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Square | Rectangle</code> dan menghitung luas dengan type guard.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">interface</span> <span class="function">Square</span> { side: <span class="type">number</span>; }
+<span class="keyword">interface</span> <span class="function">Rectangle</span> { width: <span class="type">number</span>; height: <span class="type">number</span>; }
+
+<span class="keyword">function</span> <span class="function">isSquare</span>(shape: Square | Rectangle): shape is Square {
+    <span class="keyword">return</span> (shape <span class="keyword">as</span> Square).side !== <span class="keyword">undefined</span>;
+}
+
+<span class="keyword">function</span> <span class="function">calculateArea</span>(shape: Square | Rectangle): <span class="type">number</span> {
+    <span class="keyword">if</span> (<span class="function">isSquare</span>(shape)) {
+        <span class="keyword">return</span> shape.side * shape.side;
+    } <span class="keyword">else</span> {
+        <span class="keyword">return</span> shape.width * shape.height;
+    }
+}</code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: Instanceof Guard</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat dua class: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">AdminUser</code> (dengan properti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">role</code>) dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">RegularUser</code>. Buat function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">printUserInfo</code> yang menerima parameter <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">AdminUser | RegularUser</code> dan menampilkan info berbeda untuk masing-masing menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">instanceof</code>.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">class</span> <span class="function">AdminUser</span> {
+    constructor(public name: <span class="type">string</span>, public role: <span class="type">string</span>) {}
+}
+<span class="keyword">class</span> <span class="function">RegularUser</span> {
+    constructor(public name: <span class="type">string</span>) {}
+}
+
+<span class="keyword">function</span> <span class="function">printUserInfo</span>(user: AdminUser | RegularUser) {
+    <span class="keyword">if</span> (user <span class="keyword">instanceof</span> AdminUser) {
+        console.<span class="function">log</span>(<span class="string">`Admin: </span>${user.name}<span class="string">, Role: </span>${user.role}<span class="string">`</span>);
+    } <span class="keyword">else</span> {
+        console.<span class="function">log</span>(<span class="string">`User: </span>${user.name}<span class="string">`</span>);
+    }
+}</code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn primary" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 3 - Lesson 3 dari 10
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        console.log('Type Guards lesson loaded');
+    </script>
+</body>
+</html>

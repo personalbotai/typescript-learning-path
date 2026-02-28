@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 9: Mapped Types - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 3: Advanced Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 9 of 10</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 90%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 3</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 9</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Mapped Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Mapped Types</strong> memungkinkan kita membuat tipe baru dengan mengubah setiap properti dari tipe yang ada. Mirip seperti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Array.map()</code> tetapi untuk type-level. Sangat berguna untuk membuat utility types seperti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Partial</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Readonly</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Pick</code>, dll.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 25 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+                <span>📚 Tipe: Advanced Types</span>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami sintaks mapped types (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">[P in keyof T]: ...</code>)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Membuat tipe dengan semua properti diubah (optional, readonly, dll)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan modifiers: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">readonly</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">-</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Membuat custom utility types dengan mapped types</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Mapped types menggunakan sintaks <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">[P in keyof T]: ...</code> untuk membuat tipe baru dengan iterasi setiap properti dari tipe asli. Kita bisa mengubah modifiers (optional, readonly) atau bahkan tipe properti itu sendiri.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Sintaks Dasar</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Person</span> {
+    name: <span class="type">string</span>;
+    age: <span class="type">number</span>;
+}
+
+<span class="comment">// Mapped type: semua properti menjadi optional</span>
+<span class="keyword">type</span> <span class="function">PartialPerson</span> = {
+    [P <span class="keyword">in</span> keyof Person]?: Person[P];
+};
+<span class="comment">// Result: { name?: string; age?: number; }</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Buat Semua Properti Readonly</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">type</span> <span class="function">ReadonlyPerson</span> = {
+    <span class="keyword">readonly</span> [P <span class="keyword">in</span> keyof Person]: Person[P];
+};
+<span class="comment">// Result: { readonly name: string; readonly age: number; }</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Mengubah Tipe Properti</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Ubah semua properti menjadi nullable</span>
+<span class="keyword">type</span> <span class="function">NullablePerson</span> = {
+    [P <span class="keyword">in</span> keyof Person]: Person[P] | <span class="keyword">null</span>;
+};
+<span class="comment">// Result: { name: string | null; age: number | null; }</span>
+
+<span class="comment">// Atau ubah ke string (type erasure)</span>
+<span class="keyword">type</span> <span class="function">Stringified</span> = {
+    [P <span class="keyword">in</span> keyof Person]: <span class="type">string</span>;
+};
+<span class="comment">// Result: { name: string; age: string; }</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Mapped Types dengan Modifiers</h3>
+                <p class="mb-2">
+                    Kita bisa menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">-</code> prefix untuk menghapus modifier (membuat required dari optional, atau mutable dari readonly).
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    email?: <span class="type">string</span>;
+}
+
+<span class="comment">// Buat semua properti required (hapus optional)</span>
+<span class="keyword">type</span> <span class="function">RequiredUser</span> = {
+    [P <span class="keyword">in</span> keyof User]-?: User[P];
+};
+<span class="comment">// Result: { id: number; name: string; email: string; }</span>
+
+<span class="comment">// Hanya properti tertentu (dengan keyof)</span>
+<span class="keyword">type</span> <span class="function">PickUser</span> = {
+    [P <span class="keyword">in</span> <span class="keyword">typeof</span> keyof User <span class="keyword">as</span> P <span class="keyword">extends</span> <span class="string">'id'</span> | <span class="string">'name'</span> ? P : <span class="keyword">never</span>]: User[P];
+};
+<span class="comment">// Result: { id: number; name: string; }</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Mapped Types dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">as</code> clause</h3>
+                <p class="mb-4">
+                    Kita bisa remap key names menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">as</code> clause untuk membuat property baru dengan nama yang berbeda.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">User</span> {
+    firstName: <span class="type">string</span>;
+    lastName: <span class="type">string</span>;
+}
+
+<span class="comment">// Remap keys to uppercase</span>
+<span class="keyword">type</span> <span class="function">UppercaseKeys</span> = {
+    [P <span class="keyword">in</span> keyof User <span class="keyword">as</span> <span class="function">Uppercase</span>&lt;P & <span class="type">string</span>&gt;]: User[P];
+};
+<span class="comment">// Result: { FIRSTNAME: string; LASTNAME: string; }</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Built-in Utility Types (Implemented dengan Mapped Types)</h3>
+                <ul class="list-disc pl-6 mb-4 space-y-2">
+                    <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Partial&lt;T&gt;</code>: semua properti optional</li>
+                    <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Required&lt;T&gt;</code>: semua properti required</li>
+                    <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Readonly&lt;T&gt;</code>: semua properti readonly</li>
+                    <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Pick&lt;T, K&gt;</code>: pilih subset properti</li>
+                    <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Record&lt;K, T&gt;</code>: buat object dengan keys K dan values T</li>
+                </ul>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                    <p class="text-blue-800">
+                        <strong>💡 Tips:</strong> Mapped types adalah dasar dari banyak utility types di TypeScript. Pahami konsep ini untuk bisa membuat tipe transformations yang powerful dan reusable.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Custom Partial</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat mapped type <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">MyPartial</code> yang membuat semua properti dari interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">T</code> menjadi optional. Bandingkan dengan built-in <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Partial&lt;T&gt;</code>.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">type</span> <span class="function">MyPartial</span>&lt;<span class="type">T</span>&gt; = {
+    [P <span class="keyword">in</span> keyof T]?: T[P];
+};
+
+<span class="comment">// Contoh:</span>
+<span class="keyword">interface</span> <span class="function">Todo</span> {
+    title: <span class="type">string</span>;
+    description: <span class="type">string</span>;
+    completed: <span class="keyword">boolean</span>;
+}
+
+<span class="keyword">type</span> <span class="function">PartialTodo</span> = MyPartial&lt;Todo&gt;;
+<span class="comment">// { title?: string; description?: string; completed?: boolean; }</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: Nullable Type</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat mapped type <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Nullable</code> yang membuat semua properti bisa bernilai <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">null</code>.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">type</span> <span class="function">Nullable</span>&lt;<span class="type">T</span>&gt; = {
+    [P <span class="keyword">in</span> keyof T]: T[P] | <span class="keyword">null</span>;
+};
+
+<span class="keyword">interface</span> <span class="function">Config</span> {
+    timeout: <span class="type">number</span>;
+    retries: <span class="type">number</span>;
+}
+
+<span class="keyword">type</span> <span class="function">NullableConfig</span> = Nullable&lt;Config&gt;;
+<span class="comment">// { timeout: number | null; retries: number | null; }</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn primary" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 3 - Lesson 9 dari 10
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        console.log('Mapped Types lesson loaded');
+    </script>
+</body>
+</html>

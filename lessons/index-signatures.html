@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6: Index Signatures - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 4: Interfaces dan Type Aliases</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 6 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 4</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 6</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Index Signatures</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Index Signatures</strong> memungkinkan kita mendefinisikan object dengan properti dinamis (dynamic property names) di mana nama properti tidak diketahui sebelumnya. Ini sangat berguna untuk dictionary, map, atau object dengan keys yang tidak bisa ditentukan secara statis.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Interfaces</span>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami sintaks index signatures (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">[key: string]: T</code>)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mendefinisikan object dengan properti dinamis</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">string</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">number</code>, atau <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">symbol</code> sebagai index key type</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami batasan dan best practices index signatures</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Index signature digunakan ketika kita ingin mendefinisikan object yang bisa memiliki properti dengan nama yang tidak ditentukan sebelumnya. Sintaksnya mirip seperti method signature, tetapi dengan nama property di dalam kurung siku.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Sintaks Dasar</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Dictionary dengan string keys dan number values</span>
+<span class="keyword">interface</span> <span class="function">Dictionary</span> {
+    [key: <span class="type">string</span>]: <span class="type">number</span>;
+}
+
+<span class="keyword">const</span> dict: Dictionary = {
+    one: <span class="type">1</span>,
+    two: <span class="type">2</span>,
+    <span class="string">"three"</span>: <span class="type">3</span>
+};</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">String Index Signature</h3>
+                <p class="mb-2">Jenis yang paling umum. Semua properti harus memiliki tipe yang sama:</p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">StringMap</span> {
+    [key: <span class="type">string</span>]: <span class="type">string</span>;
+}
+
+<span class="keyword">const</span> map: StringMap = {
+    a: <span class="string">"apple"</span>,
+    b: <span class="string">"banana"</span>
+};</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Number Index Signature</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">NumberMap</span> {
+    [key: <span class="type">number</span>]: <span class="type">string</span>;
+}
+
+<span class="keyword">const</span> numMap: NumberMap = {
+    <span class="type">0</span>: <span class="string">"zero"</span>,
+    <span class="type">1</span>: <span class="string">"one"</span>,
+    <span class="type">2</span>: <span class="string">"two"</span>
+};</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Index Signature dengan Mixed Types</h3>
+                <p class="mb-2">
+                    Karena index signature hanya bisa memiliki satu tipe untuk semua values, kita perlu menggunakan union jika values bisa berbagai tipe.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">MixedMap</span> {
+    [key: <span class="type">string</span>]: <span class="type">string</span> | <span class="type">number</span> | <span class="keyword">boolean</span>;
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Index Signature dengan Object Properties</h3>
+                <p class="mb-4">
+                    Ketika menggunakan index signature, semua properti yang dideklarasikan secara eksplisit harus compatible dengan tipe index signature.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Config</span> {
+    <span class="keyword">readonly</span> apiKey: <span class="type">string</span>;  <span class="comment">// OK - string compatible dengan string index</span>
+    [key: <span class="type">string</span>]: <span class="type">string</span>;     <span class="comment">// semua properti harus string</span>
+}</code></pre>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+                    <p class="text-red-800">
+                        <strong>❌ Error:</strong> Jika properti eksplisit tidak sesuai dengan index signature type, TypeScript akan error.
+                    </p>
+                </div>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">BadConfig</span> {
+    timeout: <span class="type">number</span>;  <span class="comment">// Error!</span>
+    [key: <span class="type">string</span>]: <span class="type">string</span>; <span class="comment">// Semua harus string</span>
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Use Cases Umum</h3>
+                <ul class="list-disc pl-6 mb-4 space-y-2">
+                    <li><strong>Dictionary / Map</strong>: Object dengan keys dinamis (misal: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">{ [lang]: string }</code> untuk i18n)</li>
+                    <li><strong>Configuration objects</strong>: Config dengan banyak keys yang tidak bisa ditentukan sebelumnya</li>
+                    <li><strong>Cache / Store</strong>: Key-value store dengan string keys</li>
+                    <li><strong>Grouping data</strong>: Mengelompokkan array items berdasarkan property</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Index Signature vs Mapped Types</h3>
+                <p class="mb-4">
+                    Index signature membuat semua properti memiliki tipe yang sama. Mapped types bisa membuat tipe berbeda per properti. Gunakan mapped types ketika butuh kontrol lebih granular.
+                </p>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                    <p class="text-blue-800">
+                        <strong>💡 Tips:</strong> Index signatures adalah cara untuk membuat "loose" object types. Gunakan ketika keys tidak bisa ditentukan sebelumnya. Untuk object dengan known keys, gunakan regular interface properties.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Internationalization Dictionary</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">I18nDictionary</code> dengan index signature <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">[key: string]: string</code>. Buat object <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">messages</code> yang berisi terjemahan untuk <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"hello"</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"goodbye"</code>, dll dalam bahasa Indonesia.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">interface</span> <span class="function">I18nDictionary</span> {
+    [key: <span class="type">string</span>]: <span class="type">string</span>;
+}
+
+<span class="keyword">const</span> messages: I18nDictionary = {
+    hello: <span class="string">"Halo"</span>,
+    goodbye: <span class="string">"Selamat tinggal"</span>,
+    thanks: <span class="string">"Terima kasih"</span>
+};</code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: Settings Store</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">SettingsStore</code> dengan index signature <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">[key: string]: number | boolean | string</code>. Buat object <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">settings</code> dengan beberapa settings seperti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"theme"</code>: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"dark"</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"fontSize"</code>: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">14</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"notifications"</code>: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">true</code>.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">interface</span> <span class="function">SettingsStore</span> {
+    [key: <span class="type">string</span>]: <span class="type">string</span> | <span class="type">number</span> | <span class="keyword">boolean</span>;
+}
+
+<span class="keyword">const</span> settings: SettingsStore = {
+    theme: <span class="string">"dark"</span>,
+    fontSize: <span class="type">14</span>,
+    notifications: <span class="keyword">true</span>,
+    autoSave: <span class="keyword">true</span>
+};</code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn primary" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 4 - Lesson 6 dari 6 (Modul 4 Complete!)
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson - Module 5')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        console.log('Index Signatures lesson loaded - Module 4 complete!');
+    </script>
+</body>
+</html>

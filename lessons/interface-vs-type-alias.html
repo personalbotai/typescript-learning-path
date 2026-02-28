@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4: Interface vs Type Alias - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 4: Interfaces dan Type Aliases</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 4 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 66.67%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 4</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 4</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Interface vs Type Alias</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Interface dan Type Alias adalah dua cara untuk mendefinisikan tipe di TypeScript. Meski sering digunakan untuk tujuan yang sama (mendefinisikan object shape), mereka memiliki perbedaan penting dalam kemampuan, syntax, dan behavior. Memahami perbedaannya membantu kita memilih alat yang tepat untuk setiap situasi.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Interfaces vs Types</span>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami perbedaan struktural antara interface dan type alias</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengetahui kemampuan yang unik untuk masing-masing</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami extendability (interface extends, type intersection)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Panduan kapan menggunakan interface vs type alias</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Baik interface maupun type alias bisa digunakan untuk mendefinisikan object shape. Namun, ada perbedaan penting dalam kemampuan dan bagaimana mereka diperlakukan oleh TypeScript.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Perbandingan Langsung</h3>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border border-gray-300 mb-4">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Feature</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Interface</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Type Alias</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Object shape</td>
+                                <td class="border border-gray-300 px-4 py-2">✅</td>
+                                <td class="border border-gray-300 px-4 py-2">✅</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Union types</td>
+                                <td class="border border-gray-300 px-4 py-2">❌</td>
+                                <td class="border border-gray-300 px-4 py-2">✅</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Intersection types</td>
+                                <td class="border border-gray-300 px-4 py-2">✅ (via extends)</td>
+                                <td class="border border-gray-300 px-4 py-2">✅ (via &)</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Tuple types</td>
+                                <td class="border border-gray-300 px-4 py-2">❌</td>
+                                <td class="border border-gray-300 px-4 py-2">✅</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Function types</td>
+                                <td class="border border-gray-300 px-4 py-2">✅ (call signatures)</td>
+                                <td class="border border-gray-300 px-4 py-2">✅</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Mapped types</td>
+                                <td class="border border-gray-300 px-4 py-2">✅</td>
+                                <td class="border border-gray-300 px-4 py-2">✅</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Implements (class)</td>
+                                <td class="border border-gray-300 px-4 py-2">✅</td>
+                                <td class="border border-gray-300 px-4 py-2">❌</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2">Declaration merging</td>
+                                <td class="border border-gray-300 px-4 py-2">✅</td>
+                                <td class="border border-gray-300 px-4 py-2">❌</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Decorrelation: Declaration Merging</h3>
+                <p class="mb-4">
+                    Interface mendukung <strong>declaration merging</strong> - beberapa interface dengan nama yang sama akan digabungkan menjadi satu.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Interface can be merged</span>
+<span class="keyword">interface</span> <span class="function">User</span> {
+    id: <span class="type">number</span>;
+}
+
+<span class="keyword">interface</span> <span class="function">User</span> {
+    name: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+}
+
+<span class="comment">// Merged result: { id: number; name: string; email: string; }</span>
+<span class="keyword">const</span> user: User = { id: <span class="type">1</span>, name: <span class="string">"Alice"</span>, email: <span class="string">"alice@example.com"</span> };</code></pre>
+                </div>
+
+                <p class="mb-4">
+                    Type alias <strong>tidak</strong> mendukung declaration merging. Mencoba mendefinisikan type alias yang sama dua kali akan menyebabkan error.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Extending</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Interface extends interface</span>
+<span class="keyword">interface</span> <span class="function">Animal</span> { name: <span class="type">string</span>; }
+<span class="keyword">interface</span> <span class="function">Mammal</span> <span class="keyword">extends</span> Animal { hasFur: <span class="keyword">boolean</span>; }
+
+<span class="comment">// Type alias intersection</span>
+<span class="keyword">type</span> <span class="function">Animal</span> = { name: <span class="type">string</span> };
+<span class="keyword">type</span> <span class="function">Mammal</span> = Animal & { hasFur: <span class="keyword">boolean</span> };</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Class Implementation</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Class bisa implements interface</span>
+<span class="keyword">interface</span> <span class="function">Person</span> { name: <span class="type">string</span>; greet(): <span class="keyword">void</span>; }
+
+<span class="keyword">class</span> <span class="function">Student</span> <span class="keyword">implements</span> Person {
+    name: <span class="type">string</span>;
+    <span class="function">greet</span>() { console.<span class="function">log</span>(<span class="string">"Hi"</span>, <span class="keyword">this</span>.name); }
+}
+
+<span class="comment">// Class tidak bisa implements type alias</span>
+<span class="comment">// type PersonAlias = { name: string; greet(): void; }</span>
+<span class="comment">// class Teacher implements PersonAlias { ... } // Error</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Kapan Menggunakan Apa?</h3>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                    <p class="text-blue-800 font-semibold mb-2">Gunakan Interface ketika:</p>
+                    <ul class="list-disc pl-6 space-y-1 text-blue-800">
+                        <li>Mendefinisikan kontrak object atau class (bisa di-implements)</li>
+                        <li>Butuh declaration merging (library augmentasi)</li>
+                        <li>Mendesain API publik yang akan di-extend oleh pengguna lain</li>
+                    </ul>
+                </div>
+                <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+                    <p class="text-green-800 font-semibold mb-2">Gunakan Type Alias ketika:</p>
+                    <ul class="list-disc pl-6 space-y-1 text-green-800">
+                        <li>Membuat union, intersection, tuple, atau function types</li>
+                        <li>Membuat tipe yang tidak bisa di-express dengan interface</li>
+                        <li>Butuh tipe sementara atau composition yang kompleks</li>
+                        <li>Menggunakan mapped types dengan remapping</li>
+                    </ul>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                    <p class="text-yellow-800">
+                        <strong>⚠️ Catatan:</strong> Sejak TypeScript 2.7, perbedaan semakin tipis. Banyak kasus interface dan type alias bisa digunakan interchangeably. Pilih berdasarkan use case dan preferensi tim. Umumnya, interface untuk object shapes, type alias untuk tipe lainnya.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Membandingkan Implementasi</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">User</code> dengan interface (dengan properti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">id: number</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">name: string</code>). Lalu buat versi yang sama dengan type alias. Gunakan keduanya untuk type annotation sebuah variabel.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="comment">// Interface version</span>
+<span class="keyword">interface</span> <span class="function">UserInterface</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+}
+
+<span class="comment">// Type alias version</span>
+<span class="keyword">type</span> <span class="function">UserType</span> = {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+};
+
+<span class="keyword">const</span> u1: UserInterface = { id: <span class="type">1</span>, name: <span class="string">"Alice"</span> };
+<span class="keyword">const</span> u2: UserType = { id: <span class="type">2</span>, name: <span class="string">"Bob"</span> };</code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: Union Type (Hanya Type Alias)</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat type alias <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Result</code> yang merupakan union dari <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">{ ok: true; data: any }</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">{ ok: false; error: string }</code>. Coba buat hal yang sama dengan interface (seharusnya tidak mungkin).
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="comment">// Type alias dengan union - interface tidak bisa</span>
+<span class="keyword">type</span> <span class="function">Result</span> = 
+    | { ok: <span class="keyword">true</span>; data: <span class="keyword">any</span> } 
+    | { ok: <span class="keyword">false</span>; error: <span class="type">string</span> };
+
+<span class="keyword">function</span> <span class="function">process</span>(): Result {
+    <span class="comment">// ...</span>
+}
+
+<span class="comment">// Interface tidak bisa langsung union - harus discriminated union via extends</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn primary" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 4 - Lesson 4 dari 6
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        console.log('Interface vs Type Alias lesson loaded');
+    </script>
+</body>
+</html>

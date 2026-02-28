@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Dynamic Import dan Code Splitting - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 8: Modules dan Namespaces</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 4 of 7</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 57.14%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 8</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 4</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Dynamic Import dan Code Splitting</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Dynamic import()</strong> adalah fitur ECMAScript yang memungkinkan kita memuat module secara <strong>lazy</strong> (baru saat dibutuhkan). Di TypeScript, fitur ini digunakan untuk <strong>code splitting</strong> - memecah bundle besar menjadi chunk-chunk kecil yang dimuat sesuai permintaan, meningkatkan performa initial load.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Performance Optimization</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami konsep <strong>code splitting</strong> dan mengapa penting untuk performa</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">import()</code> expression untuk dynamic import</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menangani module yang di-load secara async dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Promise</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengimplementasikan <strong>route-based splitting</strong> di aplikasi web</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">import.meta.glob</code> (Vite) atau similar patterns</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami TypeScript types untuk dynamic import: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">typeof import()</code></span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Apa itu Code Splitting?</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Secara default, bundler (Webpack, Rollup, esbuild) menggabungkan semua module JavaScript/TypeScript menjadi satu atau beberapa file bundle besar. <strong>Code splitting</strong> adalah teknik untuk memecah bundle tersebut menjadi <strong>chunks</strong> yang lebih kecil yang dimuat secara <strong>lazy</strong> hanya ketika diperlukan. Ini sangat mengurangi <strong>initial load time</strong> karena user tidak perlu download seluruh aplikasi sekaligus.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-blue-900 mb-2">🚀 Manfaat Code Splitting:</h3>
+                <ul class="list-disc list-inside text-blue-800 space-y-2">
+                    <li><strong>Faster initial load</strong> - hanya download code yang diperlukan untuk halaman awal</li>
+                    <li><strong>Better caching</strong> - chunk-chunk yang rarely changed bisa di-cache lebih lama</li>
+                    <li><strong>Reduced bandwidth</strong> - user hanya download kode yang akan dieksekusi</li>
+                    <li><strong>Improved user experience</strong> - interaksi lebih cepat, terutama di mobile</li>
+                </ul>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Dynamic import() Expression</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>Dynamic import()</strong> adalah fungsi built-in yang mengembalikan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Promise</code> untuk module yang di-load. Tidak seperti static import (yang di-evaluate pada compile time), dynamic import dieksekusi pada runtime.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Static import (compile-time, synchronous evaluation)</span>
+<span class="keyword">import</span> { someFunction } <span class="keyword">from</span> <span class="string">'./module'</span>;
+<span class="function">someFunction</span>();
+
+<span class="comment">// Dynamic import (runtime, async evaluation)</span>
+<span class="keyword">import</span>(<span class="string">'./module'</span>)
+    .<span class="function">then</span>(module => {
+        module.<span class="function">someFunction</span>();
+    })
+    .<span class="function">catch</span>(err => {
+        console.<span class="function">error</span>(<span class="string">'Failed to load module'</span>, err);
+    });
+
+<span class="comment">// Dengan async/await</span>
+<span class="keyword">const</span> module = <span class="keyword">await</span> <span class="function">import</span>(<span class="string">'./module'</span>);
+module.<span class="function">someFunction</span>();
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-yellow-900 mb-2">⚠️ Penting:</h3>
+                <p class="text-yellow-800">
+                    Dynamic import() hanya bisa digunakan di tingkat <strong>module top-level</strong> atau di dalam <strong>functions/blocks</strong>. Tidak bisa digunakan di dalam <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">if</code> statements secara synchronous, tapi bisa di dalam async function. Path string bisa berupa literal atau template string (dynamic path).
+                </p>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">TypeScript Types untuk Dynamic Import</h3>
+            
+            <p class="text-gray-700 mb-6">
+                Ketika menggunakan dynamic import, TypeScript perlu tahu struktur module yang akan di-load. Gunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">typeof import()</code> untuk mengambil type dari module.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: heavy-module.ts</span>
+<span class="keyword">export interface</span> <span class="function">HeavyData</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    metadata: <span class="type">Record&lt;string, any&gt;</span>;
+}
+
+<span class="keyword">export function</span> <span class="function">processHeavyData</span>(data: HeavyData[]): <span class="type">HeavyData[]</span> {
+    <span class="keyword">return</span> data.<span class="function">filter</span>(d => d.id > <span class="string">0</span>);
+}
+
+<span class="keyword">export default</span> <span class="keyword">class</span> <span class="function">HeavyProcessor</span> {
+    <span class="function">process</span>(data: HeavyData[]): <span class="type">HeavyData[]</span> {
+        <span class="keyword">return</span> <span class="function">processHeavyData</span>(data);
+    }
+}
+
+<span class="comment">// File: app.ts - dengan typing</span>
+<span class="keyword">type</span> <span class="function">HeavyModule</span> = <span class="keyword">typeof</span> <span class="function">import</span>(<span class="string">'./heavy-module'</span>);
+
+<span class="keyword">async function</span> <span class="function">loadHeavyFeature</span>(): <span class="keyword">Promise&lt;void&gt;</span> {
+    <span class="keyword">const</span> module: HeavyModule = <span class="keyword">await</span> <span class="function">import</span>(<span class="string">'./heavy-module'</span>);
+    
+    <span class="keyword">const</span> data: HeavyModule.HeavyData[] = [
+        { id: <span class="string">1</span>, name: <span class="string">'Item 1'</span>, metadata: {} },
+        { id: <span class="string">2</span>, name: <span class="string">'Item 2'</span>, metadata: {} }
+    ];
+    
+    <span class="keyword">const</span> processor = <span class="keyword">new</span> module.<span class="function">default</span>();
+    <span class="keyword">const</span> result = processor.<span class="function">process</span>(data);
+    console.<span class="function">log</span>(result);
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Use Cases untuk Dynamic Import</h2>
+
+            <div class="space-y-6 mb-8">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-bold text-gray-900 mb-3">1. Route-Based Code Splitting (SPA)</h3>
+                    <p class="text-gray-700 mb-4">
+                        Di aplikasi single-page app (React, Vue, Svelte), kita bisa lazy-load route components hanya ketika user navigasi ke rute tersebut.
+                    </p>
+                    <div class="code-block">
+<span class="comment">// File: router.ts (contoh dengan vanilla TS)</span>
+<span class="keyword">const</span> routes = <span class="keyword">new</span> <span class="function">Map</span>&lt;<span class="type">string</span>, () => <span class="keyword">Promise&lt;Module&gt;</span>&gt;&gt;();
+
+routes.<span class="function">set</span>(<span class="string">'/dashboard'</span>, () => <span class="function">import</span>(<span class="string">'./pages/dashboard'</span>));
+routes.<span class="function">set</span>(<span class="string">'/settings'</span>, () => <span class="function">import</span>(<span class="string">'./pages/settings'</span>));
+routes.<span class="function">set</span>(<span class="string">'/profile'</span>, () => <span class="function">import</span>(<span class="string">'./pages/profile'</span>));
+
+<span class="keyword">async function</span> <span class="function">navigate</span>(path: <span class="type">string</span>): <span class="keyword">Promise&lt;void&gt;</span> {
+    <span class="keyword">const</span> loader = routes.<span class="function">get</span>(path);
+    <span class="keyword">if</span> (loader) {
+        <span class="keyword">const</span> module = <span class="keyword">await</span> <span class="function">loader</span>();
+        <span class="comment">// Render module.default atau module.</span>
+    }
+}
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-bold text-gray-900 mb-3">2. Feature-Based Splitting</h3>
+                    <p class="text-gray-700 mb-4">
+                        Load heavy features (charting, editor, video processing) hanya ketika user aktif menggunakan fitur tersebut.
+                    </p>
+                    <div class="code-block">
+<span class="comment">// File: app.ts</span>
+<span class="keyword">let</span> chartModule: <span class="keyword">typeof</span> <span class="function">import</span>(<span class="string">'./charts'</span>) | <span class="keyword">null</span> = <span class="keyword">null</span>;
+
+<span class="keyword">async function</span> <span class="function">showChartEditor</span>() {
+    <span class="keyword">if</span> (!chartModule) {
+        chartModule = <span class="keyword">await</span> <span class="function">import</span>(<span class="string">'./charts'</span>);  <span class="comment">// Load hanya sekali</span>
+    }
+    <span class="keyword">const</span> ChartEditor = chartModule.<span class="function">default</span>;
+    <span class="comment">// Tampilkan editor</span>
+}
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-bold text-gray-900 mb-3">3. Conditional Loading</h3>
+                    <p class="text-gray-700 mb-4">
+                        Load module berbeda berdasarkan kondisi (browser support, user role, device type).
+                    </p>
+                    <div class="code-block">
+<span class="keyword">async function</span> <span class="function">loadPaymentGateway</span>(provider: <span class="type">string</span>) {
+    <span class="keyword">let</span> module;
+    <span class="keyword">switch</span> (provider) {
+        <span class="keyword">case</span> <span class="string">'stripe'</span>:
+            module = <span class="keyword">await</span> <span class="function">import</span>(<span class="string">'./payments/stripe'</span>);
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="string">'paypal'</span>:
+            module = <span class="keyword">await</span> <span class="function">import</span>(<span class="string">'./payments/paypal'</span>);
+            <span class="keyword">break</span>;
+    }
+    <span class="keyword">return</span> module?.<span class="function">default</span>;
+}
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Webpack Magic Comments</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Ketika menggunakan Webpack, kita bisa memberikan <strong>magic comments</strong> pada dynamic import untuk mengontrol chunk creation dan naming.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Buat chunk dengan nama spesifik</span>
+<span class="keyword">const</span> module = <span class="keyword">await</span> <span class="function">import</span>(<span class="comment">/* webpackChunkName: "charts" */</span> <span class="string">'./charts'</span>);
+
+<span class="comment">// Prefetch chunk (akan di-download saat idle)</span>
+<span class="keyword">const</span> module = <span class="keyword">await</span> <span class="function">import</span>(<span class="comment">/* webpackPrefetch: true */</span> <span class="string">'./heavy-module'</span>);
+
+<span class="comment">// Preload chunk (prioritas tinggi, di-download segera)</span>
+<span class="keyword">const</span> module = <span class="keyword">await</span> <span class="function">import</span>(<span class="comment">/* webpackPreload: true */</span> <span class="string">'./critical-module'</span>);
+
+<span class="comment">// Multiple chunks dalam satu import</span>
+<span class="keyword">const</span> [moduleA, moduleB] = <span class="keyword">await</span> <span class="function">Promise</span>.<span class="function">all</span>([
+    <span class="function">import</span>(<span class="comment">/* webpackChunkName: "utils-a" */</span> <span class="string">'./utils-a'</span>),
+    <span class="function">import</span>(<span class="comment">/* webpackChunkName: "utils-b" */</span> <span class="string">'./utils-b'</span>)
+]);
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-green-900 mb-2">✅ Best Practice:</h3>
+                <p class="text-green-800">
+                    Gunakan <strong>dynamic import()</strong> untuk komponen/routes yang tidak diperlukan saat initial load. Pastikan showing loading state (spinner, skeleton) saat module di-load. Avoid over-splitting - terlalu banyak chunk bisa increase HTTP requests.
+                </p>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Lazy Load Report Generator</h3>
+                    <p class="text-gray-700 mb-4">
+                        Anda memiliki module <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">report-generator.ts</code> yang berat (200KB) karena library PDF generation. Implementasikan lazy loading:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li>Buat tombol "Generate PDF Report" di UI</li>
+                        <li>Ketika tombol diklik, dynamic import module <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">report-generator</code></li>
+                        <li>Tampilkan loading spinner selama module di-load</li>
+                        <li>Setelah loaded, panggil fungsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">generateReport(data)</code></li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Route-Based Splitting</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat sistem routing sederhana dengan 3 halaman: Home (langsung), Dashboard (lazy), Settings (lazy). Setiap halaman adalah module terpisah dengan default export. Gunakan dynamic import saat navigasi ke Dashboard/Settings.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Typing Dynamic Import</h3>
+                    <p class="text-gray-700 mb-4">
+                        Module <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">image-editor.ts</code> export default class <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">ImageEditor</code> dan named export interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">EditorOptions</code>. Buat function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">loadImageEditor()</code> yang:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Dynamic import module dengan proper TypeScript typing</li>
+                        <li>Return instance dari ImageEditor class</li>
+                        <li>Accept parameter <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">options: EditorOptions</code></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Navigate to previous lesson (Module 8, Lesson 3)')">
+                ← Sebelumnya: Barrel Files
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 8, Lesson 5)')">
+                Selanjutnya: Ambient Modules →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: Dynamic Import & Code Splitting
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module8', 'dynamic-import-code-splitting');
+            }
+        });
+    </script>
+</body>
+</html>

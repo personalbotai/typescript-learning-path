@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Class Dasar - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 6: Classes TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 16.67%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 6</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Class Dasar</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Class</strong> adalah blueprint untuk membuat objects yang memiliki properties dan methods. TypeScript menambahkan <strong>type annotations</strong> ke class members, memungkinkan type checking yang ketat pada constructors, properties, dan methods. Classes di TypeScript kompatibel dengan JavaScript ES6+ dan mendukung fitur seperti modifiers, inheritance, dan abstract classes.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami konsep class dan object di TypeScript</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mendefinisikan class dengan properties bertipe</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan constructor dengan parameter properties</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami access modifiers (public, private, protected)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Membuat dan menginisialisasi object instances</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Pengenalan Class</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Class di TypeScript adalah turunan dari class JavaScript ES6 dengan tambahan <strong>static typing</strong>. Class berisi:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li><strong>Properties</strong> - variabel yang menyimpan data</li>
+                <li><strong>Constructor</strong> - method khusus yang dipanggil saat instance dibuat</li>
+                <li><strong>Methods</strong> - fungsi yang beroperasi pada class data</li>
+                <li><strong>Access Modifiers</strong> - mengontrol visibilitas (public, private, protected)</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Class Sederhana</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Person</span> {
+    <span class="comment">// Properties dengan type annotations</span>
+    <span class="keyword">public</span> name: <span class="type">string</span>;
+    <span class="keyword">public</span> age: <span class="type">number</span>;
+    <span class="keyword">private</span> id: <span class="type">number</span>;
+
+    <span class="comment">// Constructor untuk inisialisasi</span>
+    <span class="keyword">constructor</span>(name: <span class="type">string</span>, age: <span class="type">number</span>, id: <span class="type">number</span>) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.age = age;
+        <span class="keyword">this</span>.id = id;
+    }
+
+    <span class="comment">// Method</span>
+    <span class="keyword">public</span> greet(): <span class="type">void</span> {
+        console.log(<span class="string">`Hello, I'm ${this.name}`</span>);
+    }
+}
+
+<span class="comment">// Membuat instance</span>
+<span class="keyword">const</span> person = <span class="keyword">new</span> <span class="type">Person</span>(<span class="string">"Alice"</span>, 30, 1001);
+person.greet(); <span class="comment">// Output: Hello, I'm Alice</span>
+console.log(person.name); <span class="comment">// OK - public</span>
+<span class="comment">// console.log(person.id); // Error - private</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Parameter Properties</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript menyediakan shortcut called <strong>parameter properties</strong> yang otomatis membuat dan mengassign properties dari constructor parameters. Ini mengurangi boilerplate code secara signifikan.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Product</span> {
+    <span class="comment">// Parameter properties - otomatis create & assign</span>
+    <span class="keyword">constructor</span>(
+        <span class="keyword">public</span> readonly name: <span class="type">string</span>,
+        <span class="keyword">private</span> price: <span class="type">number</span>,
+        <span class="keyword">protected</span> stock: <span class="type">number</span>
+    ) {}
+
+    <span class="keyword">public</span> getPriceWithTax(taxRate: <span class="type">number</span>): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.price * (1 + taxRate);
+    }
+}
+
+<span class="keyword">const</span> laptop = <span class="keyword">new</span> <span class="type">Product</span>(<span class="string">"Laptop"</span>, 15000000, 50);
+console.log(laptop.name); <span class="comment">// OK - public & readonly</span>
+<span class="comment">// console.log(laptop.price); // Error - private</span>
+<span class="comment">// console.log(laptop.stock); // Error - protected (hanya bisa diakses di subclass)</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Readonly Properties</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Gunakan modifier <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code> untuk properties yang hanya dapat diassign di declaration atau di constructor. Setelah initialization, nilai tidak bisa diubah.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">User</span> {
+    <span class="keyword">readonly</span> id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+
+    <span class="keyword">constructor</span>(id: <span class="type">number</span>, name: <span class="type">string</span>) {
+        <span class="keyword">this</span>.id = id; <span class="comment">// OK</span>
+        <span class="keyword">this</span>.id = id + 1; <span class="comment">// Error - readonly</span>
+        <span class="keyword">this</span>.name = name;
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Static Properties dan Methods</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono">static</code> modifier membuat property atau method milik class itu sendiri, bukan instance. Static members diakses langsung dari class.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">MathUtils</span> {
+    <span class="keyword">static</span> <span class="keyword">readonly</span> PI = <span class="type">3.14159</span>;
+
+    <span class="keyword">static</span> circleArea(radius: <span class="type">number</span>): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.PI * radius * radius;
+    }
+}
+
+console.log(<span class="type">MathUtils</span>.PI); <span class="comment">// 3.14159</span>
+console.log(<span class="type">MathUtils</span>.circleArea(5)); <span class="comment">// 78.53975</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Class Expressions</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Seperti function expressions, class juga bisa didefinisikan sebagai expression, bahkan dengan type annotation.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Class expression tanpa nama</span>
+<span class="keyword">const</span> <span class="type">Animal</span> = <span class="keyword">class</span> {
+    constructor(<span class="keyword">public</span> name: <span class="type">string</span>) {}
+    makeSound(): <span class="type">void</span> {
+        console.log(<span class="string">"Generic sound"</span>);
+    }
+};
+
+<span class="keyword">const</span> dog = <span class="keyword">new</span> <span class="type">Animal</span>(<span class="string">"Doggo"</span>);
+dog.makeSound();
+
+<span class="comment">// Class expression dengan type annotation</span>
+<span class="keyword">type</span> <span class="type">AnimalClass</span> = <span class="keyword">new</span> (<span class="type">name</span>: <span class="type">string</span>) => <span class="keyword">void</span>;
+<span class="keyword">const</span> <span class="type">Cat</span>: <span class="type">AnimalClass</span> = <span class="keyword">class</span> {
+    constructor(<span class="keyword">public</span> name: <span class="type">string</span>) {}
+    makeSound(): <span class="type">void</span> {
+        console.log(<span class="string">"Meow!"</span>);
+    }
+};</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Type Annotations pada Class</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript akan meninfer tipe untuk class properties dan method returns jika tidak diannotasi, tetapi explicit type annotations sangat dianjurkan untuk readability dan safety.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">BankAccount</span> {
+    <span class="comment">// Explicit type annotations</span>
+    owner: <span class="type">string</span>;
+    balance: <span class="type">number</span>;
+    transactions: <span class="type">Array</span>&lt;<span class="type">Date</span>&gt;;
+
+    <span class="keyword">constructor</span>(owner: <span class="type">string</span>, initialBalance: <span class="type">number</span>) {
+        <span class="keyword">this</span>.owner = owner;
+        <span class="keyword">this</span>.balance = initialBalance;
+        <span class="keyword">this</span>.transactions = [];
+    }
+
+    deposit(amount: <span class="type">number</span>): <span class="type">void</span> {
+        <span class="keyword">this</span>.balance += amount;
+        <span class="keyword">this</span>.transactions.push(<span class="keyword">new</span> <span class="type">Date</span>());
+    }
+
+    getBalance(): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.balance;
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+            
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">1. Student Class</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Student</code> dengan properties: <code class="bg-gray-100 px-2 py-1 rounded font-mono">id: number</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">name: string</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">grades: number[]</code>. Tambahkan method <code class="bg-gray-100 px-2 py-1 rounded font-mono">addGrade(grade: number)</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">getAverage(): number</code>.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">2. Readonly Product</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Product</code> dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code> properties <code class="bg-gray-100 px-2 py-1 rounded font-mono">sku: string</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">name: string</code>. Coba ubah nilai di constructor setelah assignment - observasi error.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">3. Static Counter</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Order</code> dengan static property <code class="bg-gray-100 px-2 py-1 rounded font-mono">orderCount: number</code> yang di-increment setiap kali instance baru dibuat. Tambahkan static method <code class="bg-gray-100 px-2 py-1 rounded font-mono">getTotalOrders(): number</code>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" disabled>
+                ← Sebelumnya
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat setelah semua lesson selesai')">
+                Quiz Module →
+            </button>
+        </nav>
+    </main>
+
+    <script src="/typescript-curriculum/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Inheritance dengan extends dan super - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 6: Classes TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 2 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 33.33%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 6</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 2</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Inheritance dengan extends dan super</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Inheritance</strong> memungkinkan class mengextend class lain, mewariskan properties dan methods. TypeScript menggunakan kata kunci <code class="bg-gray-100 px-2 py-1 rounded font-mono">extends</code> untuk inheritance dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">super</code> untuk mengakses parent class. Inheritance membantu membuat code yang reusable dan organized dengan hirarki yang jelas.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami konsep inheritance dan class hierarchy</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">extends</code> untuk membuat subclass</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memanggil parent constructor dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">super()</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Override methods dari parent class</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami aturan tipe untuk inheritance</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Inheritance Basics</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Class anak (subclass) mewarisi semua properties dan methods dari class orang tua (parent). Dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">extends</code>, kita bisa membuat class hierarchy yang logis.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Contoh Sederhana Inheritance</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Animal</span> {
+    constructor(<span class="keyword">protected</span> name: <span class="type">string</span>) {}
+    move(distance: <span class="type">number</span> = <span class="type">0</span>): <span class="type">void</span> {
+        console.log(<span class="string">`\${this.name} moved \${distance}m`</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+    bark(): <span class="type">void</span> {
+        console.log(<span class="string">"Woof! Woof!"</span>);
+    }
+}
+
+<span class="keyword">const</span> dog = <span class="keyword">new</span> <span class="type">Dog</span>(<span class="string">"Buddy"</span>);
+dog.move(<span class="type">10</span>); <span class="comment">// Inherited from Animal</span>
+dog.bark(); <span class="comment">// Dog's own method</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Constructor dengan super()</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Ketika subclass memiliki constructor, kita harus memanggil <code class="bg-gray-100 px-2 py-1 rounded font-mono">super()</code> terlebih dahulu sebelum mengakses <code class="bg-gray-100 px-2 py-1 rounded font-mono">this</code>. <code class="bg-gray-100 px-2 py-1 rounded font-mono">super()</code> memanggil constructor parent.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Person</span> {
+    constructor(<span class="keyword">public</span> name: <span class="type">string</span>, <span class="keyword">public</span> age: <span class="type">number</span>) {}
+}
+
+<span class="keyword">class</span> <span class="type">Employee</span> <span class="keyword">extends</span> <span class="type">Person</span> {
+    <span class="keyword">public</span> employeeId: <span class="type">number</span>;
+
+    constructor(name: <span class="type">string</span>, age: <span class="type">number</span>, id: <span class="type">number</span>) {
+        <span class="keyword">super</span>(name, age); <span class="comment">// Must call super() first</span>
+        <span class="keyword">this</span>.employeeId = id;
+    }
+}
+
+<span class="keyword">const</span> emp = <span class="keyword">new</span> <span class="type">Employee</span>(<span class="string">"Alice"</span>, 30, <span class="type">1001</span>);
+console.log(emp.name); <span class="comment">// "Alice" - inherited</span>
+console.log(emp.employeeId); <span class="comment">// 1001 - own property</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Method Overriding</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Subclass bisa mengganti (override) method dari parent dengan method yang sama. Gunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">super.methodName()</code> untuk memanggil implementation parent.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Shape</span> {
+    area(): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="type">0</span>;
+    }
+    description(): <span class="type">string</span> {
+        <span class="keyword">return</span> <span class="string">"Generic shape"</span>;
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Rectangle</span> <span class="keyword">extends</span> <span class="type">Shape</span> {
+    constructor(<span class="keyword">public</span> width: <span class="type">number</span>, <span class="keyword">public</span> height: <span class="type">number</span>) {
+        <span class="keyword">super</span>();
+    }
+
+    <span class="comment">// Override area</span>
+    area(): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.width * <span class="keyword">this</span>.height;
+    }
+
+    <span class="comment">// Override description, calling parent version</span>
+    description(): <span class="type">string</span> {
+        <span class="keyword">const</span> parentDesc = <span class="keyword">super</span>.description();
+        <span class="keyword">return</span> <span class="string">\`\${parentDesc} - Rectangle (\${this.width}x\${this.height})\`</span>;
+    }
+}
+
+<span class="keyword">const</span> rect = <span class="keyword">new</span> <span class="type">Rectangle</span>(<span class="type">10</span>, <span class="type">5</span>);
+console.log(rect.area()); <span class="comment">// 50</span>
+console.log(rect.description()); <span class="comment">// "Generic shape - Rectangle (10x5)"</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Type Checking untuk Inheritance</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript mencek bahwa subclass mematuhi kontrak parent class. Properties dan methods yang diwarisi harus memiliki tipe yang sesuai atau lebih spesifik (Liskov Substitution Principle).
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Animal</span> {
+    name: <span class="type">string</span>;
+    constructor(name: <span class="type">string</span>) { <span class="keyword">this</span>.name = name; }
+    speak(): <span class="type">string</span> { <span class="keyword">return</span> <span class="string">""</span>; }
+}
+
+<span class="keyword">class</span> <span class="type">Cat</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+    <span class="comment">// Override speak dengan return type yang lebih spesifik (string) - OK</span>
+    speak(): <span class="type">string</span> {
+        <span class="keyword">return</span> <span class="string">"Meow!"</span>;
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+    <span class="comment">// Error: return type number tidak compatible dengan parent's string</span>
+    <span class="comment">// speak(): number { return 42; }</span>
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Inheritance dan Access Modifiers</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Inheritance mematuhi access modifiers:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li><code class="bg-gray-100 px-2 py-1 rounded font-mono">public</code> - bisa diakses di mana saja</li>
+                <li><code class="bg-gray-100 px-2 py-1 rounded font-mono">protected</code> - bisa diakses di class dan subclass</li>
+                <li><code class="bg-gray-100 px-2 py-1 rounded font-mono">private</code> - hanya di class itu sendiri</li>
+            </ul>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Parent</span> {
+    <span class="keyword">public</span> pub = <span class="string">"public"</span>;
+    <span class="keyword">protected</span> prot = <span class="string">"protected"</span>;
+    <span class="keyword">private</span> priv = <span class="string">"private"</span>;
+}
+
+<span class="keyword">class</span> <span class="type">Child</span> <span class="keyword">extends</span> <span class="type">Parent</span> {
+    access(): <span class="type">void</span> {
+        console.log(<span class="keyword">this</span>.pub);  <span class="comment">// OK - public</span>
+        console.log(<span class="keyword">this</span>.prot); <span class="comment">// OK - protected</span>
+        <span class="comment">// console.log(this.priv); // Error - private</span>
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Multiple Inheritance & Mixins</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript (seperti JavaScript) tidak support multiple inheritance (class hanya bisa extends satu class). Namun, kita bisa mencapai code reuse dengan <strong>mixins</strong> atau composition.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Mixin pattern</span>
+<span class="keyword">type</span> <span class="type">Constructor</span> = <span class="keyword">new</span> (...args: <span class="type">any</span>[]) => <span class="type">{}</span>;
+
+<span class="keyword">function</span> <span class="function">Timestamped</span>(<span class="type">Base</span>: <span class="type">Constructor</span>) {
+    <span class="keyword">return</span> <span class="keyword">class</span> <span class="keyword">extends</span> <span class="type">Base</span> {
+        timestamp = <span class="keyword">new</span> <span class="type">Date</span>();
+        getTimestamp(): <span class="type">Date</span> { <span class="keyword">return</span> <span class="keyword">this</span>.timestamp; }
+    };
+}
+
+<span class="keyword">class</span> <span class="type">User</span> {
+    constructor(<span class="keyword">public</span> name: <span class="type">string</span>) {}
+}
+
+<span class="keyword">const</span> <span class="type">TimestampedUser</span> = Timestamped(<span class="type">User</span>);
+<span class="keyword">const</span> user = <span class="keyword">new</span> TimestampedUser(<span class="string">"Alice"</span>);
+console.log(user.name); <span class="comment">// "Alice"</span>
+console.log(user.getTimestamp()); <span class="comment">// Date object</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+            
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">1. Vehicle Hierarchy</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Vehicle</code> dengan properties <code class="bg-gray-100 px-2 py-1 rounded font-mono">brand: string</code> dan method <code class="bg-gray-100 px-2 py-1 rounded font-mono">start(): void</code>. Buat subclass <code class="bg-gray-100 px-2 py-1 rounded font-mono">Car</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Motorcycle</code> yang override method <code class="bg-gray-100 px-2 py-1 rounded font-mono">start()</code> dengan output berbeda.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">2. Employee Hierarchy</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Person</code> dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">name: string</code>. Buat <code class="bg-gray-100 px-2 py-1 rounded font-mono">Employee</code> yang extends <code class="bg-gray-100 px-2 py-1 rounded font-mono">Person</code> menambahkan <code class="bg-gray-100 px-2 py-1 rounded font-mono">employeeId: number</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">department: string</code>. Pastikan constructor menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">super()</code> dengan benar.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">3. Polymorphic Method</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class hierarchy: <code class="bg-gray-100 px-2 py-1 rounded font-mono">Shape</code> (parent) dengan method <code class="bg-gray-100 px-2 py-1 rounded font-mono">area(): number</code> yang return 0. Buat <code class="bg-gray-100 px-2 py-1 rounded font-mono">Circle</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Square</code> yang extends <code class="bg-gray-100 px-2 py-1 rounded font-mono">Shape</code> dan override <code class="bg-gray-100 px-2 py-1 rounded font-mono">area()</code>. Buat array <code class="bg-gray-100 px-2 py-1 rounded font-mono">Shape[]</code> yang berisi mixed instances, lalu hitung total area.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat setelah semua lesson selesai')">
+                Quiz Module →
+            </button>
+        </nav>
+    </main>
+
+    <script src="/typescript-curriculum/app.js"></script>
+</body>
+</html>

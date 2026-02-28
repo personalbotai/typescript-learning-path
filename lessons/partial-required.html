@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Partial & Required Types - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 11: Advanced Utility Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 12.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 11</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Partial & Required Utility Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Partial&lt;T&gt;</strong> dan <strong>Required&lt;T&gt;</strong> adalah utility types yang membalikkan optionality properties dari interface atau type. Partial membuat semua properties optional, sedangkan Required membuat semua properties required.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami fungsi Partial&lt;T&gt; untuk membuat semua properties optional</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan Required&lt;T&gt; untuk memaksa semua properties menjadi required</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menerapkan Partial dalam function parameters (update operations)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami bagaimana utility types bekerja dengan mapped types</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Partial&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Partial&lt;T&gt;</code> membuat semua properties dari type <code class="bg-gray-100 px-1 rounded">T</code> menjadi optional. Berguna untuk operations seperti <strong>update</strong> atau <strong>patch</strong> di mana tidak semua field perlu dikirim.
+            </p>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">Contoh Sederhana</h4>
+            <div class="code-block mb-6">
+interface User {
+  id: <span class="type">number</span>;
+  name: <span class="type">string</span>;
+  email: <span class="type">string</span>;
+  age?: <span class="type">number</span>;
+}
+
+<span class="comment">// Partial<User> membuat semua properties optional</span>
+<span class="keyword">type</span> PartialUser = Partial&lt;User&gt;;
+
+<span class="comment">// Setara dengan:</span>
+<span class="keyword">type</span> PartialUser = {
+  id?: <span class="type">number</span>;
+  name?: <span class="type">string</span>;
+  email?: <span class="type">string</span>;
+  age?: <span class="type">number</span>;
+};
+
+<span class="keyword">const</span> updateData: PartialUser = {
+  name: <span class="string">"Alice Updated"</span>  <span class="comment">// ✅ OK - hanya name, lain optional</span>
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Required&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Required&lt;T&gt;</code> melakukan sebaliknya: membuat semua optional properties menjadi required. Berguna ketika Anda ingin memastikan semua fields terisi setelah某些 operations.
+            </p>
+
+            <div class="code-block mb-6">
+interface Config {
+  host?: <span class="type">string</span>;
+  port?: <span class="type">number</span>;
+  timeout?: <span class="type">number</span>;
+}
+
+<span class="comment">// Required<Config> membuat semua required</span>
+<span class="keyword">type</span> StrictConfig = Required&lt;Config&gt;;
+
+<span class="comment">// Setara dengan:</span>
+<span class="keyword">type</span> StrictConfig = {
+  host: <span class="type">string</span>;
+  port: <span class="type">number</span>;
+  timeout: <span class="type">number</span>;
+};
+
+<span class="keyword">function</span> <span class="function">validateConfig</span>(config: StrictConfig) {
+  <span class="comment">// TypeScript memastikan host, port, timeout semua ada</span>
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Use Case: Update Function dengan Partial</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Pola umum: fungsi update yang menerima partial object dan mengembalikan full object.
+            </p>
+            <div class="code-block mb-6">
+interface Product {
+  id: <span class="type">number</span>;
+  name: <span class="type">string</span>;
+  price: <span class="type">number</span>;
+  stock: <span class="type">number</span>;
+}
+
+<span class="keyword">function</span> <span class="function">updateProduct</span>(
+  id: <span class="type">number</span>,
+  updates: Partial&lt;Product&gt;  <span class="comment">// Hanya fields yang ingin diupdate</span>
+): Product {
+  <span class="keyword">const</span> product = getProductById(id);
+  <span class="keyword">return</span> { ...product, ...updates };
+}
+
+<span class="comment">// Usage:</span>
+updateProduct(<span class="type">1</span>, { price: <span class="type">199000</span> });  <span class="comment">// ✅ OK</span>
+updateProduct(<span class="type">2</span>, {});                    <span class="comment">// ✅ OK - empty update</span>
+updateProduct(<span class="type">3</span>, { id: <span class="type">5</span> });     <span class="comment">// ❌ Error: id readonly? (see Readonly later)</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Menggabungkan dengan Omit & Pick</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Partial sering dikombinasikan dengan utility types lain untuk presisi:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Partial hanya untuk certain properties</span>
+<span class="keyword">type</span> PartialNameAndEmail = Partial&lt;Pick&lt;User, <span class="string">"name"</span> | <span class="string">"email"</span>&gt;&gt;;
+
+<span class="comment">// Atau exclude某些 properties dari Partial</span>
+<span class="keyword">type</span> PartialWithoutId = Partial&lt;Omit&lt;User, <span class="string">"id"</span>&gt;&gt;;
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Implementation Insight</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Partial</code> dan <code class="bg-gray-100 px-1 rounded">Required</code> menggunakan mapped types di balik layar:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Sebenarnya TypeScript built-in definitions:</span>
+<span class="keyword">type</span> Partial&lt;T&gt; = {
+  [P <span class="keyword">in</span> keyof T]?: T[P];
+};
+
+<span class="keyword">type</span> Required&lt;T&gt; = {
+  [P <span class="keyword">in</span> keyof T]-?: T[P];
+};
+            </div>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+                Operator <code class="bg-gray-100 px-1 rounded">-?</code> menghapus optional modifier, sedangkan <code class="bg-gray-100 px-1 rounded">?</code> menambahkannya.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Pitfalls & Considerations</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li><code class="bg-gray-100 px-1 rounded">Partial&lt;T&gt;</code> tidak mengubah existing optional properties (tetap optional)</li>
+                <li>Hati-hati dengan <code class="bg-gray-100 px-1 rounded">Required&lt;T&gt;</code> pada deeply nested objects - hanya bekerja di level pertama</li>
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">-?</code> dan <code class="bg-gray-100 px-1 rounded">+?</code> modifiers untuk control optionality pada custom mapped types</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: API Response Handler</h3>
+                    <p class="text-gray-700 mb-3">Buat function yang menerima partial user data dan mengembalikan complete User.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Define interface User dengan 5 properties (some optional)</li>
+                        <li>Buat function <code class="bg-gray-100 px-1 rounded">mergeUser(base: User, patch: Partial&lt;User&gt;): User</code></li>
+                        <li>Test dengan berbagai partial inputs</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: Config Validation</h3>
+                    <p class="text-gray-700 mb-3">Gunakan Required untuk enforce config completeness.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat interface Config dengan beberapa optional properties</li>
+                        <li>Buat function yang accept Partial&lt;Config&gt; tapi return Required&lt;Config&gt;</li>
+                        <li>Implement logic untuk fill default values untuk properties yang missing</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Advanced Combination</h3>
+                    <p class="text-gray-700 mb-3">Kombinasikan Partial dengan Pick/Omit.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat type <code class="bg-gray-100 px-1 rounded">PartialContactInfo = Partial&lt;Pick&lt;User, "email" | "phone"&gt;&gt;</code></li>
+                        <li>Buat function updateContact yang hanya menerima email/phone updates</li>
+                        <li>Pastikan type safety memblokir properties lain</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" disabled>
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

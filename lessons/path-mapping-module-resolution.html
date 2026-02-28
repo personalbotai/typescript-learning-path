@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Path Mapping dan Module Resolution - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 9: Configuration Tooling</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 5 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 62.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 9</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 5</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Path Mapping dan Module Resolution</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Path mapping</strong> di TypeScript memungkinkan Anda membuat alias untuk import paths, sehingga tidak perlu menggunakan relative paths yang panjang. Fitur ini dikombinasikan dengan <strong>module resolution</strong> strategy yang menentukan bagaimana TypeScript menemukan file module.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+                <span>📚 Tipe: Configuration</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami <strong>module resolution</strong> strategies (Classic vs Node)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">baseUrl</code> untuk absolute imports</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Membuat <strong>path aliases</strong> dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">paths</code> option</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengonfigurasi <strong>rootDirs</strong> untuk virtual directories</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami compatibility dengan bundlers (Webpack, Vite, dll)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengatasi masalah common pitfalls dengan path mapping</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Module Resolution Strategy</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>Module resolution</strong> adalah proses di mana TypeScript menemukan file yang sesuai dengan import statement. Ada dua strategies utama:
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                    <h3 class="font-bold text-blue-900 mb-3">🔍 Classic (Default untuk non-Node)</h3>
+                    <ul class="list-disc list-inside text-blue-800 space-y-2 text-sm">
+                        <li>Mencari Relative paths terlebih dahulu</li>
+                        <li>Kemudian mencari di <code class="bg-blue-100 px-2 py-1 rounded">node_modules</code></li>
+                        <li>Tidak memahami Node.js module resolution algorithm</li>
+                        <li>Untuk browser scripts atau non-Node environments</li>
+                    </ul>
+                </div>
+
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                    <h3 class="font-bold text-green-900 mb-3">📦 Node (Default untuk Node.js)</h3>
+                    <ul class="list-disc list-inside text-green-800 space-y-2 text-sm">
+                        <li>Mengikuti Node.js module resolution</li>
+                        <li>Support <code class="bg-green-100 px-2 py-1 rounded">package.json</code> <code class="bg-green-100 px-2 py-1 rounded">types</code> field</li>
+                        <li>Support <code class="bg-green-100 px-2 py-1 rounded">exports</code> field di package.json</li>
+                        <li>Ideal untuk Node.js dan bundlers</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"moduleResolution"</span>: <span class="string">"node"</span>  <span class="comment">// atau "classic"</span>
+  }
+}
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-purple-900 mb-2">💡 Rekomendasi:</h3>
+                <p class="text-purple-800">
+                    Gunakan <code class="bg-purple-100 px-2 py-1 rounded text-sm font-mono">"moduleResolution": "node"</code> untuk hampir semua project modern (Node.js, bundlers, React, Vue). Hanya gunakan <code class="bg-purple-100 px-2 py-1 rounded text-sm font-mono">"classic"</code> untuk legacy browser scripts tanpa module system.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">BaseUrl: Absolute Imports</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Opsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">baseUrl</code> memungkinkan Anda menggunakan <strong>absolute paths</strong> (bukan relative) untuk import statements. Ketika di-set, import paths yang tidak dimulai dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">.</code> atau <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">/</code> akan di-resolve relatif terhadap <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">baseUrl</code>.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Tanpa baseUrl (relative paths):</h3>
+
+            <div class="code-block mb-6">
+src/
+├── components/
+│   ├── Button.tsx
+│   └── Modal.tsx
+└── pages/
+    └── Home.tsx
+
+<span class="comment">// Home.tsx</span>
+<span class="keyword">import</span> Button <span class="keyword">from</span> <span class="string">'../components/Button'</span>;  <span class="comment">// Relative path - bisa confusing</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Dengan baseUrl (absolute paths):</h3>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"baseUrl"</span>: <span class="string">"./src"</span>,  <span class="comment">// src adalah root untuk absolute imports</span>
+    <span class="string">"paths"</span>: {
+      <span class="string">"@components/*"</span>: [<span class="string">"components/*"</span>]
+    }
+  }
+}
+
+<span class="comment">// Home.tsx</span>
+<span class="keyword">import</span> Button <span class="keyword">from</span> <span class="string">'@components/Button'</span>;  <span class="comment">// Clean dan clear!</span>
+<span class="keyword">import</span> { helper } <span class="keyword">from</span> <span class="string">'utils'</span>;         <span class="comment">// Absolute: src/utils</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Paths: Alias Configuration</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Opsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">paths</code> digunakan bersama <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">baseUrl</code> untuk membuat <strong>path aliases</strong>. Ini memungkinkan Anda membuat custom alias untuk folders atau module patterns.
+            </p>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"baseUrl"</span>: <span class="string">"./src"</span>,
+    <span class="string">"paths"</span>: {
+      <span class="comment">// Alias untuk folders</span>
+      <span class="string">"@components/*"</span>: [<span class="string">"components/*"</span>],
+      <span class="string">"@utils/*"</span>: [<span class="string">"utils/*"</span>],
+      <span class="string">"@services/*"</span>: [<span class="string">"services/*"</span>],
+      
+      <span class="comment">// Alias untuk specific module</span>
+      <span class="string">"@config"</span>: [<span class="string">"config/index"</span>],
+      
+      <span class="comment">// Multiple path mappings (fallbacks)</span>
+      <span class="string">"@lib/*"</span>: [
+        <span class="string">"libs/*"</span>,
+        <span class="string">"node_modules/@company/*"</span>
+      ]
+    }
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Contoh Penggunaan:</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// src/pages/Home.tsx</span>
+<span class="keyword">import</span> Button <span class="keyword">from</span> <span class="string">'@components/Button'</span>;      <span class="comment">// resolves to src/components/Button</span>
+<span class="keyword">import</span> { formatDate } <span class="keyword">from</span> <span class="string">'@utils/date'</span>;    <span class="comment">// resolves to src/utils/date</span>
+<span class="keyword">import</span> config <span class="keyword">from</span> <span class="string">'@config'</span>;               <span class="comment">// resolves to src/config/index</span>
+<span class="keyword">import</span> Logger <span class="keyword">from</span> <span class="string">'@lib/logger'</span>;           <span class="comment">// tries src/libs/logger, then node_modules/@company/logger</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Module Resolution di Bundlers</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Path mapping di tsconfig.json hanya mempengaruhi <strong>TypeScript type checking</strong>. Untuk membuat path aliases bekerja di runtime, Anda perlu mengonfigurasi bundler (Webpack, Vite, Rollup) dengan routes yang sama.
+            </p>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-yellow-900 mb-2">⚠️ Synchronization Needed:</h3>
+                <p class="text-yellow-800 mb-3">
+                    TypeScript path mapping TIDAK otomatis dikenali oleh bundler. Anda harus:
+                </p>
+                <ul class="list-disc list-inside text-yellow-800 space-y-2">
+                    <li><strong>Webpack</strong>: Configure <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">resolve.alias</code></li>
+                    <li><strong>Vite</strong>: Configure <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">resolve.alias</code> di vite.config.ts</li>
+                    <li><strong>Rollup</strong>: Use <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">@rollup/plugin-alias</code></li>
+                    <li><strong>ts-node</strong>: Use <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">tsconfig-paths</code> package</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Webpack Alias Example:</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// webpack.config.js</span>
+<span class="keyword">module</span>.exports = {
+  <span class="string">resolve</span>: {
+    <span class="string">alias</span>: {
+      <span class="string">'@components'</span>: path.<span class="function">resolve</span>(__dirname, <span class="string">'src/components'</span>),
+      <span class="string">'@utils'</span>: path.<span class="function">resolve</span>(__dirname, <span class="string">'src/utils'</span>)
+    },
+    <span class="string">extensions</span>: [<span class="string">'.ts'</span>, <span class="string">'.tsx'</span>, <span class="string">'.js'</span>]
+  }
+};
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Vite Alias Example:</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// vite.config.ts</span>
+<span class="keyword">import</span> { defineConfig } <span class="keyword">from</span> <span class="string">'vite'</span>;
+<span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">'path'</span>;
+
+<span class="keyword">export default</span> <span class="function">defineConfig</span>({
+  <span class="string">resolve</span>: {
+    <span class="string">alias</span>: {
+      <span class="string">'@'</span>: path.<span class="function">resolve</span>(__dirname, <span class="string">'src'</span>),
+      <span class="string">'@components'</span>: path.<span class="function">resolve</span>(__dirname, <span class="string">'src/components'</span>)
+    }
+  }
+});
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">RootDirs: Virtual Directories</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Opsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">rootDirs</code> memungkinkan Anda menentukan daftar folder yang secara logis dianggap sebagai <strong>satu root</strong>. Berguna untuk monorepos atau ketika file-file tersebar di multiple locations tapi seharusnya bisa saling import.
+            </p>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"rootDirs"</span>: [
+      <span class="string">"src"</span>,
+      <span class="string">"libs/shared/src"</span>,
+      <span class="string">"generated"</span>
+    ]
+  }
+}
+<span class="comment">// Dengan rootDirs, Anda bisa:</span>
+<span class="comment">// src/components/Button.tsx bisa import 'libs/shared/src/utils'</span>
+<span class="comment">// Karena keduanya dianggap di root yang sama</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Complete Example: Modern React App</h2>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2020"</span>,
+    <span class="string">"module"</span>: <span class="string">"ESNext"</span>,
+    <span class="string">"moduleResolution"</span>: <span class="string">"node"</span>,
+    <span class="string">"baseUrl"</span>: <span class="string">"./src"</span>,
+    <span class="string">"paths"</span>: {
+      <span class="string">"@/*"</span>: [<span class="string">"*"</span>],
+      <span class="string">"@components/*"</span>: [<span class="string">"components/*"</span>],
+      <span class="string">"@hooks/*"</span>: [<span class="string">"hooks/*"</span>],
+      <span class="string">"@utils/*"</span>: [<span class="string">"utils/*"</span>],
+      <span class="string">"@services/*"</span>: [<span class="string">"services/*"</span>],
+      <span class="string">"@assets/*"</span>: [<span class="string">"assets/*"</span>]
+    },
+    <span class="string">"jsx"</span>: <span class="string">"react-jsx"</span>,
+    <span class="string">"strict"</span>: <span class="keyword">true</span>,
+    <span class="string">"esModuleInterop"</span>: <span class="keyword">true</span>
+  },
+  <span class="string">"include"</span>: [<span class="string">"src/**/*"</span>],
+  <span class="string">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">"dist"</span>]
+}
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-green-900 mb-2">✅ Common Alias Patterns:</h3>
+                <ul class="list-disc list-inside text-green-800 space-y-2">
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">"@/*": ["*"]</code> - <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">@/component</code> → <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">src/component</code></li>
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">"@components/*": ["components/*"]</code> - for components folder</li>
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">"#/*": ["*"]</code> - absolute from project root (alternative to @)</li>
+                </ul>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Troubleshooting</h2>
+
+            <div class="space-y-4 mb-8">
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <h4 class="font-bold text-red-900 mb-2">Problem: "Cannot find module" meski path benar</h4>
+                    <p class="text-red-800 text-sm mb-2">
+                        <strong>Solution:</strong> Pastikan <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">baseUrl</code> di-set sebelum <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">paths</code>. Path mapping hanya bekerja jika <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">baseUrl</code> ada.
+                    </p>
+                </div>
+
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <h4 class="font-bold text-red-900 mb-2">Problem: Path works di IDE tapi error saat build</h4>
+                    <p class="text-red-800 text-sm mb-2">
+                        <strong>Solution:</strong> Bundler (Webpack/Vite) tidak tahu path mapping dari tsconfig. Tambahkan alias configuration di bundler config agar match.
+                    </p>
+                </div>
+
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <h4 class="font-bold text-red-900 mb-2">Problem: Import resolution lambat</h4>
+                    <p class="text-red-800 text-sm mb-2">
+                        <strong>Solution:</strong> Terlalu banyak path mappings atau complex glob patterns. Simplify paths dan pastikan <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">exclude</code> include <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">node_modules</code>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Setup Path Aliases</h3>
+                    <p class="text-gray-700 mb-4">
+                        Project structure:
+                    </p>
+                    <div class="code-block mb-4">
+src/
+├── components/
+│   ├── Button/
+│   └── Modal/
+├── hooks/
+├── utils/
+├── services/
+└── pages/
+                    </div>
+                    <p class="text-gray-700 mb-2">
+                        Buat tsconfig dengan:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">baseUrl: "./src"</code></li>
+                        <li>Aliases: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">@components/*</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">@hooks/*</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">@utils/*</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">@services/*</code></li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Monorepo Path Mapping</h3>
+                    <p class="text-gray-700 mb-4">
+                        Monorepo dengan packages:
+                    </p>
+                    <div class="code-block mb-4">
+packages/
+├── ui/
+│   └── src/
+├── api/
+│   └── src/
+└── shared/
+    └── src/
+                    </div>
+                    <p class="text-gray-700">
+                        Configure tsconfig agar:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mt-2">
+                        <li>Set baseUrl ke root project</li>
+                        <li>Aliases: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"@ui/*"</code> → <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"packages/ui/src/*"</code></li>
+                        <li>Aliases: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"@api/*"</code> → <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"packages/api/src/*"</code></li>
+                        <li>Aliases: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"@shared/*"</code> → <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"packages/shared/src/*"</code></li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Configure Webpack Alias</h3>
+                    <p class="text-gray-700 mb-4">
+                        Setelah setup tsconfig dengan path aliases di Latihan 1, buat webpack.config.js yang match:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Configure resolve.alias untuk @components, @hooks, @utils, @services</li>
+                        <li>Pastikan path.resolve ke absolute paths</li>
+                        <li>Test dengan import menggunakan aliases</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Navigate to previous lesson (Module 9, Lesson 4)')">
+                ← Sebelumnya: Include, Exclude, dan Files
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 9, Lesson 6)')">
+                Selanjutnya: Build Tools →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: Path Mapping & Module Resolution
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module9', 'path-mapping-module-resolution');
+            }
+        });
+    </script>
+</body>
+</html>

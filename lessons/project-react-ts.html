@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Project - React Application with TypeScript - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 12: Real-World Projects</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 2 of 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 40%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 12</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Project 2</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Project: React Application dengan TypeScript</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Bangun aplikasi React menggunakan TypeScript dengan proper typing untuk components, props, state, dan API interactions. Project ini mencakup setup, type-safe hooks, dan integration dengan REST API.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 4-6 jam</span>
+                <span>📊 Kesulitan: Project</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Setup React project dengan TypeScript template (Vite atau CRA)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Typing untuk React components (props, state, events)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan generic types dengan React hooks (useState, useEffect, useContext)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Type-safe API calls dengan fetch/axios</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Custom hooks dengan proper return types</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Project: Todo List App</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Kita akan membuat aplikasi Todo List dengan fitur:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Add, complete, dan delete todos</li>
+                <li>Filter by status (all, active, completed)</li>
+                <li>Persist ke localStorage</li>
+                <li>Fetch dari mock API (simulated async)</li>
+                <li>Type-safe components dan hooks</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Setup Project</h4>
+            <div class="code-block mb-6">
+<span class="comment"># Using Vite (recommended)</span>
+npm create vite@latest todo-ts-app -- --template react-ts
+cd todo-ts-app
+npm install
+
+<span class="comment"># Install additional dependencies</span>
+npm install axios uuid
+npm install --save-dev @types/uuid
+
+<span class="comment"># Start dev server</span>
+npm run dev
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Type Definitions</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/types.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">export interface</span> <span class="function">Todo</span> {
+  id: <span class="type">string</span>;
+  title: <span class="type">string</span>;
+  completed: <span class="keyword">boolean</span>;
+  createdAt: <span class="type">Date</span>;
+}
+
+<span class="keyword">export type</span> FilterType = <span class="string">'all'</span> | <span class="string">'active'</span> | <span class="string">'completed'</span>;
+
+<span class="keyword">export interface</span> <span class="function">TodoContextType</span> {
+  todos: Todo[];
+  filter: FilterType;
+  addTodo: (title: <span class="type">string</span>) =&gt; <span class="keyword">void</span>;
+  toggleTodo: (id: <span class="type">string</span>) =&gt; <span class="keyword">void</span>;
+  deleteTodo: (id: <span class="type">string</span>) =&gt; <span class="keyword">void</span>;
+  setFilter: (filter: FilterType) =&gt; <span class="keyword">void</span>;
+  <span class="keyword">get filteredTodos</span>(): Todo[];
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Typed React Components</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/components/TodoItem.tsx</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { Todo } <span class="keyword">from</span> <span class="string">'../types'</span>;
+
+<span class="keyword">interface</span> <span class="function">TodoItemProps</span> {
+  todo: Todo;
+  onToggle: (id: <span class="type">string</span>) =&gt; <span class="keyword">void</span>;
+  onDelete: (id: <span class="type">string</span>) =&gt; <span class="keyword">void</span>;
+}
+
+<span class="keyword">export const</span> <span class="function">TodoItem</span>: React.FC&lt;TodoItemProps&gt; = ({ todo, onToggle, onDelete }) =&gt; {
+  <span class="keyword">return</span> (
+    &lt;div className=<span class="string">"todo-item"</span>&gt;
+      &lt;input
+        type=<span class="string">"checkbox"</span>
+        checked={todo.completed}
+        onChange={() =&gt; onToggle(todo.id)}
+      /&gt;
+      &lt;span style={{ textDecoration: todo.completed ? <span class="string">'line-through'</span> : <span class="string">'none'</span> }}&gt;
+        {todo.title}
+      &lt;/span&gt;
+      &lt;button onClick={() =&gt; onDelete(todo.id)}&gt;Delete&lt;/button&gt;
+    &lt;/div&gt;
+  );
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Typed Custom Hooks</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/hooks/useTodos.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> { useState, useEffect, useCallback, useMemo } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { Todo, FilterType, TodoContextType } <span class="keyword">from</span> <span class="string">'../types'</span>;
+<span class="keyword">import</span> { v4 as uuidv4 } <span class="keyword">from</span> <span class="string">'uuid'</span>;
+
+<span class="keyword">export const</span> <span class="function">useTodos</span> = (): TodoContextType =&gt; {
+  <span class="keyword">const</span> [todos, setTodos] = useState&lt;Todo[]&gt;([]);
+  <span class="keyword">const</span> [filter, setFilter] = useState&lt;FilterType&gt;(<span class="string">'all'</span>);
+
+  <span class="comment">// Load from localStorage on mount</span>
+  useEffect(() =&gt; {
+    <span class="keyword">const</span> saved = localStorage.getItem(<span class="string">'todos'</span>);
+    <span class="keyword">if</span> (saved) {
+      <span class="keyword">try</span> {
+        <span class="keyword">const</span> parsed: Todo[] = JSON.parse(saved);
+        setTodos(parsed);
+      } <span class="keyword">catch</span> {
+        console.error(<span class="string">'Failed to parse todos'</span>);
+      }
+    }
+  }, []);
+
+  <span class="comment">// Save to localStorage whenever todos change</span>
+  useEffect(() =&gt; {
+    localStorage.setItem(<span class="string">'todos'</span>, JSON.stringify(todos));
+  }, [todos]);
+
+  <span class="keyword">const</span> addTodo = useCallback((title: <span class="type">string</span>) =&gt; {
+    <span class="keyword">const</span> newTodo: Todo = {
+      id: uuidv4(),
+      title,
+      completed: <span class="keyword">false</span>,
+      createdAt: <span class="keyword">new</span> <span class="function">Date</span>()
+    };
+    setTodos(prev =&gt; [...prev, newTodo]);
+  }, []);
+
+  <span class="keyword">const</span> toggleTodo = useCallback((id: <span class="type">string</span>) =&gt; {
+    setTodos(prev =&gt; prev.map(todo =&gt;
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  }, []);
+
+  <span class="keyword">const</span> deleteTodo = useCallback((id: <span class="type">string</span>) =&gt; {
+    setTodos(prev =&gt; prev.filter(todo =&gt; todo.id !== id));
+  }, []);
+
+  <span class="keyword">const</span> filteredTodos = useMemo(() =&gt; {
+    <span class="keyword">switch</span> (filter) {
+      <span class="keyword">case</span> <span class="string">'active'</span>:
+        <span class="keyword">return</span> todos.filter(t =&gt; !t.completed);
+      <span class="keyword">case</span> <span class="string">'completed'</span>:
+        <span class="keyword">return</span> todos.filter(t =&gt; t.completed);
+      <span class="keyword">default</span>:
+        <span class="keyword">return</span> todos;
+    }
+  }, [todos, filter]);
+
+  <span class="keyword">return</span> {
+    todos,
+    filter,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    setFilter,
+    get filteredTodos() { <span class="keyword">return</span> filteredTodos; }
+  };
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Type-Safe API Integration</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/services/api.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span>;
+<span class="keyword">import</span> { Todo } <span class="keyword">from</span> <span class="string">'../types'</span>;
+
+<span class="keyword">const</span> API_BASE = <span class="string">'https://jsonplaceholder.typicode.com'</span>;
+
+<span class="keyword">export const</span> <span class="function">api</span> = axios.create({
+  baseURL: API_BASE,
+  timeout: <span class="type">5000</span>,
+  headers: { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> }
+});
+
+<span class="comment">// Type-safe response wrapper</span>
+<span class="keyword">interface</span> <span class="function">ApiResponse&lt;T&gt;</span> {
+  data: T;
+  status: <span class="type">number</span>;
+  message: <span class="type">string</span>;
+}
+
+<span class="keyword">export const</span> <span class="function">fetchTodos</span> = <span class="keyword">async</span> (): Promise&lt;Todo[]&gt; =&gt; {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> api.get&lt;Todo[]&gt;(<span class="string">'/todos'</span>);
+  <span class="keyword">return</span> response.data;
+};
+
+<span class="keyword">export const</span> <span class="function">createTodo</span> = <span class="keyword">async</span> (title: <span class="type">string</span>): Promise&lt;Todo&gt; =&gt; {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> api.post&lt;Todo&gt;(<span class="string">'/todos'</span>, { title, completed: <span class="keyword">false</span> });
+  <span class="keyword">return</span> response.data;
+};
+
+<span class="keyword">export const</span> <span class="function">updateTodo</span> = <span class="keyword">async</span> (id: <span class="type">number</span>, updates: Partial&lt;Todo&gt;): Promise&lt;Todo&gt; =&gt; {
+  <span class="keyword">const</span> response = <span class="keyword">await</span> api.put&lt;Todo&gt;(<span class="string">`/todos/${id}`</span>, updates);
+  <span class="keyword">return</span> response.data;
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Context dengan Type Safety</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/context/TodoContext.tsx</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { TodoContextType } <span class="keyword">from</span> <span class="string">'../types'</span>;
+<span class="keyword">import</span> { useTodos } <span class="keyword">from</span> <span class="string">'../hooks/useTodos'</span>;
+
+<span class="keyword">export const</span> <span class="function">TodoContext</span> = React.createContext&lt;TodoContextType | <span class="keyword">null</span>&gt;(<span class="keyword">null</span>);
+
+<span class="keyword">export const</span> <span class="function">TodoProvider</span>: React.FC&lt;{ children: React.ReactNode }&gt; = ({ children }) =&gt; {
+  <span class="keyword">const</span> todoContext = <span class="function">useTodos</span>();
+
+  <span class="keyword">return</span> (
+    &lt;TodoContext.Provider value={todoContext}&gt;
+      {children}
+    &lt;/TodoContext.Provider&gt;
+  );
+};
+
+<span class="keyword">export const</span> <span class="function">useTodoContext</span> = (): TodoContextType =&gt; {
+  <span class="keyword">const</span> context = React.useContext(TodoContext);
+  <span class="keyword">if</span> (!context) {
+    <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'useTodoContext must be used within TodoProvider'</span>);
+  }
+  <span class="keyword">return</span> context;
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Main App Component</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/App.tsx</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { TodoProvider, useTodoContext } <span class="keyword">from</span> <span class="string">'./context/TodoContext'</span>;
+<span class="keyword">import</span> { TodoItem } <span class="keyword">from</span> <span class="string">'./components/TodoItem'</span>;
+<span class="keyword">import</span> { FilterType } <span class="keyword">from</span> <span class="string">'./types'</span>;
+
+<span class="keyword">const</span> TodoList: React.FC = () =&gt; {
+  <span class="keyword">const</span> { filteredTodos, filter, setFilter, addTodo, toggleTodo, deleteTodo } = <span class="function">useTodoContext</span>();
+  <span class="keyword">const</span> [newTitle, setNewTitle] = useState&lt;<span class="type">string</span>&gt;(<span class="string">''</span>);
+
+  <span class="keyword">const</span> handleSubmit = (e: React.FormEvent) =&gt; {
+    e.preventDefault();
+    <span class="keyword">if</span> (newTitle.trim()) {
+      addTodo(newTitle.trim());
+      setNewTitle(<span class="string">''</span>);
+    }
+  };
+
+  <span class="keyword">return</span> (
+    &lt;div&gt;
+      &lt;h1&gt;Todo List&lt;/h1&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;input
+          value={newTitle}
+          onChange={(e) =&gt; setNewTitle(e.target.value)}
+          placeholder=<span class="string">"Add new todo..."</span>
+        /&gt;
+        &lt;button type=<span class="string">"submit"</span>&gt;Add&lt;/button&gt;
+      &lt;/form&gt;
+
+      &lt;div&gt;
+        {(<span class="string">'all'</span> | <span class="string">'active'</span> | <span class="string">'completed'</span>).map(f =&gt; (
+          &lt;button
+            key={f}
+            onClick={() =&gt; setFilter(f <span class="keyword">as</span> FilterType)}
+            style={{ fontWeight: filter === f ? <span class="string">'bold'</span> : <span class="string">'normal'</span> }}
+          &gt;
+            {f}
+          &lt;/button&gt;
+        ))}
+      &lt;/div&gt;
+
+      &lt;ul&gt;
+        {filteredTodos.map(todo =&gt; (
+          &lt;TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggle={toggleTodo}
+            onDelete={deleteTodo}
+          /&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+};
+
+<span class="keyword">export default</span> <span class="function">App</span> = () =&gt; (
+  &lt;TodoProvider&gt;
+    &lt;TodoList /&gt;
+  &lt;/TodoProvider&gt;
+);
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Best Practices</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">React.FC&lt;Props&gt;</code> atau explicit return type untuk components</li>
+                <li>Define interfaces untuk semua props, state, dan context values</li>
+                <li>Use <code class="bg-gray-100 px-1 rounded">useState&lt;Type&gt;</code> dengan explicit generic untuk type inference</li>
+                <li>Type event handlers properly: <code class="bg-gray-100 px-1 rounded">(e: React.ChangeEvent&lt;HTMLInputElement&gt;) =&gt; void</code></li>
+                <li>Use <code class="bg-gray-100 px-1 rounded">useCallback</code> dan <code class="bg-gray-100 px-1 rounded">useMemo</code> dengan proper dependency arrays</li>
+                <li>Enable <code class="bg-gray-100 px-1 rounded">"strict": true</code> di tsconfig untuk React projects</li>
+                <li>Install <code class="bg-gray-100 px-1 rounded">@types/react</code> dan <code class="bg-gray-100 px-1 rounded">@types/react-dom</code> (biasanya sudah termasuk)</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Setup & Basic Component</h3>
+                    <p class="text-gray-700 mb-3">Setup React TypeScript project.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Create Vite React TypeScript project</li>
+                        <li>Create <code class="bg-gray-100 px-1 rounded">Todo</code> interface</li>
+                        <li>Build simple <code class="bg-gray-100 px-1 rounded">TodoItem</code> component dengan typed props</li>
+                        <li>Render static list of todos</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: State Management</h3>
+                    <p class="text-gray-700 mb-3">Implement typed custom hooks.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Create <code class="bg-gray-100 px-1 rounded">useTodos</code> hook dengan return type <code class="bg-gray-100 px-1 rounded">TodoContextType</code></li>
+                        <li>Implement add, toggle, delete functions dengan proper types</li>
+                        <li>Add localStorage persistence</li>
+                        <li>Wrap app dengan <code class="bg-gray-100 px-1 rounded">TodoProvider</code></li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: API Integration</h3>
+                    <p class="text-gray-700 mb-3">Fetch data dari REST API dengan type safety.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Setup axios instance dengan TypeScript generics</li>
+                        <li>Create <code class="bg-gray-100 px-1 rounded">fetchTodos</code> function yang return <code class="bg-gray-100 px-1 rounded">Promise&lt;Todo[]&gt;</code></li>
+                        <li>Use <code class="bg-gray-100 px-1 rounded">useEffect</code> untuk fetch data on mount</li>
+                        <li>Handle loading dan error states dengan proper types</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

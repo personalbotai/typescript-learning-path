@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Ambient Modules dan declare - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 8: Modules dan Namespaces</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 5 of 7</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 71.43%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 8</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 5</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Ambient Modules dan declare</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Ambient modules</strong> adalah cara TypeScript untuk mendeskripsikan module yang sudah ada di lingkungan JavaScript (library eksternal tanpa TypeScript types). Kata kunci <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">declare</code> digunakan untuk menambahkan type definitions tanpa implementation, memungkinkan TypeScript memahami library yang tidak ditulis dalam TypeScript.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+                <span>📚 Tipe: Integration</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami apa itu <strong>ambient declarations</strong> dan kapan digunakan</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">declare module 'library-name'</code> untuk ambient module</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menambahkan <strong>global variable types</strong> dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">declare var/let/const</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mendefinisikan <strong>global function types</strong> dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">declare function</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">declare namespace</code> untuk global namespaces</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami perbedaan <strong>.d.ts files</strong> vs regular .ts files</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Apa itu Ambient Declarations?</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>Ambient declarations</strong> adalah deklarasi TypeScript yang hanya memberikan informasi <strong>type</strong> tanpa menyediakan <strong>implementation</strong>. Mereka digunakan untuk menggambarkan kode yang sudah ada di luar TypeScript environment (seperti library JavaScript vanilla, global variables dari browser, atau native APIs). Ambient declarations selalu menggunakan kata kunci <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">declare</code> dan tidak menghasilkan JavaScript code saat dikompilasi.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-blue-900 mb-2">🔑 Aturan Ambient Declarations:</h3>
+                <ul class="list-disc list-inside text-blue-800 space-y-2">
+                    <li>Hanya berisi <strong>type information</strong>, tidak ada implementation</li>
+                    <li>Gunakan kata kunci <code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">declare</code> di depan deklarasi</li>
+                    <li>Biasanya ditempatkan di file <code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">.d.ts</code> (declaration files)</li>
+                    <li>TypeScript akan <strong>ignore</strong> file .d.ts saat emit JavaScript (hanya untuk type checking)</li>
+                    <li>Berguna untuk JavaScript libraries, global variables, DOM APIs, dll</li>
+                </ul>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Ambient Modules untuk External Libraries</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Ketika menggunakan JavaScript library yang tidak memiliki TypeScript definitions, kita perlu membuat <strong>ambient module declaration</strong> agar TypeScript tidak error saat import dan penggunaan.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Contoh: Library 'moment' (tanpa @types)</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: types/moment.d.ts</span>
+<span class="keyword">declare module</span> <span class="string">'moment'</span> {
+    <span class="keyword">export default class</span> <span class="function">Moment</span> {
+        <span class="function">format</span>(pattern: <span class="type">string</span>): <span class="type">string</span>;
+        <span class="function">add</span>(amount: <span class="type">number</span>, unit: <span class="type">string</span>): <span class="keyword">this</span>;
+        <span class="function">subtract</span>(amount: <span class="type">number</span>, unit: <span class="type">string</span>): <span class="keyword">this</span>;
+        <span class="comment">// ... method lain yang dibutuhkan</span>
+    }
+    
+    <span class="keyword">export function</span> <span class="function">utc</span>(): Moment;
+    <span class="keyword">export function</span> <span class="function">unix</span>(timestamp: <span class="type">number</span>): Moment;
+}
+            </div>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: app.ts</span>
+<span class="keyword">import</span> moment <span class="keyword">from</span> <span class="string">'moment'</span>;  <span class="comment">// TypeScript tahu 'moment' dari ambient module</span>
+
+<span class="keyword">const</span> now = <span class="function">moment</span>();
+console.<span class="function">log</span>(now.<span class="function">format</span>(<span class="string">'YYYY-MM-DD'</span>));
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Global Variable & Function Declarations</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Banyak library JavaScript menambahkan variabel global atau fungsi global ke environment (biasanya melalui <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">&lt;script&gt;</code> tag). TypeScript perlu tahu types untuk variabel/fungsi global tersebut.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Contoh: Global Variable (jQuery $)</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: types/jquery.d.ts</span>
+<span class="keyword">declare var</span> <span class="function">$</span>: <span class="keyword">typeof</span> <span class="function">import</span>(<span class="string">'jquery'</span>);
+
+<span class="comment">// Atau lebih detail:</span>
+<span class="keyword">declare const</span> <span class="function">$</span>: {
+    (selector: <span class="type">string</span>): JQuery;
+    <span class="function">ajax</span>(settings: <span class="type">any</span>): <span class="keyword">void</span>;
+    <span class="comment">// ... method lainnya</span>
+};
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Contoh: Global Function</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: types/google-analytics.d.ts</span>
+<span class="keyword">declare function</span> <span class="function">ga</span>(command: <span class="type">string</span>, ...args: <span class="type">any</span>[]): <span class="type">void</span>;
+
+<span class="comment">// Penggunaan:</span>
+<span class="function">ga</span>(<span class="string">'send'</span>, <span class="string">'event'</span>, <span class="string">'button'</span>, <span class="string">'click'</span>);
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Ambient Namespaces</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Beberapa library membuat <strong>namespace global</strong> (object yang berisi banyak properties/functions). Kita bisa mendeklarasikannya dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">declare namespace</code>.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: types/google-maps.d.ts</span>
+<span class="keyword">declare namespace</span> <span class="function">google</span> {
+    <span class="keyword">interface</span> <span class="function">MapOptions</span> {
+        center: <span class="type">LatLng</span>;
+        zoom: <span class="type">number</span>;
+    }
+    
+    <span class="keyword">class</span> <span class="function">Map</span> {
+        <span class="function">constructor</span>(element: HTMLElement, options: MapOptions);
+        <span class="function">setCenter</span>(latLng: LatLng): <span class="keyword">void</span>;
+    }
+    
+    <span class="keyword">interface</span> <span class="function">LatLng</span> {
+        lat(): <span class="type">number</span>;
+        lng(): <span class="type">number</span>;
+    }
+}
+
+<span class="comment">// Penggunaan:</span>
+<span class="keyword">const</span> map = <span class="keyword">new</span> google.<span class="function">Map</span>(document.<span class="function">getElementById</span>(<span class="string">'map'</span>), {
+    center: { lat: <span class="string">-6.2088</span>, lng: <span class="string">106.8456</span> },
+    zoom: <span class="string">10</span>
+});
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Triple-Slash Directives</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript menggunakan <strong>triple-slash directives</strong> <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">/// &lt;reference ... /&gt;</code> untuk menyatakan dependency antar declaration files. Ini jarang digunakan hari ini karena TypeScript secara otomatis menemukan file .d.ts di <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">node_modules/@types</code> dan folder yang dikonfigurasi di <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">tsconfig.json</code>.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Lama (sebelum TypeScript 2.0)</span>
+<span class="comment">/// &lt;reference path="../types/jquery.d.ts" /&gt;</span>
+
+<span class="comment">// Modern: TypeScript auto-includes dari node_modules/@types</span>
+<span class="comment">// Tidak perlu triple-slash jika file .d.ts di folder yang tepat</span>
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-green-900 mb-2">✅ Best Practice:</h3>
+                <p class="text-green-800">
+                    Selamainya gunakan <strong>DefinitelyTyped</strong> (<code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">@types/package</code>) untuk library populer. Hanya buat ambient declaration manual untuk:
+                </p>
+                <ul class="list-disc list-inside text-green-800 space-y-2 mt-3">
+                    <li>Library yang sudah tidak maintenance dan tidak ada di @types</li>
+                    <li>Custom global variables dari legacy scripts</li>
+                    <li>Internal APIs yang tidak bisa di-import sebagai module</li>
+                    <li>Browser APIs yang belum didukung TypeScript (experimental)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Ambient Module untuk Legacy Library</h3>
+                    <p class="text-gray-700 mb-4">
+                        Anda harus menggunakan library JavaScript <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">legacy-analytics.js</code> yang menambahkan global function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">trackEvent(eventName, data)</code>. Buat file <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">types/legacy-analytics.d.ts</code> dengan ambient declaration yang tepat.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Global Namespace Declaration</h3>
+                    <p class="text-gray-700 mb-4">
+                        Library <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">charting-lib.js</code> menambahkan global namespace <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">ChartLib</code> dengan interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Chart</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">ChartOptions</code>. Buat ambient declaration untuk namespace tersebut.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Ambient Module dengan Multiple Exports</h3>
+                    <p class="text-gray-700 mb-4">
+                        Module <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">'payment-gateway'</code> (JavaScript) export default class <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">PaymentGateway</code> dan named export interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">PaymentOptions</code>. Buat ambient module declaration yang akurat.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Navigate to previous lesson (Module 8, Lesson 4)')">
+                ← Sebelumnya: Dynamic Import
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 8, Lesson 6)')">
+                Selanjutnya: Namespaces →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: Ambient Modules
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module8', 'ambient-modules');
+            }
+        });
+    </script>
+</body>
+</html>

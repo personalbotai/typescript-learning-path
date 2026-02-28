@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Union Types - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 3: Advanced Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 10</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 3</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Union Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Union Types</strong> memungkinkan kita mendefinisikan sebuah variabel yang dapat memiliki beberapa tipe data. Dengan union types, kita dapat membuat tipe yang fleksibel namun tetap type-safe, sangat berguna ketika bekerja dengan data yang bisa berupa beberapa jenis tipe.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Advanced Types</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami konsep Union Types dan kapan menggunakannya</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Membuat tipe gabungan dengan operator <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">|</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan Union Types dengan type guards untuk type narrowing</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menerapkan Union Types dalam function parameters dan return types</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Penjelasan -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Union Types adalah salah satu fitur powerful di TypeScript yang memungkinkan sebuah variabel, parameter, atau return value memiliki beberapa tipe data yang mungkin. Ini dicapai dengan menggunakan operator pipe <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">|</code> (bitwise OR) untuk menggabungkan beberapa tipe menjadi satu.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3 mt-6">Sintaks Dasar</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Union type dengan dua tipe</span>
+<span class="keyword">let</span> value: <span class="type">string</span> | <span class="type">number</span>;
+value = <span class="string">"hello"</span>;  <span class="comment">// OK</span>
+value = <span class="type">42</span>;       <span class="comment">// OK</span>
+value = <span class="keyword">true</span>;      <span class="comment">// Error: boolean tidak termasuk dalam union</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Union Types dengan Lebih dari Dua Tipe</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Bisa menggabungkan banyak tipe</span>
+<span class="keyword">type</span> <span class="function">StringNumberBoolean</span> = <span class="type">string</span> | <span class="type">number</span> | <span class="type">boolean</span>;
+
+<span class="keyword">let</span> data: StringNumberBoolean;
+data = <span class="string">"text"</span>;
+data = <span class="type">100</span>;
+data = <span class="keyword">false</span>;</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Kapan Menggunakan Union Types?</h3>
+                <ul class="list-disc pl-6 mb-4 space-y-2">
+                    <li><strong>Data dari API</strong>: Respons API bisa berupa tipe yang berbeda (string, number, null, object)</li>
+                    <li><strong>Form inputs</strong>: Input pengguna bisa berupa teks, angka, atau pilihan</li>
+                    <li><strong>Optional properties</strong>: Properti yang mungkin tidak ada (union dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">undefined</code>)</li>
+                    <li><strong>Function parameters</strong>: Function yang menerima beberapa tipe input</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Union Types dalam Function</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Function yang menerima string atau number</span>
+<span class="keyword">function</span> <span class="function">printId</span>(id: <span class="type">string</span> | <span class="type">number</span>): <span class="keyword">void</span> {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> id === <span class="string">"string"</span>) {
+        console.<span class="function">log</span>(<span class="string">"ID (string):"</span>, id.<span class="function">toUpperCase</span>());
+    } <span class="keyword">else</span> {
+        console.<span class="function">log</span>(<span class="string">"ID (number):"</span>, id);
+    }
+}
+
+<span class="function">printId</span>(<span class="string">"abc123"</span>);  <span class="comment">// OK</span>
+<span class="function">printId</span>(<span class="type">123</span>);       <span class="comment">// OK</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Type Narrowing dengan Union Types</h3>
+                <p class="mb-4">
+                    Ketika menggunakan union types, TypeScript tidak tahu tipe spesifik mana yang aktif di suatu konteks. Untuk bisa menggunakan method atau property yang spesifik, kita perlu melakukan <strong>type narrowing</strong> - yaitu cara untuk memberitahu TypeScript tipe mana yang sedang digunakan.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">function</span> <span class="function">handleValue</span>(value: <span class="type">string</span> | <span class="type">number</span> | <span class="type">boolean</span>) {
+    <span class="comment">// Type narrowing menggunakan typeof</span>
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">"string"</span>) {
+        <span class="comment">// Di sini TypeScript tahu value adalah string</span>
+        console.<span class="function">log</span>(value.<span class="function">toUpperCase</span>());  <span class="comment">// OK</span>
+    }
+
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">"number"</span>) {
+        <span class="comment">// Di sini value adalah number</span>
+        console.<span class="function">log</span>(value.<span class="function">toFixed</span>(<span class="type">2</span>));  <span class="comment">// OK</span>
+    }
+
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">"boolean"</span>) {
+        <span class="comment">// Di sini value adalah boolean</span>
+        console.<span class="function">log</span>(value);  <span class="comment">// OK</span>
+    }
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Union Types dengan Array</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Array yang bisa berisi string atau number</span>
+<span class="keyword">let</span> mixedArray: (<span class="type">string</span> | <span class="type">number</span>)[] = [<span class="string">"hello"</span>, <span class="type">42</span>, <span class="string">"world"</span>, <span class="type">100</span>];
+
+<span class="comment">// Atau menggunakan sintaks generic</span>
+<span class="keyword">let</span> anotherArray: Array&lt;<span class="type">string</span> | <span class="type">number</span>&gt; = [<span class="type">1</span>, <span class="string">"a"</span>, <span class="type">2</span>, <span class="string">"b"</span>];</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Penting! Type Safety dengan Union</h3>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                    <p class="text-yellow-800">
+                        <strong>⚠️ Perlu diingat:</strong> Ketika variabel memiliki union type, Anda hanya bisa mengakses properties atau methods yang ada di SEMUA tipe dalam union. TypeScript akan memblokir akses ke property yang hanya ada di satu tipe tertentu.
+                    </p>
+                </div>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Bird</span> {
+    <span class="function">fly</span>(): <span class="keyword">void</span>;
+}
+
+<span class="keyword">interface</span> <span class="function">Fish</span> {
+    <span class="function">swim</span>(): <span class="keyword">void</span>;
+}
+
+<span class="keyword">function</span> <span class="function">move</span>(pet: <span class="function">Bird</span> | <span class="function">Fish</span>) {
+    <span class="comment">// Error: Property 'fly' tidak ada di semua tipe</span>
+    <span class="comment">// pet.fly();</span>
+
+    <span class="comment">// Harus type narrowing dulu</span>
+    <span class="keyword">if</span> (<span class="string">"fly"</span> <span class="keyword">in</span> pet) {
+        pet.<span class="function">fly</span>();  <span class="comment">// OK - TypeScript tahu ini Bird</span>
+    }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latihan -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Union Type untuk Form Input</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat tipe <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">FormInput</code> yang bisa berupa <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">string</code> atau <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">number</code>. Gunakan dalam function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">processInput</code> yang menangani kedua tipe tersebut.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="comment">// Solusi</span>
+<span class="keyword">type</span> <span class="function">FormInput</span> = <span class="type">string</span> | <span class="type">number</span>;
+
+<span class="keyword">function</span> <span class="function">processInput</span>(input: FormInput): <span class="type">string</span> {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> input === <span class="string">"string"</span>) {
+        <span class="keyword">return</span> <span class="string">"Input adalah string: "</span> + input.<span class="function">toUpperCase</span>();
+    } <span class="keyword">else</span> {
+        <span class="keyword">return</span> <span class="string">"Input adalah number: "</span> + (input * <span class="type">2</span>);
+    }
+}</code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: API Response Type</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat tipe <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">ApiResponse</code> yang bisa berupa object data atau string error. Function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">handleResponse</code> harus mengecek tipe dan menampilkan sesuai kondisi.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">type</span> <span class="function">ApiResponse</span> = { success: <span class="keyword">true</span>; data: <span class="keyword">any</span> } | { success: <span class="keyword">false</span>; error: <span class="type">string</span> };
+
+<span class="keyword">function</span> <span class="function">handleResponse</span>(response: ApiResponse) {
+    <span class="keyword">if</span> (response.success) {
+        console.<span class="function">log</span>(<span class="string">"Data:"</span>, response.data);
+    } <span class="keyword">else</span> {
+        console.<span class="function">error</span>(<span class="string">"Error:"</span>, response.error);
+    }
+}</code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi -->
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn" disabled>
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 3 - Lesson 1 dari 10
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson would load here')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        // Progress update (akan diintegrasikan dengan app.js)
+        console.log('Union Types lesson loaded');
+    </script>
+</body>
+</html>

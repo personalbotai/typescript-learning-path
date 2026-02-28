@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Apa itu TypeScript? - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 1: Dasar-Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 16.67%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 1</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Apa itu TypeScript?</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript adalah <strong>superset JavaScript</strong> yang menambahkan <strong>type system statis</strong> ke bahasa JavaScript. Dikembangkan oleh Microsoft, TypeScript membantu developer menulis kode yang lebih aman, mudah dipahami, dan scalable dengan menambahkan type checking pada waktu development.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Pemula</span>
+                <span>💻 Tipe: Teori</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <i class="fas fa-bullseye text-primary"></i>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                    <span>Memahami definisi TypeScript dan hubungannya dengan JavaScript</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                    <span>Mengenal keuntungan menggunakan TypeScript dalam pengembangan software</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                    <span>Menyadari perbedaan utama antara type system statis dan dinamis</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                    <span>Mengerti bagaimana TypeScript dikompilasi ke JavaScript</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Pengertian TypeScript</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript adalah bahasa pemrograman yang dikembangkan oleh <strong>Microsoft</strong> pada tahun 2012. Ia adalah <em>superset</em> dari JavaScript, artinya semua kode JavaScript yang valid juga merupakan kode TypeScript yang valid. Perbedaannya, TypeScript menambahkan <strong>type system statis</strong> yang memungkinkan developer mendefinisikan tipe data untuk variabel, parameter fungsi, properti objek, dan lainnya.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-primary p-6 mb-8 rounded-r-lg">
+                <h3 class="text-lg font-semibold text-primary mb-2">Konsep Kunci: Superset</h3>
+                <p class="text-gray-700">
+                    Sebagai superset, TypeScript memperluas JavaScript dengan fitur-fitur tambahan (terutama type system). Kode TypeScript kemudian <em>dikompilasi</em> (transpile) menjadi JavaScript yang bisa dijalankan di browser atau runtime seperti Node.js.
+                </p>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Type System Statis vs Dinamis</h3>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <i class="fas fa-lock text-primary"></i>
+                        TypeScript (Statis)
+                    </h4>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li>• Tipe dicek pada <strong>compile time</strong></li>
+                        <li>• Error type terdeteksi sebelum runtime</li>
+                        <li>• Types eksplisit atau inferensi otomatis</li>
+                        <li>• IDE support yang excellent (autocomplete, refactoring)</li>
+                        <li>• Lebih aman untuk proyek besar</li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                        <i class="fas fa-unlock text-green-500"></i>
+                        JavaScript (Dinamis)
+                    </h4>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li>• Tipe dicek pada <strong>runtime</strong></li>
+                        <li>• Error type muncul saat eksekusi</li>
+                        <li>• Typing fleksibel tanpa deklarasi eksplisit</li>
+                        <li>• Cepat untuk prototyping</li>
+                        <li>• Cocok untuk skrip kecil atau proyek sederhana</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Contoh Perbandingan</h3>
+
+            <p class="text-gray-700 mb-4">
+                Mari lihat contoh sederhana yang menunjukkan perbedaan antara JavaScript dan TypeScript:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// JavaScript - Tidak ada type checking</span>
+<span class="keyword">function</span> <span class="function">tambah</span>(a, b) {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="keyword">const</span> hasil = <span class="function">tambah</span>(<span class="string">"5"</span>, 10); <span class="comment">// "510" (string concatenation)</span>
+<span class="comment">// Tidak ada error, meski mungkin bukan yang diharapkan</span></code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code><span class="comment">// TypeScript - Type checking pada compile time</span>
+<span class="keyword">function</span> <span class="function">tambah</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="keyword">const</span> hasil = <span class="function">tambah</span>(<span class="string">"5"</span>, 10);
+<span class="comment">// ❌ Error: Argument of type 'string' is not assignable to parameter of type 'number'.</span>
+<span class="comment">// Error terdeteksi saat kompilasi, mencegah bug di runtime.</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">Arsitektur TypeScript</h3>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Alur kerja TypeScript terdiri dari tiga tahap utama:
+            </p>
+
+            <ol class="list-decimal list-inside space-y-4 text-gray-700 mb-8">
+                <li class="leading-relaxed">
+                    <strong>Penulisan Kode (.ts)</strong>: Developer menulis kode dengan type annotations dan type checking oleh TypeScript compiler.
+                </li>
+                <li class="leading-relaxed">
+                    <strong>Kompilasi (tsc)</strong>: TypeScript compiler (tsc) mengubah kode .ts menjadi JavaScript (.js) dengan mempertahankan type safety melalui erasure (tipe dihapus di hasil akhir).
+                </li>
+                <li class="leading-relaxed">
+                    <strong>Eksekusi</strong>: Kode JavaScript yang dihasilkan dijalankan di browser, Node.js, atau environment JavaScript lainnya.
+                </li>
+            </ol>
+
+            <div class="bg-gradient-to-r from-blue-100 to-purple-100 p-6 rounded-lg mb-8">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Catatan Penting: Type Erasure</h3>
+                <p class="text-gray-700 text-sm">
+                    TypeScript <strong>tidak</strong> mengubah JavaScript eksekusi dengan menambahkan runtime type checking. Semua type checking dilakukan pada waktu kompilasi. Di hasil JavaScript akhir, semua type annotations dihilangkan (erased). Ini berarti TypeScript memberikan keamanan tanpa overhead runtime.
+                </p>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Keuntungan Menggunakan TypeScript</h3>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                    <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Deteksi Error Awal</h4>
+                        <p class="text-gray-600 text-sm">Banyak bug (terkait tipe) terdeteksi saat development, bukan saat production.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Better Developer Experience</h4>
+                        <p class="text-gray-600 text-sm">Autocomplete, intellisense, go-to-definition, refactoring tools yang lebih akurat di IDE (VS Code, WebStorm).</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Self-Documenting Code</h4>
+                        <p class="text-gray-600 text-sm">Type definitions berfungsi sebagai dokumentasi yang selalu terkini dan terpercaya.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">4</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Scalability</h4>
+                        <p class="text-gray-600 text-sm">Sangat cocok untuk codebase besar dan tim besar, karena type system membantu menjaga konsistensi dan减少 bug saat refactor.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">5</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Ekosistem Modern</h4>
+                        <p class="text-gray-600 text-sm">Framework populer seperti React, Angular, Vue, Express, NestJS memiliki dukungan TypeScript kelas satu (first-class).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practical Exercise -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <i class="fas fa-dumbbell text-primary"></i>
+                Latihan Praktik
+            </h2>
+            <p class="text-gray-600 mb-6">
+                Coba buat file TypeScript sederhana untuk merasakan pengalaman type checking:
+            </p>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg">
+                <h3 class="font-bold text-yellow-800 mb-2">Langkah-langkah:</h3>
+                <ol class="list-decimal list-inside space-y-2 text-sm text-yellow-800">
+                    <li>Install TypeScript: <code class="bg-yellow-100 px-1 rounded">npm install -g typescript</code></li>
+                    <li>Buat file <code class="bg-yellow-100 px-1 rounded">hello.ts</code></li>
+                    <li>Tulis kode dengan type annotations</li>
+                    <li>Kompilasi: <code class="bg-yellow-100 px-1 rounded">tsc hello.ts</code></li>
+                    <li>Jalankan hasil <code class="bg-yellow-100 px-1 rounded">node hello.js</code></li>
+                </ol>
+            </div>
+
+            <div class="code-block">
+                <pre><code><span class="comment">// hello.ts</span>
+<span class="keyword">let</span> pesan: <span class="type">string</span> = <span class="string">"Hello, TypeScript!"</span>;
+<span class="keyword">let</span> umur: <span class="type">number</span> = 25;
+<span class="keyword">let</span> aktif: <span class="type">boolean</span> = <span class="keyword">true</span>;
+
+<span class="function">console</span>.<span class="function">log</span>(pesan);
+<span class="function">console</span>.<span class="function">log</span>(<span class="string">`Umur: $</span>{umur}<span class="string">`</span>);
+
+<span class="comment">// Coba ubah: pesan = 123; // ❌ Error: Type 'number' is not assignable to type 'string'</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <button class="nav-btn" disabled>
+                <i class="fas fa-arrow-left mr-2"></i>Previous
+            </button>
+            <button class="nav-btn primary" onclick="markLessonComplete()">
+                Selesai & Lanjutkan<i class="fas fa-check ml-2"></i>
+            </button>
+            <button class="nav-btn" data-next-lesson="2">
+                Next<i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+
+        <!-- Quiz Preview -->
+        <div class="mt-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-200">
+            <div class="flex items-center gap-3 mb-4">
+                <i class="fas fa-question-circle text-purple-600 text-2xl"></i>
+                <div>
+                    <h3 class="font-bold text-purple-900">Quiz Modul 1</h3>
+                    <p class="text-sm text-purple-700">Setelah menyelesaikan semua lesson di Modul 1, kamu akan mengakses quiz dengan 10 pertanyaan untuk menguji pemahamanmu.</p>
+                </div>
+            </div>
+            <button class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-medium transition-colors" disabled>
+                Quiz akan tersedia setelah semua lesson selesai
+            </button>
+        </div>
+    </main>
+
+    <script src="progress.js"></script>
+    <script src="quiz.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

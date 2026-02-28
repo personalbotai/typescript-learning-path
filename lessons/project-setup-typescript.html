@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5: Project Setup dengan TypeScript - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 1: Dasar-Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 5 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 83.33%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 1</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 5</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Project Setup dengan TypeScript</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Setup project TypeScript yang benar adalah langkah penting untuk development yang produktif. Panduan ini akan membahas struktur folder yang disarankan, konfigurasi <code>tsconfig.json</code>, dan npm scripts untuk build, watch, dan development workflow.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Pemula</span>
+                <span>📝 prerequisites: Node.js, TypeScript terinstall</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white px-3 py-1 rounded text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mengerti struktur folder yang optimal untuk TypeScript project</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Membuat dan mengkonfigurasi tsconfig.json untuk project</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mendefinisikan npm scripts untuk build, development, dan watch</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan path mapping dan module resolution</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mengintegrasikan TypeScript dengan tooling seperti ESLint dan Prettier (pratinjau)</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Project Structure -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Struktur Folder yang Disarankan</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Struktur yang rapi memudahkan maintenance dan scalabilitas. Berikut adalah contoh struktur untuk TypeScript project:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code>my-typescript-project/
+├── src/                    # Source code TypeScript
+│   ├── index.ts           # Entry point
+│   ├── utils/
+│   │   └── helper.ts
+│   └── types/
+│       └── index.ts
+├── dist/                   # Output JavaScript (dihasilkan oleh tsc)
+│   ├── index.js
+│   ├── utils/
+│   └── types/
+├── tests/                  # Unit tests (jika ada)
+│   └── helper.test.ts
+├── node_modules/           # Dependencies (di-ignore di git)
+├── package.json           # NPM manifest
+├── tsconfig.json          # TypeScript configuration
+├── .gitignore             # Git ignore rules
+└── README.md              # Project documentation</code></pre>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-6">
+                <h3 class="font-bold text-blue-900 mb-2">📌 Prinsip: src/ vs dist/</h3>
+                <p class="text-blue-800 text-sm">
+                    <strong>src/</strong> berisi kode sumber TypeScript yang Anda edit. <strong>dist/</strong> berisi JavaScript yang dihasilkan oleh compiler, siap untuk dijalankan atau di-deploy. Jangan mengedit file di <code>dist/</code> secara manual.
+                </p>
+            </div>
+        </section>
+
+        <!-- Step-by-Step Setup -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Step-by-Step Project Setup</h2>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">1. Inisialisasi Project</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Buat direktori project dan inisialisasi <code>package.json</code>:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment"># Buat direktori</span>
+<span class="function">mkdir</span> my-typescript-project
+<span class="function">cd</span> my-typescript-project
+
+<span class="comment"># Inisialisasi package.json dengan default values</span>
+<span class="function">npm</span> init -y</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">2. Install TypeScript</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Install TypeScript sebagai devDependency:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="function">npm</span> install --save-dev typescript</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">3. Buat Struktur Folder</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="function">mkdir</span> -p src/utils src/types tests
+<span class="function">mkdir</span> -p dist</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">4. Buat tsconfig.json</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Buat file <code>tsconfig.json</code> di root project dengan konfigurasi dasar:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code>{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2020"</span>,
+    <span class="string">"module"</span>: <span class="string">"commonjs"</span>,
+    <span class="string">"lib"</span>: [<span class="string">"ES2020"</span>],
+    <span class="string">"outDir"</span>: <span class="string">"./dist"</span>,
+    <span class="string">"rootDir"</span>: <span class="string">"./src"</span>,
+    <span class="string">"strict"</span>: <span class="keyword">true</span>,
+    <span class="string">"esModuleInterop"</span>: <span class="keyword">true</span>,
+    <span class="string">"skipLibCheck"</span>: <span class="keyword">true</span>,
+    <span class="string">"forceConsistentCasingInFileNames"</span>: <span class="keyword">true</span>,
+    <span class="string">"sourceMap"</span>: <span class="keyword">true</span>,
+    <span class="string">"moduleResolution"</span>: <span class="string">"node"</span>
+  },
+  <span class="string">"include"</span>: [<span class="string">"src/**/*"</span>],
+  <span class="string">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">"dist"</span>]
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">5. Buat Entry Point</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Buat file <code>src/index.ts</code> dengan kode sederhana:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">import</span> { <span class="function">greet</span> } <span class="keyword">from</span> <span class="string">'./utils/helper'</span>;
+
+<span class="keyword">const</span> message = <span class="function">greet</span>(<span class="string">'TypeScript'</span>);
+<span class="function">console</span>.<span class="function">log</span>(message);</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Dan <code>src/utils/helper.ts</code>:
+            </p>
+
+            <div class="code-block">
+                <pre><code><span class="keyword">export function</span> <span class="function">greet</span>(name: <span class="type">string</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> <span class="string">`Hello, <span class="string">${</span>name<span class="string">}</span>!`</span>;
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- npm Scripts -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">npm Scripts untuk Development Workflow</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Tambahkan scripts di <code>package.json</code> untuk memudahkan eksekusi perintah tsc:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code>{
+  <span class="string">"name"</span>: <span class="string">"my-typescript-project"</span>,
+  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,
+  <span class="string">"scripts"</span>: {
+    <span class="string">"build"</span>: <span class="string">"tsc"</span>,
+    <span class="string">"build:watch"</span>: <span class="string">"tsc --watch"</span>,
+    <span class="string">"clean"</span>: <span class="string">"rm -rf dist"</span>,
+    <span class="string">"start"</span>: <span class="string">"node dist/index.js"</span>,
+    <span class="string">"dev"</span>: <span class="string">"npm run build && npm run start"</span>
+  },
+  <span class="string">"devDependencies"</span>: {
+    <span class="string">"typescript"</span>: <span class="string">"^5.2.0"</span>
+  }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Cara Penggunaan</h3>
+            <div class="space-y-4">
+                <div class="flex items-start gap-4">
+                    <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Build Project</h4>
+                        <p class="text-gray-600 text-sm">Kompilasi semua file .ts di src/ menjadi dist/</p>
+                        <div class="code-block mt-2">
+                            <pre><code><span class="function">npm</span> run build</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Watch Mode</h4>
+                        <p class="text-gray-600 text-sm">Auto-recompile saat file berubah</p>
+                        <div class="code-block mt-2">
+                            <pre><code><span class="function">npm</span> run build:watch</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Run Project</h4>
+                        <p class="text-gray-600 text-sm">Jalankan output JavaScript dari dist/</p>
+                        <div class="code-block mt-2">
+                            <pre><code><span class="function">npm</span> run start</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">4</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Development Loop</h4>
+                        <p class="text-gray-600 text-sm">Build + Run dalam satu perintah</p>
+                        <div class="code-block mt-2">
+                            <pre><code><span class="function">npm</span> run dev</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advanced Config -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Konfigurasi Lanjutan</h2>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Path Mapping</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                TypeScript memungkinkan alias untuk path import, membuat import statements lebih rapi:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code>{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"baseUrl"</span>: <span class="string">"."</span>,
+    <span class="string">"paths"</span>: {
+      <span class="string">"@/*"</span>: [<span class="string">"src/*"</span>],
+      <span class="string">"@utils/*"</span>: [<span class="string">"src/utils/*"</span>]
+    }
+  }
+}</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Dengan konfigurasi di atas, Anda bisa import dengan:
+            </p>
+
+            <div class="code-block">
+                <pre><code><span class="keyword">import</span> { <span class="function">helper</span> } <span class="keyword">from</span> <span class="string">'@utils/helper'</span>;  <span class="comment">// instead of '../utils/helper'</span></code></pre>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 mt-6">
+                <h4 class="font-bold text-yellow-800 mb-2">⚠️ Catatan</h4>
+                <p class="text-yellow-800 text-sm">
+                    Path mapping hanya berfungsi untuk TypeScript type checking. Untuk runtime (Node.js), Anda perlu tool tambahan seperti <code>tsconfig-paths</code> atau module-alias.
+                </p>
+            </div>
+        </section>
+
+        <!-- Practical Exercise -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white px-3 py-1 rounded text-sm">💻</span>
+                Latihan Praktik
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Setup Project dari Nol</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Buat project baru dengan langkah-langkah di atas. Pastikan struktur folder sesuai, tsconfig.json terbuat, dan <code>npm run build</code> berhasil menghasilkan file di <code>dist/</code>.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Watch Mode Workflow</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Jalankan <code>npm run build:watch</code>. Ubah file <code>src/index.ts</code> (misalnya tambah console.log baru). Amati file di <code>dist/</code> otomatis ter-update.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Path Mapping</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Tambahkan path mapping <code>"@/*": ["src/*"]</code> di tsconfig.json. Ubah import di <code>src/index.ts</code> menjadi <code>import ... from '@utils/helper'</code>. Verifikasi tsc tidak error.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 4: Strict Mode Testing</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Pastikan <code>"strict": true</code> di tsconfig. Coba tulis kode dengan error类型 (misalnya assign string ke number). Pastikan tsc menangkap error.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white px-3 py-1 rounded text-sm">📝</span>
+                Quiz - Project Setup
+            </h2>
+            <p class="text-gray-600 mb-6">
+                Test pemahaman Anda tentang project setup dan konfigurasi TypeScript.
+            </p>
+            <div id="quiz-container" class="space-y-6">
+                <div class="text-gray-500 text-center py-8">
+                    <p>Loading quiz questions...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <section class="lesson-nav">
+            <a href="typescript-compiler-tsc.html" class="nav-btn">
+                ← Sebelumnya: TypeScript Compiler (tsc)
+            </a>
+            <div class="text-sm text-gray-500">
+                Lesson 5 of 6
+            </div>
+            <a href="hello-world.html" class="nav-btn primary">
+                Selanjutnya: Hello World: TypeScript Pertama →
+            </a>
+        </section>
+    </main>
+
+    <script src="/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lessonSlug = 'project-setup-typescript';
+            const moduleId = 1;
+            const totalLessons = 6;
+            const currentLesson = 5;
+
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const progressPercent = (currentLesson / totalLessons) * 100;
+            progressFill.style.width = `${progressPercent}%`;
+            progressText.textContent = `Lesson ${currentLesson} of ${totalLessons}`;
+
+            loadQuiz(moduleId, 'quiz-container');
+
+            document.querySelector('.lesson-nav .nav-btn').addEventListener('click', () => {
+                window.location.href = 'typescript-compiler-tsc.html';
+            });
+        });
+    </script>
+</body>
+</html>

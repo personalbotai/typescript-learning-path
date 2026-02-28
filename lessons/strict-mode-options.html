@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Strict Mode Options - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 9: Configuration Tooling</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 37.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 9</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Strict Mode Options</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Strict mode</strong> adalah sekumpulan compiler options yang membuat TypeScript melakukan type-checking yang lebih ketat dan mencegah potensi bugs. Memahami setiap strict option memungkinkan Anda menyesuaikan tingkat strictness sesuai kebutuhan project.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+                <span>📚 Tipe: Type Safety</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami arti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"strict": true</code> dan semua opsi yang di-enable</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengenal <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">noImplicitAny</code> - mencegah implicit any types</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">strictNullChecks</code> - null dan undefined handling</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengenal <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">strictFunctionTypes</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">strictPropertyInitialization</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengetahui kapan <strong>disable</strong> certain strict options (trade-offs)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengonfigurasi strictness level untuk project yang berbeda</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Apa itu Strict Mode?</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>Strict mode</strong> adalah koleksi compiler options yang mengaktifkan checking yang lebih ketat. Opsi ini membantu menangkap bugs pada waktu development, meningkatkan code quality, dan memastikan type safety maksimal. Ketika <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"strict": true</code> di-set, TypeScript akan enable:
+            </p>
+
+            <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-red-900 mb-2">🚨 Strict Mode Flags (All Enabled):</h3>
+                <ul class="list-disc list-inside text-red-800 space-y-2 font-mono text-sm">
+                    <li><code class="bg-red-100 px-2 py-1 rounded">noImplicitAny</code></li>
+                    <li><code class="bg-red-100 px-2 py-1 rounded">strictNullChecks</code></li>
+                    <li><code class="bg-red-100 px-2 py-1 rounded">strictFunctionTypes</code></li>
+                    <li><code class="bg-red-100 px-2 py-1 rounded">strictBindCallApply</code></li>
+                    <li><code class="bg-red-100 px-2 py-1 rounded">strictPropertyInitialization</code></li>
+                    <li><code class="bg-red-100 px-2 py-1 rounded">noImplicitThis</code></li>
+                    <li><code class="bg-red-100 px-2 py-1 rounded">alwaysStrict</code></li>
+                    <li><code class="bg-red-100 px-2 py-1 rounded">useUnknownInCatchVariables</code></li>
+                </ul>
+            </div>
+
+            <p class="text-gray-700 mb-6">
+                Mari kita bahas setiap flag satu per satu untuk memahami impact-nya.
+            </p>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">1. noImplicitAny</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">noImplicitAny: true</code> memaksa Anda untuk memberikan <strong>explicit type annotations</strong> untuk parameters, return types, dan variables yang tidak bisa di-infer oleh TypeScript. Tanpa flag ini, TypeScript akan silently assign <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">any</code> type, yang menonaktifkan type checking.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// ❌ noImplicitAny: false (default)</span>
+<span class="keyword">function</span> <span class="function">bad</span>(param) {  <span class="comment">// param implicitly has type 'any'</span>
+    <span class="keyword">return</span> param.<span class="function">toUpperCase</span>();  <span class="comment">// No error! (dangerous)</span>
+}
+
+<span class="comment">// ✅ noImplicitAny: true</span>
+<span class="comment">// Error: Parameter 'param' implicitly has an 'any' type.</span>
+<span class="keyword">function</span> <span class="function">good</span>(param) {
+    <span class="keyword">return</span> param.<span class="function">toUpperCase</span>();
+}
+
+<span class="comment">// ✅ Fix: Add explicit type</span>
+<span class="keyword">function</span> <span class="function">fixed</span>(param: <span class="type">string</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> param.<span class="function">toUpperCase</span>();
+}
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-green-900 mb-2">✅ Best Practice:</h3>
+                <p class="text-green-800">
+                    Selamainya enable <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">noImplicitAny</code>. Ini mencegah "implicit any" bugs dan memastikan semua types explicit atau ter-infer dengan baik.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">2. strictNullChecks</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">strictNullChecks: true</code> adalah salah satu flag paling penting. Ketika disabled, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">null</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">undefined</code> dianggap sebagai subtype dari <strong>semua types</strong>. Ketika enabled, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">null</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">undefined</code> hanya bisa ditugaskan ke:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6">
+                <li>Nilai themselves (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">null</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">undefined</code>)</li>
+                <li>Type <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">any</code> (jika any ada)</li>
+                <li>Type yang explicitly include them: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">string | null</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">number | undefined</code></li>
+            </ul>
+
+            <div class="code-block mb-6">
+<span class="comment">// ❌ strictNullChecks: false (default)</span>
+<span class="keyword">let</span> name: <span class="type">string</span> = <span class="keyword">null</span>;  <span class="comment">// OK! (dangerous)</span>
+name = <span class="keyword">undefined</span>;           <span class="comment">// OK!</span>
+
+<span class="comment">// ✅ strictNullChecks: true</span>
+<span class="comment">// Error: Type 'null' is not assignable to type 'string'.</span>
+<span class="keyword">let</span> name: <span class="type">string</span> = <span class="keyword">null</span>;
+
+<span class="comment">// ✅ Correct: Explicit union type</span>
+<span class="keyword">let</span> name: <span class="type">string | null</span> = <span class="keyword">null</span>;  <span class="comment">// OK</span>
+name = <span class="keyword">undefined</span>;  <span class="comment">// Error! undefined not assignable ke string | null</span>
+
+<span class="comment">// ✅ Use optional chaining & nullish coalescing</span>
+<span class="keyword">const</span> length = name?.<span class="function">length</span> ?? <span class="string">0</span>;
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-yellow-900 mb-2">⚠️ Common Issues:</h3>
+                <p class="text-yellow-800 mb-3">
+                    Dengan <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">strictNullChecks</code>, Anda harus:
+                </p>
+                <ul class="list-disc list-inside text-yellow-800 space-y-2">
+                    <li>Gunakan <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">!</code> (non-null assertion) saat yakin value tidak null: <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">value!</code></li>
+                    <li>Gunakan <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">if (value !== null)</code> checks sebelum menggunakan</li>
+                    <li>Gunakan <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">?</code> (optional chaining): <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">obj?.prop</code></li>
+                    <li>Gunakan <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">??</code> (nullish coalescing): <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">value ?? default</code></li>
+                </ul>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">3. strictFunctionTypes</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">strictFunctionTypes: true</code> mengaktifkan <strong>contravariance checking</strong> untuk function parameters. Tanpa flag ini, TypeScript menggunakan <strong>bivariance</strong> (lebih permisif) untuk function types, yang bisa menyebabkan runtime errors.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// ❌ strictFunctionTypes: false</span>
+<span class="keyword">interface</span> <span class="function">Processor</span> {
+    <span class="function">process</span>(input: <span class="type">string</span>): <span class="type">void</span>;
+}
+
+<span class="keyword">function</span> <span class="function">handler</span>(input: <span class="type">string</span> | <span class="type">number</span>): <span class="type">void</span> {
+    console.<span class="function">log</span>(input);
+}
+
+<span class="keyword">const</span> p: Processor = { <span class="function">process</span>: handler };  <span class="comment">// OK! (bivariant)</span>
+p.<span class="function">process</span>(<span class="string">"hello"</span>);  <span class="comment">// OK</span>
+p.<span class="function">process</span>(<span class="string">123</span>);    <span class="comment">// OK di compile, RUNTIME ERROR! handler expects string</span>
+
+<span class="comment">// ✅ strictFunctionTypes: true</span>
+<span class="comment">// Error: Type '(input: string | number) => void' is not assignable to type 'Processor'.</span>
+<span class="comment">//   Types of parameters 'input' and 'input' are incompatible.</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">4. strictPropertyInitialization</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">strictPropertyInitialization: true</code> memastikan bahwa semua <strong>instance properties</strong> class di-initialize di constructor atau dengan default value. Ini mencegah bugs di mana properties di-access sebelum di-assign.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// ❌ strictPropertyInitialization: false</span>
+<span class="keyword">class</span> <span class="function">User</span> {
+    <span class="keyword">public</span> name: <span class="type">string</span>;  <span class="comment">// Not initialized!</span>
+    <span class="keyword">public</span> age: <span class="type">number</span>;
+    
+    <span class="comment">// No error, but name and age are undefined at runtime!</span>
+}
+
+<span class="comment">// ✅ strictPropertyInitialization: true</span>
+<span class="comment">// Error: Property 'name' has no initializer and is not definitely assigned</span>
+<span class="keyword">class</span> <span class="function">User</span> {
+    <span class="keyword">public</span> name: <span class="type">string</span>;
+    <span class="keyword">public</span> age: <span class="type">number</span>;
+    
+    <span class="function">constructor</span>() {
+        <span class="comment">// Must initialize:</span>
+        <span class="keyword">this</span>.name = <span class="string">''</span>;
+        <span class="keyword">this</span>.age = <span class="string">0</span>;
+    }
+}
+
+<span class="comment">// ✅ Use definite assignment assertion (!) jika yakin di-initialize di tempat lain</span>
+<span class="keyword">class</span> <span class="function">User</span> {
+    <span class="keyword">public</span> name!: <span class="type">string</span>;  <span class="comment">// "!" tells TS: I'll assign later</span>
+}
+
+<span class="comment">// ✅ Or use default value</span>
+<span class="keyword">class</span> <span class="function">User</span> {
+    <span class="keyword">public</span> name = <span class="string">''</span>;  <span class="comment">// Default initializer</span>
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">5. Other Strict Flags</h2>
+
+            <div class="overflow-x-auto mb-8">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Flag</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Deskripsi</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Contoh Error</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700"><code>strictBindCallApply</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Enable strict checking untuk Function.prototype.bind/call/apply</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Mencegah passing wrong argument types ke bound functions</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700"><code>noImplicitThis</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Error jika <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">this</code> memiliki type <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">any</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700"><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">this</code> dalam callback function tanpa explicit this type</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700"><code>alwaysStrict</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Parse dalam <strong>strict mode</strong> ECMAScript (selalu emit <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"use strict"</code>)</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Ensures JS output strict mode compliant</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700"><code>useUnknownInCatchVariables</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Catch clause variables typed as <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">unknown</code> instead of <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">any</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Prevents assuming caught error type</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Configuring Strictness Level</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Tidak semua project memerlukan <strong>full strict mode</strong>. Berikut adalah panduan untuk menyesuaikan strictness:
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                    <h3 class="font-bold text-green-900 mb-3">🟢 Maximum (Production)</h3>
+                    <p class="text-green-800 text-sm mb-3">
+                        Untuk library, open-source, atau production apps yang butuh highest type safety.
+                    </p>
+                    <code class="bg-green-100 px-3 py-2 rounded text-sm block whitespace-pre">
+{
+  "strict": true,
+  "noUncheckedIndexedAccess": true
+}</code>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                    <h3 class="font-bold text-yellow-900 mb-3">🟡 Balanced (Most Apps)</h3>
+                    <p class="text-yellow-800 text-sm mb-3">
+                        Default choice untuk sebagian besar aplikasi. Strict tapi tidak terlalu rigid.
+                    </p>
+                    <code class="bg-yellow-100 px-3 py-2 rounded text-sm block whitespace-pre">
+{
+  "strict": true
+}</code>
+                </div>
+
+                <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+                    <h3 class="font-bold text-red-900 mb-3">🔴 Relaxed (Legacy/Migration)</h3>
+                    <p class="text-red-800 text-sm mb-3">
+                        Untuk codebase legacy yang masih dalam migrasi ke TypeScript.
+                    </p>
+                    <code class="bg-red-100 px-3 py-2 rounded text-sm block whitespace-pre">
+{
+  "strict": false,
+  "noImplicitAny": true
+}</code>
+                </div>
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-purple-900 mb-2">💡 Migration Strategy:</h3>
+                <p class="text-purple-800">
+                    Jika Anda memiliki codebase JavaScript yang lama yang sedang dimigrasi ke TypeScript, mulai dengan <code class="bg-purple-100 px-2 py-1 rounded text-sm font-mono">"strict": false</code> dan aktifkan satu per satu: <code class="bg-purple-100 px-2 py-1 rounded text-sm font-mono">noImplicitAny</code> → <code class="bg-purple-100 px-2 py-1 rounded text-sm font-mono">strictNullChecks</code> → lainnya. Gunakan <code class="bg-purple-100 px-2 py-1 rounded text-sm font-mono">// @ts-ignore</code> sparingly untuk menyesuaikan bertahap.
+                </p>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Identify Strict Mode Errors</h3>
+                    <p class="text-gray-700 mb-4">
+                        Berikut kode dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">strict: true</code>. Identifikasi dan perbaiki error:
+                    </p>
+                    <div class="code-block mb-4">
+<span class="keyword">function</span> <span class="function">process</span>(data) {  <span class="comment">// implicit any</span>
+    <span class="keyword">return</span> data.<span class="function">map</span>(x => x * <span class="string">2</span>);
+}
+
+<span class="keyword">class</span> <span class="function">Config</span> {
+    apiKey: <span class="type">string</span>;  <span class="comment">// not initialized</span>
+    timeout = <span class="string">5000</span>;
+}
+
+<span class="keyword">const</span> getData = (cb: (err: <span class="type">Error</span>, data?: <span class="type">any</span>) => <span class="keyword">void</span>) => { ... };
+            </div>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Configure Strictness</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">tsconfig.json</code> untuk:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li><strong>React component library</strong>: strict mode, JSX support, ESNext module</li>
+                        <li><strong>Node.js microservice</strong>: strict mode except <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">strictPropertyInitialization</code> (dinonaktifkan)</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Debug strictNullChecks</h3>
+                    <p class="text-gray-700 mb-4">
+                        Kode berikut error dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">strictNullChecks: true</code>. Perbaiki dengan null-safe patterns:
+                    </p>
+                    <div class="code-block">
+<span class="keyword">function</span> <span class="function">getLength</span>(str: <span class="type">string</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> str.length;
+}
+
+<span class="keyword">const</span> input: <span class="type">string | null</span> = <span class="function">getUserInput</span>();
+<span class="keyword">const</span> len = <span class="function">getLength</span>(input);  <span class="comment">// Error!</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Navigate to previous lesson (Module 9, Lesson 2)')">
+                ← Sebelumnya: Compiler Options
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 9, Lesson 4)')">
+                Selanjutnya: Include, Exclude, dan Files →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: Strict Mode Options
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module9', 'strict-mode-options');
+            }
+        });
+    </script>
+</body>
+</html>

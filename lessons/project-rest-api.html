@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Project - REST API with TypeScript - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 12: Real-World Projects</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 60%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 12</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Project 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Project: REST API dengan TypeScript (Express.js)</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Bangun RESTful API menggunakan Express.js dengan TypeScript. Project ini mencakup proper typing untuk request/response, middleware, validation, error handling, dan database integration dengan Drizzle ORM.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 4-6 jam</span>
+                <span>📊 Kesulitan: Project</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Setup Express.js project dengan TypeScript</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Typing untuk Express Request/Response objects</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Type-safe route handlers dan middleware</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Request validation dengan Zod atau Joi</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Error handling dan proper HTTP status codes</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Project: Task Management API</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Kita akan membuat REST API untuk manajemen tasks dengan:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>CRUD operations (Create, Read, Update, Delete)</li>
+                <li>Request validation</li>
+                <li>Error handling konsisten</li>
+                <li>In-memory storage (or SQLite for persistence)</li>
+                <li>Type-safe throughout</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Setup Project</h4>
+            <div class="code-block mb-6">
+<span class="comment"># Create project</span>
+mkdir task-api-ts
+cd task-api-ts
+
+<span class="comment"># Initialize</span>
+npm init -y
+
+<span class="comment"># Install dependencies</span>
+npm install express zod
+npm install --save-dev typescript @types/node @types/express tsx
+
+<span class="comment"># Initialize TypeScript</span>
+npx tsc --init
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Type Definitions</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/types.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">export interface</span> <span class="function">Task</span> {
+  id: <span class="type">string</span>;
+  title: <span class="type">string</span>;
+  description?: <span class="type">string</span>;
+  completed: <span class="keyword">boolean</span>;
+  priority: <span class="string">'low'</span> | <span class="string">'medium'</span> | <span class="string">'high'</span>;
+  createdAt: <span class="type">Date</span>;
+  updatedAt: <span class="type">Date</span>;
+}
+
+<span class="keyword">export type</span> TaskInput = Omit&lt;Task, <span class="string">'id'</span> | <span class="string">'createdAt'</span> | <span class="string">'updatedAt'</span>&gt;;
+
+<span class="keyword">export type</span> TaskUpdate = Partial&lt;Omit&lt;Task, <span class="string">'id'</span> | <span class="string">'createdAt'</span>&gt;&gt;;
+
+<span class="keyword">export interface</span> <span class="function">ApiResponse&lt;T&gt;</span> {
+  success: <span class="keyword">boolean</span>;
+  data?: T;
+  error?: <span class="type">string</span>;
+  message?: <span class="type">string</span>;
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Validation with Zod</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/validation.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> { z } <span class="keyword">from</span> <span class="string">'zod'</span>;
+<span class="keyword">import</span> { TaskInput, TaskUpdate } <span class="keyword">from</span> <span class="string">'./types'</span>;
+
+<span class="keyword">export const</span> <span class="function">taskInputSchema</span> = z.object({
+  title: z.string().min(<span class="type">1</span>).max(<span class="type">100</span>),
+  description: z.string().optional(),
+  completed: z.boolean().optional().default(<span class="keyword">false</span>),
+  priority: z.enum([<span class="string">'low'</span>, <span class="string">'medium'</span>, <span class="string">'high'</span>]).default(<span class="string">'medium'</span>)
+}) <span class="keyword">as</span> z.ZodType&lt;TaskInput&gt;;
+
+<span class="keyword">export const</span> <span class="function">taskUpdateSchema</span> = z.object({
+  title: z.string().min(<span class="type">1</span>).max(<span class="type">100</span>).optional(),
+  description: z.string().optional(),
+  completed: z.boolean().optional(),
+  priority: z.enum([<span class="string">'low'</span>, <span class="string">'medium'</span>, <span class="string">'high'</span>]).optional()
+}) <span class="keyword">as</span> z.ZodType&lt;TaskUpdate&gt;;
+
+<span class="comment">// Type inference from schema</span>
+<span class="keyword">export type</span> TaskInputValidated = z.infer&lt;<span class="keyword">typeof</span> taskInputSchema&gt;;  <span class="comment">// same as TaskInput</span>
+<span class="keyword">export type</span> TaskUpdateValidated = z.infer&lt;<span class="keyword">typeof</span> taskUpdateSchema&gt;;  <span class="comment">// same as TaskUpdate</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Typed Express App</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/app.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">'express'</span>;
+<span class="keyword">import</span> { Task, TaskInput, TaskUpdate, ApiResponse } <span class="keyword">from</span> <span class="string">'./types'</span>;
+
+<span class="keyword">const</span> app = <span class="keyword">new</span> <span class="function">express</span>();
+
+app.use(express.json());
+
+<span class="comment">// In-memory storage (replace with real DB)</span>
+<span class="keyword">let</span> tasks: Task[] = [];
+
+<span class="comment">// GET all tasks</span>
+app.get&lt;ApiResponse&lt;Task[]&gt;&gt;(<span class="string">'/api/tasks'</span>, (req, res) =&gt; {
+  res.json({ success: <span class="keyword">true</span>, data: tasks });
+});
+
+<span class="comment">// GET single task</span>
+app.get&lt;ApiResponse&lt;Task&gt;, { id: <span class="type">string</span> }&gt;(<span class="string">'/api/tasks/:id'</span>, (req, res) =&gt; {
+  <span class="keyword">const</span> task = tasks.find(t =&gt; t.id === req.params.id);
+  <span class="keyword">if</span> (!task) {
+    <span class="keyword">return</span> res.status(<span class="type">404</span>).json({ success: <span class="keyword">false</span>, error: <span class="string">'Task not found'</span> });
+  }
+  res.json({ success: <span class="keyword">true</span>, data: task });
+});
+
+<span class="comment">// POST create task</span>
+app.post&lt;ApiResponse&lt;Task&gt;, TaskInput&gt;(<span class="string">'/api/tasks'</span>, (req, res) =&gt; {
+  <span class="keyword">const</span> newTask: Task = {
+    id: crypto.randomUUID(),
+    title: req.body.title,
+    description: req.body.description,
+    completed: req.body.completed || <span class="keyword">false</span>,
+    priority: req.body.priority || <span class="string">'medium'</span>,
+    createdAt: <span class="keyword">new</span> <span class="function">Date</span>(),
+    updatedAt: <span class="keyword">new</span> <span class="function">Date</span>()
+  };
+  tasks.push(newTask);
+  res.status(<span class="type">201</span>).json({ success: <span class="keyword">true</span>, data: newTask, message: <span class="string">'Task created'</span> });
+});
+
+<span class="comment">// PUT update task</span>
+app.put&lt;ApiResponse&lt;Task&gt;, { id: <span class="type">string</span> }, TaskUpdate&gt;(<span class="string">'/api/tasks/:id'</span>, (req, res) =&gt; {
+  <span class="keyword">const</span> index = tasks.findIndex(t =&gt; t.id === req.params.id);
+  <span class="keyword">if</span> (index === -<span class="type">1</span>) {
+    <span class="keyword">return</span> res.status(<span class="type">404</span>).json({ success: <span class="keyword">false</span>, error: <span class="string">'Task not found'</span> });
+  }
+  tasks[index] = { ...tasks[index], ...req.body, updatedAt: <span class="keyword">new</span> <span class="function">Date</span>() };
+  res.json({ success: <span class="keyword">true</span>, data: tasks[index] });
+});
+
+<span class="comment">// DELETE task</span>
+app.delete&lt;ApiResponse&lt;<span class="keyword">null</span>&gt;, { id: <span class="type">string</span> }&gt;(<span class="string">'/api/tasks/:id'</span>, (req, res) =&gt; {
+  <span class="keyword">const</span> index = tasks.findIndex(t =&gt; t.id === req.params.id);
+  <span class="keyword">if</span> (index === -<span class="type">1</span>) {
+    <span class="keyword">return</span> res.status(<span class="type">404</span>).json({ success: <span class="keyword">false</span>, error: <span class="string">'Task not found'</span> });
+  }
+  tasks.splice(index, <span class="type">1</span>);
+  res.json({ success: <span class="keyword">true</span>, message: <span class="string">'Task deleted'</span> });
+});
+
+<span class="keyword">const</span> PORT = process.env.PORT || <span class="type">3000</span>;
+app.listen(PORT, () =&gt; console.log(<span class="string">`Server running on port ${PORT}`</span>));
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Middleware with Types</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/middleware/errorHandler.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> { Request, Response, NextFunction } <span class="keyword">from</span> <span class="string">'express'</span>;
+<span class="keyword">import</span> { ApiResponse } <span class="keyword">from</span> <span class="string">'../types'</span>;
+
+<span class="keyword">export interface</span> <span class="function">AppError</span> extends Error {
+  statusCode?: <span class="type">number</span>;
+  isOperational?: <span class="keyword">boolean</span>;
+}
+
+<span class="keyword">export const</span> <span class="function">errorHandler</span> = (
+  err: AppError,
+  req: Request,
+  res: Response&lt;ApiResponse&lt;<span class="keyword">null</span>&gt;&gt;,
+  next: NextFunction
+) =&gt; {
+  <span class="keyword">const</span> status = err.statusCode || <span class="type">500</span>;
+  <span class="keyword">const</span> message = err.message || <span class="string">'Internal server error'</span>;
+
+  res.status(status).json({
+    success: <span class="keyword">false</span>,
+    error: message
+  } as ApiResponse&lt;<span class="keyword">null</span>&gt;);
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Best Practices</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Use <code class="bg-gray-100 px-1 rounded">express.Response&lt;T&gt;</code> generic untuk typed JSON responses</li>
+                <li>Define consistent <code class="bg-gray-100 px-1 rounded">ApiResponse&lt;T&gt;</code> envelope untuk semua endpoints</li>
+                <li>Validate request bodies dengan Zod/Joi sebelum processing</li>
+                <li>Use <code class="bg-gray-100 px-1 rounded">HTTP status codes</code> appropriately (200, 201, 400, 404, 500)</li>
+                <li>Implement global error handling middleware</li>
+                <li>Use <code class="bg-gray-100 px-1 rounded">async/await</code> dan proper error catching</li>
+                <li>Log errors dengan structured logging (pino, winston)</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Setup & Basic Routes</h3>
+                    <p class="text-gray-700 mb-3">Setup Express dengan TypeScript.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Initialize project dengan TypeScript + Express</li>
+                        <li>Create <code class="bg-gray-100 px-1 rounded">Task</code> interface dan <code class="bg-gray-100 px-1 rounded">ApiResponse&lt;T&gt;</code> type</li>
+                        <li>Implement GET <code class="bg-gray-100 px-1 rounded">/api/tasks</code> dengan typed response</li>
+                        <li>Test dengan curl/Postman</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: CRUD Operations</h3>
+                    <p class="text-gray-700 mb-3">Implement full CRUD dengan validation.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Add POST <code class="bg-gray-100 px-1 rounded">/api/tasks</code> dengan request body typing</li>
+                        <li>Add PUT <code class="bg-gray-100 px-1 rounded">/api/tasks/:id</code> dengan partial update</li>
+                        <li>Add DELETE <code class="bg-gray-100 px-1 rounded">/api/tasks/:id</code></li>
+                        <li>Handle 404 errors properly</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Validation & Error Handling</h3>
+                    <p class="text-gray-700 mb-3">Tambahkan Zod validation dan error middleware.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Install Zod dan create schemas untuk TaskInput dan TaskUpdate</li>
+                        <li>Create validation middleware yang parse dan validate request body</li>
+                        <li>Create typed error handler middleware</li>
+                        <li>Test dengan invalid inputs dan verify proper error responses</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Include, Exclude, dan Files - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 9: Configuration Tooling</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 4 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 50%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 9</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 4</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Include, Exclude, dan Files</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Opsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">exclude</code>, dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">files</code> di tsconfig.json mengontrol file mana yang diproses oleh TypeScript compiler. Memahami cara kerja ketiganya sangat penting untuk project structure yang bersih dan performa compilation yang optimal.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Configuration</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami perbedaan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">exclude</code>, dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">files</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengetahui <strong>default behavior</strong> jika tidak ditentukan</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan glob patterns (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">**/*.ts</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">!pattern</code>)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami precedence: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">files</code> > <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code> > <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">exclude</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengonfigurasi untuk monorepos, tests, dan build artifacts</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menghindari pitfalls umum seperti exclude yang tidak bekerja</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Default Behavior</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Jika <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">exclude</code> tidak ditentukan, TypeScript akan:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6">
+                <li>Include semua file <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">.ts</code> di folder tsconfig.json dan subfolders</li>
+                <li>Exclude otomatis <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">node_modules</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">bower_components</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">jspm_packages</code></li>
+                <li>Include <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">.tsx</code> files jika <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">jsx</code> option di-set</li>
+            </ul>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-blue-900 mb-2">🔑 Rule of Thumb:</h3>
+                <p class="text-blue-800">
+                    Jika project structure standar (source di <code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">src/</code>, dependencies di <code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">node_modules/</code>), Anda mungkin tidak perlu specify <code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">include</code>/<code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">exclude</code> sama sekali. Tapi untuk kontrol yang lebih ketat, selalu specify explicitly.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Include Option</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code> adalah array of <strong>glob patterns</strong> yang menentukan file mana yang akan disertakan dalam compilation. Jika <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code> ditentukan, hanya file yang match pattern yang di-process.
+            </p>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"include"</span>: [
+    <span class="string">"src/**/*"</span>,           <span class="comment">// All .ts/.tsx files di src dan subfolders</span>
+    <span class="string">"tests/**/*.ts"</span>,      <span class="comment">// Test files</span>
+    <span class="string">"scripts/*.ts"</span>,       <span class="comment">// Build scripts di root scripts/</span>
+    <span class="string">"**/*.d.ts"</span>          <span class="comment">// Declaration files</span>
+  ]
+}
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Glob Patterns</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6">
+                <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">**/</code> - Match any subdirectory</li>
+                <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">*</code> - Match any file/directory name (tidak rekursif)</li>
+                <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code> - Match single character</li>
+                <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">!</code> di awal pattern - Negasi (exclude pattern)</li>
+            </ul>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"include"</span>: [
+    <span class="string">"src/**/*.ts"</span>,     <span class="comment">// All .ts files recursively di src</span>
+    <span class="string">"src/**/*.tsx"</span>,    <span class="comment">// All .tsx files (React)</span>
+    <span class="string">"!src/**/*.test.ts"</span> <span class="comment">// Exclude test files (negation)</span>
+  ]
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Exclude Option</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">exclude</code> menentukan file/folder yang <strong>tidak termasuk</strong> meski match dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code>. Berguna untuk mengecualikan build artifacts, test files, atau dependencies.
+            </p>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"include"</span>: [<span class="string">"src/**/*"</span>],
+  <span class="string">"exclude"</span>: [
+    <span class="string">"node_modules"</span>,    <span class="comment">// Always exclude</span>
+    <span class="string">"dist"</span>,            <span class="comment">// Build output</span>
+    <span class="string">"build"</span>,           <span class="comment">// Another build folder</span>
+    <span class="string">"**/*.test.ts"</span>,   <span class="comment">// Test files</span>
+    <span class="string">"**/__tests__/*"</span>  <span class="comment">// Test directories</span>
+  ]
+}
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-yellow-900 mb-2">⚠️ Important:</h3>
+                <p class="text-yellow-800">
+                    <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">exclude</code> hanya berlaku untuk files yang sudah di-include oleh <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">include</code> atau default. Jika file tidak match <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">include</code>, dia tidak akan diproses meski tidak di-<code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">exclude</code>.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Files Option</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">files</code> adalah array of <strong>specific file paths</strong>. Ketika <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">files</code> ditentukan, HANYA file-file yang tercantum yang di-process. Ini meng-override <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">exclude</code>.
+            </p>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"files"</span>: [
+    <span class="string">"src/index.ts"</span>,
+    <span class="string">"src/main.ts"</span>,
+    <span class="string">"src/utils.ts"</span>
+  ]
+  <span class="comment">// include dan exclude di-ignore!</span>
+}
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-red-900 mb-2">🚨 Use files sparingly:</h3>
+                <p class="text-red-800">
+                    Opsi <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">files</code> biasanya hanya digunakan untuk <strong>small projects</strong> atau <strong>specific entry points</strong>. Untuk project yang lebih besar, gunakan <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">include</code> dengan glob patterns yang lebih fleksibel.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Precedence dan Interaction</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Ketika <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">files</code> ditentukan, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">exclude</code> diabaikan. Jika tidak, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code> menentukan file mana yang masuk, lalu <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">exclude</code> menghapus beberapa dari include.
+            </p>
+
+            <div class="overflow-x-auto mb-8">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Config</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Files Included</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 text-sm text-gray-700 font-mono">No include/exclude/files</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">All <code class="bg-gray-100 px-2 py-1 rounded">.ts</code> di folder tsconfig + subfolders (except <code class="bg-gray-100 px-2 py-1 rounded">node_modules</code>)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm text-gray-700 font-mono"><code>"include": ["src/**/*"]</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Hanya files di src/</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm text-gray-700 font-mono"><code>"exclude": ["tests"]</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">All <code class="bg-gray-100 px-2 py-1 rounded">.ts</code> kecuali di tests/ folder</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm text-gray-700 font-mono"><code>"files": ["index.ts"]</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Hanya index.ts (ignore include/exclude)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Common Configurations</h2>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">1. Standard Project (src folder)</h3>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"include"</span>: [<span class="string">"src/**/*"</span>],
+  <span class="string">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">"dist"</span>]
+}
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">2. Monorepo (multiple packages)</h3>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"include"</span>: [
+    <span class="string">"packages/*/src/**/*"</span>,
+    <span class="string">"apps/*/src/**/*"</span>
+  ],
+  <span class="string">"exclude"</span>: [
+    <span class="string">"node_modules"</span>,
+    <span class="string">"**/node_modules/*"</span>,
+    <span class="string">"**/dist/*"</span>
+  ]
+}
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">3. Include Tests tapi Exclude dari Build</h3>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"include"</span>: [
+    <span class="string">"src/**/*"</span>,
+    <span class="string">"tests/**/*.ts"</span>
+  ],
+  <span class="string">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">"dist"</span>]
+  <span class="comment">// Tests included for type-checking tapi tidak di-emit jika outDir hanya src</span>
+}
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-green-900 mb-2">✅ Best Practices:</h3>
+                <ul class="list-disc list-inside text-green-800 space-y-2">
+                    <li>Always explicitly specify <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">include</code> dan <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">exclude</code> untuk clarity</li>
+                    <li>Exclude <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">node_modules</code>, <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">dist</code>, <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">build</code> selalu</li>
+                    <li>Gunakan glob patterns yang spesifik, jangan terlalu broad</li>
+                    <li>Untuk tests, consider separate tsconfig (tsconfig.test.json) jika config berbeda</li>
+                    <li>Pastikan <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">include</code> match file extensions yang benar (<code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">.ts</code>, <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">.tsx</code>, <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">.d.ts</code>)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Config untuk TypeScript Library</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat tsconfig untuk library dengan struktur:
+                    </p>
+                    <div class="code-block mb-4">
+project/
+├── src/
+│   ├── index.ts
+│   ├── utils/
+│   └── components/
+├── tests/
+│   └── unit/
+├── dist/
+├── node_modules/
+└── docs/
+                    </div>
+                    <p class="gray-700 mb-2">
+                        Requirements:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Include: src/**/*.ts, src/**/*.tsx</li>
+                        <li>Exclude: node_modules, dist, tests, docs</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Include Tests tapi Exclude dari Build</h3>
+                    <p class="text-gray-700 mb-4">
+                        Anda ingin type-check test files tapi tidak include mereka di build output. Structure:
+                    </p>
+                    <div class="code-block mb-4">
+src/
+├── index.ts
+├── utils.ts
+└── __tests__/
+    └── utils.test.ts
+                    </div>
+                    <p class="text-gray-700">
+                        Buat config yang include tests untuk type-checking tapi outDir hanya emit src files.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Monorepo Config</h3>
+                    <p class="text-gray-700 mb-4">
+                        Monorepo dengan struktur:
+                    </p>
+                    <div class="code-block mb-4">
+packages/
+├── package-a/
+│   ├── src/
+│   └── dist/
+├── package-b/
+│   ├── src/
+│   └── dist/
+└── shared/
+    ├── src/
+    └── dist/
+                    </div>
+                    <p class="text-gray-700">
+                        Buat tsconfig yang include semua src folders dari packages tapi exclude semua dist folders dan node_modules di setiap package.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Navigate to previous lesson (Module 9, Lesson 3)')">
+                ← Sebelumnya: Strict Mode Options
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 9, Lesson 5)')">
+                Selanjutnya: Path Mapping dan Module Resolution →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: Include, Exclude, dan Files
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module9', 'include-exclude-files');
+            }
+        });
+    </script>
+</body>
+</html>

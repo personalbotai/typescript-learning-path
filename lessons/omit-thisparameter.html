@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 7: OmitThisParameter Utility Type - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 11: Advanced Utility Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 7 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 87.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 11</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 7</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">OmitThisParameter Utility Type</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>OmitThisParameter&lt;T&gt;</strong> adalah utility type yang menghapus <code class="bg-gray-100 px-1 rounded">this</code> parameter dari function type. Ini berguna saat ingin menggunakan method sebagai callback atau higher-order function di mana <code class="bg-gray-100 px-1 rounded">this</code> binding tidak relevan.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Tinggi</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami <code class="bg-gray-100 px-1 rounded">this</code> parameter di TypeScript</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan OmitThisParameter untuk menghapus <code class="bg-gray-100 px-1 rounded">this</code> dari function type</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Mengubah instance methods menjadi standalone functions dengan type safety</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggabungkan dengan Parameters dan ReturnType</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Understanding <code class="bg-gray-100 px-1 rounded">this</code> in TypeScript</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Di TypeScript, <code class="bg-gray-100 px-1 rounded">this</code> memiliki type yang bisa diannotate secara eksplisit. Methods yang menggunakan <code class="bg-gray-100 px-1 rounded">this</code> akan memiliki implicit first parameter yang bertipe context object.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="keyword">class</span> <span class="function">Calculator</span> {
+  <span class="keyword">private</span> value: <span class="type">number</span> = <span class="type">0</span>;
+
+  <span class="function">add</span>(x: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">this</span>.value += x;
+    <span class="keyword">return this</span>.value;
+  }
+}
+
+<span class="comment">// Type of add method includes 'this' parameter implicitly</span>
+<span class="keyword">type</span> AddMethod = Calculator[<span class="string">"add"</span>];
+<span class="comment">// (this: Calculator, x: number) => number</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">OmitThisParameter&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">OmitThisParameter&lt;T&gt;</code> menghapus <code class="bg-gray-100 px-1 rounded">this</code> parameter dari function type <code class="bg-gray-100 px-1 rounded">T</code>. Jika <code class="bg-gray-100 px-1 rounded">T</code> tidak memiliki <code class="bg-gray-100 px-1 rounded">this</code> parameter, type akan tetap sama.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Method dengan explicit this parameter</span>
+<span class="keyword">interface</span> <span class="function">StringConstructor</span> {
+  <span class="function">format</span>(<span class="keyword">this</span>: <span class="type">string</span>, ...args: <span class="keyword">any</span>[]): <span class="type">string</span>;
+}
+
+<span class="keyword">declare</span> <span class="keyword">var</span> <span class="function">myString</span>: StringConstructor;
+
+<span class="comment">// Original type includes 'this'</span>
+<span class="keyword">type</span> FormatWithThis = <span class="keyword">typeof</span> myString.format;
+<span class="comment">// (this: string, ...args: any[]) => string</span>
+
+<span class="comment">// Remove 'this' parameter</span>
+<span class="keyword">type</span> FormatWithoutThis = OmitThisParameter&lt;FormatWithThis&gt;;
+<span class="comment">// (...args: any[]) => string</span>
+
+<span class="comment">// Sekarang bisa dipanggil tanpa context</span>
+<span class="keyword">const</span> formatFn: FormatWithoutThis = <span class="string">"Hello {0}"</span>.format;
+formatFn(<span class="string">"World"</span>);  <span class="comment">// "Hello World"</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Practical Use Case: Passing Methods as Callbacks</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Salah satu masalah umum: method instance tidak bisa langsung digunakan sebagai callback karena <code class="bg-gray-100 px-1 rounded">this</code> binding hilang.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="keyword">class</span> <span class="function">EventEmitter</span> {
+  <span class="keyword">private</span> listeners: Function[] = [];
+
+  <span class="function">on</span>(listener: () =&gt; <span class="keyword">void</span>) {
+    <span class="keyword">this</span>.listeners.push(listener);
+  }
+
+  <span class="function">emit</span>() {
+    <span class="keyword">this</span>.listeners.forEach(fn =&gt; fn());
+  }
+}
+
+<span class="keyword">class</span> <span class="function">Handler</span> {
+  <span class="keyword">constructor</span>(<span class="keyword">private</span> emitter: EventEmitter) {}
+
+  <span class="function">handleEvent</span>() {
+    console.log(<span class="string">"Event fired!"</span>);
+  }
+
+  <span class="function">setup</span>() {
+    <span class="comment">// ❌ Error: 'this' implicitly has type 'any'</span>
+    <span class="comment">// this.emitter.on(this.handleEvent);</span>
+
+    <span class="comment">// ✅ Gunakan arrow function untuk bind this</span>
+    <span class="keyword">this</span>.emitter.on(() =&gt; <span class="keyword">this</span>.handleEvent());
+
+    <span class="comment">// ✅ Atau gunakan OmitThisParameter + bind</span>
+    <span class="keyword">type</span> HandleEventFn = OmitThisParameter&lt;<span class="keyword">typeof</span> <span class="keyword">this</span>.handleEvent&gt;;
+    <span class="keyword">const</span> unbound: HandleEventFn = <span class="keyword">this</span>.handleEvent;
+    <span class="keyword">this</span>.emitter.on(unbound.bind(<span class="keyword">this</span>));
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Combining with Other Utility Types</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Sering kali dikombinasikan dengan <code class="bg-gray-100 px-1 rounded">Parameters</code> dan <code class="bg-gray-100 px-1 rounded">ReturnType</code> untuk membuat fully detached function types:
+            </p>
+            <div class="code-block mb-6">
+<span class="keyword">class</span> <span class="function">MathOps</span> {
+  <span class="function">add</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> a + b;
+  }
+
+  <span class="function">multiply</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> a * b;
+  }
+}
+
+<span class="comment">// Extract method types tanpa 'this'</span>
+<span class="keyword">type</span> AddFn = OmitThisParameter&lt;<span class="keyword">typeof</span> MathOps.prototype.add&gt;;
+<span class="comment">// (a: number, b: number) => number</span>
+
+<span class="keyword">type</span> AddParams = Parameters&lt;AddFn&gt;;  <span class="comment">// [a: number, b: number]</span>
+<span class="keyword">type</span> AddReturn = ReturnType&lt;AddFn&gt;;   <span class="comment">// number</span>
+
+<span class="comment">// Buat standalone function dengan signature yang sama</span>
+<span class="keyword">const</span> standaloneAdd: AddFn = (a, b) =&gt; a + b;
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Implementation Insight</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">OmitThisParameter</code> adalah conditional type yang memeriksa apakah function type memiliki <code class="bg-gray-100 px-1 rounded">this</code> parameter:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Simplified implementation:</span>
+<span class="keyword">type</span> OmitThisParameter&lt;T&gt; = <span class="keyword">unknown</span> <span class="keyword">extends</span> (<span class="keyword">this</span>: <span class="keyword">any</span>) =&gt; <span class="keyword">any</span>
+  ? <span class="comment">// Jika T punya 'this' parameter, ambil parameters tanpa 'this'</span>
+    <span class="type">T</span> <span class="keyword">extends</span> (<span class="keyword">this</span>: <span class="keyword">any</span>, ...args: <span class="keyword">infer</span> P) =&gt; <span class="keyword">any</span>
+      ? (...args: P) =&gt; ReturnType&lt;T&gt;
+      : <span class="keyword">never</span>
+  : T;  <span class="comment">// Jika tidak ada 'this', return T unchanged</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">When to Use</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Saat passing class methods ke array methods (<code class="bg-gray-100 px-1 rounded">map</code>, <code class="bg-gray-100 px-1 rounded">filter</code>, <code class="bg-gray-100 px-1 rounded">forEach</code>)</li>
+                <li>Membuat higher-order functions yang work dengan any function</li>
+                <li>Extracting callbacks dari class untuk dependency injection</li>
+                <li>Creating utility types untuk function composition</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Remove This Parameter</h3>
+                    <p class="text-gray-700 mb-3">Gunakan OmitThisParameter pada method.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat class dengan method yang menggunakan <code class="bg-gray-100 px-1 rounded">this</code></li>
+                        <li>Extract method type dengan <code class="bg-gray-100 px-1 rounded">typeof Class.prototype.method</code></li>
+                        <li>Apply <code class="bg-gray-100 px-1 rounded">OmitThisParameter</code> untuk mendapatkan standalone function type</li>
+                        <li>Assign ke variable dan panggil tanpa context</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: Callback Conversion</h3>
+                    <p class="text-gray-700 mb-3">Konversi instance method menjadi callback.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat class <code class="bg-gray-100 px-1 rounded">Validator</code> dengan method <code class="bg-gray-100 px-1 rounded">validate(input: string): boolean</code></li>
+                        <li>Buat array of strings dan gunakan <code class="bg-gray-100 px-1 rounded">array.map(validator.validate)</code> - seharusnya error</li>
+                        <li>Gunakan <code class="bg-gray-100 px-1 rounded">OmitThisParameter</code> untuk fix type error</li>
+                        <li>Test dengan arrow function atau <code class="bg-gray-100 px-1 rounded">bind</code></li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Generic Wrapper</h3>
+                    <p class="text-gray-700 mb-3">Buat generic function wrapper.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">function wrapMethod&lt;T, M extends keyof T&gt;(obj: T, method: M)</code></li>
+                        <li>Gunakan <code class="bg-gray-100 px-1 rounded">OmitThisParameter&lt;T[M]&gt;</code> untuk type</li>
+                        <li>Return function yang bisa dipanggil tanpa <code class="bg-gray-100 px-1 rounded">this</code> binding</li>
+                        <li>Test dengan class yang memiliki beberapa methods</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

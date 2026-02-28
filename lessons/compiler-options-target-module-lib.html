@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Compiler Options - target, module, lib - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 9: Configuration Tooling</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 2 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 25%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 9</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 2</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Compiler Options: target, module, lib</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Tiga compiler options paling fundamental dalam TypeScript adalah <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">target</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">module</code>, dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">lib</code>. Opsi-opsi ini menentukan JavaScript version output, module system, dan library type definitions yang tersedia.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Configuration Deep Dive</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami <strong>target</strong> option dan ECMAScript versions mapping</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Membedakan berbagai <strong>module formats</strong> (CommonJS, ESNext, dll)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami <strong>lib</strong> option dan built-in type definitions</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengetahui kombinasi optimal <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">target</code> + <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">module</code> untuk berbagai environments</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengonfigurasi untuk <strong>Node.js</strong>, <strong>Browser</strong>, <strong>React</strong>, <strong>Library</strong></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami impact pada <strong>polyfills</strong> dan browser compatibility</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Target Option: JavaScript Version Output</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Opsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">target</code> menentukan versi ECMAScript (ES3, ES5, ES2015, ES2020, dll) yang akan di-generate oleh TypeScript compiler. TypeScript akan <strong>downlevel transform</strong> syntax yang tidak didukung oleh target version.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-blue-900 mb-2">🔑 Dasar Target:</h3>
+                <ul class="list-disc list-inside text-blue-800 space-y-2">
+                    <li><strong>ES3</strong>: Browser lama (IE8-) - hampir tidak digunakan lagi</li>
+                    <li><strong>ES5</strong>: Browser modern (IE9+), Node.js 0.12+ - masih umum</li>
+                    <li><strong>ES2015 (ES6)</strong>: Browser modern 2015+, Node.js 6+</li>
+                    <li><strong>ES2020+</strong>: Node.js 14+, modern browsers (Chrome 80+, Firefox 75+)</li>
+                    <li><strong>ESNext</strong>: Latest ECMAScript features - untuk cutting-edge environments</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Pertimbangan Pilihan Target</h3>
+
+            <div class="overflow-x-auto mb-8">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Target</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Browser Support</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Node.js</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ES5</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">IE9+, all modern</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">0.12+</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Maximum compatibility</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ES2015</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Chrome 49+, Firefox 45+</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">6+</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Modern apps (good balance)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ES2020</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Chrome 80+, Firefox 75+</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">14+</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Current standard</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ESNext</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Latest browsers</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Latest</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Cutting-edge, experimental</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2020"</span>  <span class="comment">// Output ES2020-compatible JavaScript</span>
+  }
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Module Option: Module System</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Opsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">module</code> menentukan format module system yang digunakan dalam output JavaScript. Pilihan ini harus sesuai dengan environment runtime dan bundler.
+            </p>
+
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-green-900 mb-2">📦 Module Formats:</h3>
+                <ul class="list-disc list-inside text-green-800 space-y-2">
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">commonjs</code>: Node.js classic (require/module.exports)</li>
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">es2020</code>, <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">es2022</code>: ES Modules untuk respective targets</li>
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">esnext</code>: Latest ES module syntax (import/export)</li>
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">amd</code>: Asynchronous Module Definition (browser, RequireJS)</li>
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">system</code>: SystemJS loader</li>
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">none</code>: No module system (IIFE, concatenated)</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Kombinasi Target & Module untuk Berbagai Environments</h3>
+
+            <div class="overflow-x-auto mb-8">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Environment</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Target</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Module</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-900">Node.js (modern)</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ES2020/ES2022</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">NodeNext</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">ESM dengan Node resolution</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-900">Node.js (legacy)</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ES5</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">CommonJS</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Maximum compatibility</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-900">React (Create React App)</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ES5</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ESNext</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Bundler handles transpilation</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-900">Library (npm)</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ES5/ES2015</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ESNext</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Let bundler tree-shake</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-900">Browser (script tag)</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ES5</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">None/System</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">No module loader</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2020"</span>,
+    <span class="string">"module"</span>: <span class="string">"NodeNext"</span>  <span class="comment">// Node.js 12+ dengan ESM</span>
+  }
+}
+            </div>
+
+            <h2 class="text-2xl bold text-gray-900 mb-6 mt-8">Lib Option: Type Definitions</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Opsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">lib</code> menentukan built-in type definitions yang di-include (DOM, ES APIs, WebWorker, dll). Jika tidak ditentukan, TypeScript akan include default library sesuai dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">target</code>.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Common Lib Values</h3>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"lib"</span>: [
+      <span class="string">"ES2020"</span>,           <span class="comment">// ES2020 built-ins (Promise, Map, Set, dll)</span>
+      <span class="string">"DOM"</span>,              <span class="comment">// Browser DOM APIs (document, window, dll)</span>
+      <span class="string">"DOM.Iterable"</span>,     <span class="comment">// Iterable support for DOM (NodeList, dll)</span>
+      <span class="string">"WebWorker"</span>,        <span class="comment">// Web Worker APIs</span>
+      <span class="string">"ES2021.String"</span>    <span class="comment">// Specific ES2021 features only</span>
+    ]
+  }
+}
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-red-900 mb-2">⚠️ Penting:</h3>
+                <p class="text-red-800">
+                    Jika <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">target</code> adalah <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">ES5</code> tapi <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">lib</code> include <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">"ES2020"</code>, TypeScript akan <strong>error</strong> karena ES5 tidak tahu ES2020 APIs. Pastikan <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">lib</code> compatible dengan <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">target</code>.
+                </p>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Contoh: Browser vs Node.js</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// Browser application (React, Vue, etc)</span>
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2015"</span>,
+    <span class="string">"module"</span>: <span class="string">"ESNext"</span>,
+    <span class="string">"lib"</span>: [<span class="string">"ES2015"</span>, <span class="string">"DOM"</span>, <span class="string">"DOM.Iterable"</span>]
+  }
+}
+
+<span class="comment">// Node.js backend application</span>
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2020"</span>,
+    <span class="string">"module"</span>: <span class="string">"NodeNext"</span>,
+    <span class="string">"lib"</span>: [<span class="string">"ES2020"</span>]  <span class="comment">// No DOM types needed</span>
+  }
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Impact pada Polyfills</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Ketika <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">target</code> adalah ES5, TypeScript akan <strong>downlevel transform</strong> ES6+ syntax ke ES5 (misal: arrow functions → regular functions, const → var). Namun, <strong>built-in APIs</strong> seperti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Promise</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Map</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Set</code> tidak di-transform. Anda harus menyertakan <strong>polyfills</strong> di aplikasi jika ingin support browser yang tidak memiliki APIs tersebut.
+            </p>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-yellow-900 mb-2">📌 Example:</h3>
+                <p class="text-yellow-800 mb-3">
+                    Jika <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">target: ES5</code>, kode berikut:
+                </p>
+                <div class="code-block bg-yellow-100 border border-yellow-300">
+<span class="keyword">const</span> map = <span class="keyword">new</span> <span class="function">Map</span>([[<span class="string">'a'</span>, <span class="string">1</span>]]);
+                </div>
+                <p class="text-yellow-800 mt-3">
+                    Akan di-transform ke ES5 syntax (const → var), tapi <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">Map</code> tetap ada. Di browser IE yang tidak support Map, code akan error. Solusi: tambahkan polyfill untuk Map atau naikkan <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">target</code> ke ES2015+.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Best Practices</h2>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                    <h3 class="font-bold text-green-900 mb-3">✅ Recommended Settings</h3>
+                    <ul class="list-disc list-inside text-green-800 space-y-2 text-sm">
+                        <li><strong>Modern Node.js</strong>: target ES2020+, module NodeNext</li>
+                        <li><strong>React/Vue apps</strong>: target ES5 (for compatibility), module ESNext (for bundlers)</li>
+                        <li><strong>Libraries</strong>: target ES5/ES2015, module ESNext (let bundler decide)</li>
+                        <li>Always specify <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">lib</code> for browser apps (include DOM)</li>
+                        <li>Use <code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">"skipLibCheck": true</code> untuk mempercepat compilation</li>
+                    </ul>
+                </div>
+
+                <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+                    <h3 class="font-bold text-red-900 mb-3">⚠️ Avoid</h3>
+                    <ul class="list-disc list-inside text-red-800 space-y-2 text-sm">
+                        <li><code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">target: ES3</code> - obsolete, hampir tidak perlu</li>
+                        <li><code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">module: AMD/System</code> - kecuali legacy system</li>
+                        <li><code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">module: None</code> dengan ES6 imports - akan error</li>
+                        <li>Mismatch <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">lib</code> dan <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">target</code> (version conflict)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Config untuk Node.js API Server</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat tsconfig untuk Node.js Express API server:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li>Target: ES2022 (Node.js 16+)</li>
+                        <li>Module: NodeNext (ES Modules)</li>
+                        <li>Include ES2020 lib only (no DOM)</li>
+                        <li>OutDir: ./dist</li>
+                        <li>Strict mode</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Config untuk React App</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat tsconfig untuk React 18 aplikasi:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li>Target: ES5 (maximum browser compatibility)</li>
+                        <li>Module: ESNext (Webpack/Babel akan handle)</li>
+                        <li>JSX: react-jsx (React 17+)</li>
+                        <li>Lib: ES2015 + DOM + DOM.Iterable</li>
+                        <li>Include src folder</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Library Config untuk npm Package</h3>
+                    <p class="text-gray-700 mb-4">
+                        Anda membuat TypeScript library yang akan dipublish. Buat config yang:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Target: ES2015 (balance compatibility vs modern features)</li>
+                        <li>Module: ESNext (tree-shakable untuk bundlers)</li>
+                        <li>Generate declaration files (.d.ts)</li>
+                        <li>Include src, exclude tests/docs</li>
+                        <li>No DOM libs (pure logic library)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Navigate to previous lesson (Module 9, Lesson 1)')">
+                ← Sebelumnya: tsconfig.json Struktur
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 9, Lesson 3)')">
+                Selanjutnya: Strict Mode Options →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: Compiler Options (target, module, lib)
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module9', 'compiler-options-target-module-lib');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Namespaces untuk Organisasi Kode - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 8: Modules dan Namespaces</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 6 of 7</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 85.71%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 8</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 6</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Namespaces untuk Organisasi Kode</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Namespaces</strong> (sebelumnya disebut "internal modules") adalah fitur TypeScript untuk mengelompokkan related code, mencegah naming collisions, dan mengontrol visibility. Namespaces adalah alternatif atau complement untuk ES6 modules, terutama untuk kode yang berjalan di browser atau environments tanpa module system.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Organization Pattern</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami konsep <strong>namespace</strong> dan use case-nya</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Membuat namespace dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">namespace MyNamespace { }</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <strong>nested namespaces</strong> untuk hierarki</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengontrol akses dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">import</code> inside namespace</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami perbedaan <strong>namespaces</strong> vs <strong>ES6 modules</strong></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengetahui kapan menggunakan namespaces (dan kapan tidak)</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Apa itu Namespace?</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>Namespace</strong> adalah cara TypeScript untuk mengelompokkan related identifiers (variables, functions, classes, interfaces) ke dalam <strong>logical grouping</strong>. Namespace membantu mencegah <strong>global namespace pollution</strong> dan naming conflicts, terutama dalam aplikasi besar atau library yang akan di-consume oleh aplikasi lain.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-blue-900 mb-2">🔑 Karakteristik Namespace:</h3>
+                <ul class="list-disc list-inside text-blue-800 space-y-2">
+                    <li>Menggunakan kata kunci <code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">namespace</code></li>
+                    <li>Bisa di-nested (namespace dalam namespace)</li>
+                    <li>Memberikan <strong>scope</strong> untuk identifiers di dalamnya</li>
+                    <li>Harus di-<code class="bg-blue-100 px-2 py-1 rounded text-sm font-mono">export</code> untuk bisa diakses dari luar</li>
+                    <li>Compiles ke IIFE (Immediately Invoked Function Expression) dalam JavaScript</li>
+                    <li>Tidak memerlukan module loader (bisa jalan di browser dengan &lt;script&gt;)</li>
+                </ul>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Membuat Namespace Dasar</h2>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: math.ts</span>
+<span class="keyword">namespace</span> <span class="function">MathUtils</span> {
+    <span class="keyword">export const</span> <span class="function">PI</span> = <span class="string">3.14159</span>;
+    <span class="keyword">export const</span> <span class="function">E</span> = <span class="string">2.71828</span>;
+    
+    <span class="keyword">export function</span> <span class="function">add</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+        <span class="keyword">return</span> a + b;
+    }
+    
+    <span class="keyword">export function</span> <span class="function">multiply</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+        <span class="keyword">return</span> a * b;
+    }
+    
+    <span class="comment">// Interface juga bisa di-export</span>
+    <span class="keyword">export interface</span> <span class="function">Point</span> {
+        x: <span class="type">number</span>;
+        y: <span class="type">number</span>;
+    }
+}
+
+<span class="comment">// File: app.ts</span>
+<span class="keyword">import</span> { MathUtils } <span class="keyword">from</span> <span class="string">'./math'</span>;
+
+console.<span class="function">log</span>(MathUtils.<span class="function">add</span>(<span class="string">5</span>, <span class="string">3</span>));  <span class="comment">// 8</span>
+console.<span class="function">log</span>(MathUtils.PI);             <span class="comment">// 3.14159</span>
+            </div>
+
+            <p class="text-gray-700 mb-6">
+                Perlu dicatat: Ketika menggunakan namespaces, kita tetap perlu <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export</code> setiap identifier yang ingin diakses dari luar namespace. Identifier tanpa <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">export</code> bersifat <strong>private</strong> ke namespace tersebut.
+            </p>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Nested Namespaces</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Namespaces bisa di-<strong>nest</strong> untuk membuat hierarki organisasi yang lebih kompleks. Ini memungkinkan pengelompokan yang lebih halus dan menghindari naming conflicts pada level yang berbeda.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: shapes.ts</span>
+<span class="keyword">namespace</span> <span class="function">Drawing</span> {
+    <span class="keyword">export namespace</span> <span class="function">Shapes</span> {
+        <span class="keyword">export interface</span> <span class="function">Shape</span> {
+            area(): <span class="type">number</span>;
+            perimeter(): <span class="type">number</span>;
+        }
+        
+        <span class="keyword">export class</span> <span class="function">Rectangle</span> <span class="keyword">implements</span> <span class="function">Shape</span> {
+            <span class="keyword">constructor</span>(
+                <span class="keyword">public</span> width: <span class="type">number</span>,
+                <span class="keyword">public</span> height: <span class="type">number</span>
+            ) {}
+            
+            <span class="function">area</span>(): <span class="type">number</span> {
+                <span class="keyword">return</span> <span class="keyword">this</span>.width * <span class="keyword">this</span>.height;
+            }
+            
+            <span class="function">perimeter</span>(): <span class="type">number</span> {
+                <span class="keyword">return</span> <span class="string">2</span> * (<span class="keyword">this</span>.width + <span class="keyword">this</span>.height);
+            }
+        }
+        
+        <span class="keyword">export class</span> <span class="function">Circle</span> <span class="keyword">implements</span> <span class="function">Shape</span> {
+            <span class="keyword">constructor</span>(<span class="keyword">public</span> radius: <span class="type">number</span>) {}
+            
+            <span class="function">area</span>(): <span class="type">number</span> {
+                <span class="keyword">return</span> Math.PI * <span class="keyword">this</span>.radius ** <span class="string">2</span>;
+            }
+            
+            <span class="function">perimeter</span>(): <span class="type">number</span> {
+                <span class="keyword">return</span> <span class="string">2</span> * Math.PI * <span class="keyword">this</span>.radius;
+            }
+        }
+    }
+    
+    <span class="keyword">export namespace</span> <span class="function">Colors</span> {
+        <span class="keyword">export const</span> <span class="function">RED</span> = <span class="string">'#FF0000'</span>;
+        <span class="keyword">export const</span> <span class="function">GREEN</span> = <span class="string">'#00FF00'</span>;
+        <span class="keyword">export const</span> <span class="function">BLUE</span> = <span class="string">'#0000FF'</span>;
+    }
+}
+
+<span class="comment">// File: app.ts</span>
+<span class="keyword">import</span> { Drawing } <span class="keyword">from</span> <span class="string">'./shapes'</span>;
+
+<span class="keyword">const</span> rect = <span class="keyword">new</span> Drawing.<span class="function">Shapes</span>.<span class="function">Rectangle</span>(<span class="string">10</span>, <span class="string">5</span>);
+console.<span class="function">log</span>(rect.<span class="function">area</span>());  <span class="comment">// 50</span>
+
+console.<span class="function">log</span>(Drawing.<span class="function">Colors</span>.BLUE);  <span class="comment">// '#0000FF'</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Namespaces vs ES6 Modules</h2>
+
+            <div class="overflow-x-auto mb-8">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-sm font-bold text-gray-900">Aspek</th>
+                            <th class="px-6 py-3 text-left text-sm font-bold text-gray-900">Namespaces</th>
+                            <th class="px-6 py-3 text-left text-sm font-bold text-gray-900">ES6 Modules</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">Module System</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">TypeScript-specific (legacy)</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">ECMAScript standard</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">File generation</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Compiles to IIFE (single file)</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Separate files (or bundled)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">Runtime</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Tidak butuh loader</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Butuh module loader (browser/node)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">Tree shaking</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Tidak didukung</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Didukung penuh</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 text-sm text-gray-700 font-medium">Use case</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Global scripts, legacy browser, library untuk browser</td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Modern apps, bundlers, Node.js</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-purple-900 mb-2">💡 Panduan Modern:</h3>
+                <p class="text-purple-800">
+                    <strong>Gunakan ES6 modules (import/export) untuk hampir semua kasus baru.</strong> Namespaces hanya digunakan untuk:
+                </p>
+                <ul class="list-disc list-inside text-purple-800 space-y-2 mt-3">
+                    <li>Library yang harus jalan di <strong>browser lama</strong> tanpa module loader</li>
+                    <li>Mengelompokkan code dalam <strong>single global script</strong></li>
+                    <li>Legacy codebase yang sudah menggunakan namespaces</li>
+                    <li>Namespace merging dengan declaration files (ambient)</li>
+                </ul>
+                <p class="text-purple-800 mt-3">
+                    TypeScript documentation merekomendasikan ES6 modules sebagai solusi modularisasi utama. Namespaces dianggap sebagai "legacy feature" untuk compatibility.
+                </p>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Split Namespace Across Multiple Files</h3>
+            
+            <p class="text-gray-700 mb-6">
+                Namespace bisa didefinisikan di multiple files dengan kata kunci <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">namespace</code> yang sama. TypeScript akan <strong>merge</strong> semua deklarasi tersebut menjadi satu namespace. Ini memungkinkan organisasi code yang lebih modular.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: vector.ts</span>
+<span class="keyword">namespace</span> <span class="function">Geometry</span> {
+    <span class="keyword">export class</span> <span class="function">Vector2D</span> {
+        <span class="keyword">constructor</span>(
+            <span class="keyword">public</span> x: <span class="type">number</span>,
+            <span class="keyword">public</span> y: <span class="type">number</span>
+        ) {}
+        
+        <span class="function">add</span>(other: Vector2D): Vector2D {
+            <span class="keyword">return</span> <span class="keyword">new</span> <span class="function">Vector2D</span>(<span class="keyword">this</span>.x + other.x, <span class="keyword">this</span>.y + other.y);
+        }
+    }
+}
+
+<span class="comment">// File: matrix.ts</span>
+<span class="keyword">namespace</span> <span class="function">Geometry</span> {
+    <span class="keyword">export class</span> <span class="function">Matrix3x3</span> {
+        <span class="comment">// ... implementation</span>
+    }
+}
+
+<span class="comment">// File: app.ts</span>
+<span class="keyword">import</span> { Geometry } <span class="keyword">from</span> <span class="string">'./vector'</span>;  <span class="comment">// Import dari salah satu file</span>
+<span class="comment">// Geometry sekarang memiliki Vector2D dan Matrix3x3</span>
+
+<span class="keyword">const</span> v1 = <span class="keyword">new</span> Geometry.<span class="function">Vector2D</span>(<span class="string">1</span>, <span class="string">2</span>);
+<span class="keyword">const</span> m1 = <span class="keyword">new</span> Geometry.<span class="function">Matrix3x3</span>();
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Namespace Import Alias</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Kita bisa memberikan <strong>alias</strong> pada namespace saat import menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">as</code>. Ini berguna untuk menghindari naming conflicts atau membuat nama yang lebih pendek.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// File: utils.ts</span>
+<span class="keyword">namespace</span> <span class="function">StringHelpers</span> {
+    <span class="keyword">export function</span> <span class="function">capitalize</span>(s: <span class="type">string</span>): <span class="type">string</span> { ... }
+}
+
+<span class="keyword">namespace</span> <span class="function">NumberHelpers</span> {
+    <span class="keyword">export function</span> <span class="function">format</span>(n: <span class="type">number</span>): <span class="type">string</span> { ... }
+}
+
+<span class="comment">// File: app.ts</span>
+<span class="keyword">import</span> { StringHelpers <span class="keyword">as</span> Str, NumberHelpers <span class="keyword">as</span> Num } <span class="keyword">from</span> <span class="string">'./utils'</span>;
+
+console.<span class="function">log</span>(Str.<span class="function">capitalize</span>(<span class="string">'hello'</span>));
+console.<span class="function">log</span>(Num.<span class="function">format</span>(<span class="string">1234567</span>));
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Namespace untuk Data Models</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat namespace <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Models</code> yang berisi:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li>Interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">User</code> (id, name, email)</li>
+                        <li>Interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Product</code> (id, name, price)</li>
+                        <li>Interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Order</code> (id, userId, productIds)</li>
+                        <li>Type <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">UserRole</code> (enum: 'admin', 'user', 'guest')</li>
+                    </ul>
+                    <p class="text-gray-700">
+                        Pisahkan di file <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">models.ts</code> dan gunakan di <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">app.ts</code> dengan import namespace.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Nested Namespaces</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat namespace <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">App.Utils</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">App.Services</code>. Di <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">App.Utils</code> tambahkan:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">formatDate(date: Date): string</code></li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">validateEmail(email: string): boolean</code></li>
+                    </ul>
+                    <p class="text-gray-700 mb-2">
+                        Di <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">App.Services</code> tambahkan class <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">AuthService</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">UserService</code>. Pisahkan di dua file berbeda, lalu import di app.ts.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Namespace untuk Configuration</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat namespace <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Config</code> yang berisi constants untuk API endpoints, timeout values, dan feature flags. Export semua sebagai <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">const</code>. Gunakan di seluruh aplikasi dengan import namespace.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Navigate to previous lesson (Module 8, Lesson 5)')">
+                ← Sebelumnya: Ambient Modules
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 8, Lesson 7)')">
+                Selanjutnya: Declaration Merging →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: Namespaces
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module8', 'namespaces-organisasi-kode');
+            }
+        });
+    </script>
+</body>
+</html>

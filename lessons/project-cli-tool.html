@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Project - CLI Tool with TypeScript - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 12: Real-World Projects</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 20%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 12</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Project 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Project: CLI Tool dengan TypeScript</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Bangun command-line interface (CLI) tool menggunakan TypeScript. Project ini akan mengajarkan cara membuat executable Node.js tool dengan proper type safety, argument parsing, dan user-friendly output.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 2-3 jam</span>
+                <span>📊 Kesulitan: Project</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan TypeScript dengan Node.js untuk CLI applications</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Parsing command-line arguments dengan type safety (commander, yargs)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Membuat executable script dengan <code class="bg-gray-100 px-1 rounded">#!/usr/bin/env node</code></span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menangani I/O operations (read/write files, stdout)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menerapkan error handling dan exit codes yang tepat</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Project Overview: File Processor CLI</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Kita akan membuat CLI tool bernama <strong>"fileproc"</strong> yang dapat:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Read file (text/JSON)</li>
+                <li>Transform content (uppercase, lowercase, capitalize)</li>
+                <li>Write output ke file atau stdout</li>
+                <li>Support batch processing multiple files</li>
+                <li>Provide help dan version info</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Setup Project</h3>
+            <div class="code-block mb-6">
+<span class="comment"># Create project directory</span>
+mkdir fileproc-cli
+cd fileproc-cli
+
+<span class="comment"># Initialize Node.js project</span>
+npm init -y
+
+<span class="comment"># Install dependencies</span>
+npm install commander chalk
+
+<span class="comment"># Install dev dependencies</span>
+npm install --save-dev typescript @types/node tsx
+
+<span class="comment"># Initialize TypeScript</span>
+npx tsc --init
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Project Structure</h3>
+            <div class="code-block mb-6">
+fileproc-cli/
+├── src/
+│   ├── index.ts          <span class="comment"># Entry point</span>
+│   ├── commands/         <span class="comment"># Command implementations</span>
+│   │   ├── transform.ts
+│   │   └── batch.ts
+│   ├── utils/
+│   │   ├── file.ts       <span class="comment"># File operations</span>
+│   │   └── formatter.ts  <span class="comment"># Text transformations</span>
+│   └── types.ts          <span class="comment"># Type definitions</span>
+├── bin/
+│   └── fileproc          <span class="comment"># Executable script</span>
+├── package.json
+├── tsconfig.json
+└── README.md
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">TypeScript Configuration for CLI</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">Update <code class="bg-gray-100 px-1 rounded">tsconfig.json</code>:</p>
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2020"</span>,
+    <span class="string">"module"</span>: <span class="string">"commonjs"</span>,
+    <span class="string">"outDir"</span>: <span class="string">"./dist"</span>,
+    <span class="string">"rootDir"</span>: <span class="string">"./src"</span>,
+    <span class="string">"strict"</span>: <span class="keyword">true</span>,
+    <span class="string">"esModuleInterop"</span>: <span class="keyword">true</span>,
+    <span class="string">"skipLibCheck"</span>: <span class="keyword">true</span>,
+    <span class="string">"forceConsistentCasingInFileNames"</span>: <span class="keyword">true</span>
+  },
+  <span class="string">"include"</span>: [<span class="string">"src/**/*"</span>],
+  <span class="string">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">"dist"</span>]
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Implementasi: Type Definitions</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/types.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">export type</span> TransformType = <span class="string">"uppercase"</span> | <span class="string">"lowercase"</span> | <span class="string">"capitalize"</span>;
+
+<span class="keyword">export interface</span> <span class="function">FileOptions</span> {
+  input: <span class="type">string</span>;
+  output?: <span class="type">string</span>;
+  transform?: TransformType;
+  verbose?: <span class="keyword">boolean</span>;
+}
+
+<span class="keyword">export interface</span> <span class="function">ProcessedFile</span> {
+  input: <span class="type">string</span>;
+  output: <span class="type">string</span>;
+  transformed: <span class="keyword">boolean</span>;
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Implementasi: File Utilities</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/utils/file.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> { promises as fs } <span class="keyword">from</span> <span class="string">'fs'</span>;
+<span class="keyword">import path from</span> <span class="string">'path'</span>;
+<span class="keyword">import</span> { FileOptions, ProcessedFile } <span class="keyword">from</span> <span class="string">'../types'</span>;
+
+<span class="keyword">export async function</span> <span class="function">readFile</span>(filepath: <span class="type">string</span>): Promise&lt;<span class="type">string</span>&gt; {
+  <span class="keyword">try</span> {
+    <span class="keyword">return await</span> fs.readFile(filepath, <span class="string">'utf-8'</span>);
+  } <span class="keyword">catch</span> (error) {
+    <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">`Failed to read file: ${filepath}`</span>);
+  }
+}
+
+<span class="keyword">export async function</span> <span class="function">writeFile</span>(filepath: <span class="type">string</span>, content: <span class="type">string</span>): Promise&lt;<span class="keyword">void</span>&gt; {
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> fs.writeFile(filepath, content, <span class="string">'utf-8'</span>);
+  } <span class="keyword">catch</span> (error) {
+    <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">`Failed to write file: ${filepath}`</span>);
+  }
+}
+
+<span class="keyword">export async function</span> <span class="function">processFile</span>(options: FileOptions): Promise&lt;ProcessedFile&gt; {
+  <span class="keyword">const</span> content = <span class="keyword">await</span> readFile(options.input);
+  <span class="keyword">let</span> output = content;
+
+  <span class="keyword">if</span> (options.transform) {
+    output = <span class="keyword">await</span> transformText(content, options.transform);
+  }
+
+  <span class="keyword">if</span> (options.output) {
+    <span class="keyword">await</span> writeFile(options.output, output);
+  }
+
+  <span class="keyword">return</span> {
+    input: options.input,
+    output: options.output || <span class="string">'stdout'</span>,
+    transformed: !!options.transform
+  };
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Implementasi: Formatter</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/utils/formatter.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> { TransformType } <span class="keyword">from</span> <span class="string">'../types'</span>;
+
+<span class="keyword">export async function</span> <span class="function">transformText</span>(
+  text: <span class="type">string</span>,
+  type: TransformType
+): Promise&lt;<span class="type">string</span>&gt; {
+  <span class="keyword">switch</span> (type) {
+    <span class="keyword">case</span> <span class="string">'uppercase'</span>:
+      <span class="keyword">return</span> text.toUpperCase();
+    <span class="keyword">case</span> <span class="string">'lowercase'</span>:
+      <span class="keyword">return</span> text.toLowerCase();
+    <span class="keyword">case</span> <span class="string">'capitalize'</span>:
+      <span class="keyword">return</span> text.charAt(<span class="type">0</span>).toUpperCase() + text.slice(<span class="type">1</span>).toLowerCase();
+    <span class="keyword">default</span>:
+      <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">`Unknown transform type: ${type}`</span>);
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Implementasi: CLI dengan Commander</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">src/index.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="keyword">import</span> { Command } <span class="keyword">from</span> <span class="string">'commander'</span>;
+<span class="keyword">import</span> chalk <span class="keyword">from</span> <span class="string">'chalk'</span>;
+<span class="keyword">import</span> { processFile } <span class="keyword">from</span> <span class="string">'./utils/file'</span>;
+<span class="keyword">import</span> { FileOptions, TransformType } <span class="keyword">from</span> <span class="string">'./types'</span>;
+
+<span class="keyword">const</span> program = <span class="keyword">new</span> <span class="function">Command</span>();
+
+program
+  .name(<span class="string">'fileproc'</span>)
+  .description(<span class="string">'CLI tool untuk memproses file teks dengan TypeScript'</span>)
+  .version(<span class="string">'1.0.0'</span>);
+
+program
+  .command(<span class="string">'transform'</span>)
+  .description(<span class="string">'Transform file teks'</span>)
+  .requiredOption(<span class="string">'-i, --input &lt;file&gt;'</span>, <span class="string">'Input file path'</span>)
+  .option(<span class="string">'-o, --output &lt;file&gt;'</span>, <span class="string">'Output file path (default: stdout)'</span>)
+  .option(<span class="string">'-t, --transform &lt;type&gt;'</span>, <span class="string">'Transform type: uppercase|lowercase|capitalize'</span>)
+  .option(<span class="string">'-v, --verbose'</span>, <span class="string">'Enable verbose output'</span>)
+  .action(<span class="keyword">async</span> (options) =&gt; {
+    <span class="keyword">try</span> {
+      <span class="keyword">const</span> opts: FileOptions = {
+        input: options.input,
+        output: options.output,
+        transform: options.transform <span class="keyword">as</span> TransformType,
+        verbose: options.verbose
+      };
+
+      <span class="keyword">const</span> result = <span class="keyword">await</span> processFile(opts);
+
+      <span class="keyword">if</span> (opts.verbose) {
+        console.log(chalk.green(<span class="string">`✓ Processed: ${result.input} → ${result.output}`</span>));
+        console.log(chalk.blue(<span class="string">`Transformed: ${result.transformed}`</span>));
+      } <span class="keyword">else</span> {
+        console.log(result.output);
+      }
+    } <span class="keyword">catch</span> (error) {
+      console.error(chalk.red(<span class="string">`Error: ${(error as Error).message}`</span>));
+      process.exit(<span class="type">1</span>);
+    }
+  });
+
+program.parse();
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Executable Script</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">bin/fileproc</code>:</p>
+            <div class="code-block mb-6">
+<span class="comment">#!/usr/bin/env node</span>
+<span class="comment">// This file will be symlinked or copied to node_modules/.bin/</span>
+
+<span class="keyword">import</span> { fileURLToPath } <span class="keyword">from</span> <span class="string">'url'</span>;
+<span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">'path'</span>;
+
+<span class="comment">// Required for ES modules</span>
+<span class="keyword">import</span> <span class="string">'../dist/index.js'</span>;
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Package.json Setup</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">Update <code class="bg-gray-100 px-1 rounded">package.json</code>:</p>
+            <div class="code-block mb-6">
+{
+  <span class="string">"name"</span>: <span class="string">"fileproc-cli"</span>,
+  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,
+  <span class="string">"description"</span>: <span class="string">"CLI tool untuk memproses file dengan TypeScript"</span>,
+  <span class="string">"main"</span>: <span class="string">"dist/index.js"</span>,
+  <span class="string">"bin"</span>: {
+    <span class="string">"fileproc"</span>: <span class="string">"./bin/fileproc"</span>
+  },
+  <span class="string">"scripts"</span>: {
+    <span class="string">"build"</span>: <span class="string">"tsc"</span>,
+    <span class="string">"start"</span>: <span class="string">"tsx src/index.ts"</span>,
+    <span class="string">"dev"</span>: <span class="string">"tsc --watch"</span>,
+    <span class="string">"lint"</span>: <span class="string">"eslint src/**/*.ts"</span>
+  },
+  <span class="string">"keywords"</span>: [<span class="string">"cli"</span>, <span class="string">"typescript"</span>, <span class="string">"file-processor"</span>],
+  <span class="string">"author"</span>: <span class="string">"Your Name"</span>,
+  <span class="string">"license"</span>: <span class="string">"MIT"</span>,
+  <span class="string">"dependencies"</span>: {
+    <span class="string">"chalk"</span>: <span class="string">"^4.1.2"</span>,
+    <span class="string">"commander"</span>: <span class="string">"^9.4.1"</span>
+  },
+  <span class="string">"devDependencies"</span>: {
+    <span class="string">"@types/node"</span>: <span class="string">"^18.0.0"</span>,
+    <span class="string">"tsx"</span>: <span class="string">"^3.12.0"</span>,
+    <span class="string">"typescript"</span>: <span class="string">"^5.0.0"</span>
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Build & Test</h4>
+            <div class="code-block mb-6">
+<span class="comment"># Compile TypeScript</span>
+npm run build
+
+<span class="comment"># Link globally untuk testing</span>
+npm link
+
+<span class="comment"># Test CLI</span>
+fileproc transform -i input.txt -o output.txt -t uppercase
+fileproc transform -i input.txt -t lowercase --verbose
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Best Practices</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">strict: true</code> di tsconfig untuk type safety maksimal</li>
+                <li>Handle errors dengan proper exit codes (0 = success, non-zero = error)</li>
+                <li>Provide <code class="bg-gray-100 px-1 rounded">--help</code> dan <code class="bg-gray-100 px-1 rounded">--version</code> flags otomatis</li>
+                <li>Use <code class="bg-gray-100 px-1 rounded">chalk</code> atau <code class="bg-gray-100 px-1 rounded">colorette</code> untuk colored output</li>
+                <li>Support stdin untuk pipeline operations (<code class="bg-gray-100 px-1 rounded">cat file | fileproc transform -t uppercase</code>)</li>
+                <li>Write unit tests dengan Jest/Vitest untuk utility functions</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Basic CLI</h3>
+                    <p class="text-gray-700 mb-3">Implement CLI dengan single command.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Setup project dengan TypeScript + Commander</li>
+                        <li>Buat command <code class="bg-gray-100 px-1 rounded">greet &lt;name&gt;</code> yang output "Hello, {name}!"</li>
+                        <li>Add option <code class="bg-gray-100 px-1 rounded">--uppercase</code> untuk uppercase output</li>
+                        <li>Build dan test dengan <code class="bg-gray-100 px-1 rounded">npm link</code></li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: File Processor</h3>
+                    <p class="text-gray-700 mb-3">Implement file transformation logic.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat function <code class="bg-gray-100 px-1 rounded">readFile</code> dan <code class="bg-gray-100 px-1 rounded">writeFile</code> dengan proper error handling</li>
+                        <li>Implement <code class="bg-gray-100 px-1 rounded">transformText</code> dengan switch case untuk uppercase/lowercase/capitalize</li>
+                        <li>Integrasikan ke command <code class="bg-gray-100 px-1 rounded">transform</code></li>
+                        <li>Test dengan actual files</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Advanced Features</h3>
+                    <p class="text-gray-700 mb-3">Tambahkan batch processing dan JSON support.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat command <code class="bg-gray-100 px-1 rounded">batch &lt;glob&gt;</code> untuk process multiple files</li>
+                        <li>Support JSON transformation (parse, modify, stringify)</li>
+                        <li>Add <code class="bg-gray-100 px-1 rounded">--dry-run</code> flag untuk preview tanpa write</li>
+                        <li>Implement progress bar dengan <code class="bg-gray-100 px-1 rounded">cl-progress</code></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" disabled>
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4: ReadonlyRecord Utility Type - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 11: Advanced Utility Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 4 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 50%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 11</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 4</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">ReadonlyRecord Utility Type</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>ReadonlyRecord&lt;T&gt;</strong> adalah utility type yang menggabungkan <code class="bg-gray-100 px-1 rounded">Readonly&lt;T&gt;</code> dengan <code class="bg-gray-100 px-1 rounded">Record&lt;string, T&gt;</code> untuk membuat immutable object dengan arbitrary string keys. Sangat berguna untuk constant maps dan configuration objects.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami kombinasi Readonly + Record untuk immutable maps</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan ReadonlyRecord untuk constant configuration</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Membedakan ReadonlyRecord dengan Record&lt;string, Readonly&lt;T&gt;&gt;</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Implementasi custom ReadonlyRecord type</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Apa itu ReadonlyRecord?</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">ReadonlyRecord&lt;T&gt;</code> adalah type yang menyediakan object dengan arbitrary string keys di mana setiap value memiliki type <code class="bg-gray-100 px-1 rounded">T</code> DAN entire object tersebut readonly (immutable). Ini adalah kombinasi dari:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li><code class="bg-gray-100 px-1 rounded">Record&lt;string, T&gt;</code> - object dengan string keys dan T values</li>
+                <li><code class="bg-gray-100 px-1 rounded">Readonly&lt;T&gt;</code> - semua properties readonly</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Implementasi Manual</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                TypeScript tidak memiliki built-in <code class="bg-gray-100 px-1 rounded">ReadonlyRecord</code>, tetapi mudah dibuat:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Custom ReadonlyRecord type</span>
+<span class="keyword">type</span> ReadonlyRecord&lt;T&gt; = Readonly&lt;Record&lt;<span class="type">string</span>, T&gt;&gt;;
+
+<span class="comment">// Atau lebih eksplisit:</span>
+<span class="keyword">type</span> ReadonlyRecord&lt;T&gt; = {
+  readonly [key: <span class="type">string</span>]: T;
+};
+
+<span class="comment">// Contoh penggunaan:</span>
+<span class="keyword">type</span> ThemeColors = ReadonlyRecord&lt;<span class="type">string</span>&gt;;
+
+<span class="keyword">const</span> colors: ThemeColors = {
+  primary: <span class="string">"#3b82f6"</span>,
+  secondary: <span class="string">"#8b5cf6"</span>,
+  accent: <span class="string">"#06b6d4"</span>
+};
+
+colors.primary = <span class="string">"#ff0000"</span>;  <span class="comment">// ❌ Error: Cannot assign to 'primary' because it is a read-only property</span>
+colors.newColor = <span class="string">"#00ff00"</span>;  <span class="comment">// ❌ Error: Index signature in type 'ReadonlyRecord&lt;string&gt;' only permits reading</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Use Cases</h3>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">1. Constant Configuration Maps</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Saat Anda memiliki map yang tidak akan diubah setelah initialization:
+            </p>
+            <div class="code-block mb-6">
+<span class="keyword">type</span> HttpStatusMessages = ReadonlyRecord&lt;<span class="type">string</span>&gt;;
+
+<span class="keyword">const</span> STATUS_MESSAGES: HttpStatusMessages = {
+  <span class="string">"200"</span>: <span class="string">"OK"</span>,
+  <span class="string">"404"</span>: <span class="string">"Not Found"</span>,
+  <span class="string">"500"</span>: <span class="string">"Internal Server Error"</span>
+};
+
+<span class="comment">// Tidak bisa diubah - memastikan constants tetap constant</span>
+            </div>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">2. Feature Flag Maps</h4>
+            <div class="code-block mb-6">
+<span class="keyword">type</span> FeatureFlags = ReadonlyRecord&lt;<span class="type">boolean</span>&gt;;
+
+<span class="keyword">const</span> FLAGS: FeatureFlags = {
+  darkMode: <span class="keyword">true</span>,
+  beta: <span class="keyword">false</span>,
+  analytics: <span class="keyword">true</span>
+};
+
+<span class="comment">// FLAGS.darkMode = false; // ❌ Error - immutable</span>
+            </div>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">3. Translation Dictionaries</h4>
+            <div class="code-block mb-6">
+<span class="keyword">type</span> Translations = ReadonlyRecord&lt;<span class="type">string</span>&gt;;
+
+<span class="keyword">const</span> ID_TRANSLATIONS: Translations = {
+  welcome: <span class="string">"Selamat datang"</span>,
+  goodbye: <span class="string">"Sampai jumpa"</span>,
+  error: <span class="string">"Terjadi kesalahan"</span>
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Perbedaan dengan Variasi Lain</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Penting untuk memahami perbedaan antara beberapa pendekatan:
+            </p>
+
+            <div class="overflow-x-auto mb-6">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 border border-gray-200 text-left">Type</th>
+                            <th class="px-4 py-2 border border-gray-200 text-left">Keys</th>
+                            <th class="px-4 py-2 border-gray-200 text-left">Values</th>
+                            <th class="px-4 py-2 border border-gray-200 text-left">Mutability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="px-4 py-2 border border-gray-200"><code class="bg-gray-100 px-1 rounded">Record&lt;string, T&gt;</code></td>
+                            <td class="px-4 py-2 border border-gray-200">string</td>
+                            <td class="px-4 py-2 border border-gray-200">T</td>
+                            <td class="px-4 py-2 border border-gray-200">Mutable</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 border border-gray-200"><code class="bg-gray-100 px-1 rounded">Readonly&lt;Record&lt;string, T&gt;&gt;</code></td>
+                            <td class="px-4 py-2 border border-gray-200">string</td>
+                            <td class="px-4 py-2 border border-gray-200">T</td>
+                            <td class="px-4 py-2 border border-gray-200">Immutable</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2 border border-gray-200"><code class="bg-gray-100 px-1 rounded">Record&lt;string, Readonly&lt;T&gt;&gt;</code></td>
+                            <td class="px-4 py-2 border border-gray-200">string</td>
+                            <td class="px-4 py-2 border border-gray-200">Readonly T</td>
+                            <td class="px-4 py-2 border border-gray-200">Mutable keys, readonly values</td>
+                        </tr>
+                        <tr class="bg-blue-50">
+                            <td class="px-4 py-2 border border-gray-200"><code class="bg-gray-100 px-1 rounded">ReadonlyRecord&lt;T&gt;</code></td>
+                            <td class="px-4 py-2 border border-gray-200">string</td>
+                            <td class="px-4 py-2 border border-gray-200">T</td>
+                            <td class="px-4 py-2 border border-gray-200">Immutable</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Advanced: Generic ReadonlyRecord</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Anda bisa membuat generic ReadonlyRecord yang lebih fleksibel dengan constrained keys:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// ReadonlyRecord dengan specific key union</span>
+<span class="keyword">type</span> ReadonlyRecordByKeys&lt;K extends <span class="type">string</span>, T&gt; = Readonly&lt;Record&lt;K, T&gt;&gt;;
+
+<span class="keyword">type</span> HttpStatusMap = ReadonlyRecordByKeys&lt;
+  <span class="string">"200"</span> | <span class="string">"404"</span> | <span class="string">"500"</span>, 
+  <span class="type">string</span>
+&gt;;
+
+<span class="keyword">const</span> status: HttpStatusMap = {
+  <span class="string">"200"</span>: <span class="string">"OK"</span>,
+  <span class="string">"404"</span>: <span class="string">"Not Found"</span>,
+  <span class="string">"500"</span>: <span class="string">"Server Error"</span>
+  <span class="comment">// Tidak bisa tambah key lain karena type terbatas</span>
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Best Practices</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">ReadonlyRecord</code> untuk constants yang di-load dari file atau environment</li>
+                <li>Jangan gunakan untuk data yang perlu di-update - gunakan <code class="bg-gray-100 px-1 rounded">Record</code> biasa atau state management</li>
+                <li>Kombinasikan dengan <code class="bg-gray-100 px-1 rounded">as const</code> assertion untuk literal types</li>
+                <li>Perhatikan bahwa <code class="bg-gray-100 px-1 rounded">Readonly</code> adalah shallow - nested objects masih mutable</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Define ReadonlyRecord</h3>
+                    <p class="text-gray-700 mb-3">Buat custom ReadonlyRecord type dan gunakan.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Define <code class="bg-gray-100 px-1 rounded">type ReadonlyRecord&lt;T&gt; = Readonly&lt;Record&lt;string, T&gt;&gt;</code></li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">const COLORS: ReadonlyRecord&lt;string&gt;</code> dengan minimal 5 warna hex</li>
+                        <li>Coba modifikasi salah satu property - seharusnya error</li>
+                        <li>Coba tambah property baru - seharusnya error</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: Const Status Codes</h3>
+                    <p class="text-gray-700 mb-3">Gunakan ReadonlyRecord untuk HTTP status messages.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat union type <code class="bg-gray-100 px-1 rounded">Status = 200 | 404 | 500 | 403</code></li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">type StatusMap = ReadonlyRecordByKeys&lt;Status, string&gt;</code></li>
+                        <li>Isi dengan messages untuk setiap status code</li>
+                        <li>Buat function <code class="bg-gray-100 px-1 rounded">getStatusMessage(code: Status): string</code> yang return dari map</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Compare Mutability</h3>
+                    <p class="text-gray-700 mb-3">Bandingkan Record vs ReadonlyRecord.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat dua variables: <code class="bg-gray-100 px-1 rounded">mutableMap: Record&lt;string, number&gt;</code> dan <code class="bg-gray-100 px-1 rounded">immutableMap: ReadonlyRecord&lt;number&gt;</code></li>
+                        <li>Assign values ke keduanya</li>
+                        <li>Coba modify property, tambah property baru, dan delete property</li>
+                        <li>Catat mana yang diizinkan dan mana yang diblokir TypeScript</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Generic Functions Dasar - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 7: Generics</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 16.67%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 7</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Generic Functions Dasar</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Generics</strong> memungkinkan membuat komponen yang bekerja dengan berbagai tipe tanpa loss type safety. Generic functions menggunakan <em>type parameters</em> (dilambangkan dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">&lt;T&gt;</code>) untuk menghasilkan code yang reusable namun tetap type-checked. Ini adalah salah satu fitur paling powerful di TypeScript.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 25 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami konsep generic dan type parameters</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mendeklarasi generic functions dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">&lt;T&gt;</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Type inference pada generic functions</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Generic constraints dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">extends</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Multiple type parameters (<code class="bg-gray-100 px-2 py-1 rounded font-mono">&lt;T, U&gt;</code>)</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Apa itu Generics?</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Tanpa generics, kita harus membuat multiple functions untuk berbagai tipe, atau menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">any</code> yang mengorbankan type safety. Generics memungkinkan kita menulis <strong>type-safe reusable code</strong>.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">The Problem: Without Generics</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Without generics - using any (unsafe)</span>
+<span class="keyword">function</span> <span class="function">identity</span>(arg: <span class="keyword">any</span>): <span class="keyword">any</span> {
+    <span class="keyword">return</span> arg;
+}
+
+<span class="keyword">const</span> result1 = identity(<span class="string">"hello"</span>); <span class="comment">// any - no type checking</span>
+<span class="keyword">const</span> result2 = identity(<span class="type">100</span>);     <span class="comment">// any - no type checking</span>
+
+<span class="comment">// Or multiple overloads (tedious)</span>
+<span class="keyword">function</span> <span class="function">identityString</span>(arg: <span class="type">string</span>): <span class="type">string</span>;
+<span class="keyword">function</span> <span class="function">identityNumber</span>(arg: <span class="type">number</span>): <span class="type">number</span>;
+<span class="comment">// ... more overloads for each type</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Generic Function Sederhana</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Gunakan type parameter <code class="bg-gray-100 px-2 py-1 rounded font-mono">&lt;T&gt;</code> (T adalah conventional name, bisa apa saja) untuk mewakili tipe yang akan ditekan/diambil.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Generic function - type-safe dan reusable</span>
+<span class="keyword">function</span> <span class="function">identity</span>&lt;<span class="type">T</span>&gt;(arg: <span class="type">T</span>): <span class="type">T</span> {
+    <span class="keyword">return</span> arg;
+}
+
+<span class="comment">// Type inference - TypeScript figures out T automatically</span>
+<span class="keyword">const</span> str = identity(<span class="string">"hello"</span>); <span class="comment">// T inferred as string</span>
+<span class="keyword">const</span> num = identity(<span class="type">100</span>);     <span class="comment">// T inferred as number</span>
+
+<span class="comment">// Explicit type argument (optional)</span>
+<span class="keyword">const</span> explicit = identity&lt;<span class="type">boolean</span>&gt;(<span class="keyword">true</span>);</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Generic Functions dengan Multiple Parameters</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Generic functions bisa memiliki multiple type parameters, dipisahkan dengan comma.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">function</span> <span class="function">createPair</span>&lt;<span class="type">T</span>, <span class="type">U</span>&gt;(first: <span class="type">T</span>, second: <span class="type">U</span>): [<span class="type">T</span>, <span class="type">U</span>] {
+    <span class="keyword">return</span> [first, second];
+}
+
+<span class="keyword">const</span> pair1 = createPair(<span class="string">"name"</span>, <span class="type">30</span>);     <span class="comment">// [string, number]</span>
+<span class="keyword">const</span> pair2 = createPair(<span class="type">1</span>, <span class="string">"value"</span>);   <span class="comment">// [number, string]</span>
+<span class="keyword">const</span> pair3 = createPair&lt;<span class="type">number</span>, <span class="type">number</span>&gt;(<span class="type">1</span>, <span class="type">2</span>); <span class="comment">// explicit</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Generic Arrow Functions</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">const</span> <span class="function">getFirst</span> = &lt;<span class="type">T</span>&gt;(arr: <span class="type">T</span>[]): <span class="type">T</span> | <span class="keyword">undefined</span> => {
+    <span class="keyword">return</span> arr[<span class="type">0</span>];
+};
+
+<span class="keyword">const</span> firstNum = getFirst([<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>]);      <span class="comment">// number | undefined</span>
+<span class="keyword">const</span> firstStr = getFirst([<span class="string">"a"</span>, <span class="string">"b"</span>]);   <span class="comment">// string | undefined</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Working with Generic Arrays</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Generic functions sering digunakan untuk array manipulation dengan type safety.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">function</span> <span class="function">reverse</span>&lt;<span class="type">T</span>&gt;(arr: <span class="type">T</span>[]): <span class="type">T</span>[] {
+    <span class="keyword">return</span> arr.slice().reverse();
+}
+
+<span class="keyword">function</span> <span class="function">filter</span>&lt;<span class="type">T</span>&gt;(arr: <span class="type">T</span>[], predicate: (item: <span class="type">T</span>) => <span class="keyword">boolean</span>): <span class="type">T</span>[] {
+    <span class="keyword">return</span> arr.filter(predicate);
+}
+
+<span class="keyword">const</span> numbers = [<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>, <span class="type">4</span>];
+<span class="keyword">const</span> evens = filter(numbers, n => n % <span class="type">2</span> === <span class="type">0</span>); <span class="comment">// number[]</span>
+
+<span class="keyword">const</span> strings = [<span class="string">"a"</span>, <span class="string">"bb"</span>, <span class="string">"ccc"</span>];
+<span class="keyword">const</span> long = filter(strings, s => s.length > <span class="type">1</span>); <span class="comment">// string[]</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Generic Functions dalam Collections</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+}
+
+<span class="keyword">function</span> <span class="function">findById</span>&lt;<span class="type">T</span> extends { id: <span class="type">number</span> }&gt;(arr: <span class="type">T</span>[], id: <span class="type">number</span>): <span class="type">T</span> | <span class="keyword">undefined</span> {
+    <span class="keyword">return</span> arr.find(item => item.id === id);
+}
+
+<span class="keyword">const</span> users: <span class="type">User</span>[] = [
+    { id: <span class="type">1</span>, name: <span class="string">"Alice"</span> },
+    { id: <span class="type">2</span>, name: <span class="string">"Bob"</span> }
+];
+
+<span class="keyword">const</span> user = findById(users, <span class="type">1</span>); <span class="comment">// User | undefined</span>
+console.log(user?.name); <span class="comment">// "Alice"</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+            
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">1. Identity Function</h3>
+                    <p class="text-gray-700 mb-3">
+                        Implementasikan generic function <code class="bg-gray-100 px-2 py-1 rounded font-mono">identity&lt;T&gt;(arg: T): T</code> yang mengembalikan argumen yang sama. Test dengan tipe: string, number, boolean, array.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">2. First Element</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat generic function <code class="bg-gray-100 px-2 py-1 rounded font-mono">first&lt;T&gt;(arr: T[]): T | undefined</code> yang mengembalikan elemen pertama array. Pastikan type terpreserve.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">3. Merge Objects</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat generic function <code class="bg-gray-100 px-2 py-1 rounded font-mono">merge&lt;T, U&gt;(obj1: T, obj2: U): T & U</code> yang menggabungkan dua objects dan mengembalikan intersection type. Test dengan objects yang memiliki properties berbeda.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat setelah semua lesson selesai')">
+                Quiz Module →
+            </button>
+        </nav>
+    </main>
+
+    <script src="/typescript-curriculum/app.js"></script>
+</body>
+</html>

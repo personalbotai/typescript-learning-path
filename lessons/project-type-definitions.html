@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4: Project - Type Definitions & Declaration Files - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 12: Real-World Projects</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 4 of 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 80%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 12</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Project 4</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Project: Type Definitions & Declaration Files</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Belajar membuat dan mempublikasikan TypeScript declaration files (.d.ts) untuk JavaScript libraries. Project ini mencakup writing ambient declarations, module augmentation, dan publishing ke DefinitelyTyped.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 3-4 jam</span>
+                <span>📊 Kesulitan: Project</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami struktur .d.ts files (declaration files)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Membuat ambient declarations untuk global variables dan libraries</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Module augmentation untuk extend existing types</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Publishing type packages ke npm (@types scope)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Best practices untuk writing high-quality declaration files</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Project Overview: Create @types for a Library</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Kita akan membuat TypeScript declaration package untuk library JavaScript yang belum memiliki types. Contoh: library <code class="bg-gray-100 px-1 rounded">simple-color</code> (hypothetical) yang exposes global function <code class="bg-gray-100 px-1 rounded">color()</code> dan object <code class="bg-gray-100 px-1 rounded">Colors</code>.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Library API to Type</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">Asumsi library JavaScript (<code class="bg-gray-100 px-1 rounded">simple-color.js</code>):</p>
+            <div class="code-block mb-6">
+<span class="comment">// Global function</span>
+<span class="keyword">function</span> <span class="function">color</span>(value) {
+  <span class="keyword">return</span> { r: value[<span class="type">0</span>], g: value[<span class="type">1</span>], b: value[<span class="type">2</span>] };
+}
+
+<span class="comment">// Global object</span>
+<span class="keyword">var</span> <span class="function">Colors</span> = {
+  red: <span class="string">'#FF0000'</span>,
+  green: <span class="string">'#00FF00'</span>,
+  blue: <span class="string">'#0000FF'</span>
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Ambient Declaration File</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">index.d.ts</code>:</p>
+            <div class="code-block mb-6">
+<span class="comment">/**</span>
+<span class="comment"> * Type definitions for simple-color v1.0.0</span>
+<span class="comment"> * Project: https://github.com/example/simple-color</span>
+<span class="comment"> * Author: Your Name</span>
+<span class="comment"> */</span>
+
+<span class="comment">// Ambient context (no imports/exports)</span>
+<span class="keyword">declare</span> <span class="keyword">module</span> <span class="string">'simple-color'</span> {
+  <span class="keyword">export interface</span> <span class="function">RGB</span> {
+    r: <span class="type">number</span>;
+    g: <span class="type">number</span>;
+    b: <span class="type">number</span>;
+  }
+
+  <span class="keyword">export function</span> <span class="function">color</span>(value: <span class="type">number</span>[] | <span class="type">string</span>): RGB;
+
+  <span class="keyword">export const</span> <span class="function">Colors</span>: {
+    red: <span class="type">string</span>;
+    green: <span class="type">string</span>;
+    blue: <span class="type">string</span>;
+    [key: <span class="type">string</span>]: <span class="type">string</span>;
+  };
+}
+
+<span class="comment">// Global declarations (if library adds to global scope)</span>
+<span class="keyword">declare</span> <span class="keyword">global</span> {
+  <span class="keyword">namespace</span> <span class="function">NodeJS</span> {
+    <span class="keyword">interface</span> <span class="function">Global</span> {
+      color: <span class="keyword">typeof</span> import(<span class="string">'simple-color'</span>)[<span class="string">'color'</span>];
+      Colors: <span class="keyword">typeof</span> import(<span class="string">'simple-color'</span>)[<span class="string">'Colors'</span>];
+    }
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Package.json for @types Package</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed"><code class="bg-gray-100 px-1 rounded">@types/simple-color/package.json</code>:</p>
+            <div class="code-block mb-6">
+{
+  <span class="string">"_from"</span>: <span class="string">"@types/simple-color@1.0.0"</span>,
+  <span class="string">"_id"</span>: <span class="string">"@types/simple-color@1.0.0"</span>,
+  <span class="string">"_inBundle"</span>: <span class="keyword">false</span>,
+  <span class="string">"_integrity"</span>: <span class="string">"sha512-..."</span>,
+  <span class="string">"_location"</span>: <span class="string">"/@types/simple-color"</span>,
+  <span class="string">"_phantomChildren"</span>: {},
+  <span class="string">"_requested"</span>: {
+    <span class="string">"type"</span>: <span class="string">"version"</span>,
+    <span class="string">"registry"</span>: <span class="keyword">true</span>,
+    <span class="string">"raw"</span>: <span class="string">"@types/simple-color@1.0.0"</span>,
+    <span class="string">"rawSpec"</span>: <span class="string">"1.0.0"</span>,
+    <span class="string">"saveSpec"</span>: <span class="keyword">null</span>,
+    <span class="string">"fetchSpec"</span>: <span class="string">"1.0.0"</span>
+  },
+  <span class="string">"_requiredBy"</span>: [],
+  <span class="string">"_resolved"</span>: <span class="string">"https://registry.npmjs.org/@types/simple-color/-/simple-color-1.0.0.tgz"</span>,
+  <span class="string">"_shasum"</span>: <span class="string">"..."</span>,
+  <span class="string">"_spec"</span>: <span class="string">"@types/simple-color@1.0.0"</span>,
+  <span class="string">"_where"</span>: <span class="string">"/path/to/project"</span>,
+  <span class="string">"author"</span>: <span class="string">""</span>,
+  <span class="string">"bugs"</span>: { <span class="string">"url"</span>: <span class="string">""</span> },
+  <span class="string">"description"</span>: <span class="string">"TypeScript definitions for simple-color"</span>,
+  <span class="string">"homepage"</span>: <span class="string">"https://github.com/DefinitelyTyped/DefinitelyTyped"</span>,
+  <span class="string">"license"</span>: <span class="string">"MIT"</span>,
+  <span class="string">"name"</span>: <span class="string">"@types/simple-color"</span>,
+  <span class="string">"repository"</span>: {
+    <span class="string">"type"</span>: <span class="string">"git"</span>,
+    <span class="string">"url"</span>: <span class="string">"https://github.com/DefinitelyTyped/DefinitelyTyped.git"</span>
+  },
+  <span class="string">"scripts"</span>: {},
+  <span class="string">"typeScriptVersion"</span>: <span class="string">"&lt;4.9.0 || &gt;=4.9.0-dev"</span>,
+  <span class="string">"types"</span>: <span class="string">"index.d.ts"</span>,
+  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Module Augmentation</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Kadang kita ingin extend existing types dari library atau Node.js built-in modules:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Augment Express Response object</span>
+<span class="keyword">import</span> { Response } <span class="keyword">from</span> <span class="string">'express'</span>;
+
+<span class="keyword">declare module</span> <span class="string">'express'</span> {
+  <span class="keyword">export interface</span> <span class="function">Response</span> {
+    <span class="function">success</span>&lt;T&gt;(data: T): Response&lt;T&gt;;
+    <span class="function">error</span>(message: <span class="type">string</span>, statusCode?: <span class="type">number</span>): Response&lt;<span class="keyword">null</span>&gt;;
+  }
+}
+
+<span class="comment">// Implementation di app.ts</span>
+app.get(<span class="string">'/api/data'</span>, (req, res) =&gt; {
+  res.success({ message: <span class="string">'OK'</span> });  <span class="comment">// TypeScript tahu method ini ada</span>
+});
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Publishing to npm (@types scope)</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Untuk library populer, types biasanya dikontribusikan ke <strong>DefinitelyTyped</strong> repository. Proses:
+            </p>
+            <ol class="list-decimal list-inside text-gray-700 mb-6 space-y-2">
+                <li>Fork <code class="bg-gray-100 px-1 rounded">DefinitelyTyped/DefinitelyTyped</code> repository</li>
+                <li>Buat folder <code class="bg-gray-100 px-1 rounded">types/simple-color</code> dengan <code class="bg-gray-100 px-1 rounded">index.d.ts</code> dan <code class="bg-gray-100 px-1 rounded">tests</code></li>
+                <li>Add <code class="bg-gray-100 px-1 rounded">package.json</code> dengan proper metadata</li>
+                <li>Run <code class="bg-gray-100 px-1 rounded">npm run lint</code> dan <code class="bg-gray-100 px-1 rounded">npm test</code></li>
+                <li>Buat Pull Request ke DefinitelyTyped</li>
+                <li>Setelah merged, types akan otomatis publish ke <code class="bg-gray-100 px-1 rounded">@types/simple-color</code></li>
+            </ol>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Local Declaration Files</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Untuk private libraries atau quick prototypes, letakkan .d.ts files di proyek Anda:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Place in src/types/ or a separate folder</span>
+<span class="comment">// tsconfig.json "include" harus include folder ini</span>
+
+<span class="keyword">declare module</span> <span class="string">'my-private-lib'</span> {
+  <span class="keyword">export function</span> <span class="function">doThing</span>(x: <span class="type">number</span>): <span class="type">string</span>;
+  <span class="keyword">export const</span> <span class="function">VERSION</span>: <span class="type">string</span>;
+}
+
+<span class="comment">// Gunakan di code</span>
+<span class="keyword">import</span> { doThing } <span class="keyword">from</span> <span class="string">'my-private-lib'</span>;
+<span class="comment">// TypeScript akan otomatis menggunakan declaration file</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Best Practices</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">declare module 'lib-name'</code> untuk module-style libraries</li>
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">declare global</code> untuk global variables/functions</li>
+                <li>Always include JSDoc comments untuk documented APIs</li>
+                <li>Match library API exactly - jangan tambah atau ubah signatures</li>
+                <li>Write test files untuk verify types bekerja dengan library</li>
+                <li>Use <code class="bg-gray-100 px-1 rounded">export =</code> untuk CommonJS default export</li>
+                <li>Handle optional dependencies dengan <code class="bg-gray-100 px-1 rounded">declare module 'optional-lib'</code> tanpa error jika tidak ada</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Simple Ambient Declaration</h3>
+                    <p class="text-gray-700 mb-3">Buat .d.ts untuk library sederhana.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Pilih library JavaScript yang tidak memiliki types (misal: <code class="bg-gray-100 px-1 rounded">chalk</code> sudah punya, cari yang lain)</li>
+                        <li>Buat file <code class="bg-gray-100 px-1 rounded">my-lib.d.ts</code> di proyek Anda</li>
+                        <li>Define module dengan <code class="bg-gray-100 px-1 rounded">declare module 'my-lib'</code></li>
+                        <li>Tulis types untuk 3-5 functions/objects yang ada di library</li>
+                        <li>Import library di TypeScript code dan verify autocomplete bekerja</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: Global Declaration</h3>
+                    <p class="text-gray-700 mb-3">Buat declaration untuk global variable.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat file <code class="bg-gray-100 px-1 rounded">globals.d.ts</code></li>
+                        <li>Gunakan <code class="bg-gray-100 px-1 rounded">declare global { var MY_GLOBAL: string; }</code></li>
+                        <li>Pastikan TypeScript tidak error saat mengakses <code class="bg-gray-100 px-1 rounded">MY_GLOBAL</code></li>
+                        <li>Add JSDoc comment untuk dokumentasi</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Module Augmentation</h3>
+                    <p class="text-gray-700 mb-3">Extend existing library types.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Pilih library yang sudah punya types (misal: Express)</li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">express-augmentation.d.ts</code></li>
+                        <li>Gunakan <code class="bg-gray-100 px-1 rounded">declare module 'express' { interface Response { myCustomMethod(): void; } }</code></li>
+                        <li>Implement custom method di code dan verify TypeScript mengenali</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Declaration Files (.d.ts) - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 10: Integration dengan JavaScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 4</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 25%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 10</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Declaration Files (.d.ts)</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Declaration files</strong> (file dengan ekstensi <code>.d.ts</code>) adalah mekanisme TypeScript untuk memberikan informasi typing tentang kode JavaScript yang sudah ada. File ini berisi only type definitions tanpa implementation, memungkinkan TypeScript memahami library JavaScript yang tidak ditulis dalam TypeScript.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Memahami fungsi dan tujuan declaration files dalam ekosistem TypeScript</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Membuat declaration file sederhana untuk JavaScript library</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Menggunakan <code>declare</code>, <code>module</code>, dan <code>namespace</code> dalam .d.ts files</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Mengintegrasikan declaration files dengan TypeScript project configuration</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Menemukan dan menggunakan declaration files dari DefinitelyTyped</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Konsep Declaration Files
+            </h2>
+
+            <div class="prose prose-lg max-w-none text-gray-700">
+                <p class="mb-6">
+                    TypeScript adalah superset JavaScript yang menambahkan static typing. Namun, banyak library JavaScript yang ada belum memiliki type definitions. <strong>Declaration files</strong> (.d.ts) adalah solusi untuk memberikan informasi typing tentang kode JavaScript eksternal kepada TypeScript compiler tanpa mengubah kode asli.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Karakteristik Declaration Files</h3>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li><strong>Hanya berisi type information</strong> - tidak ada implementation atau executable code</li>
+                    <li><strong>Ekstensi .d.ts</strong> - TypeScript otomatis mengenali file ini sebagai declaration file</li>
+                    <li><strong>Global atau module</strong> - Dapat mendefinisikan global variables atau module exports</li>
+                    <li><strong>Ambient contexts</strong> - Menggunakan kata kunci <code>declare</code> untuk menandai definitions yang ada di runtime</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Kata Kunci <code>declare</code></h3>
+                <p class="mb-6">
+                    Kata kunci <code>declare</code> digunakan untuk menandakan bahwa variabel, function, class, atau module sudah ada di runtime (biasanya dari JavaScript library) dan hanya memberikan type information kepada TypeScript.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment">// declaration-file-example.d.ts</span>
+<span class="keyword">declare</span> <span class="type">const</span> <span class="function">myLibrary</span>: {
+    (message: <span class="type">string</span>): <span class="type">void</span>;
+    version: <span class="type">string</span>;
+    utils: {
+        format(date: <span class="type">Date</span>): <span class="type">string</span>;
+    };
+};
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Module Declarations</h3>
+                <p class="mb-6">
+                    Untuk library yang menggunakan module system (CommonJS, AMD, atau ES Modules), kita menggunakan <code>declare module</code> untuk mendefinisikan shape-nya.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment">// my-library.d.ts</span>
+<span class="keyword">declare module</span> <span class="string">'my-library'</span> {
+    <span class="keyword">export function</span> <span class="function">calculate</span>(x: <span class="type">number</span>, y: <span class="type">number</span>): <span class="type">number</span>;
+    <span class="keyword">export const</span> <span class="function">VERSION</span>: <span class="type">string</span>;
+    <span class="keyword">export default</span> <span class="type">class</span> <span class="function">Calculator</span> {
+        <span class="function">add</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span>;
+        <span class="function">subtract</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span>;
+    };
+}
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Global Declarations</h3>
+                <p class="mb-6">
+                    Beberapa library menambahkan variables ke global scope (seperti jQuery, lodash, atau utility functions). Declaration file dapat mendefinisikan global variables menggunakan <code>declare var</code>, <code>declare let</code>, atau <code>declare const</code>.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment">// jquery.d.ts</span>
+<span class="keyword">declare var</span> <span class="function">$</span>: {
+    (selector: <span class="type">string</span>): <span class="type">JQuery</span>;
+    <span class="function">ajax</span>(settings: <span class="type">AjaxSettings</span>): <span class="type">JqXHR</span>;
+};
+
+<span class="keyword">interface</span> <span class="type">JQuery</span> {
+    <span class="function">text</span>(value?: <span class="type">string</span>): <span class="type">JQuery</span>;
+    <span class="function">on</span>(event: <span class="type">string</span>, handler: <span class="type">Function</span>): <span class="type">JQuery</span>;
+}
+
+<span class="keyword">interface</span> <span class="type">AjaxSettings</span> {
+    url: <span class="type">string</span>;
+    method?: <span class="type">string</span>;
+    data?: <span class="type">any</span>;
+}
+
+<span class="keyword">interface</span> <span class="type">JqXHR</span> <span class="keyword">extends</span> <span class="type">Promise</span>&lt;<span class="type">any</span>&gt; {}
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Namespace Declarations</h3>
+                <p class="mb-6">
+                    Namespace dalam declaration files digunakan untuk mengelompokkan related types dan interfaces, mirip dengan namespace di TypeScript. Berguna untuk library yang mengorganisir API dalam namespace.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment">// d3.d.ts</span>
+<span class="keyword">declare namespace</span> <span class="function">D3</span> {
+    <span class="keyword">export interface</span> <span class="type">Selection</span>&lt;<span class="type">T</span>, <span class="type">TResult</span>, <span class="type">TThis</span>, <span class="type">TJoin</span>&gt; {
+        <span class="function">append</span>(name: <span class="type">string</span>): <span class="type">Selection</span>&lt;<span class="type">T</span>, <span class="type">TResult</span>, <span class="type">TThis</span>, <span class="type">TJoin</span>&gt;;
+        <span class="function">attr</span>(name: <span class="type">string</span>, value: <span class="type">string</span> | <span class="type">number</span>): <span class="keyword">this</span>;
+        <span class="function">data</span>(values: <span class="type">Array</span>&lt;<span class="type">T</span>&gt;): <span class="keyword">this</span>;
+    }
+
+    <span class="keyword">export function</span> <span class="function">select</span>(selector: <span class="type">string</span>): <span class="type">Selection</span>&lt;<span class="type">any</span>, <span class="type">any</span>, <span class="type">any</span>, <span class="type">any</span>&gt;;
+    <span class="keyword">export function</span> <span class="function">selectAll</span>(selector: <span class="type">string</span>): <span class="type">Selection</span>&lt;<span class="type">any</span>, <span class="type">any</span>, <span class="type">any</span>, <span class="type">any</span>&gt;;
+}
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Augmenting Existing Types</h3>
+                <p class="mb-6">
+                    Kadang kita ingin menambahkan properties atau methods ke existing types (seperti adding custom methods ke <code>String</code> prototype). Declaration files mendukung <strong>declaration merging</strong> dan <strong>module augmentation</code>.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment">// custom-string-extensions.d.ts</span>
+<span class="keyword">interface</span> <span class="type">String</span> {
+    <span class="function">capitalize</span>(): <span class="type">string</span>;
+    <span class="function">toTitleCase</span>(): <span class="type">string</span>;
+}
+
+<span class="keyword">declare module</span> <span class="string">'express'</span> {
+    <span class="keyword">export interface</span> <span class="type">Request</span> {
+        user?: <span class="type">User</span>;
+        startTime: <span class="type">Date</span>;
+    }
+}
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Triple-Slash Directives</h3>
+                <p class="mb-6">
+                    Triple-slash directives (<code>/// &lt;reference ... /&gt;</code>) digunakan untuk memberikan instruksi kepada TypeScript compiler tentang file-file lain yang harus di-include dalam compilation. Ini adalah cara lama, dan modern TypeScript lebih memilih menggunakan <code>tsconfig.json</code> <code>include</code> dan <code>files</code>.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment">/// &lt;reference path="./jquery.d.ts" /&gt;</span>
+<span class="comment">/// &lt;reference path="./d3.d.ts" /&gt;</span>
+
+<span class="comment">// Sekarang kita bisa menggunakan types dari library tersebut</span>
+<span class="keyword">const</span> element = <span class="function">$</span>(<span class="string">'#my-div'</span>);
+element.<span class="function">text</span>(<span class="string">'Hello World'</span>);
+                </div>
+            </div>
+        </section>
+
+        <!-- Practical Example -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Contoh Praktis: Declaration File untuk Library JavaScript
+            </h2>
+
+            <div class="prose prose-lg max-w-none text-gray-700">
+                <p class="mb-6">
+                    Mari kita buat declaration file untuk hypothetical JavaScript library <code>chart-library</code> yang belum memiliki TypeScript support.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4"> Struktur Library</h3>
+                <p class="mb-4">Library ini memiliki:</p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li>Global function <code>createChart</code></li>
+                    <li>Module exports untuk <code>Chart</code> class, tipe <code>ChartOptions</code>, dan <code>ChartData</code></li>
+                    <li>Event system dengan event names dan callback signatures</li>
+                </ul>
+
+                <div class="code-block mb-6">
+<span class="comment">// chart-library.d.ts</span>
+
+<span class="comment">// 1. Global function untuk browser environment</span>
+<span class="keyword">declare function</span> <span class="function">createChart</span>(container: <span class="type">HTMLElement</span>, options: <span class="type">ChartOptions</span>): <span class="type">Chart</span>;
+
+<span class="comment">// 2. Type definitions</span>
+<span class="keyword">export interface</span> <span class="type">ChartOptions</span> {
+    type: <span class="string">'bar'</span> | <span class="string">'line'</span> | <span class="string">'pie'</span>;
+    title?: <span class="type">string</span>;
+    width?: <span class="type">number</span>;
+    height?: <span class="type">number</span>;
+    responsive?: <span class="type">boolean</span>;
+    theme?: <span class="string">'light'</span> | <span class="string">'dark'</span>;
+}
+
+<span class="keyword">export interface</span> <span class="type">ChartData</span> {
+    labels: <span class="type">string</span>[];
+    datasets: <span class="type">Dataset</span>[];
+}
+
+<span class="keyword">export interface</span> <span class="type">Dataset</span> {
+    label: <span class="type">string</span>;
+    data: <span class="type">number</span>[];
+    backgroundColor?: <span class="type">string</span> | <span class="type">string</span>[];
+    borderColor?: <span class="type">string</span>;
+}
+
+<span class="comment">// 3. Class definition</span>
+<span class="keyword">export default class</span> <span class="type">Chart</span> {
+    <span class="keyword">constructor</span>(container: <span class="type">HTMLElement</span>, options: <span class="type">ChartOptions</span>);
+    
+    <span class="function">update</span>(data: <span class="type">ChartData</span>): <span class="type">void</span>;
+    <span class="function">destroy</span>(): <span class="type">void</span>;
+    <span class="function">resize</span>(width: <span class="type">number</span>, height: <span class="type">number</span>): <span class="type">void</span>;
+    
+    <span class="function">on</span>(event: <span class="type">ChartEvent</span>, callback: <span class="type">EventListener</span>): <span class="keyword">this</span>;
+    <span class="function">off</span>(event: <span class="type">ChartEvent</span>, callback?: <span class="type">EventListener</span>): <span class="keyword">this</span>;
+}
+
+<span class="keyword">export type</span> <span class="type">ChartEvent</span> = 
+    | <span class="string">'click'</span> 
+    | <span class="string">'hover'</span> 
+    | <span class="string">'legendClick'</span>
+    | <span class="string">'dataPointClick'</span>;
+
+<span class="keyword">export interface</span> <span class="type">EventListener</span> {
+    (event: <span class="type">ChartEvent</span>, data?: <span class="type">any</span>): <span class="type">void</span>;
+}
+
+<span class="comment">// 4. Module declaration untuk import syntax</span>
+<span class="keyword">declare module</span> <span class="string">'chart-library'</span> {
+    <span class="keyword">export default</span> <span class="type">Chart</span>;
+    <span class="keyword">export</span> { <span class="function">createChart</span>, <span class="type">ChartOptions</span>, <span class="type">ChartData</span>, <span class="type">Dataset</span>, <span class="type">ChartEvent</span> };
+}
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Penggunaan di TypeScript Project</h3>
+                <p class="mb-6">
+                    Setelah declaration file dibuat, letakkan di direktori project (biasanya di <code>types/</code> atau <code>@types/</code> folder) dan TypeScript akan otomatis menggunakan type definitions tersebut.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment">// tsconfig.json</span>
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"typeRoots"</span>: [<span class="string">"./node_modules/@types"</span>, <span class="string">"./types"</span>],
+    <span class="string">"types"</span>: [] <span class="comment">// empty array means include all @types</span>
+  }
+}
+                </div>
+
+                <div class="code-block mb-6">
+<span class="comment">// app.ts</span>
+<span class="keyword">import</span> Chart <span class="keyword">from</span> <span class="string">'chart-library'</span>;
+<span class="keyword">import</span> { createChart, ChartOptions } <span class="keyword">from</span> <span class="string">'chart-library'</span>;
+
+<span class="keyword">const</span> container = document.<span class="function">getElementById</span>(<span class="string">'chart'</span>) <span class="keyword">as</span> <span class="type">HTMLElement</span>;
+
+<span class="keyword">const options</span>: <span class="type">ChartOptions</span> = {
+    type: <span class="string">'bar'</span>,
+    title: <span class="string">'Sales Data'</span>,
+    responsive: <span class="keyword">true</span>
+};
+
+<span class="keyword">const</span> chart = <span class="keyword">new</span> <span class="function">Chart</span>(container, options);
+chart.<span class="function">update</span>({
+    labels: [<span class="string">'Jan'</span>, <span class="string">'Feb'</span>, <span class="string">'Mar'</span>],
+    datasets: [{
+        label: <span class="string">'Revenue'</span>,
+        data: [1000, 2000, 1500]
+    }]
+});
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                Latihan & Exercises
+            </h2>
+
+            <div class="prose prose-lg max-w-none text-gray-700">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Exercise 1: Simple Utility Library</h3>
+                <p class="mb-4">
+                    Buat declaration file untuk utility library <code>utils-lib</code> yang memiliki following functions:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li><code>formatDate(date: Date, format: string): string</code></li>
+                    <li><code>deepClone&lt;T&gt;(obj: T): T</code></li>
+                    <li><code>debounce&lt;T extends (...args: any[]) =&gt; any&gt;(func: T, wait: number): T</code></li>
+                    <li><code> throttle&lt;T extends (...args: any[]) =&gt; any&gt;(func: T, limit: number): T</code></li>
+                </ul>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Exercise 2: DOM Manipulation Library</h3>
+                <p class="mb-4">
+                    TypeScript tidak tahu tentang DOM API secara default di Node.js environment. Buat declaration file yang menambahkan types untuk:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li><code>document.getElementById(id: string): HTMLElement | null</code></li>
+                    <li><code>document.querySelector(selector: string): Element | null</code></li>
+                    <li><code>Element.addEventListener(event: string, handler: Function): void</code></li>
+                </ul>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Exercise 3: Third-Party Integration</h3>
+                <p class="mb-6">
+                    Ambil library JavaScript dari npm yang belum memiliki TypeScript types (misal: <code>moment</code>, <code>lodash</code> tanpa types). Cari declaration file-nya di DefinitelyTyped atau buat sendiri minimal types untuk 5 functions yang sering digunakan.
+                </p>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                    <p class="text-sm text-yellow-800">
+                        <strong>Tips:</strong> Cek repository <code>@types</code> di GitHub (DefinitelyTyped/DefinitelyTyped) untuk melihat contoh declaration file yang baik dan lengkap.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Integration -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                Quiz - Declaration Files
+            </h2>
+
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Loading quiz questions...</p>
+            </div>
+        </section>
+
+        <!-- Lesson Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" disabled>
+                ← Previous Lesson
+            </button>
+            <span class="text-gray-600 text-sm">Lesson 1 of 4</span>
+            <button class="nav-btn primary" onclick="alert('Next lesson would load here')">
+                Next Lesson →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        // Quiz questions for this lesson
+        const quizData = [
+            {
+                id: 1,
+                question: "Apa tujuan utama declaration files (.d.ts) dalam TypeScript?",
+                options: [
+                    "Untuk mengkompilasi TypeScript ke JavaScript",
+                    "Untuk memberikan type information tentang JavaScript library yang tidak memiliki TypeScript support",
+                    "Untuk mengganti JavaScript library dengan implementasi TypeScript",
+                    "Untuk men-debug TypeScript code"
+                ],
+                correct: 1,
+                explanation: "Declaration files memberikan type definitions kepada TypeScript compiler tanpa mengubah kode JavaScript asli, memungkinkan type checking untuk library eksternal."
+            },
+            {
+                id: 2,
+                question: "Kata kunci apa yang digunakan untuk mendeklarasikan types yang hanya ada di runtime?",
+                options: ["module", "declare", "namespace", "interface"],
+                correct: 1,
+                explanation: "Kata kunci 'declare' menandakan bahwa variable, function, atau class sudah ada di runtime dan hanya memberikan type information."
+            },
+            {
+                id: 3,
+                question: "Bagaimana cara mendefinisikan module untuk library yang menggunakan CommonJS?",
+                options: [
+                    "declare module 'library-name' { ... }",
+                    "module 'library-name' { ... }",
+                    "export module 'library-name' { ... }",
+                    "import module 'library-name'"
+                ],
+                correct: 0,
+                explanation: "Gunakan 'declare module \"library-name\"' untuk memberikan type definitions untuk module tersebut."
+            },
+            {
+                id: 4,
+                question: "Apa yang dimaksud dengan 'ambient context' dalam declaration files?",
+                options: [
+                    "Context yang hanya berlaku di dalam file",
+                    "Context yang menjelaskan bahwa types merepresentasikan sesuatu yang sudah ada di runtime",
+                    "Context untuk module ES6",
+                    "Context untuk global variables saja"
+                ],
+                correct: 1,
+                explanation: "Ambient context menggunakan 'declare' untuk menandakan bahwa definitions merepresentasikan kode yang sudah ada di runtime (biasanya JavaScript)."
+            },
+            {
+                id: 5,
+                question: "Di mana Typically declaration files ditempatkan dalam TypeScript project?",
+                options: [
+                    "Hanya di root project",
+                    "Di folder 'types/' atau '@types/'",
+                    "Di folder 'src/' saja",
+                    "Tidak ada lokasi khusus"
+                ],
+                correct: 1,
+                explanation: "Typically diletakkan di 'types/' folder atau 'node_modules/@types/' untuk library dari DefinitelyTyped."
+            }
+        ];
+
+        // Render quiz
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizData.map((q, idx) => `
+                <div class="quiz-item" data-id="${q.id}">
+                    <h3 class="font-semibold text-gray-900 mb-3">${idx + 1}. ${q.question}</h3>
+                    <div class="space-y-2">
+                        ${q.options.map((opt, optIdx) => `
+                            <div class="quiz-option" data-correct="${q.correct === optIdx ? 'true' : 'false'}" data-question="${q.id}" data-option="${optIdx}">
+                                <span class="font-medium mr-2">${String.fromCharCode(65 + optIdx)}.</span>
+                                <span>${opt}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="mt-3 p-3 rounded-lg hidden explanation-box" id="explanation-${q.id}">
+                        <p class="text-sm"><strong>Explanation:</strong> ${q.explanation}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add event listeners
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionId = this.getAttribute('data-question');
+                    const optionIdx = parseInt(this.getAttribute('data-option'));
+                    const isCorrect = this.getAttribute('data-correct') === 'true';
+                    
+                    // Disable all options for this question
+                    document.querySelectorAll(`[data-question="${questionId}"] .quiz-option`).forEach(opt => {
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    // Mark selected
+                    this.classList.add('selected');
+                    if (isCorrect) {
+                        this.classList.add('correct');
+                    } else {
+                        this.classList.add('incorrect');
+                        // Highlight correct answer
+                        document.querySelector(`[data-question="${questionId}"][data-correct="true"]`).classList.add('correct');
+                    }
+                    
+                    // Show explanation
+                    document.getElementById(`explanation-${questionId}`).classList.remove('hidden');
+                });
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuiz();
+        });
+    </script>
+</body>
+</html>

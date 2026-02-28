@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5: Abstract Classes - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 6: Classes TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 5 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 83.33%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 6</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 5</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Abstract Classes dan Methods</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Abstract classes</strong> adalah class yang tidak bisa di-instansiasi langsung dan mungkin berisi <strong>abstract methods</strong> (methods tanpa implementation) yang harus diimplementasikan oleh subclass. Abstract classes digunakan sebagai blueprint untuk class lain, memastikan struktur dan kontrak yang konsisten dalam inheritance hierarchy.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami konsep abstract classes</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mendeklarasi abstract class dengan keyword <code class="bg-gray-100 px-2 py-1 rounded font-mono">abstract</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Membuat abstract methods tanpa implementation</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mengimplementasikan abstract methods di subclass</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami kapan menggunakan abstract classes vs interfaces</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Abstract Classes Fundamentals</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Abstract class adalah class yang dirancang hanya untuk di-extend, tidak untuk di-instansiasi. Abstract class bisa berisi:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Concrete methods (dengan implementation)</li>
+                <li>Abstract methods (tanpa implementation, harus di-override)</li>
+                <li>Properties (concrete atau abstract)</li>
+                <li>Constructor (untuk subclass <code class="bg-gray-100 px-2 py-1 rounded font-mono">super()</code>)</li>
+            </ul>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Mendeklarasi Abstract Class</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Gunakan keyword <code class="bg-gray-100 px-2 py-1 rounded font-mono">abstract</code> sebelum <code class="bg-gray-100 px-2 py-1 rounded font-mono">class</code>.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="type">Animal</span> {
+    <span class="keyword">abstract</span> makeSound(): <span class="type">void</span>; <span class="comment">// Abstract method - no body</span>
+
+    <span class="keyword">constructor</span>(<span class="keyword">protected</span> name: <span class="type">string</span>) {}
+
+    <span class="comment">// Concrete method - with implementation</span>
+    move(): <span class="type">void</span> {
+        console.log(<span class="string">`\${this.name} is moving`</span>);
+    }
+}
+
+<span class="comment">// Error: Cannot create an instance of an abstract class.</span>
+<span class="comment">// const animal = new Animal("Generic");</span>
+
+<span class="keyword">class</span> <span class="type">Dog</span> <span class="keyword">extends</span> <span class="type">Animal</span> {
+    <span class="keyword">constructor</span>(name: <span class="type">string</span>) {
+        <span class="keyword">super</span>(name);
+    }
+
+    <span class="comment">// Must implement abstract method</span>
+    makeSound(): <span class="type">void</span> {
+        console.log(<span class="string">"Woof!"</span>);
+    }
+}
+
+<span class="keyword">const</span> dog = <span class="keyword">new</span> <span class="type">Dog</span>(<span class="string">"Buddy"</span>);
+dog.move();      <span class="comment">// Inherited concrete method</span>
+dog.makeSound(); <span class="comment">// Implemented abstract method</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Abstract Methods</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Abstract methods dideklarasikan tanpa body (hanya signature). Subclass <strong>wajib</strong> mengimplementasikan semua abstract methods dari parent abstract class.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="type">Shape</span> {
+    <span class="keyword">abstract</span> area(): <span class="type">number</span>; <span class="comment">// No implementation</span>
+    <span class="keyword">abstract</span> perimeter(): <span class="type">number</span>;
+
+    <span class="comment">// Concrete method (optional)</span>
+    description(): <span class="type">string</span> {
+        <span class="keyword">return</span> <span class="string">`Area: \${this.area()}, Perimeter: \${this.perimeter()}`</span>;
+    }
+}
+
+<span class="keyword">class</span> <span class="type">Rectangle</span> <span class="keyword">extends</span> <span class="type">Shape</span> {
+    <span class="keyword">constructor</span>(
+        <span class="keyword">public</span> width: <span class="type">number</span>,
+        <span class="keyword">public</span> height: <span class="type">number</span>
+    ) {
+        <span class="keyword">super</span>();
+    }
+
+    <span class="comment">// Implement both abstract methods</span>
+    area(): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.width * <span class="keyword">this</span>.height;
+    }
+
+    perimeter(): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="type">2</span> * (<span class="keyword">this</span>.width + <span class="keyword">this</span>.height);
+    }
+}
+
+<span class="keyword">const</span> rect = <span class="keyword">new</span> <span class="type">Rectangle</span>(<span class="type">10</span>, <span class="type">5</span>);
+console.log(rect.description()); <span class="comment">// "Area: 50, Perimeter: 30"</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Abstract Properties</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Abstract properties dideklarasikan tanpa initialization. Subclass harus mendeklarasikan dan menginisialisasi property tersebut.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="type">Database</span> {
+    <span class="keyword">abstract</span> connectionString: <span class="type">string</span>; <span class="comment">// Abstract property</span>
+
+    <span class="keyword">abstract</span> connect(): <span class="type">boolean</span>;
+
+    query(sql: <span class="type">string</span>): <span class="type">any</span> {
+        <span class="keyword">if</span> (!<span class="keyword">this</span>.connect()) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(<span class="string">"Not connected"</span>);
+        }
+        <span class="keyword">return</span> { rows: [] };
+    }
+}
+
+<span class="keyword">class</span> <span class="type">PostgresDB</span> <span class="keyword">extends</span> <span class="type">Database</span> {
+    <span class="comment">// Must implement abstract property</span>
+    connectionString = <span class="string">"postgresql://localhost/db"</span>;
+
+    connect(): <span class="type">boolean</span> {
+        console.log(<span class="string">`Connecting to \${this.connectionString}`</span>);
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Abstract vs Interface</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Abstract classes dan interfaces mirip, tapi ada perbedaan penting:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li><strong>Abstract class</strong>: Bisa memiliki concrete methods, constructor, fields. Hanya bisa extends satu class.</li>
+                <li><strong>Interface</strong>: Hanya deklarasi (no implementation), bisa di-implements oleh banyak class, multiple interfaces.</li>
+                <li>Gunakan abstract class saat ingin share code (reusable methods) atau membutuhkan constructor.</li>
+                <li>Gunakan interface untuk defining contracts tanpa implementation, atau multiple inheritance.</li>
+            </ul>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Abstract class - with shared implementation</span>
+<span class="keyword">abstract</span> <span class="keyword">class</span> <span class="type">Logger</span> {
+    <span class="keyword">abstract</span> log(message: <span class="type">string</span>): <span class="type">void</span>;
+
+    <span class="comment">// Shared helper method</span>
+    <span class="keyword">protected</span> format(timestamp: <span class="type">Date</span>, message: <span class="type">string</span>): <span class="type">string</span> {
+        <span class="keyword">return</span> <span class="string">`[\${timestamp.toISOString()}] \${message}`</span>;
+    }
+}
+
+<span class="comment">// Interface - pure contract</span>
+<span class="keyword">interface</span> <span class="type">ILogger</span> {
+    log(message: <span class="type">string</span>): <span class="type">void</span>;
+}
+
+<span class="keyword">class</span> <span class="type">ConsoleLogger</span> <span class="keyword">extends</span> <span class="type">Logger</span> {
+    log(message: <span class="type">string</span>): <span class="type">void</span> {
+        console.log(<span class="keyword">this</span>.format(<span class="keyword">new</span> <span class="type">Date</span>(), message));
+    }
+}
+
+<span class="keyword">class</span> <span class="type">FileLogger</span> <span class="keyword">implements</span> <span class="type">ILogger</span> {
+    log(message: <span class="type">string</span>): <span class="type">void</span> {
+        <span class="comment">// Write to file...</span>
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Abstract Classes dengan Generic</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Abstract classes bisa menggunakan generic parameters untuk membuat reusable abstraksi.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="type">Repository</span>&lt;<span class="type">T</span>&gt; {
+    <span class="keyword">abstract</span> entityName: <span class="type">string</span>;
+
+    <span class="keyword">abstract</span> findById(id: <span class="type">number</span>): <span class="type">T</span> | <span class="keyword">null</span>;
+
+    <span class="keyword">abstract</span> save(entity: <span class="type">T</span>): <span class="type">void</span>;
+
+    <span class="comment">// Shared concrete method</span>
+    <span class="keyword">protected</span> log(message: <span class="type">string</span>): <span class="type">void</span> {
+        console.log(<span class="string">`[\${this.entityName}] \${message}`</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="type">User</span> {
+    id = <span class="type">0</span>;
+    name = <span class="string">""</span>;
+}
+
+<span class="keyword">class</span> <span class="type">UserRepository</span> <span class="keyword">extends</span> <span class="type">Repository</span>&lt;<span class="type">User</span>&gt; {
+    entityName = <span class="string">"User"</span>;
+
+    findById(id: <span class="type">number</span>): <span class="type">User</span> | <span class="keyword">null</span> {
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">User</span>();
+    }
+
+    save(entity: <span class="type">User</span>): <span class="type">void</span> {
+        <span class="keyword">this</span>.log(<span class="string">`Saving user \${entity.name}`</span>);
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Important Rules</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Abstract classes tidak bisa di-instansiasi langsung (<code class="bg-gray-100 px-2 py-1 rounded font-mono">new AbstractClass()</code> akan error).</li>
+                <li>Subclass dari abstract class harus mengimplementasikan semua abstract methods.</li>
+                <li>Abstract methods tidak bisa memiliki <code class="bg-gray-100 px-2 py-1 rounded font-mono">private</code> modifier (karena subclass perlu mengaksesnya).</li>
+                <li>Abstract class bisa memiliki constructor, yang akan dipanggil oleh subclass via <code class="bg-gray-100 px-2 py-1 rounded font-mono">super()</code>.</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+            
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">1. Shape Hierarchy</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat abstract class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Shape</code> dengan abstract methods <code class="bg-gray-100 px-2 py-1 rounded font-mono">area(): number</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">perimeter(): number</code>. Buat concrete classes <code class="bg-gray-100 px-2 py-1 rounded font-mono">Circle</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Square</code> yang extends <code class="bg-gray-100 px-2 py-1 rounded font-mono">Shape</code> dan mengimplementasikan kedua methods tersebut.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">2. Payment Processor</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat abstract class <code class="bg-gray-100 px-2 py-1 rounded font-mono">PaymentMethod</code> dengan abstract method <code class="bg-gray-100 px-2 py-1 rounded font-mono">process(amount: number): boolean</code> dan concrete method <code class="bg-gray-100 px-2 py-1 rounded font-mono">validate(): boolean</code> (return true/false based on some logic). Buat subclass <code class="bg-gray-100 px-2 py-1 rounded font-mono">CreditCard</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">PayPal</code> yang implement <code class="bg-gray-100 px-2 py-1 rounded font-mono">process()</code>.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">3. Template Method Pattern</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat abstract class <code class="bg-gray-100 px-2 py-1 rounded font-mono">ReportGenerator</code> dengan template method <code class="bg-gray-100 px-2 py-1 rounded font-mono">generate(): string</code> (concrete) yang memanggil abstract steps: <code class="bg-gray-100 px-2 py-1 rounded font-mono">fetchData(): any[]</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">format(data: any[]): string</code>, dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">header(): string</code>. Buat subclass <code class="bg-gray-100 px-2 py-1 rounded font-mono">JsonReport</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">HtmlReport</code> yang mengimplementasikan steps berbeda.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat setelah semua lesson selesai')">
+                Quiz Module →
+            </button>
+        </nav>
+    </main>
+
+    <script src="/typescript-curriculum/app.js"></script>
+</body>
+</html>

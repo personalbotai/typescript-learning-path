@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 8: Type any dan unknown - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 2: Tipe Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 2 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 33.33%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 2</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 2</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Type any dan unknown</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript memiliki dua tipe khusus yang mirip namun berbeda secara signifikan: <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code>. Keduanya digunakan untuk menangani nilai dengan tipe yang tidak diketahui, tetapi <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code> jauh lebih aman secara type-safe. Memahami perbedaannya penting untuk menulis kode TypeScript yang aman.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Pemula-Intermediate</span>
+                <span>✅ prerequisites: Tipe Primitif</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami perbedaan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mengetahui kapan menggunakan masing-masing tipe</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan type guards untuk <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menghindari pitfalls dari <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code></span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Materi</h2>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">1. Tipe any - "Type Escape"</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code> adalah tipe yang menonaktifkan type checking sepenuhnya. Variabel dengan tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code> dapat diassign dengan nilai apa saja, dan Anda dapat melakukan operasi apa pun padanya tanpa error. Ini seperti "mematikan" TypeScript untuk variabel tersebut.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// any: type checking dimatikan</span>
+<span class="keyword">let</span> <span class="type">value</span>: <span class="type">any</span> = <span class="string">"teks"</span>;
+value = 123; <span class="comment">// OK</span>
+value = <span class="keyword">true</span>; <span class="comment">// OK</span>
+value.<span class="function">toFixed</span>(2); <span class="comment">// OK (tidak error meski value sekarang boolean)</span>
+
+<span class="comment">// any dari external sources (misal: API response)</span>
+<span class="keyword">const</span> <span class="type">response</span>: <span class="type">any</span> = <span class="function">fetch</span>(<span class="string">'/api/data'</span>);
+console.<span class="function">log</span>(response.data.id); <span class="comment">// Tidak ada error, tapi berisiko runtime error</span>
+
+<span class="comment">// any dalam array</span>
+<span class="keyword">let</span> <span class="type">mixedArray</span>: <span class="type">any</span>[] = [<span class="string">"string"</span>, 123, <span class="keyword">true</span>, { id: 1 }];</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">2. Tipe unknown - "Type-Safe Any"</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code> juga bisa menampung nilai apa saja, tetapi lebih aman karena Anda tidak dapat melakukan operasi pada <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code> tanpa melakukan type assertion atau type checking terlebih dahulu. Ini memaksa Anda untuk memastikan tipe sebelum menggunakan nilai.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// unknown: aman, perlu type checking sebelum use</span>
+<span class="keyword">let</span> <span class="type">data</span>: <span class="type">unknown</span> = <span class="string">"hello"</span>;
+data = 42;
+data = { name: <span class="string">"Budi"</span> };
+
+<span class="comment">// ERROR: Tidak bisa langsung akses properti atau method</span>
+<span class="comment">// console.log(data.length); // Error: 'data' is of type 'unknown'</span>
+
+<span class="comment">// Harus menggunakan type guards atau assertions</span>
+<span class="keyword">if</span> (<span class="keyword">typeof</span> data === <span class="string">"string"</span>) {
+    <span class="comment">// TypeScript tahu data adalah string di dalam block ini</span>
+    console.<span class="function">log</span>(data.<span class="function">toUpperCase</span>());
+}
+
+<span class="keyword">if</span> (<span class="keyword">typeof</span> data === <span class="string">"number"</span>) {
+    console.<span class="function">log</span>(data.<span class="function">toFixed</span>(2));
+}
+
+<span class="comment">// Type assertion (gunakan dengan hati-hati)</span>
+<span class="keyword">const</span> <span class="type">strData</span> = data <span class="keyword">as</span> <span class="type">string</span>;
+console.<span class="function">log</span>(strData.<span class="function">length</span>); <span class="comment">// Bisa杭 error di runtime jika data bukan string!</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">3. Perbandingan any vs unknown</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Perbedaan utama terletak pada <strong>type safety</strong>. <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code> mengabaikan type checking sepenuhnya, sementara <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code> memerlukan pemeriksaan tipe sebelum operasi. Gunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code> untuk data eksternal yang tipe tidak pasti, dan hindari <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code> kecuali benar-benar diperlukan.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Assignment: any bisa assignment ke tipe lain</span>
+<span class="keyword">let</span> <span class="type">anyVal</span>: <span class="type">any</span> = <span class="string">"test"</span>;
+<span class="keyword">let</span> <span class="type">str1</span>: <span class="type">string</span> = anyVal; <span class="comment">// OK (any → string)</span>
+
+<span class="comment">// unknown: harus melalui type checking atau assertion</span>
+<span class="keyword">let</span> <span class="type">unknownVal</span>: <span class="type">unknown</span> = <span class="string">"test"</span>;
+<span class="comment">// let str2: string = unknownVal; // Error: 'unknown' is not assignable to 'string'</span>
+
+<span class="comment">// Harus explicit assertion atau check</span>
+<span class="keyword">let</span> <span class="type">str2</span>: <span class="type">string</span> = unknownVal <span class="keyword">as</span> <span class="type">string</span>; <span class="comment">// assertion</span>
+<span class="keyword">if</span> (<span class="keyword">typeof</span> unknownVal === <span class="string">"string"</span>) {
+    <span class="keyword">let</span> <span class="type">str3</span>: <span class="type">string</span> = unknownVal; <span class="comment">// OK setelah check</span>
+}
+
+<span class="comment">// unknown lebih aman: mencegah kesalahan type secara otomatis</span>
+<span class="comment">// any membuka kemungkinan runtime error tanpa peringatan</span></code></pre>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-400 p-6 mb-6">
+                <h4 class="font-semibold text-red-800 mb-2">⚠️ Hindari any sepanjang mungkin</h4>
+                <p class="text-red-800 mb-3">Tipe <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">any</code> adalah <strong>"type escape hatch"</strong> yang membatalkan keuntungan utama TypeScript: type safety. Gunakan hanya dalam kondisi khusus:</p>
+                <ul class="list-disc list-inside space-y-2 text-red-800 text-sm">
+                    <li>Migrasi dari JavaScript ke TypeScript secara bertahap</li>
+                    <li>Data dari eksternal API yang benar-benar tidak memiliki type definition</li>
+                    <li>Library lama tanpa type definitions (use <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">// @ts-ignore</code> sebagai alternative)</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">4. Kapan Menggunakan unknown?</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Gunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code> ketika Anda memiliki nilai yang tipe tidak dapat dipastikan pada waktu compile, tetapi Anda ingin memaksa type checking sebelum digunakan. Ini adalah pendekatan yang lebih aman daripada <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">any</code>.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Contoh: parsing JSON dari API</span>
+<span class="keyword">function</span> <span class="function">parseJSON</span>(<span class="type">jsonString</span>: <span class="type">string</span>): <span class="type">unknown</span> {
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(jsonString);
+}
+
+<span class="keyword">const</span> <span class="type">result</span> = <span class="function">parseJSON</span>(<span class="string">'{"name":"Budi","age":25}'</span>);
+
+<span class="comment">// Harus check tipe sebelum menggunakan</span>
+<span class="keyword">if</span> (<span class="keyword">typeof</span> result === <span class="string">"object"</span> && result !== <span class="keyword">null</span>) {
+    <span class="comment">// Type assertion ke specific type</span>
+    <span class="keyword">const</span> <span class="type">user</span> = result <span class="keyword">as</span> { name: <span class="type">string</span>; age: <span class="type">number</span> };
+    console.<span class="function">log</span>(user.name, user.age);
+}
+
+<span class="comment">// unknown dengan generic functions</span>
+<span class="keyword">function</span> <span class="function">processValue</span>&lt;<span class="type">T</span>&gt;(<span class="type">value</span>: <span class="type">unknown</span>): <span class="type">T</span> {
+    <span class="keyword">return</span> value <span class="keyword">as</span> <span class="type">T</span>;
+}
+
+<span class="keyword">const</span> <span class="type">num</span> = <span class="function">processValue</span>&lt;<span class="type">number</span>&gt;(<span class="string">"123"</span>); <span class="comment">// assertion manual</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">5. Best Practices</h3>
+            <ul class="space-y-3 text-gray-700 mb-6">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">•</span>
+                    <span><strong>Hindari any</strong> - gunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code> atau tipe spesifik</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">•</span>
+                    <span><strong>Type guards</strong> - selalu cek tipe sebelum menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">•</span>
+                    <span><strong>Limitasi any</strong> - jika harus pakai any, batasi scope dengan function/local variable</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">•</span>
+                    <span><strong>Strict mode</strong> - aktifkan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">"strict": true</code> di tsconfig untuk mencegah implicit any</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💪 Latihan Praktek</h2>
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 1: Safe Data Processor</h3>
+                    <p class="text-gray-700 mb-3">Buat fungsi yang menerima input <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code> dan mengembalikan string berdasarkan tipe sebenarnya.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Fungsi: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">describeValue(value: unknown): string</code></p>
+                        <p class="text-sm text-gray-600">Jika string: return "String: [nilai]". Jika number: "Number: [nilai]". Jika boolean: "Boolean: [nilai]". Jika object: "Object dengan [key] properti". Jika lainnya: "Tipe: [typeof]"</p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 2: API Response Handler</h3>
+                    <p class="text-gray-700 mb-3">Buat fungsi yang menangani response API dengan tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">unknown</code> dan melakukan type narrowing.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Fungsi: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">extractUserData(response: unknown): {id: number, name: string} | null</code></p>
+                        <p class="text-sm text-gray-600">Cek apakah response adalah object dengan properti id (number) dan name (string). Return null jika tidak valid.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Preview -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📝 Quiz</h2>
+            <p class="text-gray-600 mb-4">Test pemahaman Anda tentang perbedaan any dan unknown, serta cara menggunakan type guards.</p>
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+                <span>📌 Module 2 Quiz</span>
+                <span>•</span>
+                <span>10 questions</span>
+                <span>•</span>
+                <span>Passing score: 70%</span>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <button class="nav-btn primary" onclick="alert('Previous lesson: tipe-primitif.html')">
+                ← Previous Lesson
+            </button>
+            <button class="nav-btn primary" onclick="alert('Next lesson: array-dan-tuple.html')">
+                Next Lesson →
+            </button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

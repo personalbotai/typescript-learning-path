@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4: TypeScript Compiler (tsc) - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 1: Dasar-Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 4 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 66.67%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 1</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 4</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">TypeScript Compiler (tsc)</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <code>tsc</code> (TypeScript Compiler) adalah heart dari TypeScript ecosystem. Compiler ini mengubah kode TypeScript (.ts) menjadi JavaScript (.js) yang dapat dijalankan di browser atau Node.js. Memahami cara kerja dan opsi-opsi <code>tsc</code> sangat penting untuk mengoptimalkan workflow development.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Pemula</span>
+                <span>📝 prerequisites: TypeScript terinstall</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white px-3 py-1 rounded text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami peran dan alur kerja TypeScript compiler (tsc)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan perintah dasar tsc: kompilasi single file dan watch mode</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mengenal compiler options utama yang sering digunakan</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mengkonfigurasi TypeScript melalui tsconfig.json</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami Type Erasure dan output JavaScript yang dihasilkan</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Basic Usage -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Cara Penggunaan Dasar</h2>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Kompilasi File Tunggal</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Cara paling sederhana: jalankan <code>tsc</code> diikuti nama file TypeScript Anda.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment"># File: hello.ts</span>
+<span class="function">tsc</span> hello.ts
+
+<span class="comment"># Akan menghasilkan hello.js di direktori yang sama</span></code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Contoh isi <code>hello.ts</code>:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">let</span> message: <span class="type">string</span> = <span class="string">"Hello, TypeScript!"</span>;
+<span class="function">console</span>.<span class="function">log</span>(message);</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Output <code>hello.js</code> (TypeScript type annotations di-<strong>erase</strong>):
+            </p>
+
+            <div class="code-block">
+                <pre><code><span class="keyword">var</span> message = <span class="string">"Hello, TypeScript!"</span>;
+<span class="function">console</span>.<span class="function">log</span>(message);</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4 mt-8">Watch Mode</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Saat development, gunakan <code>--watch</code> agar <code>tsc</code> otomatis recompile ketika file berubah:
+            </p>
+
+            <div class="code-block">
+                <pre><code><span class="function">tsc</span> --watch hello.ts</code></pre>
+            </div>
+        </section>
+
+        <!-- Compiler Options -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Compiler Options Penting</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code>tsc</code> mendukung banyak opsi. Berikut adalah yang paling sering digunakan:
+            </p>
+
+            <div class="overflow-x-auto mb-6">
+                <table class="min-w-full bg-gray-50 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-sm font-bold text-gray-900">Opsi</th>
+                            <th class="px-6 py-3 text-left text-sm font-bold text-gray-900">Deskripsi</th>
+                            <th class="px-6 py-3 text-left text-sm font-bold text-gray-900">Contoh</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-sm text-primary"><code>--target</code></td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Target ECMAScript version (ES5, ES6/ES2015, ES2020, dll)</td>
+                            <td class="px-6 py-4 font-mono text-sm text-gray-600"><code>tsc --target ES2020</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-sm text-primary"><code>--module</code></td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Module system (CommonJS, ES6, AMD, System, dll)</td>
+                            <td class="px-6 py-4 font-mono text-sm text-gray-600"><code>tsc --module commonjs</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-sm text-primary"><code>--outDir</code></td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Output directory untuk file .js yang dihasilkan</td>
+                            <td class="px-6 py-4 font-mono text-sm text-gray-600"><code>tsc --outDir ./dist</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-sm text-primary"><code>--rootDir</code></td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Root directory untuk input file .ts</td>
+                            <td class="px-6 py-4 font-mono text-sm text-gray-600"><code>tsc --rootDir ./src</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-sm text-primary"><code>--strict</code></td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Enable所有 strict type-checking options</td>
+                            <td class="px-6 py-4 font-mono text-sm text-gray-600"><code>tsc --strict</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-sm text-primary"><code>--noEmit</code></td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Hanya cek error, tidak generate file .js</td>
+                            <td class="px-6 py-4 font-mono text-sm text-gray-600"><code>tsc --noEmit</code></td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-mono text-sm text-primary"><code>--sourceMap</code></td>
+                            <td class="px-6 py-4 text-sm text-gray-700">Generate source map untuk debugging</td>
+                            <td class="px-6 py-4 font-mono text-sm text-gray-600"><code>tsc --sourceMap</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Multiple Options</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Anda bisa menggabungkan beberapa opsi sekaligus:
+            </p>
+
+            <div class="code-block">
+                <pre><code><span class="function">tsc</span> --target ES2020 --module commonjs --outDir ./dist --strict --sourceMap</code></pre>
+            </div>
+        </section>
+
+        <!-- tsconfig.json -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Konfigurasi dengan tsconfig.json</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Untuk menghindari mengetik opsi-opsi berulang, buat file <code>tsconfig.json</code> di root project. File ini berisi konfigurasi compiler yang akan digunakan secara otomatis ketika <code>tsc</code> dijalankan tanpa argumen.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Contoh tsconfig.json Minimal</h3>
+
+            <div class="code-block mb-6">
+                <pre><code>{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2020"</span>,
+    <span class="string">"module"</span>: <span class="string">"commonjs"</span>,
+    <span class="string">"strict"</span>: <span class="keyword">true</span>,
+    <span class="string">"outDir"</span>: <span class="string">"./dist"</span>,
+    <span class="string">"rootDir"</span>: <span class="string">"./src"</span>,
+    <span class="string">"sourceMap"</span>: <span class="keyword">true</span>
+  },
+  <span class="string">"include"</span>: [<span class="string">"src/**/*"</span>],
+  <span class="string">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">"dist"</span>]
+}</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Setelah <code>tsconfig.json</code> dibuat, cukup jalankan:
+            </p>
+
+            <div class="code-block">
+                <pre><code><span class="function">tsc</span>  <span class="comment"># Akan menggunakan konfigurasi dari tsconfig.json</span></code></pre>
+            </div>
+
+            <div class="bg-gradient-to-r from-blue-100 to-purple-100 p-6 rounded-lg mt-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">💡 Tips: Generate tsconfig.json</h3>
+                <p class="text-gray-700 text-sm">
+                    Anda bisa generatesample <code>tsconfig.json</code> dengan menjalankan:
+                </p>
+                <div class="code-block mt-3">
+                    <pre><code><span class="function">tsc</span> --init</code></pre>
+                </div>
+                <p class="text-gray-700 text-sm mt-3">
+                    Perintah ini akan membuat file <code>tsconfig.json</code> dengan banyak opsi yang didokumentasikan.
+                </p>
+            </div>
+        </section>
+
+        <!-- Understanding Output -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Type Erasure: Apa yang Terjadi?</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Penting untuk dipahami: <strong>TypeScript tipe system tidak ada di runtime</strong>. Semua type annotations dihapus (erased) saat kompilasi. Ini berarti:
+            </p>
+
+            <ul class="list-disc list-inside space-y-3 text-gray-700 mb-6">
+                <li>JavaScript output lebih kecil dan tidak ada overhead type checking di runtime</li>
+                <li>TypeScript memberikan safety hanya saat development, bukan saat eksekusi</li>
+                <li>Anda tetap bisa menulis kode JavaScript biasa di file .ts</li>
+            </ul>
+
+            <div class="code-block">
+                <pre><code><span class="comment">// Input (hello.ts)</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="type">string</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> <span class="string">"Hello, "</span> + name;
+}
+
+<span class="keyword">const</span> result = <span class="function">greet</span>(<span class="string">"World"</span>);
+<span class="function">console</span>.<span class="function">log</span>(result);
+
+<span class="comment">// Output (hello.js) - semua type hilang</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name) {
+    <span class="keyword">return</span> <span class="string">"Hello, "</span> + name;
+}
+<span class="keyword">var</span> result = <span class="function">greet</span>(<span class="string">"World"</span>);
+<span class="function">console</span>.<span class="function">log</span>(result);</code></pre>
+            </div>
+        </section>
+
+        <!-- Practical Exercise -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white px-3 py-1 rounded text-sm">💻</span>
+                Latihan Praktik
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Kompilasi Manual</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Buat file <code>math.ts</code> dengan fungsi tambah yang menggunakan type annotations. Kompilasi dengan <code>tsc math.ts</code> dan periksa file <code>math.js</code> yang dihasilkan.
+                    </p>
+                    <div class="code-block">
+                        <pre><code><span class="comment">// math.ts</span>
+<span class="keyword">function</span> <span class="function">tambah</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span> {
+    <span class="keyword">return</span> a + b;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Watch Mode</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Jalankan <code>tsc --watch</code> pada file <code>math.ts</code>. Ubah kode, dan amati file <code>math.js</code> otomatis ter-update.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: tsconfig.json</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Buat <code>tsconfig.json</code> dengan target ES2020, module commonjs, strict true, outDir ./dist. Pindahkan <code>math.ts</code> ke folder <code>src/</code>. Jalankan hanya <code>tsc</code> dan lihat output di <code>dist/</code>.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 4: Compiler Options</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Coba kompilasi dengan <code>--noEmit</code>. Perhatikan bahwa error tetap terdeteksi meski tidak ada file .js yang dibuat. Ini berguna untuk CI/CD pipeline.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white px-3 py-1 rounded text-sm">📝</span>
+                Quiz - TypeScript Compiler (tsc)
+            </h2>
+            <p class="text-gray-600 mb-6">
+                Uji pengetahuan Anda tentang TypeScript compiler dan konfigurasinya.
+            </p>
+            <div id="quiz-container" class="space-y-6">
+                <div class="text-gray-500 text-center py-8">
+                    <p>Loading quiz questions...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <section class="lesson-nav">
+            <a href="instalasi-typescript.html" class="nav-btn">
+                ← Sebelumnya: Instalasi TypeScript
+            </a>
+            <div class="text-sm text-gray-500">
+                Lesson 4 of 6
+            </div>
+            <a href="project-setup-typescript.html" class="nav-btn primary">
+                Selanjutnya: Project Setup dengan TypeScript →
+            </a>
+        </section>
+    </main>
+
+    <script src="/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lessonSlug = 'typescript-compiler-tsc';
+            const moduleId = 1;
+            const totalLessons = 6;
+            const currentLesson = 4;
+
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const progressPercent = (currentLesson / totalLessons) * 100;
+            progressFill.style.width = `${progressPercent}%`;
+            progressText.textContent = `Lesson ${currentLesson} of ${totalLessons}`;
+
+            loadQuiz(moduleId, 'quiz-container');
+
+            document.querySelector('.lesson-nav .nav-btn').addEventListener('click', () => {
+                window.location.href = 'instalasi-typescript.html';
+            });
+        });
+    </script>
+</body>
+</html>

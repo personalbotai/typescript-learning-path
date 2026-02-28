@@ -1,0 +1,500 @@
+{
+  "summary": {
+    "totalExpected": 77,
+    "filesExist": 58,
+    "realContent": 58,
+    "placeholders": 0,
+    "missing": 19,
+    "completionPercentage": 75.32
+  },
+  "missingSlugs": [
+    "eslint-typescript",
+    "prettier-integration",
+    "using-js-libraries",
+    "declaration-files-d-ts",
+    "definitelytyped",
+    "migrasi-js-ke-ts",
+    "partial-required",
+    "pick-omit",
+    "record-tuple",
+    "readonly-record",
+    "returntype-parameters-thistype",
+    "exclude-extract-nonnullable",
+    "parameters-constructorparameters",
+    "omit-thisparameter",
+    "project-cli-tool",
+    "project-react-ts",
+    "project-rest-api",
+    "project-type-definitions",
+    "final-project-fullstack"
+  ],
+  "placeholderFiles": [],
+  "completeModules": [
+    "Dasar-Dasar TypeScript",
+    "Tipe Dasar TypeScript",
+    "Advanced Types",
+    "Interfaces dan Type Aliases",
+    "Functions TypeScript",
+    "Generics",
+    "Classes TypeScript",
+    "Modules dan Namespaces"
+  ],
+  "incompleteModules": [
+    {
+      "title": "Configuration Tooling",
+      "missingCount": 2,
+      "missingSlugs": [
+        "eslint-typescript",
+        "prettier-integration"
+      ]
+    },
+    {
+      "title": "Integration dengan JavaScript",
+      "missingCount": 4,
+      "missingSlugs": [
+        "using-js-libraries",
+        "declaration-files-d-ts",
+        "definitelytyped",
+        "migrasi-js-ke-ts"
+      ]
+    },
+    {
+      "title": "Advanced Utility Types",
+      "missingCount": 8,
+      "missingSlugs": [
+        "partial-required",
+        "pick-omit",
+        "record-tuple",
+        "readonly-record",
+        "returntype-parameters-thistype",
+        "exclude-extract-nonnullable",
+        "parameters-constructorparameters",
+        "omit-thisparameter"
+      ]
+    },
+    {
+      "title": "Real-World Projects",
+      "missingCount": 5,
+      "missingSlugs": [
+        "project-cli-tool",
+        "project-react-ts",
+        "project-rest-api",
+        "project-type-definitions",
+        "final-project-fullstack"
+      ]
+    }
+  ],
+  "moduleStats": [
+    {
+      "title": "Dasar-Dasar TypeScript",
+      "total": 6,
+      "existing": 6,
+      "real": 6,
+      "missing": 0,
+      "missingSlugs": []
+    },
+    {
+      "title": "Tipe Dasar TypeScript",
+      "total": 6,
+      "existing": 6,
+      "real": 6,
+      "missing": 0,
+      "missingSlugs": []
+    },
+    {
+      "title": "Advanced Types",
+      "total": 10,
+      "existing": 10,
+      "real": 10,
+      "missing": 0,
+      "missingSlugs": []
+    },
+    {
+      "title": "Interfaces dan Type Aliases",
+      "total": 6,
+      "existing": 6,
+      "real": 6,
+      "missing": 0,
+      "missingSlugs": []
+    },
+    {
+      "title": "Functions TypeScript",
+      "total": 5,
+      "existing": 5,
+      "real": 5,
+      "missing": 0,
+      "missingSlugs": []
+    },
+    {
+      "title": "Generics",
+      "total": 6,
+      "existing": 6,
+      "real": 6,
+      "missing": 0,
+      "missingSlugs": []
+    },
+    {
+      "title": "Classes TypeScript",
+      "total": 6,
+      "existing": 6,
+      "real": 6,
+      "missing": 0,
+      "missingSlugs": []
+    },
+    {
+      "title": "Modules dan Namespaces",
+      "total": 7,
+      "existing": 7,
+      "real": 7,
+      "missing": 0,
+      "missingSlugs": []
+    },
+    {
+      "title": "Configuration Tooling",
+      "total": 8,
+      "existing": 6,
+      "real": 6,
+      "missing": 2,
+      "missingSlugs": [
+        "eslint-typescript",
+        "prettier-integration"
+      ]
+    },
+    {
+      "title": "Integration dengan JavaScript",
+      "total": 4,
+      "existing": 0,
+      "real": 0,
+      "missing": 4,
+      "missingSlugs": [
+        "using-js-libraries",
+        "declaration-files-d-ts",
+        "definitelytyped",
+        "migrasi-js-ke-ts"
+      ]
+    },
+    {
+      "title": "Advanced Utility Types",
+      "total": 8,
+      "existing": 0,
+      "real": 0,
+      "missing": 8,
+      "missingSlugs": [
+        "partial-required",
+        "pick-omit",
+        "record-tuple",
+        "readonly-record",
+        "returntype-parameters-thistype",
+        "exclude-extract-nonnullable",
+        "parameters-constructorparameters",
+        "omit-thisparameter"
+      ]
+    },
+    {
+      "title": "Real-World Projects",
+      "total": 5,
+      "existing": 0,
+      "real": 0,
+      "missing": 5,
+      "missingSlugs": [
+        "project-cli-tool",
+        "project-react-ts",
+        "project-rest-api",
+        "project-type-definitions",
+        "final-project-fullstack"
+      ]
+    }
+  ],
+  "fileDetails": [
+    {
+      "file": "abstract-classes.html",
+      "size": 20934,
+      "isPlaceholder": false
+    },
+    {
+      "file": "access-modifiers.html",
+      "size": 19695,
+      "isPlaceholder": false
+    },
+    {
+      "file": "ambient-modules.html",
+      "size": 20099,
+      "isPlaceholder": false
+    },
+    {
+      "file": "any-dan-unknown.html",
+      "size": 19892,
+      "isPlaceholder": false
+    },
+    {
+      "file": "apa-itu-typescript.html",
+      "size": 17971,
+      "isPlaceholder": false
+    },
+    {
+      "file": "array-dan-tuple.html",
+      "size": 19396,
+      "isPlaceholder": false
+    },
+    {
+      "file": "arrow-functions-types.html",
+      "size": 22621,
+      "isPlaceholder": false
+    },
+    {
+      "file": "barrel-files.html",
+      "size": 24125,
+      "isPlaceholder": false
+    },
+    {
+      "file": "build-tools-webpack-babel.html",
+      "size": 26437,
+      "isPlaceholder": false
+    },
+    {
+      "file": "class-dasar.html",
+      "size": 17689,
+      "isPlaceholder": false
+    },
+    {
+      "file": "compiler-options-target-module-lib.html",
+      "size": 27692,
+      "isPlaceholder": false
+    },
+    {
+      "file": "conditional-types.html",
+      "size": 17990,
+      "isPlaceholder": false
+    },
+    {
+      "file": "constructor-parameter-properties.html",
+      "size": 18599,
+      "isPlaceholder": false
+    },
+    {
+      "file": "declaration-merging.html",
+      "size": 25638,
+      "isPlaceholder": false
+    },
+    {
+      "file": "default-type-params.html",
+      "size": 16753,
+      "isPlaceholder": false
+    },
+    {
+      "file": "default-vs-named-export.html",
+      "size": 26383,
+      "isPlaceholder": false
+    },
+    {
+      "file": "dynamic-import-code-splitting.html",
+      "size": 24352,
+      "isPlaceholder": false
+    },
+    {
+      "file": "enum-named-constants.html",
+      "size": 16575,
+      "isPlaceholder": false
+    },
+    {
+      "file": "es6-modules-import-export.html",
+      "size": 25464,
+      "isPlaceholder": false
+    },
+    {
+      "file": "extending-interfaces-types.html",
+      "size": 15905,
+      "isPlaceholder": false
+    },
+    {
+      "file": "function-overloads.html",
+      "size": 17579,
+      "isPlaceholder": false
+    },
+    {
+      "file": "function-types.html",
+      "size": 16490,
+      "isPlaceholder": false
+    },
+    {
+      "file": "generic-constraints.html",
+      "size": 15872,
+      "isPlaceholder": false
+    },
+    {
+      "file": "generic-functions-dasar.html",
+      "size": 15861,
+      "isPlaceholder": false
+    },
+    {
+      "file": "generic-interfaces-classes.html",
+      "size": 18931,
+      "isPlaceholder": false
+    },
+    {
+      "file": "generic-utility-types.html",
+      "size": 20668,
+      "isPlaceholder": false
+    },
+    {
+      "file": "hello-world.html",
+      "size": 16621,
+      "isPlaceholder": false
+    },
+    {
+      "file": "include-exclude-files.html",
+      "size": 24549,
+      "isPlaceholder": false
+    },
+    {
+      "file": "index-signatures.html",
+      "size": 16266,
+      "isPlaceholder": false
+    },
+    {
+      "file": "indexed-access-types.html",
+      "size": 16522,
+      "isPlaceholder": false
+    },
+    {
+      "file": "inheritance-extends-super.html",
+      "size": 19437,
+      "isPlaceholder": false
+    },
+    {
+      "file": "instalasi-typescript.html",
+      "size": 17999,
+      "isPlaceholder": false
+    },
+    {
+      "file": "interface-dasar.html",
+      "size": 17553,
+      "isPlaceholder": false
+    },
+    {
+      "file": "interface-vs-type-alias.html",
+      "size": 18648,
+      "isPlaceholder": false
+    },
+    {
+      "file": "intersection-types.html",
+      "size": 17147,
+      "isPlaceholder": false
+    },
+    {
+      "file": "mapped-types.html",
+      "size": 16347,
+      "isPlaceholder": false
+    },
+    {
+      "file": "namespaces-organisasi-kode.html",
+      "size": 26910,
+      "isPlaceholder": false
+    },
+    {
+      "file": "nullable-types.html",
+      "size": 18649,
+      "isPlaceholder": false
+    },
+    {
+      "file": "optional-default-params.html",
+      "size": 17451,
+      "isPlaceholder": false
+    },
+    {
+      "file": "optional-readonly-properties.html",
+      "size": 17144,
+      "isPlaceholder": false
+    },
+    {
+      "file": "parameter-utilities.html",
+      "size": 22308,
+      "isPlaceholder": false
+    },
+    {
+      "file": "path-mapping-module-resolution.html",
+      "size": 27670,
+      "isPlaceholder": false
+    },
+    {
+      "file": "project-setup-typescript.html",
+      "size": 21931,
+      "isPlaceholder": false
+    },
+    {
+      "file": "readonly-params.html",
+      "size": 21214,
+      "isPlaceholder": false
+    },
+    {
+      "file": "rest-spread.html",
+      "size": 15767,
+      "isPlaceholder": false
+    },
+    {
+      "file": "strict-mode-options.html",
+      "size": 29142,
+      "isPlaceholder": false
+    },
+    {
+      "file": "template-literal-types.html",
+      "size": 16430,
+      "isPlaceholder": false
+    },
+    {
+      "file": "tipe-primitif.html",
+      "size": 19684,
+      "isPlaceholder": false
+    },
+    {
+      "file": "tsconfig-json-struktur.html",
+      "size": 27290,
+      "isPlaceholder": false
+    },
+    {
+      "file": "type-aliases.html",
+      "size": 15531,
+      "isPlaceholder": false
+    },
+    {
+      "file": "type-assertions.html",
+      "size": 20648,
+      "isPlaceholder": false
+    },
+    {
+      "file": "type-guards.html",
+      "size": 18932,
+      "isPlaceholder": false
+    },
+    {
+      "file": "type-inference.html",
+      "size": 18241,
+      "isPlaceholder": false
+    },
+    {
+      "file": "type-narrowing.html",
+      "size": 17054,
+      "isPlaceholder": false
+    },
+    {
+      "file": "typescript-compiler-tsc.html",
+      "size": 21317,
+      "isPlaceholder": false
+    },
+    {
+      "file": "typescript-vs-javascript.html",
+      "size": 22302,
+      "isPlaceholder": false
+    },
+    {
+      "file": "union-types.html",
+      "size": 18072,
+      "isPlaceholder": false
+    },
+    {
+      "file": "void-never-dan-tipe-khusus.html",
+      "size": 22908,
+      "isPlaceholder": false
+    }
+  ]
+}

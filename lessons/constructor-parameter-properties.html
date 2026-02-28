@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4: Constructor Parameter Properties - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 6: Classes TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 4 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 66.67%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 6</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 4</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Constructor Parameter Properties</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Parameter properties</strong> adalah fitur TypeScript yang mengurangi boilerplate code dengan otomatis membuat dan mengassign class properties langsung dari constructor parameters. Dengan menambahkan modifier (<code class="bg-gray-100 px-2 py-1 rounded font-mono">public</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">private</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">protected</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code>) pada constructor parameter, TypeScript akan otomatis membuat property dengan modifier tersebut.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami konsep parameter properties</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mengurangi boilerplate code dengan parameter properties</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan modifiers pada constructor parameters</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami aturan dan batasan parameter properties</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menerapkan parameter properties dengan access modifiers</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Parameter Properties Explained</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Tanpa parameter properties, kita harus mendeklarasikan properties dan mengassignnya di constructor secara manual. Parameter properties menggabungkan deklarasi property dan assignment dalam satu langkah.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Traditional Approach (Tanpa Parameter Properties)</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Person</span> {
+    <span class="keyword">public</span> name: <span class="type">string</span>;
+    <span class="keyword">public</span> age: <span class="type">number</span>;
+
+    <span class="keyword">constructor</span>(name: <span class="type">string</span>, age: <span class="type">number</span>) {
+        <span class="keyword">this</span>.name = name;  <span class="comment">// Manual assignment</span>
+        <span class="keyword">this</span>.age = age;    <span class="comment">// Manual assignment</span>
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">With Parameter Properties</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Tambahkan modifier pada constructor parameter, dan TypeScript otomatis membuat property dengan modifier tersebut dan mengassign nilai.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Person</span> {
+    <span class="comment">// Parameter properties - properties auto-created</span>
+    <span class="keyword">constructor</span>(
+        <span class="keyword">public</span> name: <span class="type">string</span>,
+        <span class="keyword">public</span> age: <span class="type">number</span>
+    ) {} <span class="comment">// No body needed for assignment</span>
+}
+
+<span class="keyword">const</span> person = <span class="keyword">new</span> <span class="type">Person</span>(<span class="string">"Alice"</span>, <span class="type">30</span>);
+console.log(person.name); <span class="comment">// "Alice" - property exists!</span>
+console.log(person.age);  <span class="comment">// 30</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Modifiers on Parameter Properties</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Parameter properties bisa menggunakan <strong>semua access modifiers</strong>: <code class="bg-gray-100 px-2 py-1 rounded font-mono">public</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">private</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">protected</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code>, atau kombinasi seperti <code class="bg-gray-100 px-2 py-1 rounded font-mono">public readonly</code>.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">User</span> {
+    <span class="keyword">constructor</span>(
+        <span class="keyword">public</span> readonly id: <span class="type">number</span>,
+        <span class="keyword">private</span> email: <span class="type">string</span>,
+        <span class="keyword">protected</span> role: <span class="type">string</span>
+    ) {}
+
+    <span class="keyword">public</span> getInfo(): <span class="type">string</span> {
+        <span class="keyword">return</span> <span class="string">`ID: \${this.id}, Role: \${this.role}`</span>;
+    }
+}
+
+<span class="keyword">const</span> user = <span class="keyword">new</span> <span class="type">User</span>(<span class="type">1</span>, <span class="string">"alice@example.com"</span>, <span class="string">"admin"</span>);
+console.log(user.id);      <span class="comment">// OK - public & readonly</span>
+console.log(user.getInfo()); <span class="comment">// "ID: 1, Role: admin"</span>
+<span class="comment">// console.log(user.email);  // Error - private</span>
+<span class="comment">// user.id = 2;             // Error - readonly</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Real-World Example: Service Class</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">DatabaseService</span> {
+    <span class="keyword">constructor</span>(
+        <span class="keyword">private</span> connectionString: <span class="type">string</span>,
+        <span class="keyword">public</span> readonly serviceName: <span class="type">string</span>,
+        <span class="keyword">protected</span> timeout: <span class="type">number</span> = <span class="type">5000</span>
+    ) {}
+
+    <span class="keyword">private</span> connect(): <span class="type">boolean</span> {
+        console.log(<span class="string">`Connecting to \${this.connectionString}`</span>);
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+
+    <span class="keyword">public</span> query(sql: <span class="type">string</span>): <span class="type">any</span> {
+        <span class="keyword">if</span> (!<span class="keyword">this</span>.connect()) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">Error</span>(<span class="string">"Connection failed"</span>);
+        }
+        <span class="keyword">return</span> { data: [], rows: <span class="type">0</span> };
+    }
+}
+
+<span class="keyword">const</span> db = <span class="keyword">new</span> <span class="type">DatabaseService</span>(<span class="string">"postgresql://localhost/db"</span>, <span class="string">"UserService"</span>);
+console.log(db.serviceName); <span class="comment">// "UserService" - public readonly</span>
+<span class="comment">// console.log(db.connectionString); // Error - private</span>
+db.query(<span class="string">"SELECT * FROM users"</span>);</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">When to Use Parameter Properties</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Parameter properties sangat berguna ketika:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Class properties hanya perlu diassign dari constructor</li>
+                <li>Tidak ada logika khusus di constructor</li>
+                <li>Ingin mengurangi boilerplate code</li>
+                <li>Properties memiliki modifier yang jelas</li>
+            </ul>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Namun, jika constructor memerlukan logika bisnis (validasi, transformasi, side effects), maka assignment manual lebih tepat.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Bukan parameter properties - manual assignment with logic</span>
+<span class="keyword">class</span> <span class="type">Order</span> {
+    <span class="keyword">private</span> _total: <span class="type">number</span>;
+
+    <span class="keyword">constructor</span>(items: <span class="type">OrderItem</span>[], taxRate: <span class="type">number</span>) {
+        <span class="keyword">const</span> subtotal = items.reduce((sum, item) => sum + item.price, <span class="type">0</span>);
+        <span class="keyword">this</span>._total = subtotal * (<span class="type">1</span> + taxRate); <span class="comment">// Calculate with logic</span>
+    }
+
+    <span class="keyword">get</span> total(): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>._total;
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Combining with Getter/Setter</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Parameter properties bisa digunakan bersama getters dan setters untuk encapsulation yang lebih baik.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Product</span> {
+    <span class="keyword">constructor</span>(
+        <span class="keyword">public</span> readonly sku: <span class="type">string</span>,
+        <span class="keyword">private</span> _price: <span class="type">number</span>
+    ) {}
+
+    <span class="comment">// Getter for computed property</span>
+    <span class="keyword">get</span> priceWithTax(taxRate: <span class="type">number</span>): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>._price * (<span class="type">1</span> + taxRate);
+    }
+}
+
+<span class="keyword">const</span> product = <span class="keyword">new</span> <span class="type">Product</span>(<span class="string">"SKU-001"</span>, <span class="type">100</span>);
+console.log(product.sku); <span class="comment">// "SKU-001" - readonly</span>
+console.log(product.priceWithTax(<span class="type">0.1</span>)); <span class="comment">// 110</span>
+<span class="comment">// product.sku = "SKU-002"; // Error - readonly</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+            
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">1. Simple User</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">User</code> menggunakan parameter properties dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">public readonly id: number</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">public name: string</code>. Coba ubah <code class="bg-gray-100 px-2 py-1 rounded font-mono">id</code> setelah instance dibuat - observasi error.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">2. Service dengan Private Config</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">ApiService</code> dengan parameter properties: <code class="bg-gray-100 px-2 py-1 rounded font-mono">private apiKey: string</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">public baseUrl: string</code>. Tambahkan method <code class="bg-gray-100 px-2 py-1 rounded font-mono">get(endpoint: string)</code> yang mengembalikan full URL. Pastikan apiKey tidak bisa diakses dari luar.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">3. Refactor Traditional to Parameter Properties</h3>
+                    <p class="text-gray-700 mb-3">
+                        Berikut class tradisional:
+                    </p>
+                    <pre class="bg-gray-100 p-3 rounded text-sm mb-3"><code><span class="keyword">class</span> <span class="type">Rectangle</span> {
+    width: <span class="type">number</span>;
+    height: <span class="type">number</span>;
+
+    <span class="keyword">constructor</span>(width: <span class="type">number</span>, height: <span class="type">number</span>) {
+        <span class="keyword">this</span>.width = width;
+        <span class="keyword">this</span>.height = height;
+    }
+
+    area(): <span class="type">number</span> { <span class="keyword">return</span> <span class="keyword">this</span>.width * <span class="keyword">this</span>.height; }
+}</code></pre>
+                    <p class="text-gray-700 mb-3">
+                        Refactor menjadi menggunakan parameter properties. Tambahkan modifier <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code> jika appropriate.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat setelah semua lesson selesai')">
+                Quiz Module →
+            </button>
+        </nav>
+    </main>
+
+    <script src="/typescript-curriculum/app.js"></script>
+</body>
+</html>

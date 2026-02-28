@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 11: Tipe Khusus: void, never, null, undefined - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 2: Tipe Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 5 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 83.33%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 2</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 5</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Tipe Khusus: void, never, null, undefined</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript memiliki beberapa tipe khusus yang digunakan dalam konteks spesifik: <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">void</code> untuk fungsi tanpa return value, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">never</code> untuk fungsi yang selalu throws atau infinite loop, serta <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">null</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">undefined</code> untuk ketiadaan nilai.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Intermediate</span>
+                <span>✅ prerequisites: Tipe Primitif</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">void</code> untuk fungsi tanpa return</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">never</code> untuk unreachable code</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami perbedaan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">null</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">undefined</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan strict null checking dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">strictNullChecks</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menghindari common pitfalls dengan tipe khusus ini</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Materi</h2>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">1. Tipe void - No Return Value</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">void</code> digunakan untuk fungsi yang tidak mengembalikan nilai apapun. Void berarti "tidak ada tipe" - variabel dengan tipe void hanya bisa diassign dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">undefined</code> atau <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">null</code> (jika strictNullChecks nonaktif).
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// void untuk fungsi tanpa return</span>
+<span class="keyword">function</span> <span class="function">logMessage</span>(<span class="type">msg</span>: <span class="type">string</span>): <span class="type">void</span> {
+    console.<span class="function">log</span>(msg);
+    <span class="comment">// tidak ada return statement</span>
+}
+
+<span class="function">logMessage</span>(<span class="string">"Hello"</span>); <span class="comment">// OK</span>
+
+<span class="comment">// return expression dalam fungsi void tidak diizinkan</span>
+<span class="comment">// function badLog(msg: string): void { return msg; } // Error</span>
+
+<span class="comment">// Variabel void hanya bisa diassign dengan undefined atau null</span>
+<span class="keyword">let</span> <span class="type">v</span>: <span class="type">void</span>;
+v = <span class="keyword">undefined</span>; <span class="comment">// OK</span>
+<span class="comment">// v = null; // Error jika strictNullChecks aktif</span>
+<span class="comment">// v = 5; // Error: number tidak bisa diassign ke void</span>
+
+<span class="comment">// Callback functions sering menggunakan void</span>
+<span class="keyword">function</span> <span class="function">processItems</span>(<span class="type">items</span>: <span class="type">string</span>[], <span class="type">callback</span>: (<span class="type">item</span>: <span class="type">string</span>) => <span class="type">void</span>) {
+    items.<span class="function">forEach</span>(callback);
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">2. Tipe never - Unreachable Code</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">never</code> merepresentasikan nilai yang tidak pernah ada. Fungsi dengan tipe <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">never</code> selalu throwing exception, infinite loop, atau unreachable. Ini berguna untuk type narrowing dan exhaustive checks.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// never untuk fungsi yang selalu throw error</span>
+<span class="keyword">function</span> <span class="function">throwError</span>(<span class="type">message</span>: <span class="type">string</span>): <span class="keyword">never</span> {
+    <span class="keyword">throw new</span> <span class="type">Error</span>(message);
+}
+
+<span class="comment">// never untuk infinite loop</span>
+<span class="keyword">function</span> <span class="function">infiniteLoop</span>(): <span class="keyword">never</span> {
+    <span class="keyword">while</span> (<span class="keyword">true</span>) {
+        <span class="comment">// loop selamanya, tidak pernah return</span>
+    }
+}
+
+<span class="comment">// never untuk exhaustive checks (type narrowing)</span>
+<span class="keyword">function</span> <span class="function">assertNever</span>(<span class="type">x</span>: <span class="keyword">never</span>): <span class="keyword">never</span> {
+    <span class="keyword">throw new</span> <span class="type">Error</span>(<span class="string">`Unexpected value: ${x}`</span>);
+}
+
+<span class="keyword">enum</span> <span class="type">Shape</span> {
+    Circle,
+    Square
+}
+
+<span class="keyword">function</span> <span class="function">handleShape</span>(<span class="type">shape</span>: <span class="type">Shape</span>) {
+    <span class="keyword">switch</span> (shape) {
+        <span class="keyword">case</span> Shape.Circle:
+            console.<span class="function">log</span>(<span class="string">"Circle"</span>);
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> Shape.Square:
+            console.<span class="function">log</span>(<span class="string">"Square"</span>);
+            <span class="keyword">break</span>;
+        <span class="keyword">default</span>:
+            <span class="function">assertNever</span>(shape); <span class="comment">// TypeScript pastikan semua cases covered</span>
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">3. null dan undefined</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">null</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">undefined</code> adalah tipe khusus yang merepresentasikan ketiadaan nilai. Dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">strictNullChecks</code> aktif (default dalam strict mode), mereka tidak dapat diassign ke tipe lain tanpa explicit union.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// null dan undefined sebagai tipe</span>
+<span class="keyword">let</span> <span class="type">u</span>: <span class="type">undefined</span> = <span class="keyword">undefined</span>;
+<span class="keyword">let</span> <span class="type">n</span>: <span class="keyword">null</span> = <span class="keyword">null</span>;
+
+<span class="comment">// Dengan strictNullChecks, number tidak bisa diassign null/undefined</span>
+<span class="keyword">let</span> <span class="type">num</span>: <span class="type">number</span> = 42;
+<span class="comment">// num = null; // Error</span>
+<span class="comment">// num = undefined; // Error</span>
+
+<span class="comment">// Gunakan union untuk mengizinkan null/undefined</span>
+<span class="keyword">let</span> <span class="type">maybeNum</span>: <span class="type">number</span> | <span class="keyword">null</span> | <span class="type">undefined</span>;
+maybeNum = 42; <span class="comment">// OK</span>
+maybeNum = <span class="keyword">null</span>; <span class="comment">// OK</span>
+maybeNum = <span class="keyword">undefined</span>; <span class="comment">// OK</span>
+
+<span class="comment">// Optional parameters dan properties secara implisit union dengan undefined</span>
+<span class="keyword">function</span> <span class="function">greet</span>(<span class="type">name</span>?: <span class="type">string</span>): <span class="type">void</span> {
+    <span class="comment">// name adalah string | undefined</span>
+    console.<span class="function">log</span>(<span class="string">`Hello, ${name ?? <span class="string">"Guest"</span>}`</span>);
+}
+
+<span class="keyword">interface</span> <span class="type">Config</span> {
+    <span class="type">apiUrl</span>: <span class="type">string</span>;
+    <span class="type">timeout</span>?: <span class="type">number</span>; <span class="comment">// optional, jadi number | undefined</span>
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">4. Strict Null Checking</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Fitur <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">strictNullChecks</code> di tsconfig.json membuat <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">null</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">undefined</span> tidak dapat diassign ke tipe lain kecuali dengan explicit union. Ini mencegah banyak runtime errors.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// tsconfig.json</span>
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"strict"</span>: <span class="keyword">true</span>, <span class="comment">// includes strictNullChecks</span>
+    <span class="comment">// atau "strictNullChecks": true</span>
+  }
+}
+
+<span class="comment">// Contoh dengan strictNullChecks aktif</span>
+<span class="keyword">function</span> <span class="function">findUser</span>(<span class="type">id</span>: <span class="type">number</span>): <span class="type">User</span> | <span class="keyword">null</span> {
+    <span class="keyword">const</span> <span class="type">user</span> = <span class="function">getUserFromDB</span>(id);
+    <span class="keyword">return</span> user ?? <span class="keyword">null</span>;
+}
+
+<span class="keyword">const</span> <span class="type">result</span> = <span class="function">findUser</span>(1);
+
+<span class="comment">// Harus check null sebelum menggunakan</span>
+<span class="keyword">if</span> (result !== <span class="keyword">null</span>) {
+    console.<span class="function">log</span>(result.name);
+} <span class="keyword">else</span> {
+    console.<span class="function">log</span>(<span class="string">"User tidak ditemukan"</span>);
+}
+
+<span class="comment">// Optional chaining (ES2020+) membantu null check</span>
+console.<span class="function">log</span>(result?.name); <span class="comment">// safe access</span>
+console.<span class="function">log</span>(result?.address?.city); <span class="comment">// nested safe access</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">5. Perbedaan void, never, undefined, null</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Memahami perbedaan keempat tipe ini penting untuk type system yang akurat. <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">void</code> untuk fungsi tanpa return, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">never</code> untuk unreachable code, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">undefined</code> untuk variabel yang belum diinisialisasi, dan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">null</code> untuk nilai null eksplisit.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// void vs never</span>
+<span class="keyword">function</span> <span class="function">voidFunc</span>(): <span class="type">void</span> {
+    console.<span class="function">log</span>(<span class="string">"done"</span>);
+    <span class="comment">// return diizinkan tapi tidak mengembalikan nilai</span>
+    <span class="keyword">return</span>;
+}
+
+<span class="keyword">function</span> <span class="function">neverFunc</span>(): <span class="keyword">never</span> {
+    <span class="keyword">throw new</span> <span class="type">Error</span>(<span class="string">"error"</span>); <span class="comment">// never reaches end</span>
+}
+
+<span class="comment">// void bisa diassign ke undefined (dengan strictNullChecks nonaktif)</span>
+<span class="keyword">let</span> <span class="type">v</span>: <span class="type">void</span> = <span class="keyword">undefined</span>;
+<span class="comment">// never tidak bisa diassign ke apapun (karena tidak ada nilai)</span>
+<span class="comment">// let n: never = something; // impossible</span>
+
+<span class="comment">// undefined dan null sebagai tipe</span>
+<span class="keyword">let</span> <span class="type">undef</span>: <span class="type">undefined</span> = <span class="keyword">undefined</span>;
+<span class="keyword">let</span> <span class="type">nullVal</span>: <span class="keyword">null</span> = <span class="keyword">null</span>;
+
+<span class="comment">// Union dengan null/undefined untuk nullable types</span>
+<span class="keyword">let</span> <span class="type">nullableString</span>: <span class="type">string</span> | <span class="keyword">null</span> | <span class="type">undefined</span> = <span class="keyword">null</span>;</code></pre>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-400 p-6 mb-6">
+                <h4 class="font-semibold text-red-800 mb-2">⚠️ Common Pitfalls</h4>
+                <ul class="space-y-2 text-red-800">
+                    <li>Jangan gunakan <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">any</code> untuk menggantikan <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">void</code> atau <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">never</code></li>
+                    <li>Dengan <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">strictNullChecks</code>, variabel tidak bisa langsung diassign <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">null</code> atau <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">undefined</code> tanpa explicit union</li>
+                    <li><code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">never</code> hanya untuk fungsi yang benar-benar tidak mengembalikan nilai (throw/infinite)</li>
+                    <li>Jangan return value dari fungsi <code class="bg-red-100 px-2 py-1 rounded font-mono text-sm">void</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💪 Latihan Praktek</h2>
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 1: Validation Function dengan never</h3>
+                    <p class="text-gray-700 mb-3">Buat fungsi validasi yang throw error jika input tidak valid, dengan return type never.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Fungsi: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">validateAge(age: number): never</code> untuk throw "Usia harus >= 0" jika age &lt; 0.</p>
+                        <p class="text-sm text-gray-600">Buat juga fungsi <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">validateEmail(email: string): never</code> yang throw jika email tidak mengandung "@".</p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 2: Nullable Configuration</h3>
+                    <p class="text-gray-700 mb-3">Buat interface untuk config dengan optional properties dan null handling.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Interface <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">AppConfig</code>: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">apiUrl: string</code>, <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">timeout?: number</code>, <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">debugMode: boolean | null</code></p>
+                        <p class="text-sm text-gray-600">Fungsi <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">getConfigValue(config: AppConfig, key: string): string | null</code> yang mengembalikan nilai config berdasarkan key, dengan null jika tidak ada.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Preview -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📝 Quiz</h2>
+            <p class="text-gray-600 mb-4">Quiz ini menguji pemahaman tentang tipe khusus void, never, null, dan undefined dalam TypeScript.</p>
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+                <span>📌 Module 2 Quiz</span>
+                <span>•</span>
+                <span>10 questions</span>
+                <span>•</span>
+                <span>Passing score: 70%</span>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <button class="nav-btn primary" onclick="alert('Previous lesson: enum-named-constants.html')">
+                ← Previous Lesson
+            </button>
+            <button class="nav-btn primary" onclick="alert('Next lesson: type-assertions.html')">
+                Next Lesson →
+            </button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

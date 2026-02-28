@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 27: Type Guards dan Type Assertions - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 5: Advanced Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 27 of 40</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 67.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 5</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 27</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Type Guards dan Type Assertions</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Ketika bekerja dengan <strong>union types</strong>, kita seringkali perlu membedakan tipe mana yang sebenarnya dimiliki sebuah nilai. 
+                TypeScript menyediakan <strong>type guards</strong> untuk memeriksa tipe saat runtime, dan <strong>type assertions</strong> untuk memberitahu compiler tentang tipe yang kita yakin.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>🎯 Tujuan: Pahami cara memeriksa dan mengubah tipe</span>
+            </div>
+        </div>
+
+        <!-- Section 1: Typeof Type Guard -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Typeof Type Guard
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Operator <code class="font-mono text-primary">typeof</code> bisa digunakan dalam <strong>type guard</strong> untuk memeriksa tipe primitif (string, number, boolean, symbol, undefined, object, function).
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">function</span> <span class="function">printValue</span>(value: <span class="type">string</span> | <span class="type">number</span> | <span class="type">boolean</span>) {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">"string"</span>) {
+        console.log(<span class="string">"String:"</span>, value.toUpperCase());
+    } <span class="keyword">else if</span> (<span class="keyword">typeof</span> value === <span class="string">"number"</span>) {
+        console.log(<span class="string">"Number:"</span>, value.toFixed(<span class="type">2</span>));
+    } <span class="keyword">else</span> {
+        console.log(<span class="string">"Boolean:"</span>, value);
+    }
+}
+            </div>
+            <p class="text-gray-700">
+                TypeScript akan <strong>mempersempit tipe</strong> di dalam cabang <code>if</code> berdasarkan hasil type guard.
+            </p>
+        </section>
+
+        <!-- Section 2: Instanceof Type Guard -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Instanceof Type Guard
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Gunakan <code class="font-mono text-primary">instanceof</code> untuk memeriksa apakah sebuah objek adalah instance dari kelas atau constructor tertentu.
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">class</span> <span class="type">Dog</span> { <span class="function">bark</span>() { console.log(<span class="string">"Woof!"</span>); } }
+<span class="keyword">class</span> <span class="type">Cat</span> { <span class="function">meow</span>() { console.log(<span class="string">"Meow!"</span>); } }
+
+<span class="keyword">function</span> <span class="function">makeSound</span>(pet: <span class="type">Dog</span> | <span class="type">Cat</span>) {
+    <span class="keyword">if</span> (pet <span class="keyword">instanceof</span> <span class="type">Dog</span>) {
+        pet.<span class="function">bark</span>(); <span class="comment">// TypeScript tahu $pet$ bertipe Dog di sini</span>
+    } <span class="keyword">else</span> {
+        pet.<span class="function">meow</span>(); <span class="comment">// TypeScript tahu $pet$ bertipe Cat</span>
+    }
+}
+            </div>
+        </section>
+
+        <!-- Section 3: Custom Type Guards -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Custom Type Guards
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Kita bisa membuat fungsi khusus yang mengembalikan <code class="font-mono text-primary">value is Tipe</strong> (type predicate) untuk memeriksa properti objek.
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">interface</span> <span class="type">Fish</span> { swim(): <span class="keyword">void</span>; }
+<span class="keyword">interface</span> <span class="type">Bird</span> { fly(): <span class="keyword">void</span>; }
+
+<span class="keyword">function</span> <span class="function">isFish</span>(pet: <span class="type">Fish</span> | <span class="type">Bird</span>): pet <span class="keyword">is</span> <span class="type">Fish</span> {
+    <span class="keyword">return</span> (<span class="string">"swim"</span> <span class="keyword">in</span> pet);
+}
+
+<span class="keyword">function</span> <span class="function">getPet</span>(pet: <span class="type">Fish</span> | <span class="type">Bird</span>) {
+    <span class="keyword">if</span> (<span class="function">isFish</span>(pet)) {
+        pet.<span class="function">swim</span>(); <span class="comment">// OK, pet bertipe Fish</span>
+    } <span class="keyword">else</span> {
+        pet.<span class="function">fly</span>(); <span class="comment">// OK, pet bertipe Bird</span>
+    }
+}
+            </div>
+            <p class="text-gray-700">
+                Fungsi <code>isFish</code> adalah <strong>type predicate</strong>. TypeScript menggunakan ini untuk memperketat tipe di dalam cabang <code>if</code>.
+            </p>
+        </section>
+
+        <!-- Section 4: Type Assertions -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                Type Assertions
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Terkadang kita <strong>tahu lebih baik</strong> daripada TypeScript tentang tipe suatu nilai. Gunakan <code class="font-mono text-primary">as Tipe</code> atau <code class="font-mono text-primary">&lt;Tipe&gt;value</code> untuk <em>assert</em> tipe.
+            </p>
+            <div class="code-block mb-4">
+<span class="comment">// Contoh: DOM API mengembalikan Element | Text, tapi kita tahu itu adalah Button</span>
+<span class="keyword">const</span> button = document.<span class="function">getElementById</span>(<span class="string">"myBtn"</span>) <span class="keyword">as</span> <span class="type">HTMLButtonElement</span>;
+
+<span class="comment">// Sama dengan syntax alternatif:</span>
+<span class="keyword">const</span> button2 = &lt;<span class="type">HTMLButtonElement</span>&gt;document.<span class="function">getElementById</span>(<span class="string">"myBtn"</span>);
+
+<span class="comment">// Tapi hati-hati: ini TIDAK memeriksa di runtime!</span>
+<span class="keyword">const</span> someValue: <span class="keyword">any</span> = <span class="string">"hello"</span>;
+<span class="keyword">const</span> strLength = (someValue <span class="keyword">as</span> <span class="type">string</span>).length; <span class="comment">// OK untuk compiler, tapi bisa crash jika someValue bukan string</span>
+            </div>
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                <p class="text-sm text-red-800">
+                    <strong>⚠️ Hati-hati:</strong> Type assertions <strong>tidak mengubah tipe saat runtime</strong>. Mereka hanya "memaksa" compiler untuk percaya. 
+                    Jika salah, bisa menyebabkan runtime error. Gunakan hanya当 Anda benar-benar yakin.
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 5: Discriminated Unions -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                Discriminated Unions (Tagged Unions)
+            </h2>
+            <p class="text-gray-700 mb-4">
+                Jika setiap anggota union memiliki <strong>properti discriminant</strong> (biasanya <code>kind</code> atau <code>type</code>) yang nilainya adalah <em>literal string</em>, TypeScript dapat melakukan <strong>exhaustive checking</strong>.
+            </p>
+            <div class="code-block mb-4">
+<span class="keyword">type</span> <span class="type">Shape</span> = 
+  | { kind: <span class="string">"circle"</span>; radius: <span class="type">number</span>; }
+  | { kind: <span class="string">"rectangle"</span>; width: <span class="type">number</span>; height: <span class="type">number</span>; }
+  | { kind: <span class="string">"square"</span>; size: <span class="type">number</span>; };
+
+<span class="keyword">function</span> <span class="function">getArea</span>(shape: <span class="type">Shape</span>): <span class="type">number</span> {
+    <span class="keyword">switch</span> (shape.kind) {
+        <span class="keyword">case</span> <span class="string">"circle"</span>:
+            <span class="keyword">return</span> Math.PI * shape.radius ** <span class="type">2</span>;
+        <span class="keyword">case</span> <span class="string">"rectangle"</span>:
+            <span class="keyword">return</span> shape.width * shape.height;
+        <span class="keyword">case</span> <span class="string">"square"</span>:
+            <span class="keyword">return</span> shape.size ** <span class="type">2</span>;
+    }
+}
+            </div>
+            <p class="text-gray-700">
+                Jika kita lupa menambahkan <code>case "square"</code>, TypeScript akan memberikan error <strong>"Exhaustiveness check"</strong>. Ini membuat kode lebih aman dan mudah di-refactor.
+            </p>
+        </section>
+
+        <!-- Quiz -->
+        <section class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">✅ Quick Quiz</h2>
+            <div class="space-y-4">
+                <div class="quiz-question" data-question="1">
+                    <p class="font-medium text-gray-900 mb-3">1. Apa yang dilakukan type guard?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">Mengubah tipe variabel secara permanen</button>
+                        <button class="quiz-option" data-correct="true">Memeriksa tipe suatu nilai saat runtime dan memperketat tipe di TypeScript</button>
+                        <button class="quiz-option" data-correct="false">Menyembunyikan error type</button>
+                        <button class="quiz-option" data-correct="false">Menggabungkan dua tipe menjadi satu</button>
+                    </div>
+                </div>
+                <div class="quiz-question" data-question="2">
+                    <p class="font-medium text-gray-900 mb-3">2. Kapan sebaiknya menggunakan type assertion?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">Selalu, karena lebih cepat</button>
+                        <button class="quiz-option" data-correct="true">Hanya ketika kita yakin lebih baik daripada TypeScript tentang tipe nilai tersebut</button>
+                        <button class="quiz-option" data-correct="false">Sebagai pengganti type guard</button>
+                        <button class="quiz-option" data-correct="false">Untuk menambahkan properti baru ke objek</button>
+                    </div>
+                </div>
+                <div class="quiz-question" data-question="3">
+                    <p class="font-medium text-gray-900 mb-3">3. Apa keuntungan discriminated union?</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button class="quiz-option" data-correct="false">Membuat kode lebih singkat</button>
+                        <button class="quiz-option" data-correct="true">TypeScript dapat melakukan exhaustive checking, mencegah lupa menangani kasus</button>
+                        <button class="quiz-option" data-correct="false">Menggabungkan semua tipe menjadi any</button>
+                        <button class="quiz-option" data-correct="false">Menghapus kebutuhan type guard</button>
+                    </div>
+                </div>
+            </div>
+            <div id="quiz-feedback" class="mt-4 p-4 rounded-lg hidden"></div>
+            <button id="check-answers" class="mt-4 px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+                Periksa Jawaban
+            </button>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" id="prev-lesson" onclick="window.location.href='lesson-26-union-intersection-types.html'">
+                ← Previous
+            </button>
+            <div class="text-center">
+                <span class="text-gray-600">Lesson </span>
+                <span class="font-bold text-gray-900" id="current-lesson">27</span>
+                <span class="text-gray-600"> of 40</span>
+            </div>
+            <button class="nav-btn primary" id="next-lesson">
+                Next →
+            </button>
+        </nav>
+
+        <!-- Completion Message -->
+        <div id="completion-banner" class="hidden mt-6 bg-green-50 border-2 border-green-500 rounded-xl p-6 text-center">
+            <div class="text-4xl mb-3">🎉</div>
+            <h3 class="text-xl font-bold text-green-900 mb-2">Lesson 27 Complete!</h3>
+            <p class="text-green-800 mb-4">You've mastered Type Guards and Type Assertions. Ready for the next lesson?</p>
+            <button class="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors" onclick="markComplete()">
+                Continue to Lesson 28 →
+            </button>
+        </div>
+    </main>
+
+    <script>
+        let lessonCompleted = localStorage.getItem('lesson-27-completed') === 'true';
+        let progress = 67.5; // 27/40 = 67.5%
+        let currentLessonNum = 27;
+        let totalLessons = 65;
+
+        function updateProgress() {
+            const percent = (progress / totalLessons) * 100;
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').textContent = `Lesson ${currentLessonNum} of ${totalLessons}`;
+        }
+
+        const quizAnswers = {};
+        document.querySelectorAll('.quiz-option').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.closest('.quiz-question');
+                const qNum = question.dataset.question;
+                question.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                this.classList.add('selected');
+                quizAnswers[qNum] = this.dataset.correct === 'true';
+            });
+        });
+
+        document.getElementById('check-answers').addEventListener('click', function() {
+            let allCorrect = true;
+            document.querySelectorAll('.quiz-question').forEach(question => {
+                const qNum = question.dataset.question;
+                const selected = question.querySelector('.selected');
+                if (!selected) {
+                    allCorrect = false;
+                    return;
+                }
+                const isCorrect = quizAnswers[qNum];
+                if (isCorrect) {
+                    selected.classList.add('correct');
+                } else {
+                    selected.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+            if (allCorrect) {
+                feedback.className = 'mt-4 p-4 rounded-lg bg-green-50 border-2 border-green-500';
+                feedback.innerHTML = `
+                    <div class="flex items-center gap-2 text-green-800">
+                        <span class="text-2xl">✅</span>
+                        <div>
+                            <p class="font-bold">Semua benar!</p>
+                            <p class="text-sm">Lanjutkan ke lesson berikutnya.</p>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('completion-banner').classList.remove('hidden');
+                lessonCompleted = true;
+                localStorage.setItem('lesson-27-completed', 'true');
+                progress += 1;
+                updateProgress();
+            } else {
+                feedback.className = 'mt-4 p-4 rounded-lg bg-yellow-50 border-2 border-yellow-500';
+                feedback.innerHTML = `
+                    <div class="flex items-center gap-2 text-yellow-800">
+                        <span class="text-2xl">⚠️</span>
+                        <div>
+                            <p class="font-bold">Beberapa jawaban belum tepat</p>
+                            <p class="text-sm">Coba periksa kembali dan pilih jawaban yang benar.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById('next-lesson').addEventListener('click', function() {
+            if (lessonCompleted) {
+                window.location.href = 'lesson-28-type-aliases-interfaces.html';
+            } else {
+                alert('Selesaikan quiz terlebih dahulu!');
+            }
+        });
+
+        function markComplete() {
+            window.location.href = 'lesson-28-type-aliases-interfaces.html';
+        }
+
+        updateProgress();
+        if (lessonCompleted) {
+            document.getElementById('completion-banner').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5: Exclude, Extract, NonNullable - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 11: Advanced Utility Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 5 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 62.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 11</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 5</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Exclude, Extract, dan NonNullable Utility Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Exclude&lt;T, U&gt;</strong>, <strong>Extract&lt;T, U&gt;</strong>, dan <strong>NonNullable&lt;T&gt;</strong> adalah utility types untuk manipulating union types. Mereka memungkinkan Anda membuat subtype dengan exclude atau extract certain members dari union.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami Exclude&lt;T, U&gt; untuk menghapus members dari union</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan Extract&lt;T, U&gt; untuk mengambil overlapping members</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menerapkan NonNullable&lt;T&gt; untuk menghilangkan null dan undefined</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Mengombinasikan utility types untuk complex type transformations</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Exclude&lt;T, U&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Exclude&lt;T, U&gt;</code> membuat union type baru dengan exclude semua members dari <code class="bg-gray-100 px-1 rounded">U</code> yang ada di <code class="bg-gray-100 px-1 rounded">T</code>. Hasilnya adalah type yang terdiri dari <code class="bg-gray-100 px-1 rounded">T</code> kecuali overlapping dengan <code class="bg-gray-100 px-1 rounded">U</code>.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="keyword">type</span> Status = <span class="string">"idle"</span> | <span class="string">"loading"</span> | <span class="string">"success"</span> | <span class="string">"error"</span>;
+
+<span class="comment">// Exclude "loading" dan "error"</span>
+<span class="keyword">type</span> NonLoadingStatus = Exclude&lt;Status, <span class="string">"loading"</span> | <span class="string">"error"</span>&gt;;
+
+<span class="comment">// Equivalent to: "idle" | "success"</span>
+<span class="keyword">let</span> current: NonLoadingStatus = <span class="string">"success"</span>;
+
+<span class="comment">// Exclude dengan another union</span>
+<span class="keyword">type</span> All = <span class="string">"a"</span> | <span class="string">"b"</span> | <span class="string">"c"</span> | <span class="string">"d"</span>;
+<span class="keyword">type</span> Remove = Exclude&lt;All, <span class="string">"b"</span> | <span class="string">"d"</span>&gt;;  <span class="comment">// "a" | "c"</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Extract&lt;T, U&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Extract&lt;T, U&gt;</code> melakukan sebaliknya: mengambil hanya members yang ada di kedua union. Ini adalah intersection untuk union types.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="keyword">type</span> Events = <span class="string">"click"</span> | <span class="string">"mouseover"</span> | <span class="string">"keydown"</span> | <span class="string">"submit"</span>;
+<span class="keyword">type</span> FormEvents = <span class="string">"submit"</span> | <span class="string">"change"</span> | <span class="string">"focus"</span>;
+
+<span class="comment">// Extract hanya events yang ada di keduanya</span>
+<span class="keyword">type</span> CommonEvents = Extract&lt;Events, FormEvents&gt;;  <span class="comment">// "submit"</span>
+
+<span class="comment">// Extract dengan another union</span>
+<span class="keyword">type</span> StringUnion = <span class="string">"x"</span> | <span class="string">"y"</span>;
+<span class="keyword">type</span> NumberUnion = <span class="type">1</span> | <span class="type">2</span> | <span class="type">3</span>;
+<span class="keyword">type</span> Mixed = <span class="string">"x"</span> | <span class="type">2</span>;
+
+<span class="comment">// Extract numeric members</span>
+<span class="keyword">type</span> Numbers = Extract&lt;Mixed, <span class="type">number</span>&gt;;  <span class="comment">// 2</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">NonNullable&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">NonNullable&lt;T&gt;</code> exclude <code class="bg-gray-100 px-1 rounded">null</code> dan <code class="bg-gray-100 px-1 rounded">undefined</code> dari type <code class="bg-gray-100 px-1 rounded">T</code>. Berguna untuk memastikan value tidak nullable.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="keyword">function</span> <span class="function">process</span>(input: <span class="type">string</span> | <span class="keyword">null</span> | <span class="keyword">undefined</span>) {
+  <span class="comment">// Pastikan input tidak null/undefined</span>
+  <span class="keyword">const</span> value: NonNullable&lt;<span class="keyword">typeof</span> input&gt; = input!;
+  <span class="comment">// value adalah string (bukan string | null | undefined)</span>
+}
+
+<span class="comment">// Equivalent to: Exclude&lt;T, null | undefined&gt;</span>
+<span class="keyword">type</span> StrictString = NonNullable&lt;<span class="type">string</span> | <span class="keyword">null</span>&gt;;  <span class="comment">// string</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Practical Examples</h3>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">Filtering Union Types</h4>
+            <div class="code-block mb-6">
+<span class="keyword">type</span> Props = <span class="string">"id"</span> | <span class="string">"name"</span> | <span class="string">"email"</span> | <span class="string">"password"</span> | <span class="string">"role"</span>;
+
+<span class="comment">// Public fields (exclude sensitive)</span>
+<span class="keyword">type</span> PublicProps = Exclude&lt;Props, <span class="string">"password"</span>&gt;;  <span class="comment">// "id" | "name" | "email" | "role"</span>
+
+<span class="comment">// Sensitive fields only</span>
+<span class="keyword">type</span> SensitiveProps = Extract&lt;Props, <span class="string">"password"</span>&gt;;  <span class="comment">// "password"</span>
+            </div>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">Removing null/undefined</h4>
+            <div class="code-block mb-6">
+<span class="keyword">function</span> <span class="function">getValue</span>(obj: { [key: <span class="type">string</span>]: <span class="type">string</span> | <span class="keyword">null</span> }, key: <span class="type">string</span>) {
+  <span class="keyword">const</span> val = obj[key];
+  <span class="keyword">if</span> (val === <span class="keyword">null</span> || val === <span class="keyword">undefined</span>) {
+    <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">"Value is null"</span>);
+  }
+  <span class="keyword">return</span> val <span class="keyword">as</span> NonNullable&lt;<span class="keyword">typeof</span> val&gt;;  <span class="comment">// TypeScript knows it's string now</span>
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Combining Utility Types</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Anda bisa menggabungkan Exclude/Extract dengan utility types lain:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Exclude then make optional</span>
+<span class="keyword">type</span> OptionalPublic = Partial&lt;Exclude&lt;Props, <span class="string">"password"</span>&gt;&gt;;
+
+<span class="comment">// Extract then make readonly</span>
+<span class="keyword">type</span> ReadonlySensitive = Readonly&lt;Extract&lt;Props, <span class="string">"password"</span> | <span class="string">"role"</span>&gt;&gt;;
+
+<span class="comment">// Chain: Exclude null/undefined, then Pick</span>
+<span class="keyword">type</span> NonNullableString = NonNullable&lt;<span class="type">string</span> | <span class="keyword">null</span>&gt;;  <span class="comment">// string</span>
+<span class="keyword">type</span> StrictProps = Pick&lt;NonNullableString, <span class="string">"toString"</span>&gt;;
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Implementation Details</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Di balik layar, utility types ini menggunakan conditional types:
+            </p>
+            <div class="code-block mb-6">
+<span class="keyword">type</span> Exclude&lt;T, U&gt; = T <span class="keyword">extends</span> U ? <span class="keyword">never</span> : T;
+<span class="keyword">type</span> Extract&lt;T, U&gt; = T <span class="keyword">extends</span> U ? T : <span class="keyword">never</span>;
+<span class="keyword">type</span> NonNullable&lt;T&gt; = T <span class="keyword">extends</span> <span class="keyword">null</span> | <span class="keyword">undefined</span> ? <span class="keyword">never</span> : T;
+            </div>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+                Ketika <code class="bg-gray-100 px-1 rounded">never</code> muncul di union, TypeScript otomatis menghapusnya (distributive conditional types).
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Common Pitfalls</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Exclude dan Extract hanya bekerja pada <strong>union types</strong> - tidak ada efek pada non-unions</li>
+                <li><code class="bg-gray-100 px-1 rounded">Exclude&lt;T, T&gt;</code> menghasilkan <code class="bg-gray-100 px-1 rounded">never</code></li>
+                <li><code class="bg-gray-100 px-1 rounded">Extract&lt;T, never&gt;</code> menghasilkan <code class="bg-gray-100 px-1 rounded">never</code></li>
+                <li>NonNullable tidak recursively removes null dari nested objects - hanya top-level</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Filter Union Types</h3>
+                    <p class="text-gray-700 mb-3">Gunakan Exclude dan Extract.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat union <code class="bg-gray-100 px-1 rounded">type AllStatus = "pending" | "approved" | "rejected" | "cancelled"</code></li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">type ActiveStatus = Exclude&lt;AllStatus, "cancelled"&gt;</code></li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">type TerminalStatus = Extract&lt;AllStatus, "rejected" | "cancelled"&gt;</code></li>
+                        <li>Verify dengan assignments</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: NonNullable Practice</h3>
+                    <p class="text-gray-700 mb-3">Hilangkan null dan undefined dari union.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">type MaybeNumber = number | null | undefined</code></li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">type StrictNumber = NonNullable&lt;MaybeNumber&gt;</code></li>
+                        <li>Buat function yang accept MaybeNumber dan return StrictNumber dengan non-null assertion</li>
+                        <li>Test dengan null dan undefined inputs</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Complex Combination</h3>
+                    <p class="text-gray-700 mb-3">Kombinasikan Exclude dengan Partial.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat interface <code class="bg-gray-100 px-1 rounded">User</code> dengan fields: id, name, email, password, role</li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">type Updateable = Partial&lt;Exclude&lt;keyof User, "id"&gt;&gt;</code></li>
+                        <li>Buat function <code class="bg-gray-100 px-1 rounded">updateUser(id: number, updates: Updateable)</code></li>
+                        <li>Verify tidak bisa update <code class="bg-gray-100 px-1 rounded">id</code> property</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

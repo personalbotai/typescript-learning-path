@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Instalasi TypeScript - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 1: Dasar-Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 50%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 1</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Instalasi TypeScript</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript adalah tools yang berjalan di <strong>Node.js environment</strong>. Untuk mulai menggunakan TypeScript, kita perlu menginstall TypeScript compiler (<code>tsc</code>) melalui package manager. Panduan ini akan membimbing Anda melalui berbagai cara instalasi TypeScript di sistem Anda.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 10 menit</span>
+                <span>📊 Kesulitan: Pemula</span>
+                <span>📝 prerequisites: Node.js (v14+) terinstall</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white px-3 py-1 rounded text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami prasyarat instalasi TypeScript (Node.js & npm)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menginstall TypeScript secara global menggunakan npm</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menginstall TypeScript per-project menggunakan npm/yarn</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memverifikasi instalasi dengan cara yang benar</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami perbedaan instalasi global vs local</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Prerequisites -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Prasyarat: Node.js dan npm</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript compiler (<code>tsc</code>) adalah package Node.js. Oleh karena itu, Anda harus memiliki Node.js dan npm (Node Package Manager) terinstall di sistem Anda.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Cek Instalasi Node.js dan npm</h3>
+            <p class="text-gray-700 mb-4">
+                Buka terminal atau command prompt, lalu jalankan perintah berikut untuk memverifikasi Node.js dan npm sudah terinstall:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment"># Cek versi Node.js</span>
+<span class="function">node</span> --version
+
+<span class="comment"># Cek versi npm</span>
+<span class="function">npm</span> --version</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Anda devrait melihat output seperti:
+            </p>
+
+            <div class="code-block">
+                <pre><code>v18.17.0
+9.6.7</code></pre>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 mt-6">
+                <h4 class="font-bold text-yellow-800 mb-2">⚠️ Catatan Penting</h4>
+                <p class="text-yellow-800 text-sm">
+                    TypeScript membutuhkan Node.js versi 14 atau lebih baru. Jika Anda belum memiliki Node.js, download dari <a href="https://nodejs.org" class="text-blue-600 hover:underline">nodejs.org</a> (disarankan LTS version).
+                </p>
+            </div>
+        </section>
+
+        <!-- Installation Methods -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Metode Instalasi TypeScript</h2>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">1. Instalasi Global (Recommended untuk Pemula)</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Instalasi global membuat <code>tsc</code> tersedia di seluruh sistem, allowing Anda menjalankan TypeScript compiler dari mana saja.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment"># Install TypeScript secara global menggunakan npm</span>
+<span class="function">npm</span> install -g typescript
+
+<span class="comment"># Verifikasi instalasi</span>
+<span class="function">tsc</span> --version</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Jika berhasil, Anda akan melihat output seperti:
+            </p>
+
+            <div class="code-block">
+                <pre><code>Version 5.2.2</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4 mt-8">2. Instalasi Per-Project (Recommended untuk Production)</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Instalasi per-project memastikan setiap project menggunakan versi TypeScript yang spesifik, menghindari conflict antar-projects.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment"># Navigate ke direktori project Anda</span>
+<span class="function">cd</span> my-typescript-project
+
+<span class="comment"># Inisialisasi package.json (jika belum ada)</span>
+<span class="function">npm</span> init -y
+
+<span class="comment"># Install TypeScript sebagai devDependency</span>
+<span class="function">npm</span> install --save-dev typescript</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript akan terinstall di <code>node_modules/.bin/tsc</code>. Anda bisa menjalankannya via:
+            </p>
+
+            <div class="code-block">
+                <pre><code><span class="comment"># Cara 1: langsung via npx</span>
+<span class="function">npx</span> tsc --version
+
+<span class="comment"># Cara 2: via npm script (ditambahkan di package.json)</span>
+<span class="comment">"scripts": { "build": "tsc" }</span>
+<span class="function">npm</span> run build</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4 mt-8">3. Menggunakan Yarn</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Jika Anda prefer Yarn sebagai package manager:
+            </p>
+
+            <div class="code-block">
+                <pre><code><span class="comment"># Global installation dengan Yarn</span>
+<span class="function">yarn</span> global add typescript
+
+<span class="comment"># Per-project installation</span>
+<span class="function">yarn</span> add --dev typescript</code></pre>
+            </div>
+        </section>
+
+        <!-- Platform-Specific -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Instalasi Berdasarkan Platform</h2>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">macOS</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Di macOS, Anda bisa menggunakan Homebrew untuk instalasi global:
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment"># Install TypeScript via Homebrew</span>
+<span class="function">brew</span> install typescript
+
+<span class="comment"># Verifikasi</span>
+<span class="function">tsc</span> --version</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Linux (Debian/Ubuntu)</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Meskipun TypeScript biasanya diinstall via npm, Anda juga bisa menggunakan apt dengan NodeSource repository:
+            </p>
+
+            <div class="code-block">
+                <pre><code><span class="comment"># Setup NodeSource repository (if Node.js not installed)</span>
+<span class="function">curl</span> -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+<span class="function">sudo</span> apt-get install -y nodejs
+
+<span class="comment"># Kemudian install TypeScript via npm</span>
+<span class="function">sudo</span> npm install -g typescript</code></pre>
+            </div>
+        </section>
+
+        <!-- Verification -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Verifikasi Instalasi</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Setelah instalasi, penting untuk memverifikasi bahwa <code>tsc</code> berhasil terinstall dan dapat diakses:
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Cek Versi TypeScript</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="function">tsc</span> --version</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Lihat Daftar Perintah Tersedia</h3>
+            <div class="code-block">
+                <pre><code><span class="function">tsc</span> --help</code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed mt-6">
+                Jika Anda mendapatkan error seperti <code>"command not found: tsc"</code>, kemungkinan:
+            </p>
+            <ul class="list-disc list-inside space-y-2 text-gray-700 mt-4">
+                <li>Node.js/npm tidak terinstall dengan benar</li>
+                <li>Global npm bin directory tidak ada di PATH environment variable</li>
+                <li>Instalasi TypeScript gagal (periksa koneksi internet atau permission)</li>
+            </ul>
+        </section>
+
+        <!-- Practical Exercise -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white px-3 py-1 rounded text-sm">💻</span>
+                Latihan Praktik
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Instalasi TypeScript Global</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Lakukan instalasi TypeScript secara global di sistem Anda. Verifikasi dengan mengecek versi.
+                    </p>
+                    <div class="bg-gray-50 p-4 rounded-lg text-sm">
+                        <p class="font-mono text-gray-600">Expected output: "Version 5.x.x"</p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Instalasi Per-Project</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Buat direktori baru <code>ts-practice</code>, inisialisasi npm project, dan install TypeScript sebagai devDependency. Jalankan <code>npx tsc --version</code> untuk memverifikasi.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-primary pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: PATH Troubleshooting</h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Jika <code>tsc</code> tidak ditemukan setelah instalasi global, cek npm global bin directory:
+                    </p>
+                    <div class="code-block">
+                        <pre><code><span class="function">npm</span> config get prefix
+<span class="comment"># Typically: /usr/local (macOS/Linux) atau %APPDATA%\npm (Windows)</span>
+<span class="comment"># Pastikan directory tersebut ada di PATH environment variable</span></code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white px-3 py-1 rounded text-sm">📝</span>
+                Quiz - Instalasi TypeScript
+            </h2>
+            <p class="text-gray-600 mb-6">
+                Jawab pertanyaan berikut untuk menguji pemahaman Anda tentang instalasi TypeScript.
+            </p>
+            <div id="quiz-container" class="space-y-6">
+                <!-- Quiz akan dimuat secara otomatis dari quizzes/module-1.json -->
+                <div class="text-gray-500 text-center py-8">
+                    <p>Loading quiz questions...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <section class="lesson-nav">
+            <button class="nav-btn" id="prev-btn" disabled>
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Lesson 3 of 6
+            </div>
+            <a href="typescript-vs-javascript.html" class="nav-btn primary">
+                Selanjutnya: TypeScript vs JavaScript →
+            </a>
+        </section>
+    </main>
+
+    <script src="/app.js"></script>
+    <script>
+        // Initialize lesson
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current lesson info
+            const lessonSlug = 'instalasi-typescript';
+            const moduleId = 1;
+            const totalLessons = 6;
+            const currentLesson = 3;
+
+            // Update progress bar
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const progressPercent = (currentLesson / totalLessons) * 100;
+            progressFill.style.width = `${progressPercent}%`;
+            progressText.textContent = `Lesson ${currentLesson} of ${totalLessons}`;
+
+            // Load quiz for this module
+            loadQuiz(moduleId, 'quiz-container');
+
+            // Navigation button handlers
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                window.location.href = 'typescript-vs-javascript.html';
+            });
+        });
+    </script>
+</body>
+</html>

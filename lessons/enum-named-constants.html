@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 10: Enum dan Named Constants - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 2: Tipe Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 4 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 66.67%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 2</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 4</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Enum dan Named Constants</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Enum (enumeration) adalah fitur TypeScript yang memungkinkan Anda mendefinisikan sekumpulan named constants. Enum membantu membuat kode lebih readable dengan memberikan nama yang bermakna pada nilai numerik atau string. TypeScript supports numeric, string, dan heterogeneous enums.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Pemula-Intermediate</span>
+                <span>✅ prerequisites: Tipe Primitif, Tuple</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mendeklarasikan numeric enum dan memahami auto-increment behavior</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan string enum untuk nilai yang lebih descriptive</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami heterogeneous enums (numeric dan string campur)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mengakses enum members dan menggunakan enum dalam fungsi</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan enum sebagai type dan melakukan type checking</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Materi</h2>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">1. Numeric Enum</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Numeric enum adalah jenis enum yang paling umum. Angka dimulai dari 0 secara default, tetapi dapat diatur manual. TypeScript akan otomatis menambahkan 1 untuk setiap anggota berikutnya.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Numeric enum - auto-increment dari 0</span>
+<span class="keyword">enum</span> <span class="type">Direction</span> {
+    North, <span class="comment">// 0</span>
+    East,  <span class="comment">// 1</span>
+    South, <span class="comment">// 2</span>
+    West   <span class="comment">// 3</span>
+}
+
+<span class="keyword">let</span> <span class="type">heading</span>: <span class="type">Direction</span> = Direction.North;
+console.<span class="function">log</span>(heading); <span class="comment">// 0</span>
+console.<span class="function">log</span>(Direction[0]); <span class="comment">// "North" (reverse mapping)</span>
+
+<span class="comment">// Numeric enum dengan nilai awal manual</span>
+<span class="keyword">enum</span> <span class="type">Status</span> {
+    Pending = 1,
+    Approved,
+    Rejected <span class="comment">// 3 (auto-increment dari 2)</span>
+}
+
+<span class="keyword">let</span> <span class="type">s</span>: <span class="type">Status</span> = Status.Approved; <span class="comment">// 2</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">2. String Enum</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                String enum memiliki nilai string untuk setiap anggota. Tidak ada auto-increment, setiap anggota harus diinisialisasi dengan string. String enum lebih descriptive dan baik untuk debugging.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// String enum - nilai eksplisit, tidak ada auto-increment</span>
+<span class="keyword">enum</span> <span class="type">LogLevel</span> {
+    Error = <span class="string">"ERROR"</span>,
+    Warn  = <span class="string">"WARN"</span>,
+    Info  = <span class="string">"INFO"</span>,
+    Debug = <span class="string">"DEBUG"</span>
+}
+
+<span class="keyword">let</span> <span class="type">currentLevel</span>: <span class="type">LogLevel</span> = LogLevel.Info;
+console.<span class="function">log</span>(currentLevel); <span class="comment">// "INFO"</span>
+
+<span class="comment">// Tidak ada reverse mapping untuk string enum</span>
+<span class="comment">// console.log(LogLevel["INFO"]); // undefined</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">3. Heterogeneous Enum (Campuran)</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Heterogeneous enum mengandung numeric dan string values dalam enum yang sama. Ini jarang digunakan, namun bisa berguna dalam kasus tertentu seperti mapping yang kompleks.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Heterogeneous enum - numeric dan string campur</span>
+<span class="keyword">enum</span> <span class="type">Response</span> {
+    No = 0,
+    Yes = <span class="string">"YES"</span>
+}
+
+<span class="keyword">function</span> <span class="function">respond</span>(<span class="type">answer</span>: <span class="type">Response</span>): <span class="type">string</span> {
+    <span class="keyword">if</span> (answer === Response.No) {
+        <span class="keyword">return</span> <span class="string">"Tidak"</span>;
+    } <span class="keyword">else</span> {
+        <span class="keyword">return</span> <span class="string">"Ya"</span>;
+    }
+}
+
+console.<span class="function">log</span>(<span class="function">respond</span>(Response.Yes)); <span class="comment">// "Ya"</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">4. Enum sebagai Type dan Type Safety</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Enum dapat digunakan sebagai type untuk variabel, parameter fungsi, dan return type. TypeScript akan memastikan hanya nilai enum yang valid yang dapat diassign.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Gunakan enum sebagai type</span>
+<span class="keyword">function</span> <span class="function">setStatus</span>(<span class="type">status</span>: <span class="type">Status</span>): <span class="type">void</span> {
+    console.<span class="function">log</span>(<span class="string">`Status changed to: ${status}`</span>);
+}
+
+<span class="function">setStatus</span>(Status.Approved); <span class="comment">// OK</span>
+<span class="comment">// setStatus(2); // Error: number tidak assignable ke type Status</span>
+<span class="comment">// setStatus("Approved"); // Error: string tidak assignable ke type Status</span>
+
+<span class="comment">// Enum dalam object</span>
+<span class="keyword">interface</span> <span class="type">Task</span> {
+    <span class="type">id</span>: <span class="type">number</span>;
+    <span class="type">title</span>: <span class="type">string</span>;
+    <span class="type">priority</span>: <span class="type">LogLevel</span>;
+}
+
+<span class="keyword">let</span> <span class="type">task</span>: <span class="type">Task</span> = {
+    id: 1,
+    title: <span class="string">"Fix bug"</span>,
+    priority: LogLevel.Error <span class="comment">// OK</span>
+};</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">5. const enum dan Inlining</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">const enum</code> adalah enum yang akan di-inline oleh TypeScript compiler menjadi nilai aktus di seluruh kode, tanpa menghasilkan object enum di runtime. Ini mengurangi ukuran bundle tetapi tidak memiliki reverse mapping.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// const enum - di-inline pada kompilasi</span>
+<span class="keyword">const enum</span> <span class="type">Colors</span> {
+    Red,
+    Green,
+    Blue
+}
+
+<span class="keyword">let</span> <span class="type">color</span>: <span class="type">Colors</span> = Colors.Red;
+<span class="comment">// Setelah kompilasi, kode menjadi: let color = 0; (inline)</span>
+
+<span class="comment">// compiled JS tidak ada object "Colors"</span>
+<span class="comment">// reverse mapping tidak tersedia</span></code></pre>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-6 mb-6">
+                <h4 class="font-semibold text-blue-800 mb-2">💡 Best Practices</h4>
+                <ul class="space-y-2 text-blue-800">
+                    <li>Gunakan string enum untuk nilai yang akan ditampilkan ke user atau logging</li>
+                    <li>Gunakan numeric enum untuk cases yang butuh reverse mapping atau performa</li>
+                    <li>Hindari heterogeneous enum kecuali ada kebutuhan spesifik</li>
+                    <li>Pertimbangkan <code class="bg-blue-100 px-2 py-1 rounded font-mono text-sm">const enum</code> untuk reduce bundle size (tapi hilangkan reverse mapping)</li>
+                    <li>Gunakan enum sebagai type untuk parameters dan return values untuk type safety</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💪 Latihan Praktek</h2>
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 1: User Role Enum</h3>
+                    <p class="text-gray-700 mb-3">Buat enum untuk user roles dan fungsi yang memeriksa permissions.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Enum: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">UserRole</code> dengan nilai: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">Admin = "ADMIN"</code>, <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">Editor = "EDITOR"</code>, <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">Viewer = "VIEWER"</code></p>
+                        <p class="text-sm text-gray-600">Fungsi: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">canEdit(role: UserRole): boolean</code> - return true jika role adalah Admin atau Editor.</p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 2: HTTP Status Codes</h3>
+                    <p class="text-gray-700 mb-3">Buat numeric enum untuk HTTP status codes dan fungsi yang mengembalikan deskripsi.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Enum: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">HttpStatus</code> dengan 200=OK, 201=Created, 400=Bad Request, 404=Not Found, 500=Internal Server Error</p>
+                        <p class="text-sm text-gray-600">Fungsi: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">getStatusMessage(code: HttpStatus): string</code> - return deskripsi sesuai code. Gunakan switch statement.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Preview -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📝 Quiz</h2>
+            <p class="text-gray-600 mb-4">Test pengetahuan Anda tentang enum TypeScript, termasuk numeric, string, dan penggunaan sebagai type.</p>
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+                <span>📌 Module 2 Quiz</span>
+                <span>•</span>
+                <span>10 questions</span>
+                <span>•</span>
+                <span>Passing score: 70%</span>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <button class="nav-btn primary" onclick="alert('Previous lesson: array-dan-tuple.html')">
+                ← Previous Lesson
+            </button>
+            <button class="nav-btn primary" onclick="alert('Next lesson: void-never-dan-tipe-khusus.html')">
+                Next Lesson →
+            </button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

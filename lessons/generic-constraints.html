@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Generic Constraints - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 7: Generics</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 50%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 7</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Generic Constraints</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Generic constraints</strong> membatasi type parameters ke tipe yang memenuhi kondisi tertentu, menggunakan keyword <code class="bg-gray-100 px-2 py-1 rounded font-mono">extends</code>. Constraints memastikan generic code memiliki akses ke properties dan methods yang dibutuhkan, memberikan type safety tanpa loss flexibility.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami kebutuhan generic constraints</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">extends</code> untuk membatasi type parameter</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Constrain ke specific tipe, interface, atau class</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Keyof constraint untuk membatasi ke property names</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Multiple constraints dengan intersection types</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Why Constraints?</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Tanpa constraints, generic code hanya bisa menggunakan methods yang tersedia di semua tipe (seperti <code class="bg-gray-100 px-2 py-1 rounded font-mono">any</code>). Constraints memungkinkan kita mengatakan "T harus memiliki property X" atau "T harus extends interface Y".
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">The Problem: Unconstrained Generic</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Error: Property 'length' does not exist on type 'T'</span>
+<span class="comment">// because T could be anything (number, boolean, etc.)</span>
+<span class="keyword">function</span> <span class="function">logLength</span>&lt;<span class="type">T</span>&gt;(arg: <span class="type">T</span>) {
+    <span class="comment">// console.log(arg.length); // Compile error!</span>
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Constraint dengan extends</h3>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Gunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">extends</code> untuk menargetkan tipe yang memiliki property tertentu.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Constrain T to types that have a 'length' property</span>
+<span class="keyword">function</span> <span class="function">logLength</span>&lt;<span class="type">T</span> extends { length: <span class="type">number</span> }&gt;(arg: <span class="type">T</span>): <span class="type">void</span> {
+    console.log(<span class="string">`Length: \${arg.length}`</span>);
+}
+
+<span class="comment">// OK - string has length</span>
+logLength(<span class="string">"hello"</span>);
+
+<span class="comment">// OK - array has length</span>
+logLength([<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>]);
+
+<span class="comment">// Error - number doesn't have length property</span>
+<span class="comment">// logLength(123);</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Constrain ke Interface atau Class</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">Named</span> {
+    name: <span class="type">string</span>;
+}
+
+<span class="keyword">function</span> <span class="function">greet</span>&lt;<span class="type">T</span> extends <span class="type">Named</span>&gt;(entity: <span class="type">T</span>): <span class="type">string</span> {
+    <span class="keyword">return</span> <span class="string">`Hello, \${entity.name}!`</span>;
+}
+
+<span class="keyword">class</span> <span class="type">Person</span> <span class="keyword">implements</span> <span class="type">Named</span> {
+    <span class="keyword">constructor</span>(<span class="keyword">public</span> name: <span class="type">string</span>) {}
+}
+
+<span class="keyword">interface</span> <span class="type">Animal</span> {
+    species: <span class="type">string</span>;
+}
+
+<span class="comment">// OK - Person has 'name'</span>
+greet(<span class="keyword">new</span> <span class="type">Person</span>(<span class="string">"Alice"</span>));
+
+<span class="comment">// Error - Animal doesn't have 'name'</span>
+<span class="comment">// greet({ species: "cat" });</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Constrain Multiple Type Parameters</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Setiap type parameter bisa memiliki constraintnya sendiri.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">function</span> <span class="function">merge</span>&lt;
+    <span class="type">T</span> extends { id: <span class="type">number</span> },
+    <span class="type">U</span> extends { name: <span class="type">string</span> }
+&gt;(obj1: <span class="type">T</span>, obj2: <span class="type">U</span>): <span class="type">T</span> &amp; <span class="type">U</span> {
+    <span class="keyword">return</span> { ...obj1, ...obj2 };
+}
+
+<span class="keyword">const</span> result = merge(
+    { id: <span class="type">1</span>, age: <span class="type">30</span> },      <span class="comment">// T has 'id'</span>
+    { name: <span class="string">"Alice"</span>, city: <span class="string">"NY"</span> } <span class="comment">// U has 'name'</span>
+);
+console.log(result.id, result.name); <span class="comment">// OK</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">keyof Constraint</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono">keyof</code> constraint membatasi type parameter ke property names dari sebuah tipe. Berguna untuk functions yang mengambil property name sebagai parameter.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">function</span> <span class="function">getProperty</span>&lt;<span class="type">T</span>, <span class="type">K</span> extends <span class="keyword">keyof</span> <span class="type">T</span>&gt;(obj: <span class="type">T</span>, key: <span class="type">K</span>): <span class="type">T</span>[<span class="type">K</span>] {
+    <span class="keyword">return</span> obj[key];
+}
+
+<span class="keyword">interface</span> <span class="type">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+}
+
+<span class="keyword">const</span> user: <span class="type">User</span> = { id: <span class="type">1</span>, name: <span class="string">"Alice"</span>, email: <span class="string">"alice@example.com"</span> };
+
+<span class="comment">// OK - "name" is a key of User</span>
+<span class="keyword">const</span> name = getProperty(user, <span class="string">"name"</span>); <span class="comment">// string</span>
+
+<span class="comment">// Error - "age" is not a key of User</span>
+<span class="comment">// getProperty(user, "age");</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Class Constraints</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Generic class juga bisa memiliki constraints. Properties dan methods akan memiliki akses ke members dari constrained tipe.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Repository</span>&lt;<span class="type">T</span> extends { id: <span class="type">number</span> }&gt; {
+    <span class="keyword">private</span> items: <span class="type">T</span>[] = [];
+
+    add(item: <span class="type">T</span>): <span class="type">void</span> {
+        <span class="keyword">this</span>.items.push(item);
+    }
+
+    findById(id: <span class="type">number</span>): <span class="type">T</span> | <span class="keyword">undefined</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.items.find(item => item.id === id);
+    }
+}
+
+<span class="keyword">interface</span> <span class="type">Product</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+}
+
+<span class="keyword">const</span> productRepo = <span class="keyword">new</span> <span class="type">Repository</span>&lt;<span class="type">Product</span>&gt;();
+productRepo.add({ id: <span class="type">1</span>, name: <span class="string">"Laptop"</span> });
+console.log(productRepo.findById(<span class="type">1</span>));</code></pre>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+            
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">1. Property Getter</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat generic function <code class="bg-gray-100 px-2 py-1 rounded font-mono">get&lt;T, K extends keyof T&gt;(obj: T, key: K): T[K]</code> yang mengembalikan nilai property. Test dengan object yang memiliki properties various tipe.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">2. Filter by Property</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat function <code class="bg-gray-100 px-2 py-1 rounded font-mono">filterByProperty&lt;T&gt;(arr: T[], prop: keyof T, value: T[typeof prop]): T[]</code> yang filter array of objects berdasarkan property tertentu.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">3. Callable with Specific Methods</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat function <code class="bg-gray-100 px-2 py-1 rounded font-mono">callMethod&lt;T extends { execute(): void }&gt;(obj: T): void</code> yang memanggil method <code class="bg-gray-100 px-2 py-1 rounded font-mono">execute()</code> pada objek. Buat dua classes dengan method <code class="bg-gray-100 px-2 py-1 rounded font-mono">execute()</code> dan test function tersebut.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat setelah semua lesson selesai')">
+                Quiz Module →
+            </button>
+        </nav>
+    </main>
+
+    <script src="/typescript-curriculum/app.js"></script>
+</body>
+</html>

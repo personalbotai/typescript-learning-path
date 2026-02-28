@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Optional dan Readonly Properties - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 4: Interfaces dan Type Aliases</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 2 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 33.33%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 4</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 2</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Optional dan Readonly Properties</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript memungkinkan kita menandai properti dalam interface sebagai <strong>optional</strong> (tidak wajib) atau <strong>readonly</strong> (tidak dapat diubah). Modifier-modifier ini membantu mengekspresikan niat (intent) dan memberikan type safety yang lebih baik.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Interfaces</span>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mendefinisikan properti optional dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mendefinisikan properti readonly dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">readonly</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami implikasi optional properties pada type checking</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan optional chaining dengan optional properties</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Interface menyediakan modifier untuk mengontrol apakah properti wajib diisi atau tidak, dan apakah properti tersebut dapat diubah setelah inisialisasi.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Optional Properties (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code>)</h3>
+                <p class="mb-2">
+                    Tambahkan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code> setelah nama properti untuk membuatnya opsional. Object yang mengimplementasikan interface tidak perlu menyertakan properti tersebut.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    email?: <span class="type">string</span>;  <span class="comment">// opsional</span>
+}
+
+<span class="comment">// OK - email tidak harus ada</span>
+<span class="keyword">const</span> user1: User = { id: <span class="type">1</span>, name: <span class="string">"Alice"</span> };
+
+<span class="comment">// OK - email juga bisa ada</span>
+<span class="keyword">const</span> user2: User = { id: <span class="type">2</span>, name: <span class="string">"Bob"</span>, email: <span class="string">"bob@example.com"</span> };</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Type System dan Optional Properties</h3>
+                <p class="mb-4">
+                    Ketika mengakses properti optional, TypeScript mempertimbangkan bahwa properti tersebut bisa <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">undefined</code>. Jadi tipe akses menjadi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">T | undefined</code>.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">function</span> <span class="function">getEmail</span>(user: User): <span class="type">string</span> | <span class="keyword">undefined</span> {
+    <span class="keyword">return</span> user.email;  <span class="comment">// Type: string | undefined</span>
+}
+
+<span class="keyword">const</span> user: User = { id: <span class="type">1</span>, name: <span class="string">"Alice"</span> };
+<span class="keyword">const</span> email = user.email;  <span class="comment">// email: string | undefined</span>
+
+<span class="comment">// Perlu check sebelum menggunakan</span>
+<span class="keyword">if</span> (user.email) {
+    console.<span class="function">log</span>(user.email.<span class="function">toUpperCase</span>());  <span class="comment">// OK - email adalah string</span>
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Readonly Properties (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">readonly</code>)</h3>
+                <p class="mb-2">
+                    Properti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">readonly</code> tidak dapat diubah (re-assign) setelah inisialisasi pertama.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Point</span> {
+    x: <span class="type">number</span>;
+    <span class="keyword">readonly</span> y: <span class="type">number</span>;
+}
+
+<span class="keyword">const</span> p: Point = { x: <span class="type">10</span>, y: <span class="type">20</span> };
+p.x = <span class="type">15</span>;  <span class="comment">// OK - x mutable</span>
+<span class="comment">// p.y = 25; // Error: y is readonly</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Readonly untuk Array dan Object</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Readonly array - tidak bisa push/pop/splice</span>
+<span class="keyword">interface</span> <span class="function">Config</span> {
+    <span class="keyword">readonly</span> tags: <span class="type">string</span>[];
+}
+
+<span class="keyword">const</span> cfg: Config = { tags: [<span class="string">"dev"</span>, <span class="string">"test"</span>] };
+<span class="comment">// cfg.tags.push("prod"); // Error - readonly array</span>
+<span class="comment">// cfg.tags = ["new"]; // Error - readonly property</span>
+
+<span class="comment">// Readonly nested object</span>
+<span class="keyword">interface</span> <span class="function">Settings</span> {
+    <span class="keyword">readonly</span> theme: {
+        primary: <span class="type">string</span>;
+        secondary: <span class="type">string</span>;
+    };
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Optional + Readonly</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    <span class="keyword">readonly</span> email?: <span class="type">string</span>;  <span class="comment">// opsional dan readonly</span>
+}
+
+<span class="keyword">const</span> user: User = { id: <span class="type">1</span>, name: <span class="string">"Alice"</span> };
+<span class="comment">// user.email = "new@example.com"; // Error - readonly</span>
+<span class="comment">// user.email!.toUpperCase(); // Error - possible undefined (need check)</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Kapan Menggunakan?</h3>
+                <ul class="list-disc pl-6 mb-4 space-y-2">
+                    <li><strong>Optional (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">?</code>)</strong>: Untuk properti yang mungkin tidak ada (data dari API, form dengan field opsional, dll)</li>
+                    <li><strong>Readonly</strong>: Untuk nilai konstan, ID, timestamp, configuration values yang tidak boleh diubah</li>
+                    <li><strong>Readonly + Optional</strong>: Untuk properti yang opsional dan jika ada tidak boleh diubah</li>
+                </ul>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                    <p class="text-yellow-800">
+                        <strong>⚠️ Perlu diingat:</strong> <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">readonly</code> hanya berlaku pada compile-time. Di runtime, nilai masih bisa diubah jika menggunakan type assertion atau manipulasi langsung.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Optional Properties untuk Form</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">RegistrationForm</code> dengan properti wajib <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">email: string</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">password: string</code>, serta properti optional <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">phone?: string</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">referralCode?: string</code>. Buat dua objek: satu dengan semua field, satu hanya wajib.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">interface</span> <span class="function">RegistrationForm</span> {
+    email: <span class="type">string</span>;
+    password: <span class="type">string</span>;
+    phone?: <span class="type">string</span>;
+    referralCode?: <span class="type">string</span>;
+}
+
+<span class="keyword">const</span> fullForm: RegistrationForm = {
+    email: <span class="string">"user@example.com"</span>,
+    password: <span class="string">"secret123"</span>,
+    phone: <span class="string">"+628123456789"</span>,
+    referralCode: <span class="string">"REF2024"</span>
+};
+
+<span class="keyword">const</span> minimalForm: RegistrationForm = {
+    email: <span class="string">"minimal@example.com"</span>,
+    password: <span class="string">"pass123"</span>
+};  <span class="comment">// OK - phone dan referralCode optional</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: Readonly untuk Config</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">AppConfig</code> dengan properti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">apiUrl: string</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">maxRetries: number</code> yang keduanya readonly. Coba ubah nilai setelah inisialisasi, observe error.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">interface</span> <span class="function">AppConfig</span> {
+    <span class="keyword">readonly</span> apiUrl: <span class="type">string</span>;
+    <span class="keyword">readonly</span> maxRetries: <span class="type">number</span>;
+}
+
+<span class="keyword">const</span> config: AppConfig = {
+    apiUrl: <span class="string">"https://api.example.com"</span>,
+    maxRetries: <span class="type">3</span>
+};
+
+<span class="comment">// config.apiUrl = "https://new.api.com"; // Error: readonly</span>
+<span class="comment">// config.maxRetries = 5; // Error: readonly</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn primary" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 4 - Lesson 2 dari 6
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        console.log('Optional dan Readonly Properties lesson loaded');
+    </script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Interface Dasar - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 4: Interfaces dan Type Aliases</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 16.67%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 4</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Interface Dasar</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Interface</strong> adalah salah satu cara utama untuk mendefinisikan kontrak (contract) atau blueprint untuk object di TypeScript. Interface mendefinisikan properti-properti dan methods yang harus dimiliki oleh object yang mengimplementasikannya.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Interfaces</span>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami apa itu interface dan kapan menggunakannya</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mendefinisikan interface dengan properti dan methods</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan interface untuk type annotation pada variables, parameters, dan return types</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami structural typing (duck typing) di TypeScript</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Interface adalah cara untuk mendefinisikan "bentuk" object. Interface mendeklarasikan properti-properti dan methods yang harus ada. Object yang memiliki bentuk yang sama (memiliki semua properti dan methods yang dideklarasikan) dianggap mengimplementasikan interface tersebut, tanpa perlu explicit <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">implements</code> keyword (structural typing).
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Mendefinisikan Interface Dasar</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Interface untuk User</span>
+<span class="keyword">interface</span> <span class="function">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+    isActive: <span class="keyword">boolean</span>;
+}
+
+<span class="comment">// Object yang sesuai dengan interface User</span>
+<span class="keyword">const</span> user: User = {
+    id: <span class="type">1</span>,
+    name: <span class="string">"Alice"</span>,
+    email: <span class="string">"alice@example.com"</span>,
+    isActive: <span class="keyword">true</span>
+};  <span class="comment">// OK</span>
+
+<span class="comment">// Object tanpa properti 'email' akan error</span>
+<span class="comment">// const badUser: User = { id: 2, name: "Bob", isActive: false }; // Error</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Interface dengan Methods</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Calculator</span> {
+    <span class="function">add</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span>;
+    <span class="function">subtract</span>(a: <span class="type">number</span>, b: <span class="type">number</span>): <span class="type">number</span>;
+}
+
+<span class="keyword">const</span> calc: Calculator = {
+    <span class="function">add</span>: (a, b) => a + b,
+    <span class="function">subtract</span>: (a, b) => a - b
+};  <span class="comment">// OK</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Structural Typing (Duck Typing)</h3>
+                <p class="mb-4">
+                    TypeScript menggunakan structural typing: jika object memiliki semua properti yang dideklarasikan dalam interface, maka object tersebut dianggap compatible dengan interface tersebut, bahkan tanpa explicit <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">implements</code>.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Point</span> {
+    x: <span class="type">number</span>;
+    y: <span class="type">number</span>;
+}
+
+<span class="keyword">function</span> <span class="function">distance</span>(p: Point): <span class="type">number</span> {
+    <span class="keyword">return</span> Math.<span class="function">sqrt</span>(p.x * p.x + p.y * p.y);
+}
+
+<span class="comment">// Object literal dengan properti x dan y compatible dengan Point</span>
+<span class="keyword">const</span> p = { x: <span class="type">3</span>, y: <span class="type">4</span> };
+<span class="function">distance</span>(p);  <span class="comment">// OK - structural compatibility</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Explicit Implementation dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">implements</code></h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Animal</span> {
+    name: <span class="type">string</span>;
+    <span class="function">speak</span>(): <span class="keyword">void</span>;
+}
+
+<span class="comment">// Class mengimplementasikan interface</span>
+<span class="keyword">class</span> <span class="function">Dog</span> <span class="keyword">implements</span> Animal {
+    name: <span class="type">string</span>;
+
+    <span class="function">constructor</span>(name: <span class="type">string</span>) {
+        <span class="keyword">this</span>.name = name;
+    }
+
+    <span class="function">speak</span>() {
+        console.<span class="function">log</span>(<span class="string">"Woof! I'm"</span>, <span class="keyword">this</span>.name);
+    }
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Readonly Properties dalam Interface</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Config</span> {
+    <span class="keyword">readonly</span> apiKey: <span class="type">string</span>;
+    <span class="keyword">readonly</span> timeout: <span class="type">number</span>;
+    retries: <span class="type">number</span>;  <span class="comment">// mutable</span>
+}
+
+<span class="keyword">const</span> config: Config = {
+    apiKey: <span class="string">"abc123"</span>,
+    timeout: <span class="type">5000</span>,
+    retries: <span class="type">3</span>
+};
+
+config.retries = <span class="type">5</span>;  <span class="comment">// OK</span>
+<span class="comment">// config.apiKey = "new"; // Error: apiKey is readonly</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Function Properties dalam Interface</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Logger</span> {
+    <span class="function">log</span>(message: <span class="type">string</span>): <span class="keyword">void</span>;
+    <span class="function">error</span>(message: <span class="type">string</span>): <span class="keyword">void</span>;
+}
+
+<span class="keyword">const</span> logger: Logger = {
+    <span class="function">log</span>: (msg) => console.<span class="function">log</span>(msg),
+    <span class="function">error</span>: (msg) => console.<span class="function">error</span>(msg)
+};</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Index Signatures (Dynamic Properties)</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Interface dengan dynamic property names (string index signature)</span>
+<span class="keyword">interface</span> <span class="function">Dictionary</span> {
+    [key: <span class="type">string</span>]: <span class="type">number</span>;
+}
+
+<span class="keyword">const</span> dict: Dictionary = {
+    one: <span class="type">1</span>,
+    two: <span class="type">2</span>,
+    <span class="string">"three"</span>: <span class="type">3</span>  <span class="comment">// string key juga OK</span>
+};</code></pre>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                    <p class="text-blue-800">
+                        <strong>💡 Tips:</strong> Interface adalah alat utama untuk mendefinisikan kontrak object di TypeScript. Gunakan interface ketika ingin mendefinisikan bentuk object, class contracts, atau function parameter shapes. Interface bisa di-extend (akan dibahas di lesson berikutnya).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Interface untuk Product</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Product</code> dengan properti: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">id: number</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">name: string</code>, <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">price: number</code>, dan method <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">getPrice(): number</code>. Buat object yang mengimplementasikan interface ini.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">interface</span> <span class="function">Product</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    price: <span class="type">number</span>;
+    <span class="function">getPrice</span>(): <span class="type">number</span>;
+}
+
+<span class="keyword">const</span> product: Product = {
+    id: <span class="type">1</span>,
+    name: <span class="string">"Laptop"</span>,
+    price: <span class="type">1000000</span>,
+    <span class="function">getPrice</span>: () => product.price
+};</code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: Structural Typing</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat interface <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">HasId</code> dengan properti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">id: number</code>. Buat function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">printId</code> yang menerima parameter <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">item: HasId</code>. Panggil function dengan object literal yang memiliki properti <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">id</code> tanpa explicitly declare interface.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">interface</span> <span class="function">HasId</span> {
+    id: <span class="type">number</span>;
+}
+
+<span class="keyword">function</span> <span class="function">printId</span>(item: HasId) {
+    console.<span class="function">log</span>(<span class="string">"ID:"</span>, item.id);
+}
+
+<span class="comment">// Structural typing - object dengan id compatible</span>
+<span class="function">printId</span>({ id: <span class="type">123</span>, name: <span class="string">"test"</span> });  <span class="comment">// OK</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 4 - Lesson 1 dari 6
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        console.log('Interface Dasar lesson loaded');
+    </script>
+</body>
+</html>

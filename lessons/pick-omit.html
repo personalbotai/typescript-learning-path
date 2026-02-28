@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Pick & Omit Utility Types - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 11: Advanced Utility Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 2 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 25%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 11</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 2</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Pick & Omit Utility Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Pick&lt;T, K&gt;</strong> dan <strong>Omit&lt;T, K&gt;</strong> adalah utility types untuk membuat subtype dengan memilih atau mengecualikan certain properties dari type asli. Ini sangat berguna untuk data transformation dan API responses.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami fungsi Pick&lt;T, K&gt; untuk memilih subset properties</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan Omit&lt;T, K&gt; untuk mengecualikan certain properties</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Mengaplikasikan Pick/Omit dalam real-world scenarios (DTOs, API responses)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami hubungan Pick dan Omit: Pick[T, Exclude<keyof T, K>] = Omit[T, K]</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Pick&lt;T, K&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Pick&lt;T, K&gt;</code> membuat type baru dengan hanya mengambil properties yang spesifik dari type asli. Parameter <code class="bg-gray-100 px-1 rounded">K</code> harus berupa union of property names (string literals) yang ada di <code class="bg-gray-100 px-1 rounded">T</code>.
+            </p>
+
+            <div class="code-block mb-6">
+interface User {
+  id: <span class="type">number</span>;
+  name: <span class="type">string</span>;
+  email: <span class="type">string</span>;
+  password: <span class="type">string</span>;
+  role: <span class="type">string</span>;
+  createdAt: <span class="type">Date</span>;
+}
+
+<span class="comment">// Pick hanya mengambil name dan email</span>
+<span class="keyword">type</span> UserPreview = Pick&lt;User, <span class="string">"name"</span> | <span class="string">"email"</span>&gt;;
+
+<span class="comment">// Equivalent to:</span>
+<span class="keyword">type</span> UserPreview = {
+  name: <span class="type">string</span>;
+  email: <span class="type">string</span>;
+};
+
+<span class="keyword">const</span> preview: UserPreview = {
+  name: <span class="string">"Alice"</span>,
+  email: <span class="string">"alice@example.com"</span>
+  <span class="comment">// ✅ OK - hanya properties yang di-pick</span>
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Omit&lt;T, K&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Omit&lt;T, K&gt;</code> melakukan sebaliknya: mengambil semua properties KECUALI yang disebutkan dalam <code class="bg-gray-100 px-1 rounded">K</code>.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Omit exclude password dan createdAt</span>
+<span class="keyword">type</span> PublicUser = Omit&lt;User, <span class="string">"password"</span> | <span class="string">"createdAt"</span>&gt;;
+
+<span class="comment">// Equivalent to:</span>
+<span class="keyword">type</span> PublicUser = {
+  id: <span class="type">number</span>;
+  name: <span class="type">string</span>;
+  email: <span class="type">string</span>;
+  role: <span class="type">string</span>;
+};
+
+<span class="keyword">const</span> public: PublicUser = {
+  id: <span class="type">1</span>,
+  name: <span class="string">"Alice"</span>,
+  email: <span class="string">"alice@example.com"</span>,
+  role: <span class="string">"user"</span>
+  <span class="comment">// ✅ password dan createdAt tidak ada</span>
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Hubungan Pick dan Omit</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Pick[T, Exclude<keyof T, K>]</code> sama dengan <code class="bg-gray-100 px-1 rounded">Omit[T, K]</code>. Artinya Omit adalah Pick dengan semua properties kecuali K.
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Omit<T, K> = Pick<T, Exclude<keyof T, K>></span>
+<span class="keyword">type</span> OmitUser = Omit&lt;User, <span class="string">"password"</span>&gt;;
+<span class="keyword">type</span> PickUser = Pick&lt;User, Exclude&lt;keyof User, <span class="string">"password"</span>&gt;&gt;;
+
+<span class="comment">// Keduanya identik</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Use Cases</h3>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">1. API Response DTOs</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Saat membuat API, seringkali response object berbeda dengan database entity (misal: exclude sensitive fields).
+            </p>
+            <div class="code-block mb-6">
+interface UserEntity {
+  id: <span class="type">number</span>;
+  email: <span class="type">string</span>;
+  passwordHash: <span class="type">string</span>;
+  salt: <span class="type">string</span>;
+  role: <span class="type">string</span>;
+}
+
+<span class="comment">// API response tidak boleh expose passwordHash dan salt</span>
+<span class="keyword">type</span> UserResponse = Omit&lt;UserEntity, <span class="string">"passwordHash"</span> | <span class="string">"salt"</span>&gt;;
+
+<span class="keyword">function</span> <span class="function">getUser</span>(id: <span class="type">number</span>): UserResponse {
+  <span class="comment">// ... query database</span>
+  <span class="keyword">return</span> {
+    id: user.id,
+    email: user.email,
+    role: user.role
+    <span class="comment">// passwordHash dan salt tidak dimasukkan</span>
+  };
+}
+            </div>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">2. Form Input Types</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Form create/update sering hanya perlu subset properties dari full entity.
+            </p>
+            <div class="code-block mb-6">
+interface Product {
+  id: <span class="type">number</span>;
+  name: <span class="type">string</span>;
+  price: <span class="type">number</span>;
+  category: <span class="type">string</span>;
+  stock: <span class="type">number</span>;
+  createdAt: <span class="type">Date</span>;
+}
+
+<span class="comment">// Form create tidak perlu id dan createdAt</span>
+<span class="keyword">type</span> ProductForm = Omit&lt;Product, <span class="string">"id"</span> | <span class="string">"createdAt"</span>&gt;;
+
+<span class="comment">// Form update mungkin hanya perlu beberapa field</span>
+<span class="keyword">type</span> ProductUpdate = Partial&lt;Pick&lt;Product, <span class="string">"price"</span> | <span class="string">"stock"</span>&gt;&gt;;
+            </div>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">3. GraphQL Selections</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                GraphQL memungkinkan client memilih fields yang diinginkan. Pick bisa merepresentasikan query selections.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Combining dengan Utility Types Lain</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Pick dan Omit sering dikombinasikan dengan Partial, Required, atau utility types lainnya.
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Partial hanya untuk certain fields</span>
+<span class="keyword">type</span> PartialContact = Partial&lt;Pick&lt;User, <span class="string">"email"</span> | <span class="string">"phone"</span>&gt;&gt;;
+
+<span class="comment">// Required setelah Omit</span>
+<span class="keyword">type</span> RequiredPublicUser = Required&lt;Omit&lt;User, <span class="string">"password"</span>&gt;&gt;;
+
+<span class="comment">// Nested Pick</span>
+<span class="keyword">interface</span> Company {
+  id: <span class="type">number</span>;
+  name: <span class="type">string</span>;
+  address: {
+    street: <span class="type">string</span>;
+    city: <span class="type">string</span>;
+    country: <span class="type">string</span>;
+  };
+}
+
+<span class="comment">// Pick nested properties</span>
+<span class="keyword">type</span> CompanyLocation = Pick&lt;Company, <span class="string">"address"</span>&gt;;
+<span class="comment">// { address: { street, city, country } }</span>
+
+<span class="keyword">type</span> CompanyLocationSimple = Pick&lt;Company, <span class="string">"address"</span>&gt; &amp; {
+  address: Pick&lt;Company[<span class="string">"address"</span>], <span class="string">"city"</span> | <span class="string">"country"</span>&gt;
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Performance & Constraints</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Pick dan Omit adalah <strong>compile-time only</strong> - tidak ada runtime cost</li>
+                <li>Property names harus known at compile time (string literals atau union of literals)</li>
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">keyof T</code> untuk dynamic property selection</li>
+                <li>Hindari deep nesting dengan Pick/Omit - gunakan custom types untuk complex transformations</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: API Response Types</h3>
+                    <p class="text-gray-700 mb-3">Buat DTO types untuk API response.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat interface <code class="bg-gray-100 px-1 rounded">UserEntity</code> dengan fields: id, email, passwordHash, salt, role, permissions</li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">UserPublic = Omit&lt;UserEntity, "passwordHash" | "salt"&gt;</code></li>
+                        <li>Buat function <code class="bg-gray-100 px-1 rounded">toPublicUser(entity: UserEntity): UserPublic</code></li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: Form Types</h3>
+                    <p class="text-gray-700 mb-3">Gunakan Pick untuk form inputs.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat interface <code class="bg-gray-100 px-1 rounded">Product</code> dengan banyak fields</li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">ProductCreate = Omit&lt;Product, "id" | "createdAt"&gt;</code></li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">ProductUpdate = Partial&lt;Pick&lt;Product, "price" | "stock"&gt;&gt;</code></li>
+                        <li>Implement functions untuk create dan update</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Dynamic Pick</h3>
+                    <p class="text-gray-700 mb-3">Gunakan keyof untuk flexible property selection.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat function <code class="bg-gray-100 px-1 rounded">selectFields&lt;T, K extends keyof T&gt;(obj: T, keys: K[]): Pick&lt;T, K&gt;</code></li>
+                        <li>Test dengan various objects dan property arrays</li>
+                        <li>Pastikan return type tepat sesuai keys yang diminta</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

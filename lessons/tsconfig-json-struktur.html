@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: tsconfig.json Struktur dan Opsi - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 9: Configuration Tooling</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 12.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 9</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">tsconfig.json: Struktur dan Opsi</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>tsconfig.json</strong> adalah file konfigurasi utama TypeScript compiler. File ini menentukan compiler options, file inclusion/exclusion, dan perilaku TypeScript project. Memahami tsconfig.json adalah kunci untuk mengoptimalkan TypeScript development workflow.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 25 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Configuration</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami tujuan dan keberadaan <strong>tsconfig.json</strong></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengetahui struktur dasar JSON configuration</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengidentifikasi <strong>compiler options</strong> utama yang sering digunakan</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengonfigurasi <strong>include/exclude</strong> untuk file selection</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami <strong>extends</strong> untuk konfigurasi reusable</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengetahui <strong>type acquisition</strong> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">types</code> option</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Apa itu tsconfig.json?</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>tsconfig.json</strong> adalah file JSON yang berisi opsi-opsi untuk <strong>TypeScript compiler (tsc)</strong>. Ketika perintah <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">tsc</code> dijalankan di direktori yang mengandung tsconfig.json, compiler akan membaca konfigurasi ini dan menerapkannya pada seluruh project. Tanpa tsconfig.json, TypeScript menggunakan default settings.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-blue-900 mb-2">🔑 Manfaat tsconfig.json:</h3>
+                <ul class="list-disc list-inside text-blue-800 space-y-2">
+                    <li><strong>Consistency</strong>: Semua developer menggunakan compiler settings yang sama</li>
+                    <li><strong>Optimization</strong>: Enable strict checking, optimize output format</li>
+                    <li><strong>Project Structure</strong>: Define mana file yang termasuk dalam project</li>
+                    <li><strong>Integration</strong>: Compatible dengan build tools, bundlers, IDE</li>
+                    <li><strong>Inheritance</strong>: Bisa extend dari config lain (contoh: @tsconfig/recommended)</li>
+                </ul>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Struktur Dasar tsconfig.json</h2>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2020"</span>,
+    <span class="string">"module"</span>: <span class="string">"commonjs"</span>,
+    <span class="string">"strict"</span>: <span class="keyword">true</span>,
+    <span class="string">"outDir"</span>: <span class="string">"./dist"</span>,
+    <span class="string">"rootDir"</span>: <span class="string">"./src"</span>,
+    <span class="string">"esModuleInterop"</span>: <span class="keyword">true</span>
+  },
+  <span class="string">"include"</span>: [<span class="string">"src/**/*"</span>],
+  <span class="string">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">"dist"</span>]
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Compiler Options Utama</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Bagian <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">compilerOptions</code> adalah hati dari tsconfig.json. Berikut adalah opsi-opsi paling penting:
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">1. Target dan Module</h3>
+
+            <div class="overflow-x-auto mb-6">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Option</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Deskripsi</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Nilai Umum</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700"><code>target</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">ECMAScript version untuk output JavaScript</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">ES2020, ES2015, ES5</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700"><code>module</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Module system untuk output</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">commonjs, es2020, esnext</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700"><code>lib</code></td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Library types yang disertakan</td>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">["ES2020", "DOM"]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2022"</span>,      <span class="comment">// Output JS dengan ES2022 features</span>
+    <span class="string">"module"</span>: <span class="string">"NodeNext"</span>,  <span class="comment">// ES Modules dengan Node.js resolution</span>
+    <span class="string">"lib"</span>: [<span class="string">"ES2022"</span>, <span class="string">"DOM"</span>, <span class="string">"DOM.Iterable"</span>]
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">2. Strictness Options</h3>
+
+            <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-red-900 mb-2">🚨 Strict Mode:</h3>
+                <p class="text-red-800 mb-4">
+                    Opsi <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">"strict": true</code> mengaktifkan <strong>ALL</strong> strict type-checking options. Sangat disarankan untuk production projects.
+                </p>
+                <p class="text-red-800 text-sm">
+                    Strict mode include: <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">noImplicitAny</code>, <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">strictNullChecks</code>, <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">strictFunctionTypes</code>, <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">strictBindCallApply</code>, <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">strictPropertyInitialization</code>, <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">noImplicitThis</code>, <code class="bg-red-100 px-2 py-1 rounded text-sm font-mono">alwaysStrict</code>.
+                </p>
+            </div>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"strict"</span>: <span class="keyword">true</span>,  <span class="comment">// Enable all strict options</span>
+    
+    <span class="comment">// Atau enable satu per-satu:</span>
+    <span class="string">"noImplicitAny"</span>: <span class="keyword">true</span>,     <span class="comment">// Error jika type any tidak explicit</span>
+    <span class="string">"strictNullChecks"</span>: <span class="keyword">true</span>,  <span class="comment">// null dan undefined bukan subtype dari semua type</span>
+    <span class="string">"strictFunctionTypes"</span>: <span class="keyword">true</span>
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">3. Output Directory Options</h3>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"outDir"</span>: <span class="string">"./dist"</span>,        <span class="comment">// Output compiled JS ke folder dist</span>
+    <span class="string">"rootDir"</span>: <span class="string">"./src"</span>,        <span class="comment">// Source files berada di src</span>
+    <span class="string">"declaration"</span>: <span class="keyword">true</span>,      <span class="comment">// Generate .d.ts files</span>
+    <span class="string">"declarationMap"</span>: <span class="keyword">true</span>,  <span class="comment">// Source map untuk .d.ts</span>
+    <span class="string">"sourceMap"</span>: <span class="keyword">true</span>,        <span class="comment">// Generate .js.map files</span>
+    <span class="string">"removeComments"</span>: <span class="keyword">false</span>
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">4. Interop Options</h3>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"esModuleInterop"</span>: <span class="keyword">true</span>,   <span class="comment">// Enable default import dari CommonJS</span>
+    <span class="string">"allowSyntheticDefaultImports"</span>: <span class="keyword">true</span>,
+    <span class="string">"resolveJsonModule"</span>: <span class="keyword">true</span>,    <span class="comment">// Bisa import .json files</span>
+    <span class="string">"isolatedModules"</span>: <span class="keyword">true</span>,     <span class="comment">// Each file transpile independently</span>
+    <span class="string">"noEmit"</span>: <span class="keyword">false</span>             <span class="comment">// Set true untuk type-checking only</span>
+  }
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Include dan Exclude</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Opsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">include</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">exclude</code> mengontrol file mana yang diproses oleh TypeScript compiler. Jika tidak ditentukan, TypeScript akan include semua <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">.ts</code> files di folder tsconfig.json dan subfolders, kecuali <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">node_modules</code>.
+            </p>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"include"</span>: [
+    <span class="string">"src/**/*"</span>,           <span class="comment">// Semua .ts files di src dan subfolders</span>
+    <span class="string">"tests/**/*.ts"</span>,      <span class="comment">// Test files</span>
+    <span class="string">"scripts/*.ts"</span>        <span class="comment">// Build scripts</span>
+  ],
+  <span class="string">"exclude"</span>: [
+    <span class="string">"node_modules"</span>,       <span class="comment">// Always exclude node_modules</span>
+    <span class="string">"dist"</span>,               <span class="comment">// Build output</span>
+    <span class="string">"**/*.test.ts"</span>       <span class="comment">// Test files (jika tidak include)</span>
+  ]
+}
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-yellow-900 mb-2">⚠️ Catatan:</h3>
+                <p class="text-yellow-800">
+                    <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">exclude</code> hanya berlaku untuk files yang sudah include oleh <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">include</code> atau default. Jika file tidak match <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">include</code>, dia tidak akan diproses meski tidak di-<code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">exclude</code>.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Extending Config</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript mendukung <strong>config inheritance</strong> melalui <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">extends</code>. Ini memungkinkan Anda membuat base config dan reuse di multiple projects.
+            </p>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"extends"</span>: <span class="string">"@tsconfig/recommended"</span>,  <span class="comment">// Base config dari community</span>
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2022"</span>,
+    <span class="string">"module"</span>: <span class="string">"NodeNext"</span>
+    <span class="comment">// Opsi lain override atau tambah</span>
+  }
+}
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-green-900 mb-2">✅ Popular Base Configs:</h3>
+                <ul class="list-disc list-inside text-green-800 space-y-2">
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">@tsconfig/recommended</code> - Strict settings (disarankan)</li>
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">@tsconfig/node16</code> - Untuk Node.js 16+</li>
+                    <li><code class="bg-green-100 px-2 py-1 rounded text-sm font-mono">@tsconfig/strictest</code> - Maximum strictness</li>
+                </ul>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Type Acquisition (types option)</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Opsi <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">types</code> mengontrol mana <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">@types</code> packages yang di-load secara otomatis. Jika tidak ditentukan, semua packages di <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">node_modules/@types</code> akan di-include.
+            </p>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="comment">// Hanya include types yang spesifik</span>
+    <span class="string">"types"</span>: [<span class="string">"node"</span>, <span class="string">"jest"</span>, <span class="string">"express"</span>]
+  }
+}
+            </div>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="comment">// Disable auto-inclusion semua @types (manual import only)</span>
+    <span class="string">"types"</span>: []
+  }
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Contoh Lengkap: Production tsconfig.json</h2>
+
+            <div class="code-block mb-6">
+{
+  <span class="string">"extends"</span>: <span class="string">"@tsconfig/recommended"</span>,
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"target"</span>: <span class="string">"ES2022"</span>,
+    <span class="string">"module"</span>: <span class="string">"NodeNext"</span>,
+    <span class="string">"lib"</span>: [<span class="string">"ES2022"</span>],
+    <span class="string">"outDir"</span>: <span class="string">"./dist"</span>,
+    <span class="string">"rootDir"</span>: <span class="string">"./src"</span>,
+    <span class="string">"declaration"</span>: <span class="keyword">true</span>,
+    <span class="string">"sourceMap"</span>: <span class="keyword">true</span>,
+    <span class="string">"esModuleInterop"</span>: <span class="keyword">true</span>,
+    <span class="string">"resolveJsonModule"</span>: <span class="keyword">true</span>,
+    <span class="string">"skipLibCheck"</span>: <span class="keyword">true</span>,      <span class="comment">// Skip type checking di @types</span>
+    <span class="string">"forceConsistentCasingInFileNames"</span>: <span class="keyword">true</span>
+  },
+  <span class="string">"include"</span>: [<span class="string">"src/**/*"</span>],
+  <span class="string">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">"dist"</span>, <span class="string">"**/*.test.ts"</span>]
+}
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-purple-900 mb-2">💡 Tips:</h3>
+                <ul class="list-disc list-inside text-purple-800 space-y-2">
+                    <li>Gunakan <code class="bg-purple-100 px-2 py-1 rounded text-sm font-mono">tsc --init</code> untuk generate tsconfig.json template</li>
+                    <li>Mulai dengan <code class="bg-purple-100 px-2 py-1 rounded text-sm font-mono">"strict": true</code> dan adjust sesuai kebutuhan</li>
+                    <li>Simpan tsconfig.json di root project</li>
+                    <li>Gunakan <code class="bg-purple-100 px-2 py-1 rounded text-sm font-mono">"skipLibCheck": true</code> untuk mempercepat compilation (hanya type-check own code)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Buat tsconfig untuk Library</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">tsconfig.json</code> untuk TypeScript library yang akan dipublish ke npm:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li>Target: ES2020</li>
+                        <li>Module: ESNext (untuk bundlers)</li>
+                        <li>Generate declaration files (.d.ts)</li>
+                        <li>Include src folder saja</li>
+                        <li>Strict mode on</li>
+                        <li>OutDir: dist</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: React App Config</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat tsconfig untuk React application dengan:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li>JSX support (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"jsx": "react-jsx"</code>)</li>
+                        <li>Target ES2020, module ESNext</li>
+                        <li>Include src folder</li>
+                        <li>Strict mode</li>
+                        <li>ES Module interop</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: Config Inheritance</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">tsconfig.base.json</code> dengan strict settings dan common options. Lalu buat <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">tsconfig.json</code> yang extends base dan override:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>target: ES2022</li>
+                        <li>outDir: ./build</li>
+                        <li>include src dan tests</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" disabled>
+                ← Sebelumnya
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 9, Lesson 2)')">
+                Selanjutnya: Compiler Options →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: tsconfig.json
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module9', 'tsconfig-json-struktur');
+            }
+        });
+    </script>
+</body>
+</html>

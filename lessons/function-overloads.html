@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4: Function Overloads - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&isplay=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 5: Functions & Arrow Functions</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 4 of 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 80%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 5</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 4</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Function Overloads</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Function Overloads</strong> memungkinkan kita mendefinisikan beberapa function signatures untuk satu function implementation. Ini sangat berguna ketika function bisa menerima berbagai kombinasi parameter dan mengembalikan tipe yang berbeda berdasarkan input.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Functions</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Memahami konsep function overload dan kapan menggunakannya</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Mendefinisikan multiple signatures untuk satu function</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Membedakan overload signatures dengan implementation signature</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Menulis function dengan overload yang type-safe</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📘 Apa itu Function Overload?</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Function overload adalah kemampuan TypeScript untuk mendefinisikan beberapa <strong>call signatures</strong> untuk satu function. Ini membantu TypeScript memahami berbagai cara function dapat dipanggil dan tipe apa yang dikembalikan berdasarkan argumen yang diberikan.
+            </p>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Overload signatures hanya berisi deklarasi - tanpa implementasi. Implementasi sebenarnya menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">any</code> atau union types untuk parameter, dan berjalan di <em>background</em>.
+            </p>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+                <p class="text-yellow-800">
+                    <strong>⚠️ Penting:</strong> Overload signatures harus konsisten dengan implementation signature. Implementation signature harus <em>compatible</em> dengan semua overload signatures.
+                </p>
+            </div>
+        </section>
+
+        <!-- Code Example 1 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">💻 Contoh 1: Function dengan Overload Sederhana</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Mari kita lihat contoh function yang bisa menerima 1 atau 2 argumen dan mengembalikan tipe yang berbeda:
+            </p>
+
+            <div class="code-block mb-4">
+<pre><code><span class="comment">// Overload signatures</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="type">string</span>): <span class="type">string</span>;
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="type">string</span>, age: <span class="type">number</span>): <span class="type">string</span>;
+
+<span class="comment">// Implementation signature (harus comprehensive)</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="type">string</span>, age?: <span class="type">number</span>): <span class="type">string</span> {
+    <span class="keyword">if</span> (age !== <span class="keyword">undefined</span>) {
+        <span class="keyword">return</span> <span class="string">`Hello ${name}, you are ${age} years old!`</span>;
+    }
+    <span class="keyword">return</span> <span class="string">`Hello ${name}!`</span>;
+}
+
+<span class="comment">// Penggunaan</span>
+<span class="keyword">const</span> msg1 = greet(<span class="string">"Alice"</span>);           <span class="comment">// string</span>
+<span class="keyword">const</span> msg2 = greet(<span class="string">"Bob"</span>, 25);      <span class="comment">// string</span>
+<span class="comment">// greet("Charlie", "old"); // ❌ Type error: string bukan number</span></code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed">
+                TypeScript akan memilih signature yang paling sesuai berdasarkan argumen yang dipanggil. Di atas, <code class="bg-gray-100 px-2 py-1 rounded font-mono">greet("Alice")</code> menggunakan signature pertama (return <code class="bg-gray-100 px-2 py-1 rounded font-mono">string</code>), sedangkan <code class="bg-gray-100 px-2 py-1 rounded font-mono">greet("Bob", 25)</code> menggunakan signature kedua.
+            </p>
+        </section>
+
+        <!-- Code Example 2 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">💻 Contoh 2: Overload dengan Return Type Berbeda</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Overload bisa juga mengembalikan tipe yang berbeda berdasarkan input:
+            </p>
+
+            <div class="code-block mb-4">
+<pre><code><span class="comment">// Function yang mengembalikan number atau string</span>
+<span class="keyword">function</span> <span class="function">processInput</span>(input: <span class="type">number</span>): <span class="type">number</span>;
+<span class="keyword">function</span> <span class="function">processInput</span>(input: <span class="type">string</span>): <span class="type">string</span>;
+<span class="keyword">function</span> <span class="function">processInput</span>(input: <span class="type">number</span> | <span class="type">string</span>): <span class="type">number</span> | <span class="type">string</span> {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> input === <span class="string">"number"</span>) {
+        <span class="keyword">return</span> input * 2;
+    }
+    <span class="keyword">return</span> input.toUpperCase();
+}
+
+<span class="keyword">const</span> result1 = processInput(<span class="type">42</span>);      <span class="comment">// number (type inferred)</span>
+<span class="keyword">const</span> result2 = processInput(<span class="string">"hello"</span>); <span class="comment">// string (type inferred)</span></code></pre>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed">
+                TypeScript menggunakan overload signatures untuk menebak return type secara akurat. Tanpa overload, <code class="bg-gray-100 px-2 py-1 rounded font-mono">result1</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">result2</code> akan bertipe <code class="bg-gray-100 px-2 py-1 rounded font-mono">number | string</code>.
+            </p>
+        </section>
+
+        <!-- Code Example 3 -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">💻 Contoh 3: Overload dengan Multiple Parameter Types</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Overload sangat berguna untuk function yang bisa menerima berbagai kombinasi tipe parameter:
+            </p>
+
+            <div class="code-block mb-4">
+<pre><code><span class="keyword">function</span> <span class="function">getItem</span>(id: <span class="type">number</span>): { id: <span class="type">number</span>; name: <span class="type">string</span> };
+<span class="keyword">function</span> <span class="function">getItem</span>(name: <span class="type">string</span>): { id: <span class="type">number</span>; name: <span class="type">string</span> };
+<span class="keyword">function</span> <span class="function">getItem</span>(idOrName: <span class="type">number</span> | <span class="type">string</span>): { id: <span class="type">number</span>; name: <span class="type">string</span> } {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> idOrName === <span class="string">"number"</span>) {
+        <span class="keyword">return</span> { id: idOrName, name: <span class="string">`Item ${idOrName}`</span> };
+    }
+    <span class="keyword">return</span> { id: 0, name: idOrName };
+}
+
+<span class="keyword">const</span> item1 = getItem(<span class="type">123</span>);     <span class="comment">// { id: number; name: string }</span>
+<span class="keyword">const</span> item2 = getItem(<span class="string">"Widget"</span>); <span class="comment">// { id: number; name: string }</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Best Practices -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">💡 Best Practices</h2>
+            <div class="space-y-4">
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <h3 class="font-bold text-blue-900 mb-2">1. Overload signatures harus di atas implementation</h3>
+                    <p class="text-blue-800">TypeScript mengharuskan overload signatures didefinisikan sebelum implementation signature.</p>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <h3 class="font-bold text-blue-900 mb-2">2. Implementation signature harus comprehensive</h3>
+                    <p class="text-blue-800">Implementation signature harus bisa menangani semua kasus yang didefinisikan di overload signatures. Gunakan union types atau <code class="bg-blue-100 px-1 rounded font-mono">any</code> untuk parameter.</p>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <h3 class="font-bold text-blue-900 mb-2">3. Jangan overload terlalu banyak</h3>
+                    <p class="text-blue-800">Terlalu banyak overload bisa membuat kode sulit dibaca. Pertimbangkan untuk menggunakan union types atau optional parameters jika memungkinkan.</p>
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                    <h3 class="font-bold text-blue-900 mb-2">4. Overload untuk API compatibility</h3>
+                    <p class="text-blue-800">Overload sangat berguna saat membuat library atau API yang perlu mendukung berbagai cara pemanggilan.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🏋️ Latihan</h2>
+            <div class="space-y-6">
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="font-bold text-gray-900 mb-3">Latihan 1: Calculator Function</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat function <code class="bg-gray-100 px-2 py-1 rounded font-mono">calculate</code> dengan overload:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded font-mono">calculate(a: number, b: number): number</code> - mengembalikan penjumlahan</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded font-mono">calculate(a: string, b: string): string</code> - mengembalikan concatenation</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="font-bold text-gray-900 mb-3">Latihan 2: Array Access dengan Safety</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat function <code class="bg-gray-100 px-2 py-1 rounded font-mono">getElement</code> yang:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Jika dioverload dengan index <code class="bg-gray-100 px-2 py-1 rounded font-mono">number</code>, return <code class="bg-gray-100 px-2 py-1 rounded font-mono">T | undefined</code></li>
+                        <li>Jika dioverload dengan index <code class="bg-gray-100 px-2 py-1 rounded font-mono">number</code> dan default value, return <code class="bg-gray-100 px-2 py-1 rounded font-mono">T</code></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Preview -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📝 Quiz</h2>
+            <p class="text-gray-600 mb-4">
+                Setelah mempelajari lesson ini, cobalah quiz untuk menguji pemahaman Anda. Quiz akan otomatis dimuat dari <code class="bg-gray-100 px-2 py-1 rounded font-mono">quizzes/</code> folder.
+            </p>
+            <div class="bg-green-50 border-l-4 border-green-400 p-4">
+                <p class="text-green-800">
+                    <strong>✅ Quiz Tersedia:</strong> Mencakup function overload signatures, implementation rules, dan best practices.
+                </p>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" disabled>
+                ← Sebelumnya
+            </button>
+            <span class="text-sm font-medium text-gray-500">Lesson 4 of 5</span>
+            <button class="nav-btn primary" onclick="alert('Next lesson: Arrow Functions')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <footer class="max-w-4xl mx-auto px-4 py-8 text-center text-gray-500 text-sm">
+        <p>© 2026 TypeScript Learning Path. Dibuat dengan ❤️ untuk komunitas developer Indonesia.</p>
+    </footer>
+</body>
+</html>

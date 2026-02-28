@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Rest Parameters dan Spread Syntax - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 5: Functions & Arrow Functions</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 2 of 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 40%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 5</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 2</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Rest Parameters dan Spread Syntax</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Rest parameters</strong> (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">...</code>) memungkinkan function menerima unlimited number of arguments sebagai array. <strong>Spread syntax</strong> (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">...</code>) memecah array/object menjadi individual elements. Meski sama-sama menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">...</code>, mereka digunakan dalam konteks berbeda.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 15 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Functions</span>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami rest parameters dalam function signatures</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan spread syntax untuk arrays dan objects</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Type annotations untuk rest parameters</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Kombinasi rest parameters dengan fixed parameters</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Rest parameters dan spread syntax adalah fitur powerful di TypeScript (dan JavaScript) untuk bekerja dengan multiple arguments atau array elements secara dinamis.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Rest Parameters dalam Functions</h3>
+                <p class="mb-2">
+                    Rest parameters mengumpulkan semua arguments yang tersisa menjadi array. Harus berupa parameter terakhir.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Function dengan rest parameter</span>
+<span class="keyword">function</span> <span class="function">sum</span>(...nums: <span class="type">number</span>[]): <span class="type">number</span> {
+    <span class="keyword">return</span> nums.<span class="function">reduce</span>((a, b) => a + b, <span class="type">0</span>);
+}
+
+<span class="function">sum</span>(<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>);  <span class="comment">// 6</span>
+<span class="function">sum</span>();            <span class="comment">// 0</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Rest dengan Fixed Parameters</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">function</span> <span class="function">format</span>(prefix: <span class="type">string</span>, ...messages: <span class="type">string</span>[]): <span class="type">string</span> {
+    <span class="keyword">return</span> messages.<span class="function">map</span>(msg => <span class="string">`</span>${prefix}<span class="string">: </span>${msg}<span class="string">`</span>).<span class="function">join</span>(<span class="string">", "</span>);
+}
+
+<span class="function">format</span>(<span class="string">"INFO"</span>, <span class="string">"Server started"</span>, <span class="string">"Listening on port 3000"</span>);</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Rest Parameters Type Inference</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// TypeScript infers nums as number[]</span>
+<span class="keyword">function</span> <span class="function">multiply</span>(...nums: <span class="type">number</span>[]) {
+    <span class="keyword">return</span> nums.<span class="function">reduce</span>((a, b) => a * b, <span class="type">1</span>);
+}</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Spread Syntax untuk Arrays</h3>
+                <p class="mb-2">
+                    Spread syntax memecah array menjadi individual elements. Digunakan dalam array literals, function calls, dll.
+                </p>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">const</span> arr1 = [<span class="type">1</span>, <span class="type">2</span>];
+<span class="keyword">const</span> arr2 = [<span class="type">3</span>, <span class="type">4</span>];
+
+<span class="comment">// Combine arrays</span>
+<span class="keyword">const</span> combined = [...arr1, ...arr2];  <span class="comment">// [1, 2, 3, 4]</span>
+
+<span class="comment">// Spread dalam function call</span>
+<span class="keyword">function</span> <span class="function">logAll</span>(...nums: <span class="type">number</span>[]) {
+    console.<span class="function">log</span>(nums);
+}
+<span class="keyword">const</span> nums = [<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>];
+<span class="function">logAll</span>(...nums);  <span class="comment">// same as logAll(1, 2, 3)</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Spread Syntax untuk Objects</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">const</span> obj1 = { a: <span class="type">1</span>, b: <span class="type">2</span> };
+<span class="keyword">const</span> obj2 = { c: <span class="type">3</span>, d: <span class="type">4</span> };
+
+<span class="comment">// Merge objects</span>
+<span class="keyword">const</span> merged = { ...obj1, ...obj2 };  <span class="comment">// { a: 1, b: 2, c: 3, d: 4 }</span>
+
+<span class="comment">// Override properties</span>
+<span class="keyword">const</span> overridden = { ...obj1, a: <span class="type">10</span> };  <span class="comment">// { a: 10, b: 2 }</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Rest dalam Destructuring</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">const</span> [first, ...rest] = [<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>, <span class="type">4</span>];
+console.<span class="function">log</span>(first);  <span class="comment">// 1</span>
+console.<span class="function">log</span>(rest);   <span class="comment">// [2, 3, 4]</span>
+
+<span class="keyword">const</span> { name, ...others } = { name: <span class="string">"Alice"</span>, age: <span class="type">30</span>, city: <span class="string">"Jakarta"</span> };
+console.<span class="function">log</span>(others);  <span class="comment">// { age: 30, city: "Jakarta" }</span></code></pre>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                    <p class="text-yellow-800">
+                        <strong>⚠️ Perlu diingat:</strong> Rest parameters harus berupa parameter terakhir dalam function signature. Spread syntax bisa digunakan di banyak tempat (array, object, function calls), tetapi tidak bisa digunakan langsung dalam type position (gunakan tuple/array types sebagai gantinya).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Function dengan Rest Parameters</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">concatAll</code> yang menerima unlimited number of string arguments menggunakan rest parameters. Function harus menggabungkan semua strings dengan spasi.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">function</span> <span class="function">concatAll</span>(...strings: <span class="type">string</span>[]): <span class="type">string</span> {
+    <span class="keyword">return</span> strings.<span class="function">join</span>(<span class="string">" "</span>);
+}
+
+<span class="function">concatAll</span>(<span class="string">"Hello"</span>, <span class="string">"World"</span>, <span class="string">"TypeScript"</span>);  <span class="comment">// "Hello World TypeScript"</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: Spread untuk Object Merge</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">mergeConfig</code> yang menerima dua config objects dan mengembalikan merged config (object kedua override object pertama). Gunakan spread syntax.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">type</span> <span class="function">Config</span> = Record&lt;<span class="type">string</span>, <span class="keyword">any</span>&gt;;
+
+<span class="keyword">function</span> <span class="function">mergeConfig</span>(base: Config, override: Config): Config {
+    <span class="keyword">return</span> { ...base, ...override };
+}
+
+<span class="keyword">const</span> defaultConfig = { apiUrl: <span class="string">"/api"</span>, timeout: <span class="type">5000</span> };
+<span class="keyword">const</span> customConfig = { timeout: <span class="type">10000</span> };
+<span class="keyword">const</span> final = <span class="function">mergeConfig</span>(defaultConfig, customConfig);
+<span class="comment">// { apiUrl: "/api", timeout: 10000 }</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn primary" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 5 - Lesson 2 dari 5
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        console.log('Rest Parameters dan Spread Syntax lesson loaded');
+    </script>
+</body>
+</html>

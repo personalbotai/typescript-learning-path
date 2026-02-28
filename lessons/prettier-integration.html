@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 8: Prettier Integration - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 9: Configuration Tooling</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 8 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 9</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 8</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Prettier Integration dengan TypeScript</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Prettier</strong> adalah code formatter opinionated yang memastikan konsistensi styling di seluruh codebase. Integrasi Prettier dengan TypeScript memastikan kode Selalu terformat dengan konsisten, meningkatkan readability, dan mengurangi debates tentang code style.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami peran Prettier dalam development workflow TypeScript</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menginstall dan mengkonfigurasi Prettier untuk proyek TypeScript</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Mengintegrasikan Prettier dengan ESLint untuk menghindari conflicts</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan Prettier CLI dan editor integrations (VS Code)</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Mengatur pre-commit hooks dengan Husky untuk auto-format</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Apa itu Prettier?</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Prettier adalah <strong>code formatter opinionated</strong> yang menerapkan aturan formatting yang konsisten dengan removing semua styling asli dan memformat ulang kode sesuai dengan aturan yang telah ditentukan. Berbeda dengan ESLint yang menemukan pattern problems, Prettier <em>mengubah kode</em> agar sesuai dengan style guide.
+            </p>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+                Untuk TypeScript, Prettier memahami syntax TypeScript dan tidak merusak type annotations. Prettier bekerja dengan <strong>recursive parsing</strong> dan mencetak ulang code dengan consistent spacing, line breaks, dan quotes.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Instalasi Prettier</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Install Prettier sebagai dev dependency di proyek TypeScript:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment"># Install prettier locally</span>
+npm install --save-dev prettier
+
+<span class="comment"># Atau dengan yarn</span>
+yarn add --dev prettier
+
+<span class="comment"># Install TypeScript parser untuk prettier (biasanya sudah dikenali otomatis)</span>
+npm install --save-dev @typescript-eslint/parser
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Konfigurasi Prettier</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Prettier mencari konfigurasi dari beberapa sources dalam urutan prioritas:
+            </p>
+            <ol class="list-decimal list-inside text-gray-700 mb-6 space-y-2">
+                <li><code class="bg-gray-100 px-1 rounded">.prettierrc</code> (JSON, YAML, atau JS)</li>
+                <li><code class="bg-gray-100 px-1 rounded">.prettierrc.toml</code></li>
+                <li><code class="bg-gray-100 px-1 rounded">.prettierrc.json</code></li>
+                <li><code class="bg-gray-100 px-1 rounded">.prettierrc.yaml</code> / <code class="bg-gray-100 px-1 rounded">.prettierrc.yml</code></li>
+                <li><code class="bg-gray-100 px-1 rounded">.prettierrc.js</code></li>
+                <li><code class="bg-gray-100 px-1 rounded">prettier.config.js</code></li>
+                <li><code class="bg-gray-100 px-1 rounded">package.json</code> field <code class="bg-gray-100 px-1 rounded">"prettier"</code></li>
+            </ol>
+
+            <p class="text-gray-700 mb-4 leading-relaxed">Contoh konfigurasi <code class="bg-gray-100 px-1 rounded">.prettierrc.json</code>:</p>
+            <div class="code-block mb-6">
+{
+  <span class="string">"semi"</span>: <span class="keyword">true</span>,
+  <span class="string">"singleQuote"</span>: <span class="keyword">true</span>,
+  <span class="string">"tabWidth"</span>: <span class="type">2</span>,
+  <span class="string">"trailingComma"</span>: <span class="string">"es5"</span>,
+  <span class="string">"printWidth"</span>: <span class="type">80</span>,
+  <span class="string">"arrowParens"</span>: <span class="string">"always"</span>,
+  <span class="string">"endOfLine"</span>: <span class="string">"lf"</span>
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Menjalankan Prettier</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Format file atau entire directory dengan Prettier CLI:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment"># Format semua file .ts di src/</span>
+npx prettier --write src/
+
+<span class="comment"># Format file tertentu</span>
+npx prettier --write src/index.ts src/utils/helpers.ts
+
+<span class="comment"># Check formatting tanpa modify (untuk CI)</span>
+npx prettier --check src/
+
+<span class="comment"># Format dengan config custom</span>
+npx prettier --write --config .prettierrc.json src/
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Prettier dengan VS Code</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Install VS Code extension <strong>"Prettier - Code formatter"</strong>. Kemudian configure settings:
+            </p>
+            <div class="code-block mb-6">
+{
+  <span class="string">"editor.defaultFormatter"</span>: <span class="string">"esbenp.prettier-vscode"</span>,
+  <span class="string">"editor.formatOnSave"</span>: <span class="keyword">true</span>,
+  <span class="string">"editor.formatOnPaste"</span>: <span class="keyword">false</span>,
+  <span class="string">"[typescript]"</span>: {
+    <span class="string">"editor.defaultFormatter"</span>: <span class="string">"esbenp.prettier-vscode"</span>
+  },
+  <span class="string">"[typescriptreact]"</span>: {
+    <span class="string">"editor.defaultFormatter"</span>: <span class="string">"esbenp.prettier-vscode"</span>
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">ESLint + Prettier Integration</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                ESLint dan Prettier bisa bertabrakan karena keduanya ingin mengatur formatting. Gunakan <code class="bg-gray-100 px-1 rounded">eslint-config-prettier</code> untuk menonaktifkan ESLint rules yang berkonflik dengan Prettier.
+            </p>
+            <div class="code-block mb-6">
+<span class="comment"># Install packages</span>
+npm install --save-dev eslint-config-prettier
+
+<span class="comment"># Di .eslintrc.json, extend config:</span>
+{
+  <span class="string">"extends"</span>: [
+    <span class="string">"eslint:recommended"</span>,
+    <span class="string">"plugin:@typescript-eslint/recommended"</span>,
+    <span class="string">"prettier"</span>  <span class="comment">// Harus di akhir!</span>
+  ]
+}
+            </div>
+            <p class="text-gray-700 mb-6 leading-relaxed">
+                Dengan setup ini, ESLint akan fokus ke code quality issues, sedangkan Prettier menangani formatting. Anda juga bisa menggunakan <code class="bg-gray-100 px-1 rounded">eslint-plugin-prettier</code> untuk menjalankan Prettier sebagai ESLint rule.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Husky + lint-staged untuk Auto-Format</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Otomatis format files sebelum commit menggunakan Husky (git hooks) dan lint-staged:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment"># Install</span>
+npm install --save-dev husky lint-staged
+
+<span class="comment"># Inisialisasi husky</span>
+npx husky install
+
+<span class="comment"># Tambah pre-commit hook</span>
+npx husky add .husky/pre-commit "npx lint-staged"
+
+<span class="comment"># Di package.json, tambah lint-staged config:</span>
+{
+  <span class="string">"lint-staged"</span>: {
+    <span class="string">"*.{ts,tsx}"</span>: [
+      <span class="string">"eslint --fix"</span>,
+      <span class="string">"prettier --write"</span>
+    ],
+    <span class="string">"*.{json,md,html,css,scss}"</span>: [
+      <span class="string">"prettier --write"</span>
+    ]
+  }
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Best Practices</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">singleQuote: true</code> untuk konsistensi dengan TypeScript community</li>
+                <li>Set <code class="bg-gray-100 px-1 rounded">trailingComma: es5</code> untuk kompatibilitas</li>
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">arrowParens: always</code> untuk arrow functions konsisten</li>
+                <li>Pastikan <code class="bg-gray-100 px-1 rounded">endOfLine: lf</code> untuk cross-platform consistency</li>
+                <li>Integrasikan dengan CI pipeline untuk cek formatting sebelum merge</li>
+                <li>Jangan ubah Prettier config terlalu sering agar maintain konsistensi</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Setup Prettier</h3>
+                    <p class="text-gray-700 mb-3">Inisialisasi Prettier di proyek TypeScript yang sudah ada.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Install Prettier sebagai dev dependency</li>
+                        <li>Buat file <code class="bg-gray-100 px-1 rounded">.prettierrc.json</code> dengan konfigurasi yang disarankan</li>
+                        <li>Format seluruh codebase dengan <code class="bg-gray-100 px-1 rounded">npx prettier --write</code></li>
+                        <li>Verifikasi tidak ada formatting warnings</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: Integrasi ESLint</h3>
+                    <p class="text-gray-700 mb-3">Gabungkan ESLint dan Prettier tanpa conflicts.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Install <code class="bg-gray-100 px-1 rounded">eslint-config-prettier</code></li>
+                        <li>Update <code class="bg-gray-100 px-1 rounded">.eslintrc.json</code> untuk include <code class="bg-gray-100 px-1 rounded">"prettier"</code> di extends</li>
+                        <li>Run <code class="bg-gray-100 px-1 rounded">npx eslint src/</code> dan pastikan tidak ada conflicts</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Husky Hook</h3>
+                    <p class="text-gray-700 mb-3">Setup auto-format sebelum commit.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Install Husky dan lint-staged</li>
+                        <li>Buat pre-commit hook yang menjalankan Prettier</li>
+                        <li>Buat file yang tidak terformat, commit, dan verify auto-format berjalan</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" disabled>
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

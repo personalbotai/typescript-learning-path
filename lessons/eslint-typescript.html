@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESLint untuk TypeScript - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 9: Configuration & Tooling</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 7 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 87.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 9</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 7</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">ESLint untuk TypeScript</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>ESLint</strong> adalah linter yang widely-used untuk JavaScript dan TypeScript. Ini membantu menegakkan coding standards, menemukan potential bugs, dan meningkatkan code quality dengan memberikan warnings dan errors berdasarkan configurable rules. Untuk TypeScript, ESLint membutuhkan plugin dan parser khusus.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 25 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Menginstall dan mengkonfigurasi ESLint untuk TypeScript projects</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Memahami perbedaan <code>@typescript-eslint/parser</code> dan <code>@typescript-eslint/eslint-plugin</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Menggunakan TypeScript-specific linting rules</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Integrasi ESLint dengan VS Code dan pre-commit hooks</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">▹</span>
+                    <span>Customizing rules dan extending configurations</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Setup ESLint dengan TypeScript
+            </h2>
+
+            <div class="prose prose-lg max-w-none text-gray-700">
+                <p class="mb-6">
+                    ESLint secara native hanya understands JavaScript. Untuk lint TypeScript code, kita perlu dua package tambahan:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li><code>@typescript-eslint/parser</code> - Parser yang mengubah TypeScript code menjadi format yang bisa dipahami ESLint</li>
+                    <li><code>@typescript-eslint/eslint-plugin</code> - Plugin yang berisi TypeScript-specific rules</li>
+                </ul>
+
+                <div class="code-block mb-6">
+<span class="comment"># Install ESLint dan packages TypeScript</span>
+npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+
+<span class="comment"># Atau dengan yarn</span>
+yarn add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Konfigurasi ESLint (eslint.config.js)</h3>
+                <p class="mb-6">
+                    Buat file konfigurasi ESLint di root project. Untuk TypeScript, kita perlu menentukan parser dan plugin.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment">// eslint.config.js (ESLint v9+ flat config)</span>
+<span class="keyword">import</span> globals <span class="keyword">from</span> <span class="string">'globals'</span>;
+<span class="keyword">import</span> tseslint <span class="keyword">from</span> <span class="string">'typescript-eslint'</span>;
+
+<span class="keyword">export default</span> tseslint.<span class="function">config</span>(
+  {
+    <span class="string">"parser"</span>: <span class="string">'@typescript-eslint/parser'</span>,
+    <span class="string">"parserOptions"</span>: {
+      <span class="string">"ecmaVersion"</span>: <span class="number">2022</span>,
+      <span class="string">"sourceType"</span>: <span class="string">"module"</span>,
+      <span class="string">"project"</span>: [<span class="string">"./tsconfig.json"</span>]
+    },
+    <span class="string">"plugins"</span>: [<span class="string">"@typescript-eslint"</span>],
+    <span class="string">"rules"</span>: {
+      <span class="string">"@typescript-eslint/explicit-function-return-type"</span>: <span class="string">"warn"</span>,
+      <span class="string">"@typescript-eslint/no-unused-vars"</span>: [<span class="string">"error"</span>, { <span class="string">"argsIgnorePattern"</span>: <span class="string">"^_"</span> }],
+      <span class="string">"@typescript-eslint/no-explicit-any"</span>: <span class="string">"error"</span>,
+      <span class="string">"@typescript-eslint/prefer-const"</span>: <span class="string">"error"</span>,
+      <span class="string">"@typescript-eslint/no-floating-promises"</span>: <span class="string">"error"</span>
+    }
+  },
+  {
+    <span class="string">"files"</span>: [<span class="string">"./**/*.ts"</span>, <span class="string">"./**/*.tsx"</span>]
+  }
+);
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Menggunakan Predefined Configs</h3>
+                <p class="mb-6">
+                    TypeScript ESLint menyediakan predefined configurations yang bisa kita extend:
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment">// eslint.config.js - Using recommended configs</span>
+<span class="keyword">import</span> tseslint <span class="keyword">from</span> <span class="string">'typescript-eslint'</span>;
+
+<span class="keyword">export default</span> tseslint.<span class="function">config</span>(
+  {
+    <span class="string">"extends"</span>: [
+      tseslint.<span class="function">configs</span>.<span class="function">flat</span>.<span class="function">recommended</span>.<span class="function">typeChecked</span>,
+      <span class="comment">// Atau dengan string:</span>
+      <span class="comment">// "plugin:@typescript-eslint/recommended-type-checked"</span>
+    ],
+    <span class="string">"rules"</span>: {
+      <span class="comment">// Override rules here</span>
+    }
+  }
+);
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Important TypeScript-Specific Rules</h3>
+                <p class="mb-6">
+                    Berikut adalah beberapa important rules dari <code>@typescript-eslint</code> plugin:
+                </p>
+
+                <div class="overflow-x-auto mb-6">
+                    <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Rule</th>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Deskripsi</th>
+                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Severity</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-2 text-sm font-mono text-blue-600">@typescript-eslint/no-explicit-any</td>
+                                <td class="px-4 py-2 text-sm text-gray-700">Melarang penggunaan type <code>any</code> (kecuali diallowed)</td>
+                                <td class="px-4 py-2 text-sm"><span class="bg-red-100 text-red-700 px-2 py-1 rounded">Error</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 text-sm font-mono text-blue-600">@typescript-eslint/explicit-function-return-type</td>
+                                <td class="px-4 py-2 text-sm text-gray-700">Meminta explicit return type untuk functions</td>
+                                <td class="px-4 py-2 text-sm"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">Warning</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 text-sm font-mono text-blue-600">@typescript-eslint/no-unused-vars</td>
+                                <td class="px-4 py-2 text-sm text-gray-700">Mendeteksi variables yang dideklarasikan tapi tidak digunakan</td>
+                                <td class="px-4 py-2 text-sm"><span class="bg-red-100 text-red-700 px-2 py-1 rounded">Error</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 text-sm font-mono text-blue-600">@typescript-eslint/consistent-type-imports</td>
+                                <td class="px-4 py-2 text-sm text-gray-700">Memaksa consistent style untuk type imports</td>
+                                <td class="px-4 py-2 text-sm"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">Warning</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 text-sm font-mono text-blue-600">@typescript-eslint/no-floating-promises</td>
+                                <td class="px-4 py-2 text-sm text-gray-700">Mendeteksi promises yang tidak di-handle</td>
+                                <td class="px-4 py-2 text-sm"><span class="bg-red-100 text-red-700 px-2 py-1 rounded">Error</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 text-sm font-mono text-blue-600">@typescript-eslint/prefer-optional-chain</td>
+                                <td class="px-4 py-2 text-sm text-gray-700">Mengganti null checks dengan optional chaining (?.)</td>
+                                <td class="px-4 py-2 text-sm"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">Warning</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">VS Code Integration</h3>
+                <p class="mb-6">
+                    Install ESLint extension untuk VS Code agar linting errors dan warnings muncul directly di editor.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment"># Install VS Code ESLint extension</span>
+<span class="comment"># Code: ms-vscode.vscode-eslint</span>
+
+<span class="comment"># Pastikan settings.json mengaktifkan ESLint untuk TypeScript:</span>
+{
+  <span class="string">"eslint.validate"</span>: [
+    <span class="string">"javascript"</span>,
+    <span class="string">"javascriptreact"</span>,
+    <span class="string">"typescript"</span>,
+    <span class="string">"typescriptreact"</span>
+  ],
+  <span class="string">"editor.codeActionsOnSave"</span>: {
+    <span class="string">"source.fixAll.eslint"</span>: <span class="keyword">true</span>
+  }
+}
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Pre-commit Hooks dengan Husky</h3>
+                <p class="mb-6">
+                    Gunakan Husky untuk menjalankan ESLint sebelum setiap commit. Ini ensures code quality dan mencegah commits dengan linting errors.
+                </p>
+
+                <div class="code-block mb-6">
+<span class="comment"># Install Husky dan lint-staged</span>
+npm install --save-dev husky lint-staged
+
+<span class="comment"># Inisialisasi Husky</span>
+npx husky init
+
+<span class="comment"># package.json scripts</span>
+{
+  <span class="string">"scripts"</span>: {
+    <span class="string">"lint"</span>: <span class="string">"eslint . --ext .ts,.tsx"</span>,
+    <span class="string">"lint:fix"</span>: <span class="string">"eslint . --ext .ts,.tsx --fix"</span>
+  }
+}
+
+<span class="comment"># .husky/pre-commit</span>
+<span class="comment">#!/usr/bin/env sh</span>
+. <span class="string">"$(dirname -- "$0")/_/husky.sh"</span>
+
+npx lint-staged
+                </div>
+
+                <div class="code-block mb-6">
+<span class="comment"># package.json - lint-staged config</span>
+{
+  <span class="string">"lint-staged"</span>: {
+    <span class="string">"*.{ts,tsx}"</span>: [
+      <span class="string">"eslint --fix"</span>,
+      <span class="string">"prettier --write"</span>
+    ]
+  }
+}
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">Common ESLint Issues dengan TypeScript</h3>
+
+                <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+                    <h4 class="font-semibold text-red-900 mb-2">Issue: "Parsing error: Cannot read file tsconfig.json"</h4>
+                    <p class="text-sm text-red-800 mb-2">
+                        ESLint tidak bisa menemukan tsconfig.json untuk type checking.
+                    </p>
+                    <p class="text-sm text-red-800">
+                        <strong>Solution:</strong> Pastikan <code>parserOptions.project</code> di eslint.config.js menunjuk ke correct tsconfig.json path. Gunakan absolute path atau relative dari project root.
+                    </p>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                    <h4 class="font-semibold text-yellow-900 mb-2">Issue: Performance slow saat linting</h4>
+                    <p class="text-sm text-yellow-800 mb-2">
+                        TypeScript ESLint bisa lambat karena type checking.
+                    </p>
+                    <p class="text-sm text-yellow-800">
+                        <strong>Solution:</strong> Gunakan <code>parserOptions.createDefaultProgram</code>: false (default), pastikan <code>tsconfig.json</code> include hanya file yang diperlukan, atau gunakan <code>--cache</code> flag.
+                    </p>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
+                    <h4 class="font-semibold text-green-900 mb-2">Best Practice: Recommended Configs</h4>
+                    <p class="text-sm text-green-800">
+                        Gunakan <code>tseslint.configs.recommendedTypeChecked</code> untuk setup yang baik out-of-the-box dengan type-aware rules tanpa terlalu strict. Tambahkan rules manual sesuai project needs.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                Latihan & Exercises
+            </h2>
+
+            <div class="prose prose-lg max-w-none text-gray-700">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Exercise 1: Basic ESLint Setup</h3>
+                <p class="mb-4">
+                    Buat project TypeScript baru dan setup ESLint dengan following requirements:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li>Install ESLint, @typescript-eslint/parser, @typescript-eslint/eslint-plugin</li>
+                    <li>Buat eslint.config.js dengan parser dan plugin TypeScript</li>
+                    <li>Enable rules: no-explicit-any (error), no-unused-vars (error), prefer-const (warning)</li>
+                    <li>Buat file <code>bad-code.ts</code> yang sengaja melanggar beberapa rules</li>
+                    <li>Jalankan <code>npx eslint bad-code.ts</code> dan verify errors muncul</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Exercise 2: VS Code Integration</h3>
+                <p class="mb-4">
+                    Konfigurasi VS Code untuk:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li>Validate TypeScript files dengan ESLint</li>
+                    <li>Auto-fix linting errors on save</li>
+                    <li>Tampilkan errors dan warnings di Problems panel</li>
+                </ul>
+                <p class="mb-6">Buka file TypeScript yang memiliki linting errors dan verify VS Code menampilkan them.</p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Exercise 3: Husky Pre-commit Hook</h3>
+                <p class="mb-4">
+                    Setup Husky dan lint-staged untuk:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li>Run ESLint automatically sebelum setiap commit</li>
+                    <li>Auto-fix fixable errors</li>
+                    <li>Blok commit jika ada linting errors</li>
+                </ul>
+                <p class="mb-6">Test dengan membuat changes yang memiliki linting errors dan cek apakah commit berhasil atau ditolak.</p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Exercise 4: Custom Rule Configuration</h3>
+                <p class="mb-6">
+                    Experiment dengan customizing ESLint rules:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li>Set <code>@typescript-eslint/explicit-function-return-type</code> ke "error"</li>
+                    <li>Enable <code>@typescript-eslint/no-floating-promises</code></li>
+                    <li>Configure <code>@typescript-eslint/consistent-type-imports</code> dengan style "type-only"</li>
+                    <li>Buat code yang violating these rules dan verify ESLint catches them</li>
+                </ul>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+                    <p class="text-sm text-blue-800">
+                        <strong>Tips:</strong> Gunakan <code>npx eslint . --ext .ts,.tsx --fix</code> untuk auto-fix many common issues. Tapi manual review tetap diperlukan untuk complex fixes.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Integration -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                Quiz - ESLint untuk TypeScript
+            </h2>
+
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Loading quiz questions...</p>
+            </div>
+        </section>
+
+        <!-- Lesson Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous Lesson
+            </button>
+            <span class="text-gray-600 text-sm">Lesson 7 of 8</span>
+            <button class="nav-btn primary" onclick="alert('Next lesson would load here')">
+                Next Lesson →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        const quizData = [
+            {
+                id: 1,
+                question: "Apa tujuan utama ESLint dalam TypeScript projects?",
+                options: [
+                    "Mengkompilasi TypeScript ke JavaScript",
+                    "Menegakkan coding standards dan menemukan potential bugs",
+                    "Mengelola dependencies",
+                    "Menjalankan unit tests"
+                ],
+                correct: 1,
+                explanation: "ESLint adalah linter yang membantu menegakkan coding standards, menemukan potential bugs, dan meningkatkan code quality."
+            },
+            {
+                id: 2,
+                question: "Package mana yang diperlukan untuk membuat ESLint memahami TypeScript code?",
+                options: [
+                    "eslint-typescript",
+                    "@typescript-eslint/parser dan @typescript-eslint/eslint-plugin",
+                    "typescript-eslint",
+                    "tslint"
+                ],
+                correct: 1,
+                explanation: "@typescript-eslint/parser mengubah TypeScript ke format ESLint, dan @typescript-eslint/eslint-plugin menyediakan TypeScript-specific rules."
+            },
+            {
+                id: 3,
+                question: "Rule apa yang melarang penggunaan type 'any'?",
+                options: [
+                    "@typescript-eslint/no-any",
+                    "@typescript-eslint/no-explicit-any",
+                    "@typescript-eslint/avoid-any",
+                    "no-any"
+                ],
+                correct: 1,
+                explanation: "@typescript-eslint/no-explicit-any adalah rule yang melarang penggunaan type any untuk meningkatkan type safety."
+            },
+            {
+                id: 4,
+                question: "Di mana ESLint mencari type definitions secara default?",
+                options: [
+                    "Di folder ./types",
+                    "Di node_modules/@types",
+                    "Di tsconfig.json",
+                    "Di root project"
+                ],
+                correct: 1,
+                explanation: "ESLint (melalui TypeScript compiler) mencari type definitions di node_modules/@types/."
+            },
+            {
+                id: 5,
+                question: "Tool apa yang digunakan untuk menjalankan ESLint secara otomatis sebelum commit?",
+                options: [
+                    "ESLint CLI",
+                    "Husky dengan lint-staged",
+                    "Prettier",
+                    "TypeScript compiler"
+                ],
+                correct: 1,
+                explanation: "Husky provides Git hooks dan lint-staged menjalankan ESLint pada staged files sebelum commit."
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizData.map((q, idx) => `
+                <div class="quiz-item" data-id="${q.id}">
+                    <h3 class="font-semibold text-gray-900 mb-3">${idx + 1}. ${q.question}</h3>
+                    <div class="space-y-2">
+                        ${q.options.map((opt, optIdx) => `
+                            <div class="quiz-option" data-correct="${q.correct === optIdx ? 'true' : 'false'}" data-question="${q.id}" data-option="${optIdx}">
+                                <span class="font-medium mr-2">${String.fromCharCode(65 + optIdx)}.</span>
+                                <span>${opt}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="mt-3 p-3 rounded-lg hidden explanation-box" id="explanation-${q.id}">
+                        <p class="text-sm"><strong>Explanation:</strong> ${q.explanation}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionId = this.getAttribute('data-question');
+                    const optionIdx = parseInt(this.getAttribute('data-option'));
+                    const isCorrect = this.getAttribute('data-correct') === 'true';
+                    
+                    document.querySelectorAll(`[data-question="${questionId}"] .quiz-option`).forEach(opt => {
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected');
+                    if (isCorrect) {
+                        this.classList.add('correct');
+                    } else {
+                        this.classList.add('incorrect');
+                        document.querySelector(`[data-question="${questionId}"][data-correct="true"]`).classList.add('correct');
+                    }
+                    
+                    document.getElementById(`explanation-${questionId}`).classList.remove('hidden');
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuiz();
+        });
+    </script>
+</body>
+</html>

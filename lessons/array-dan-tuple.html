@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 9: Array dan Tuple - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 2: Tipe Dasar TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 50%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 2</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Array dan Tuple</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript memberikan kontrol tipe yang ketat untuk array dan tuple. Array adalah kumpulan elemen dengan tipe yang sama, sedangkan tuple memungkinkan kombinasi tipe berbeda dalam jumlah tetap. Memahami kedua struktur data ini esensial untuk menangani koleksi data dengan aman.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Pemula-Intermediate</span>
+                <span>✅ prerequisites: Tipe Primitif</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mendeklarasikan array dengan tipe spesifik menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Type[]</code> syntax</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami generic array type <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Array&lt;Type&gt;</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan tuple untuk fixed-length, fixed-type sequences</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Operasi array dengan type safety (push, pop, map, filter)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Tuple operations dan destructuring</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Materi</h2>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">1. Array dengan Tipe Spesifik</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Di TypeScript, array dapat dideklarasikan dengan menentukan tipe elemennya. Ada dua sintaks yang umum digunakan: <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Type[]</code> dan generic <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">Array&lt;Type&gt;</code>. Keduanya setara, pilih sesuai preferensi.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Array dengan tipe spesifik</span>
+<span class="keyword">let</span> <span class="type">names</span>: <span class="type">string</span>[] = [<span class="string">"Budi"</span>, <span class="string">"Ani"</span>, <span class="string">"Siti"</span>];
+<span class="keyword">let</span> <span class="type">numbers</span>: <span class="type">number</span>[] = [1, 2, 3, 4, 5];
+<span class="keyword">let</span> <span class="type">booleans</span>: <span class="type">boolean</span>[] = [<span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">true</span>];
+
+<span class="comment">// Generic syntax (setara dengan di atas)</span>
+<span class="keyword">let</span> <span class="type">names2</span>: <span class="type">Array</span>&lt;<span class="type">string</span>&gt; = [<span class="string">"Ali"</span>, <span class="string">"Bina"</span>];
+<span class="keyword">let</span> <span class="type">numbers2</span>: <span class="type">Array</span>&lt;<span class="type">number</span>&gt; = [10, 20, 30];
+
+<span class="comment">// Type inference untuk array</span>
+<span class="keyword">let</span> <span class="type">inferredStrings</span> = [<span class="string">"a"</span>, <span class="string">"b"</span>]; <span class="comment">// inferred as string[]</span>
+<span class="keyword">let</span> <span class="type">inferredNumbers</span> = [1, 2, 3]; <span class="comment">// inferred as number[]</span>
+
+<span class="comment">// Readonly array (tidak bisa diubah)</span>
+<span class="keyword">let</span> <span class="type">readonlyNames</span>: <span class="keyword">readonly</span> <span class="type">string</span>[] = [<span class="string">"Budi"</span>, <span class="string">"Ani"</span>];
+<span class="comment">// readonlyNames.push("Siti"); // Error: readonly array</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">2. Tuple - Fixed-Type Sequences</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tuple adalah array dengan <strong>fixed number of elements</strong> dan <strong>known types at specific positions</strong>. Berguna untuk mengembalikan multiple values dari fungsi atau menyimpan data dengan struktur tetap seperti koordinat [x, y].
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Tuple: fixed length dan fixed types per position</span>
+<span class="keyword">let</span> <span class="type">coordinate</span>: [<span class="type">number</span>, <span class="type">number</span>] = [10, 20];
+<span class="keyword">let</span> <span class="type">person</span>: [<span class="type">string</span>, <span class="type">number</span>, <span class="type">boolean</span>] = [<span class="string">"Budi"</span>, 25, <span class="keyword">true</span>];
+
+<span class="comment">// Akses elemen tuple dengan type safety</span>
+<span class="keyword">const</span> <span class="type">x</span> = coordinate[0]; <span class="comment">// number</span>
+<span class="keyword">const</span> <span class="type">name</span> = person[0]; <span class="comment">// string</span>
+<span class="keyword">const</span> <span class="type">age</span> = person[1]; <span class="comment">// number</span>
+
+<span class="comment">// Tuple bisa diubah (mutated) tetapi harus sesuai tipe</span>
+coordinate[0] = 30; <span class="comment">// OK</span>
+<span class="comment">// coordinate[0] = "string"; // Error: number expected</span>
+<span class="comment">// coordinate.push(40); // OK: menambah elemen, tapi type safety hilang setelah push</span>
+
+<span class="comment">// Tuple dengan optional elements</span>
+<span class="keyword">let</span> <span class="type">optionalTuple</span>: [<span class="type">string</span>, <span class="type">number</span>?, <span class="type">boolean</span>?] = [<span class="string">"test"</span>];
+optionalTuple[1] = 42; <span class="comment">// OK: second element optional</span>
+
+<span class="comment">// Tuple dengan rest elements</span>
+<span class="keyword">let</span> <span class="type">stringList</span>: [<span class="type">string</span>, ...<span class="type">string</span>[]] = [<span class="string">"first"</span>, <span class="string">"second"</span>, <span class="string">"third"</span>];</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">3. Array Operations dengan Type Safety</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                TypeScript memastikan semua operasi array aman secara tipe. Metode seperti <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">push</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">pop</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">map</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono text-sm">filter</code> akan mempertahankan tipe array asli atau mengembalikan tipe yang sesuai.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Array methods preserve type</span>
+<span class="keyword">let</span> <span class="type">nums</span>: <span class="type">number</span>[] = [1, 2, 3, 4];
+
+<span class="comment">// push: menambah elemen, tipe tetap number[]</span>
+nums.<span class="function">push</span>(5); <span class="comment">// OK</span>
+<span class="comment">// nums.push("string"); // Error: string not assignable to number</span>
+
+<span class="comment">// pop: mengembalikan number | undefined</span>
+<span class="keyword">const</span> <span class="type">last</span> = nums.<span class="function">pop</span>(); <span class="comment">// number | undefined</span>
+
+<span class="comment">// map: mengembalikan array baru dengan tipe sesuai callback</span>
+<span class="keyword">const</span> <span class="type">doubled</span> = nums.<span class="function">map</span>(n => n * 2); <span class="comment">// number[]</span>
+<span class="keyword">const</span> <span class="type">strings</span> = nums.<span class="function">map</span>(n => <span class="string">`Number: ${n}`</span>); <span class="comment">// string[]</span>
+
+<span class="comment">// filter: tetap number[]</span>
+<span class="keyword">const</span> <span class="type">evens</span> = nums.<span class="function">filter</span>(n => n % 2 === 0); <span class="comment">// number[]</span>
+
+<span class="comment">// forEach: tidak mengembalikan nilai</span>
+nums.<span class="function">forEach</span>(n => console.<span class="function">log</span>(n));</code></pre>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">4. Tuple Destructuring</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tuple dapat di-destructure seperti array, tetapi TypeScript akan mempertahankan tipe untuk setiap elemen yang diekstrak. Ini membuat kode lebih readable dan type-safe.
+            </p>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Destructuring tuple</span>
+<span class="keyword">const</span> <span class="type">point</span>: [<span class="type">number</span>, <span class="type">number</span>] = [100, 200];
+<span class="keyword">const</span> [<span class="type">x</span>, <span class="type">y</span>] = point; <span class="comment">// x: number, y: number</span>
+
+<span class="comment">// Destructuring dengan rest</span>
+<span class="keyword">const</span> <span class="type">rgb</span>: [<span class="type">number</span>, <span class="type">number</span>, <span class="type">number</span>, <span class="type">number</span>?] = [255, 0, 0];
+<span class="keyword">const</span> [<span class="type">r</span>, <span class="type">g</span>, <span class="type">b</span>, <span class="type">a</span>] = rgb; <span class="comment">// a: number | undefined</span>
+
+<span class="comment">// Swap values menggunakan tuple destructuring</span>
+<span class="keyword">let</span> <span class="type">a</span> = 1;
+<span class="keyword">let</span> <span class="type">b</span> = 2;
+[a, b] = [b, a]; <span class="comment">// swap: a=2, b=1</span>
+
+<span class="comment">// Function yang mengembalikan tuple</span>
+<span class="keyword">function</span> <span class="function">getMinMax</span>(<span class="type">arr</span>: <span class="type">number</span>[]): [<span class="type">number</span>, <span class="type">number</span>] {
+    <span class="keyword">return</span> [<span class="function">Math</span>.<span class="function">min</span>(...arr), <span class="function">Math</span>.<span class="function">max</span>(...arr)];
+}
+<span class="keyword">const</span> [<span class="type">min</span>, <span class="type">max</span>] = <span class="function">getMinMax</span>([1, 5, 3, 9, 2]);</code></pre>
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 mb-6">
+                <h4 class="font-semibold text-yellow-800 mb-2">⚠️ Important Notes</h4>
+                <ul class="space-y-2 text-yellow-800">
+                    <li>Tuple memiliki panjang tetap - menambah elemen di luar indeks yang dideklarasikan mengubahnya menjadi <code class="bg-yellow-100 px-2 py-1 rounded font-mono text-sm">any[]</code></li>
+                    <li>Gunakan tuple untuk fungsi yang mengembalikan multiple values</li>
+                    <li>Untuk array dengan mixed types, gunakan union type: <code class="bg-yellow-100 px-2 py-1 rounded font-mono text-sm">(string | number)[]</code></li>
+                    <li>Readonly tuple: <code class="bg-yellow-100 px-2 py-1 rounded font-mono text-sm">readonly [number, string]</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💪 Latihan Praktek</h2>
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 1: Student Data Array</h3>
+                    <p class="text-gray-700 mb-3">Buat array of objects yang merepresentasikan students dengan tipe yang ketat.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Definisikan interface <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">Student</code> dengan properti: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">id: number</code>, <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">name: string</code>, <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">grades: number[]</code>. Buat array <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">students: Student[]</code> dengan 3 data.</p>
+                        <p class="text-sm text-gray-600">Gunakan <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">map</code> untuk menghitung rata-rata grades setiap student.</p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Latihan 2: Tuple untuk Coordinate System</h3>
+                    <p class="text-gray-700 mb-3">Buat fungsi yang menggunakan tuple untuk 3D coordinate dan menghitung distance.</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-2">Fungsi: <code class="bg-gray-200 px-2 py-1 rounded font-mono text-sm">distance3D(p1: [number, number, number], p2: [number, number, number]): number</code></p>
+                        <p class="text-sm text-gray-600">Implementasikan Euclidean distance: √((x2-x1)² + (y2-y1)² + (z2-z1)²). Gunakan destructuring untuk readability.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Preview -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">📝 Quiz</h2>
+            <p class="text-gray-600 mb-4">Quiz ini akan menguji pemahaman Anda tentang array types, tuple, dan operasi array yang type-safe.</p>
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+                <span>📌 Module 2 Quiz</span>
+                <span>•</span>
+                <span>10 questions</span>
+                <span>•</span>
+                <span>Passing score: 70%</span>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="lesson-nav">
+            <button class="nav-btn primary" onclick="alert('Previous lesson: any-dan-unknown.html')">
+                ← Previous Lesson
+            </button>
+            <button class="nav-btn primary" onclick="alert('Next lesson: enum-named-constants.html')">
+                Next Lesson →
+            </button>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

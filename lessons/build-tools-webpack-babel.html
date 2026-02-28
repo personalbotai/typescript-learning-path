@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson: Build Tools - Webpack, Babel, esbuild - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 9: Configuration Tooling</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 6 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 75%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 9</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 6</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Build Tools: Webpack, Babel, esbuild</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                TypeScript compiler (<code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">tsc</code>) hanya melakukan transpilation dari TypeScript ke JavaScript. Untuk aplikasi kompleks, kita membutuhkan <strong>build tools</strong> seperti Webpack, Babel, atau esbuild untuk bundling, minification, code splitting, asset management, dan integrasi dengan ekosistem JavaScript.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 25 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+                <span>📚 Tipe: Tooling</span>
+            </div>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">🎯</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami peran <strong>build tools</strong> vs TypeScript compiler</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengkonfigurasi <strong>Webpack</strong> dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">ts-loader</code> atau <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">babel-loader</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan <strong>Babel</strong> dengan preset <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">@babel/preset-typescript</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengenal <strong>esbuild</strong> dan <strong>SWC</strong> sebagai alternatif cepat</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Memahami <strong>transpilation vs bundling</strong></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mengetahui kapan menggunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">tsc</code> saja vs build tools</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Konten Utama -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Transpilation vs Bundling</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                    <h3 class="font-bold text-blue-900 mb-3">⚙️ TypeScript Compiler (tsc)</h3>
+                    <ul class="list-disc list-inside text-blue-800 space-y-2 text-sm">
+                        <li><strong>Transpilation saja</strong> - TS → JS</li>
+                        <li>Tidak melakukan bundling</li>
+                        <li>Tidak minify/uglify</li>
+                        <li>Tidak handle assets (images, CSS)</li>
+                        <li>Cepat, ringan, straightforward</li>
+                        <li>Cocok untuk: Node.js backend, library, simple projects</li>
+                    </ul>
+                </div>
+
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                    <h3 class="font-bold text-green-900 mb-3">📦 Build Tools (Webpack/Babel/esbuild)</h3>
+                    <ul class="list-disc list-inside text-green-800 space-y-2 text-sm">
+                        <li><strong>Bundling</strong> - gabungkan multiple files</li>
+                        <li>Code splitting & lazy loading</li>
+                        <li>Minification & optimization</li>
+                        <li>Asset handling (CSS, images, fonts)</li>
+                        <li>Dev server dengan HMR</li>
+                        <li>Cocok untuk: Frontend apps, SPAs, complex projects</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-purple-50 border-l-4 border-purple-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-purple-900 mb-2">💡 Decision Guide:</h3>
+                <ul class="list-disc list-inside text-purple-800 space-y-2">
+                    <li><strong>Use tsc alone</strong> untuk: Node.js CLI tools, backend services, libraries yang akan dipublish, simple scripts</li>
+                    <li><strong>Use build tool</strong> untuk: React/Vue/Angular apps, frontend dengan assets, code splitting need, dev server/HMR</li>
+                    <li><strong>Hybrid</strong>: tsc untuk type-checking + esbuild/webpack untuk bundling (fast builds)</li>
+                </ul>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Webpack dengan TypeScript</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>Webpack</strong> adalah module bundler yang paling populer. Untuk TypeScript, kita gunakan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">ts-loader</code> atau <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">babel-loader</code> dengan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">@babel/preset-typescript</code>.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Setup Webpack + ts-loader</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// webpack.config.js</span>
+<span class="keyword">const</span> path = <span class="function">require</span>(<span class="string">'path'</span>);
+
+<span class="keyword">module</span>.exports = {
+  <span class="string">entry</span>: <span class="string">'./src/index.ts'</span>,
+  <span class="string">module</span>: {
+    <span class="string">rules</span>: [
+      {
+        <span class="string">test</span>: <span class="string">/\.tsx?$/</span>,
+        <span class="string">use</span>: [
+          {
+            <span class="string">loader</span>: <span class="string">'ts-loader'</span>,
+            <span class="string">options</span>: {
+              <span class="string">transpileOnly</span>: <span class="keyword">true</span>  <span class="comment">// Cepat, type-checking terpisah (fork-ts-checker-webpack-plugin)</span>
+            }
+          }
+        ]
+      }
+    ]
+  },
+  <span class="string">resolve</span>: {
+    <span class="string">extensions</span>: [<span class="string">'.tsx'</span>, <span class="string">'.ts'</span>, <span class="string">'.js'</span>]
+  },
+  <span class="string">output</span>: {
+    <span class="string">filename</span>: <span class="string">'bundle.js'</span>,
+    <span class="string">path</span>: path.<span class="function">resolve</span>(__dirname, <span class="string">'dist'</span>)
+  }
+};
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Setup Webpack + Babel</h3>
+
+            <div class="code-block mb-6">
+<span class="comment">// .babelrc</span>
+{
+  <span class="string">"presets"</span>: [
+    <span class="string">"@babel/preset-env"</span>,
+    <span class="string">"@babel/preset-typescript"</span>
+  ]
+}
+
+<span class="comment">// webpack.config.js (snippet)</span>
+{
+  <span class="string">module</span>: {
+    <span class="string">rules</span>: [
+      {
+        <span class="string">test</span>: <span class="string">/\.tsx?$/</span>,
+        <span class="string">exclude</span>: <span class="string">/node_modules/</span>,
+        <span class="string">use</span>: {
+          <span class="string">loader</span>: <span class="string">'babel-loader'</span>
+        }
+      }
+    ]
+  }
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Babel: The JavaScript Compiler</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>Babel</strong> adalah JavaScript compiler yang juga bisa handle TypeScript via <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">@babel/preset-typescript</code>. Babel hanya <strong>strips types</strong> dan transforms syntax (no type checking). Type checking harus dilakukan terpisah (tsc --noEmit atau fork-ts-checker).
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Install</span>
+npm <span class="function">install</span> --save-dev @babel/core @babel/preset-env @babel/preset-typescript babel-loader
+
+<span class="comment">// babel.config.json</span>
+{
+  <span class="string">"presets"</span>: [
+    [<span class="string">"@babel/preset-env"</span>, { <span class="string">"targets"</span>: <span class="string">"> 0.25%, not dead"</span> }],
+    <span class="string">"@babel/preset-typescript"</span>
+  ]
+}
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-yellow-900 mb-2">⚠️ Babel vs tsc:</h3>
+                <p class="text-yellow-800">
+                    Babel <strong>tidak melakukan type checking</strong>. Anda harus menjalankan <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">tsc --noEmit</code> secara terpisah untuk type checking. Atau gunakan <code class="bg-yellow-100 px-2 py-1 rounded text-sm font-mono">fork-ts-checker-webpack-plugin</code> di Webpack untuk parallelism.
+                </p>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">esbuild: Super Fast Bundler</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>esbuild</strong> adalah bundler yang ditulis dalam Go, sangat cepat (10-100x lebih cepat dari Webpack). Written by Evan Wallace (creator of Vite). Support TypeScript out-of-the-box tanpa plugin tambahan.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Install</span>
+npm <span class="function">install</span> --save-dev esbuild
+
+<span class="comment">// build.js</span>
+<span class="keyword">require</span>(<span class="string">'esbuild'</span>).<span class="function">build</span>({
+  <span class="string">entryPoints</span>: [<span class="string">'src/index.ts'</span>],
+  <span class="string">bundle</span>: <span class="keyword">true</span>,
+  <span class="string">outfile</span>: <span class="string">'dist/bundle.js'</span>,
+  <span class="string">platform</span>: <span class="string">'node'</span>,  <span class="comment">// atau 'browser'</span>
+  <span class="string">target</span>: [<span class="string">'es2020'</span>],
+  <span class="string">sourcemap</span>: <span class="keyword">true</span>,
+  <span class="string">minify</span>: <span class="keyword">true</span>
+}).<span class="function">catch</span>(() => process.<span class="function">exit</span>(<span class="string">1</span>));
+
+<span class="comment">// package.json script</span>
+{
+  <span class="string">"scripts"</span>: {
+    <span class="string">"build"</span>: <span class="string">"node build.js"</span>
+  }
+}
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-green-900 mb-2">✅ Why esbuild?</h3>
+                <ul class="list-disc list-inside text-green-800 space-y-2">
+                    <li>Extremely fast (written in Go, parallel processing)</li>
+                    <li>TypeScript support built-in (no loader needed)</li>
+                    <li>Tree shaking, minification, sourcemaps</li>
+                    <li>Great for CLI tools, libraries, backend apps</li>
+                    <li>Used by Vite (dev server) dan Turborepo</li>
+                </ul>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">SWC: Rust-based Compiler</h2>
+            
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <strong>SWC</strong> (Speedy Web Compiler) adalah compiler/transpiler yang ditulis dalam Rust, sangat cepat, dan digunakan oleh Next.js, Vite, dan banyak tools. Dukungan TypeScript-nya excellent.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Install</span>
+npm <span class="function">install</span> --save-dev @swc/core @swc/cli
+
+<span class="comment">// .swcrc</span>
+{
+  <span class="string">"jsc"</span>: {
+    <span class="string">"target"</span>: <span class="string">"es2020"</span>,
+    <span class="string">"parser"</span>: {
+      <span class="string">"syntax"</span>: <span class="string">"ecmascript"</span>,
+      <span class="string">"tsx"</span>: <span class="keyword">true</span>
+    },
+    <span class="string">"transform"</span>: {
+      <span class="string">"react"</span>: {
+        <span class="string">"runtime"</span>: <span class="string">"automatic"</span>
+      }
+    }
+  },
+  <span class="string">"module"</span>: {
+    <span class="string">"type"</span>: <span class="string">"commonjs"</span>
+  }
+}
+
+<span class="comment">// package.json script</span>
+{
+  <span class="string">"scripts"</span>: {
+    <span class="string">"build"</span>: <span class="string">"swc src -d dist"</span>
+  }
+}
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 mt-8">Comparison Table</h2>
+
+            <div class="overflow-x-auto mb-8">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Tool</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Speed</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Type Checking</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Bundling</th>
+                            <th class="px-4 py-3 text-left text-sm font-bold text-gray-900">Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">tsc</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Fast</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">✅ Built-in</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">❌ No</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Backend, libs, simple</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">Webpack</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Slow</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Via plugin</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">✅ Yes</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Complex frontend apps</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">Babel</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Fast</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">❌ No</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Via bundler</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Transpilation only</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">esbuild</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">🚀 Very Fast</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">❌ No</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">✅ Yes</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">CLI, libs, backend</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-mono text-gray-700">SWC</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">🚀 Very Fast</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">❌ No</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">✅ Yes</td>
+                            <td class="px-4 py-3 text-sm text-gray-700">Next.js, Vite, general</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 mb-8 rounded-r-lg">
+                <h3 class="font-bold text-green-900 mb-2">✅ Modern Stack Recommendation:</h3>
+                <ul class="list-disc list-inside text-green-800 space-y-2">
+                    <li><strong>React/Vue apps</strong>: Vite (dev) + esbuild/SWC (build) atau Webpack if needed</li>
+                    <li><strong>Node.js backend</strong>: tsc alone (simple) atau esbuild for bundling</li>
+                    <li><strong>Libraries</strong>: tsc for .d.ts + esbuild for bundle</li>
+                    <li><strong>Maximum speed</strong>: esbuild atau SWC (10-100x faster than Webpack)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Latihan Praktis -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">💻</span>
+                Latihan Praktis
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-green-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 1: Webpack + ts-loader</h3>
+                    <p class="text-gray-700 mb-4">
+                        Setup Webpack untuk React + TypeScript app:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li>Entry: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">./src/index.tsx</code></li>
+                        <li>Output: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">./dist/bundle.js</code></li>
+                        <li>Rule untuk <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">.tsx?</code> dengan ts-loader</li>
+                        <li>Resolve extensions: .tsx, .ts, .js</li>
+                        <li>Add HtmlWebpackPlugin untuk index.html</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 2: Babel + TypeScript</h3>
+                    <p class="text-gray-700 mb-4">
+                        Konfigurasi Babel untuk TypeScript project:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                        <li>Install: @babel/core, @babel/preset-env, @babel/preset-typescript</li>
+                        <li>Buat babel.config.json dengan kedua preset</li>
+                        <li>Tambahkan script build: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">"babel src --out-dir dist --extensions .ts,.tsx"</code></li>
+                        <li>Jalankan tsc --noEmit terpisah untuk type checking</li>
+                    </ul>
+                </div>
+
+                <div class="border-l-4 border-purple-500 pl-6">
+                    <h3 class="font-bold text-gray-900 mb-2">Latihan 3: esbuild untuk CLI Tool</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat build script dengan esbuild untuk TypeScript CLI tool:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Entry: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">./bin/cli.ts</code></li>
+                        <li>Platform: node</li>
+                        <li>Bundle: true</li>
+                        <li>Target: ES2020</li>
+                        <li>Minify: false (CLI tools often readable)</li>
+                        <li>Outfile: <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">./dist/cli.js</code></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigasi Lesson -->
+        <div class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Navigate to previous lesson (Module 9, Lesson 5)')">
+                ← Sebelumnya: Path Mapping
+            </button>
+            <div class="flex items-center gap-4">
+                <button class="nav-btn" onclick="alert('Feature coming soon: Bookmark')">
+                    🔖 Bookmark
+                </button>
+                <button class="nav-btn primary" onclick="alert('Feature coming soon: Mark as Complete')">
+                    ✓ Selesai
+                </button>
+            </div>
+            <button class="nav-btn primary" onclick="alert('Navigate to next lesson (Module 9, Lesson 7)')">
+                Selanjutnya: ESLint untuk TypeScript →
+            </button>
+        </div>
+    </main>
+
+    <!-- Quiz Section -->
+    <section class="max-w-4xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">❓</span>
+                Quiz: Build Tools
+            </h2>
+            <div id="quiz-container" class="space-y-6">
+                <p class="text-gray-600">Memuat quiz...</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="/typescript-learning-path/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadQuiz === 'function') {
+                loadQuiz('module9', 'build-tools-webpack-babel');
+            }
+        });
+    </script>
+</body>
+</html>

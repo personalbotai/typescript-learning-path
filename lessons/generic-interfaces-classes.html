@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2: Generic Interfaces dan Classes - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 7: Generics</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 2 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 33.33%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 7</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 2</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Generic Interfaces dan Classes</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Generics tidak hanya untuk functions - interfaces dan classes juga bisa memiliki type parameters. Generic interfaces mendefinisikan kontrak yang flexible untuk berbagai tipe, sedangkan generic classes memungkinkan class memiliki properties dan methods yang type-agnostic. Ini esensi reusable, type-safe components.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 25 menit</span>
+                <span>📊 Kesulitan: Lanjutan</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Mendeklarasi generic interfaces dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">&lt;T&gt;</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menerapkan generic interfaces ke classes</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Membuat generic classes dengan type parameters</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Generic class methods dan properties</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Default type parameters untuk interfaces/classes</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Generic Interfaces</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Generic interfaces mendefinisikan kontrak yang bisa digunakan dengan berbagai tipe. Mirip dengan generic functions, tambahkan type parameter setelah nama interface.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Generic Interface Sederhana</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Generic interface untuk key-value stores</span>
+<span class="keyword">interface</span> <span class="type">KeyValuePair</span>&lt;<span class="type">K</span>, <span class="type">V</span>&gt; {
+    key: <span class="type">K</span>;
+    value: <span class="type">V</span>;
+}
+
+<span class="keyword">const</span> stringNumberPair: <span class="type">KeyValuePair</span>&lt;<span class="type">string</span>, <span class="type">number</span>&gt; = {
+    key: <span class="string">"age"</span>,
+    value: <span class="type">30</span>
+};
+
+<span class="keyword">const</span> numberStringPair: <span class="type">KeyValuePair</span>&lt;<span class="type">number</span>, <span class="type">string</span>&gt; = {
+    key: <span class="type">1</span>,
+    value: <span class="string">"one"</span>
+};</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Generic Interface untuk Collections</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">Repository</span>&lt;<span class="type">T</span>&gt; {
+    findById(id: <span class="type">number</span>): <span class="type">T</span> | <span class="keyword">null</span>;
+    findAll(): <span class="type">T</span>[];
+    save(entity: <span class="type">T</span>): <span class="type">void</span>;
+    delete(id: <span class="type">number</span>): <span class="keyword">boolean</span>;
+}
+
+<span class="keyword">interface</span> <span class="type">User</span> {
+    id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+    email: <span class="type">string</span>;
+}
+
+<span class="comment">// UserRepository implements Repository&lt;User&gt;</span>
+<span class="keyword">class</span> <span class="type">UserRepository</span> <span class="keyword">implements</span> <span class="type">Repository</span>&lt;<span class="type">User</span>&gt; {
+    private users: <span class="type">User</span>[] = [];
+
+    findById(id: <span class="type">number</span>): <span class="type">User</span> | <span class="keyword">null</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.users.find(u => u.id === id) || <span class="keyword">null</span>;
+    }
+
+    findAll(): <span class="type">User</span>[] {
+        <span class="keyword">return</span> <span class="keyword">this</span>.users;
+    }
+
+    save(entity: <span class="type">User</span>): <span class="type">void</span> {
+        <span class="keyword">this</span>.users.push(entity);
+    }
+
+    delete(id: <span class="type">number</span>): <span class="keyword">boolean</span> {
+        <span class="keyword">const</span> index = <span class="keyword">this</span>.users.findIndex(u => u.id === id);
+        <span class="keyword">if</span> (index !== -<span class="type">1</span>) {
+            <span class="keyword">this</span>.users.splice(index, <span class="type">1</span>);
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Generic Classes</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Generic classes memiliki type parameters yang berlaku untuk seluruh class. Properties dan methods bisa menggunakan type parameter tersebut.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Generic class - a simple wrapper</span>
+<span class="keyword">class</span> <span class="type">Box</span>&lt;<span class="type">T</span>&gt; {
+    <span class="keyword">constructor</span>(<span class="keyword">private</span> value: <span class="type">T</span>) {}
+
+    getValue(): <span class="type">T</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.value;
+    }
+
+    setValue(value: <span class="type">T</span>): <span class="type">void</span> {
+        <span class="keyword">this</span>.value = value;
+    }
+}
+
+<span class="keyword">const</span> stringBox = <span class="keyword">new</span> <span class="type">Box</span>&lt;<span class="type">string</span>&gt;(<span class="string">"hello"</span>);
+console.log(stringBox.getValue()); <span class="comment">// "hello"</span>
+
+<span class="keyword">const</span> numberBox = <span class="keyword">new</span> <span class="type">Box</span>(<span class="type">42</span>); <span class="comment">// Type inferred</span>
+console.log(numberBox.getValue()); <span class="comment">// 42</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Generic Class dengan Multiple Type Parameters</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Pair</span>&lt;<span class="type">T</span>, <span class="type">U</span>&gt; {
+    <span class="keyword">constructor</span>(
+        <span class="keyword">public</span> first: <span class="type">T</span>,
+        <span class="keyword">public</span> second: <span class="type">U</span>
+    ) {}
+
+    <span class="keyword">public</span> toString(): <span class="type">string</span> {
+        <span class="keyword">return</span> <span class="string">`(\${this.first}, \${this.second})`</span>;
+    }
+
+    <span class="comment">// Generic method within generic class</span>
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function">create</span>&lt;<span class="type">V</span>&gt;(first: <span class="type">V</span>, second: <span class="type">V</span>): <span class="type">Pair</span>&lt;<span class="type">V</span>, <span class="type">V</span>&gt; {
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Pair</span>(first, second);
+    }
+}
+
+<span class="keyword">const</span> pair1 = <span class="keyword">new</span> <span class="type">Pair</span>(<span class="string">"Alice"</span>, <span class="type">30</span>);
+console.log(pair1.toString()); <span class="comment">// "(Alice, 30)"</span>
+
+<span class="keyword">const</span> pair2 = <span class="type">Pair</span>.create(<span class="type">1</span>, <span class="type">2</span>); <span class="comment">// Pair&lt;number, number&gt;</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Generic Constraints (Brief Intro)</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Generic type parameters bisa dibatasi dengan <code class="bg-gray-100 px-2 py-1 rounded font-mono">extends</code> ke certain tipe. Ini akan dibahas lebih detail di lesson berikutnya.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Constrain T to have a 'length' property</span>
+<span class="keyword">function</span> <span class="function">logLength</span>&lt;<span class="type">T</span> extends { length: <span class="type">number</span> }&gt;(arg: <span class="type">T</span>): <span class="type">void</span> {
+    console.log(<span class="string">`Length: \${arg.length}`</span>);
+}
+
+logLength(<span class="string">"hello"</span>);  <span class="comment">// OK - string has length</span>
+logLength([<span class="type">1</span>, <span class="type">2</span>]);    <span class="comment">// OK - array has length</span>
+<span class="comment">// logLength(123); // Error - number doesn't have length</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Default Type Parameters</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Generic type parameters bisa memiliki default values. Berguna ketika kebanyakan penggunaan menggunakan tipe yang sama.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">Config</span>&lt;<span class="type">T</span> = <span class="type">string</span>&gt; {
+    key: <span class="type">T</span>;
+    value: <span class="type">T</span>;
+}
+
+<span class="comment">// T defaults to string</span>
+<span class="keyword">const</span> config1: <span class="type">Config</span> = { key: <span class="string">"host"</span>, value: <span class="string">"localhost"</span> }; <span class="comment">// Config&lt;string&gt;</span>
+
+<span class="comment">// Explicit override</span>
+<span class="keyword">const</span> config2: <span class="type">Config</span>&lt;<span class="type">number</span>&gt; = { key: <span class="type">1</span>, value: <span class="type">8080</span> };</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Real-World Example: API Response Wrapper</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">interface</span> <span class="type">ApiResponse</span>&lt;<span class="type">T</span>&gt; {
+    success: <span class="keyword">boolean</span>;
+    data: <span class="type">T</span> | <span class="keyword">null</span>;
+    error?: <span class="type">string</span>;
+    timestamp: <span class="type">Date</span>;
+}
+
+<span class="keyword">function</span> <span class="function">fetchUser</span>(id: <span class="type">number</span>): <span class="type">Promise</span>&lt;<span class="type">ApiResponse</span>&lt;<span class="type">User</span>&gt;&gt; {
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Promise</span>((resolve) => {
+        <span class="keyword">const</span> user: <span class="type">User</span> = { id, name: <span class="string">"Alice"</span>, email: <span class="string">"alice@example.com"</span> };
+        resolve({
+            success: <span class="keyword">true</span>,
+            data: user,
+            timestamp: <span class="keyword">new</span> <span class="type">Date</span>()
+        });
+    });
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+            
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">1. Generic Stack</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat generic class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Stack&lt;T&gt;</code> dengan methods: <code class="bg-gray-100 px-2 py-1 rounded font-mono">push(item: T)</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">pop(): T | undefined</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">peek(): T | undefined</code>, <code class="bg-gray-100 px-2 py-1 rounded font-mono">isEmpty(): boolean</code>. Test dengan tipe berbeda.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">2. Generic Dictionary</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat generic interface <code class="bg-gray-100 px-2 py-1 rounded font-mono">Dictionary&lt;T&gt;</code> yang mirip <code class="bg-gray-100 px-2 py-1 rounded font-mono">Record&lt;string, T&gt;</code> tapi dengan index signature. Implementasikan class <code class="bg-gray-100 px-2 py-1 rounded font-mono">SimpleDictionary</code> yang mengimplementasikan interface tersebut.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">3. Default Generic Parameter</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat generic interface <code class="bg-gray-100 px-2 py-1 rounded font-mono">Cache</code> dengan default type <code class="bg-gray-100 px-2 py-1 rounded font-mono">any</code>. Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">MemoryCache</code> yang mengimplementasikan <code class="bg-gray-100 px-2 py-1 rounded font-mono">Cache</code> tanpa specifying tipe (harus menggunakan default).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat setelah semua lesson selesai')">
+                Quiz Module →
+            </button>
+        </nav>
+    </main>
+
+    <script src="/typescript-curriculum/app.js"></script>
+</body>
+</html>

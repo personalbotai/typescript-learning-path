@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: Function Types - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 5: Functions & Arrow Functions</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 1 of 5</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 20%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 5</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 1</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Function Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Di TypeScript, functions adalah first-class citizens yang bisa diatribusikan tipe. <strong>Function Types</strong> mendefinisikan signature (parameter dan return type) dari sebuah function, memungkinkan type checking untuk function arguments, return values, dan callback.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+                <span>📚 Tipe: Functions</span>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                Tujuan Pembelajaran
+            </h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Mendefinisikan function type dengan syntax <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">(params) => returnType</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Menggunakan type alias untuk function signatures</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Type annotation untuk function expressions dan arrow functions</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-green-500 mt-1">✓</span>
+                    <span>Optional dan default parameters dalam function types</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                Penjelasan
+            </h2>
+
+            <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <p class="mb-4">
+                    Function types mendefinisikan "bentuk" atau signature dari sebuah function: parameter types dan return type. Ini sangat berguna untuk callback, higher-order functions, dan API design.
+                </p>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Sintaks Dasar</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Function type: (number, number) => number</span>
+<span class="keyword">type</span> <span class="function">BinaryOperation</span> = (a: <span class="type">number</span>, b: <span class="type">number</span>) => <span class="type">number</span>;
+
+<span class="keyword">const</span> add: BinaryOperation = (a, b) => a + b;
+<span class="keyword">const</span> multiply: BinaryOperation = (a, b) => a * b;</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Function Type sebagai Parameter</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">type</span> <span class="function">FilterFunction</span> = (value: <span class="type">number</span>) => <span class="keyword">boolean</span>;
+
+<span class="keyword">function</span> <span class="function">filterArray</span>(arr: <span class="type">number</span>[], fn: FilterFunction): <span class="type">number</span>[] {
+    <span class="keyword">const</span> result: <span class="type">number</span>[] = [];
+    <span class="keyword">for</span> (<span class="keyword">const</span> num of arr) {
+        <span class="keyword">if</span> (fn(num)) result.<span class="function">push</span>(num);
+    }
+    <span class="keyword">return</span> result;
+}
+
+<span class="keyword">const</span> isEven: FilterFunction = n => n % <span class="type">2</span> === <span class="type">0</span>;
+<span class="function">filterArray</span>([<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>, <span class="type">4</span>], isEven);  <span class="comment">// [2, 4]</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Function Type sebagai Return Type</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">type</span> <span class="function">Multiplier</span> = (x: <span class="type">number</span>) => <span class="type">number</span>;
+
+<span class="keyword">function</span> <span class="function">createMultiplier</span>(factor: <span class="type">number</span>): Multiplier {
+    <span class="keyword">return</span> (x: <span class="type">number</span>) => x * factor;
+}
+
+<span class="keyword">const</span> double = <span class="function">createMultiplier</span>(<span class="type">2</span>);
+<span class="function">double</span>(<span class="type">5</span>);  <span class="comment">// 10</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Optional dan Default Parameters</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="comment">// Optional parameter</span>
+<span class="keyword">type</span> <span class="function">Greet</span> = (name: <span class="type">string</span>, greeting?: <span class="type">string</span>) => <span class="type">string</span>;
+
+<span class="keyword">const</span> sayHello: Greet = (name, greeting = <span class="string">"Hello"</span>) => {
+    <span class="keyword">return</span> <span class="string">`</span>${greeting}<span class="string">, </span>${name}<span class="string">!`</span>;
+};</code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">Rest Parameters</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">type</span> <span class="function">Sum</span> = (...nums: <span class="type">number</span>[]) => <span class="type">number</span>;
+
+<span class="keyword">const</span> total: Sum = (...nums) => nums.<span class="function">reduce</span>((a, b) => a + b, <span class="type">0</span>);
+<span class="function">total</span>(<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>);  <span class="comment">// 6</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">void Return Type</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">type</span> <span class="function">Logger</span> = (msg: <span class="type">string</span>) => <span class="keyword">void</span>;
+
+<span class="keyword">const</span> log: Logger = (msg) => console.<span class="function">log</span>(msg);
+<span class="comment">// return value diabaikan</span></code></pre>
+                </div>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">this Parameters</h3>
+                <div class="code-block mb-4">
+<pre><code><span class="keyword">interface</span> <span class="function">Calculator</span> {
+    value: <span class="type">number</span>;
+    <span class="function">add</span>(x: <span class="type">number</span>): <span class="keyword">void</span>;
+}
+
+<span class="keyword">type</span> <span class="function">AddFunction</span> = (this: Calculator, x: <span class="type">number</span>) => <span class="keyword">void</span>;
+
+<span class="keyword">const</span> add: AddFunction = function(x) {
+    <span class="keyword">this</span>.value += x;  <span class="comment">// OK - this type known</span>
+};</code></pre>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                    <p class="text-blue-800">
+                        <strong>💡 Tips:</strong> Function types adalah dasar untuk callback patterns, higher-order functions, dan polymorphism di TypeScript. Gunakan type alias untuk complex function signatures agar lebih readable.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <span class="bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                Latihan
+            </h2>
+
+            <div class="space-y-6">
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 1: Predicate Function Type</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat type <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Predicate</code> untuk function yang menerima <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">T</code> dan mengembalikan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">boolean</code>. Buat function <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">filterByPredicate</code> yang menerima array <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">T[]</code> dan <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Predicate&lt;T&gt;</code>, mengembalikan filtered array.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">type</span> <span class="function">Predicate</span>&lt;<span class="type">T</span>&gt; = (value: T) => <span class="keyword">boolean</span>;
+
+<span class="keyword">function</span> <span class="function">filterByPredicate</span>&lt;<span class="type">T</span>&gt;(arr: T[], fn: Predicate&lt;T&gt;): T[] {
+    <span class="keyword">return</span> arr.<span class="function">filter</span>(fn);
+}
+
+<span class="comment">// Usage:</span>
+<span class="keyword">const</span> numbers = [<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>, <span class="type">4</span>];
+<span class="keyword">const</span> isEven: Predicate&lt;<span class="type">number</span>&gt; = n => n % <span class="type">2</span> === <span class="type">0</span>;
+<span class="function">filterByPredicate</span>(numbers, isEven);  <span class="comment">// [2, 4]</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Latihan 2: Factory Function Type</h3>
+                    <p class="text-gray-700 mb-4">
+                        Buat type <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">Factory</code> yang menerima parameter dan mengembalikan instance dari generic <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">T</code>. Implementasikan factory untuk membuat object <code class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">{ name: string }</code>.
+                    </p>
+                    <details class="cursor-pointer">
+                        <summary class="text-primary font-medium hover:text-blue-700">Lihat Solusi</summary>
+                        <div class="mt-4 code-block">
+<pre><code><span class="keyword">type</span> <span class="function">Factory</span>&lt;<span class="type">T</span>&gt; = (...args: <span class="keyword">any</span>[]) => T;
+
+<span class="keyword">function</span> <span class="function">createFactory</span>&lt;<span class="type">T</span>&gt;(fn: Factory&lt;T&gt;): Factory&lt;T&gt; {
+    <span class="keyword">return</span> fn;
+}
+
+<span class="keyword">const</span> createPerson = <span class="function">createFactory</span>&lt;{ name: <span class="type">string</span> }&gt;((name: <span class="type">string</span>) => ({ name }));
+<span class="keyword">const</span> person = <span class="function">createPerson</span>(<span class="string">"Alice"</span>);  <span class="comment">// { name: "Alice" }</span></code></pre>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <nav class="lesson-nav" aria-label="Lesson navigation">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <div class="text-sm text-gray-500">
+                Modul 5 - Lesson 1 dari 5
+            </div>
+            <button class="nav-btn primary" onclick="alert('Next lesson')">
+                Selanjutnya →
+            </button>
+        </nav>
+    </main>
+
+    <script>
+        console.log('Function Types lesson loaded');
+    </script>
+</body>
+</html>

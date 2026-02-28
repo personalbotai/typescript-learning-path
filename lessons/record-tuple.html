@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Record, Tuple & Readonly Tuple - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 11: Advanced Utility Types</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 8</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 37.5%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 11</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Record, Tuple & Readonly Tuple Utility Types</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Record&lt;K, T&gt;</strong>, <strong>Readonly&lt;T&gt;</strong>, dan <strong>ReadonlyTuple</strong> adalah utility types untuk membuat object types dinamis, immutable structures, dan fixed-length arrays dengan specific types per index.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami Record&lt;K, T&gt; untuk membuat object dengan known keys</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan Readonly&lt;T&gt; untuk membuat immutable types</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Bekerja dengan tuple types dan readonly tuples</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menerapkan utility types untuk configuration maps dan constant structures</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Record&lt;K, T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Record&lt;K, T&gt;</code> membangun object type di mana semua properties memiliki type yang sama. <code class="bg-gray-100 px-1 rounded">K</code> adalah union of property names (keys), dan <code class="bg-gray-100 px-1 rounded">T</code> adalah value type.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Record dengan string keys dan number values</span>
+<span class="keyword">type</span> StringNumberMap = Record&lt;<span class="type">string</span>, <span class="type">number</span>&gt;;
+
+<span class="comment">// Equivalent to: { [key: string]: number }</span>
+<span class="keyword">const</span> scores: StringNumberMap = {
+  alice: <span class="type">95</span>,
+  bob: <span class="type">87</span>,
+  charlie: <span class="type">92</span>
+};
+
+<span class="comment">// Record dengan specific keys</span>
+<span class="keyword">type</span> UserRoles = Record&lt;<span class="string">"admin"</span> | <span class="string">"user"</span> | <span class="string">"guest"</span>, <span class="type">boolean</span>&gt;;
+
+<span class="keyword">const</span> roles: UserRoles = {
+  admin: <span class="keyword">true</span>,
+  user: <span class="keyword">true</span>,
+  guest: <span class="keyword">false</span>
+};
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Use Cases for Record</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li><strong>Configuration maps</strong>: <code class="bg-gray-100 px-1 rounded">Record&lt;string, Config&gt;</code></li>
+                <li><strong>Lookup tables</strong>: <code class="bg-gray-100 px-1 rounded">Record&lt;Status, string&gt;</code></li>
+                <li><strong>Feature flags</strong>: <code class="bg-gray-100 px-1 rounded">Record&lt;FeatureName, boolean&gt;</code></li>
+                <li><strong>Caches</strong>: <code class="bg-gray-100 px-1 rounded">Record&lt;string, CachedData&gt;</code></li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Readonly&lt;T&gt;</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                <code class="bg-gray-100 px-1 rounded">Readonly&lt;T&gt;</code> membuat semua properties dari type <code class="bg-gray-100 px-1 rounded">T</code> menjadi readonly. Ini mencegah assignment setelah initialization.
+            </p>
+
+            <div class="code-block mb-6">
+interface MutableUser {
+  name: <span class="type">string</span>;
+  age: <span class="type">number</span>;
+}
+
+<span class="keyword">type</span> ReadonlyUser = Readonly&lt;MutableUser&gt;;
+
+<span class="keyword">const</span> user: ReadonlyUser = { name: <span class="string">"Alice"</span>, age: <span class="type">30</span> };
+user.name = <span class="string">"Bob"</span>;  <span class="comment">// ❌ Error: Cannot assign to 'name' because it is a read-only property</span>
+
+<span class="comment">// Readonly juga bekerja dengan arrays</span>
+<span class="keyword">const</span> nums: ReadonlyArray&lt;<span class="type">number</span>&gt; = [<span class="type">1</span>, <span class="type">2</span>, <span class="type">3</span>];
+nums.push(<span class="type">4</span>);  <span class="comment">// ❌ Error</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Tuple Types & Readonly Tuples</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Tuple adalah array dengan fixed length dan specific types per index. Readonly tuple mencegah mutation.
+            </p>
+
+            <div class="code-block mb-6">
+<span class="comment">// Tuple biasa (mutable)</span>
+<span class="keyword">let</span> position: [<span class="type">number</span>, <span class="type">number</span>] = [<span class="type">10</span>, <span class="type">20</span>];
+position[<span class="type">0</span>] = <span class="type">30</span>;  <span class="comment">// ✅ OK</span>
+position.push(<span class="type">40</span>); <span class="comment">// ❌ Error: length mismatch</span>
+
+<span class="comment">// Readonly tuple</span>
+<span class="keyword">const</span> fixedPosition: readonly [<span class="type">number</span>, <span class="type">number</span>] = [<span class="type">10</span>, <span class="type">20</span>];
+fixedPosition[<span class="type">0</span>] = <span class="type">30</span>;  <span class="comment">// ❌ Error: readonly</span>
+fixedPosition.push(<span class="type">40</span>); <span class="comment">// ❌ Error: readonly</span>
+
+<span class="comment">// Tuple dengan mixed types</span>
+<span class="keyword">type</span> UserTuple = [<span class="type">number</span>, <span class="type">string</span>, <span class="type">boolean</span>];
+<span class="keyword">const</span> user: UserTuple = [<span class="type">1</span>, <span class="string">"Alice"</span>, <span class="keyword">true</span>];
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Combining Utility Types</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Anda bisa menumpuk utility types untuk presisi yang lebih tinggi.
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">// Readonly Record</span>
+<span class="keyword">type</span> ReadonlyConfig = Readonly&lt;Record&lt;string, <span class="type">string</span>&gt;&gt;;
+
+<span class="keyword">const</span> config: ReadonlyConfig = {
+  apiUrl: <span class="string">"https://api.example.com"</span>,
+  timeout: <span class="string">"5000"</span>
+};
+config.apiUrl = <span class="string">"new"</span>;  <span class="comment">// ❌ Error</span>
+
+<span class="comment">// Readonly tuple of objects</span>
+<span class="keyword">type</span> ReadonlyPointList = readonly [{ x: <span class="type">number</span>; y: <span class="type">number</span> }];
+
+<span class="keyword">const</span> points: ReadonlyPointList = [{ x: <span class="type">0</span>, y: <span class="type">0</span> }];
+points[<span class="type">0</span>].x = <span class="type">10</span>;  <span class="comment">// ❌ Error: readonly</span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Implementation Details</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Di balik layar, utility types ini menggunakan mapped types dan modifiers:
+            </p>
+            <div class="code-block mb-6">
+<span class="keyword">type</span> Readonly&lt;T&gt; = {
+  readonly [P <span class="keyword">in</span> keyof T]: T[P];
+};
+
+<span class="keyword">type</span> Record&lt;K extends keyof <span class="keyword">any</span>, T&gt; = {
+  [P <span class="keyword">in</span> K]: T;
+};
+
+<span class="comment">// Tuples are arrays with fixed length and types per index</span>
+<span class="keyword">type</span> Tuple = [<span class="type">string</span>, <span class="type">number</span>, <span class="type">boolean</span>];
+<span class="comment">// readonly tuple</span>
+<span class="keyword">type</span> ReadonlyTuple = readonly [<span class="type">string</span>, <span class="type">number</span>];
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Feature Flags</h3>
+                    <p class="text-gray-700 mb-3">Buat Record untuk feature flags.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Define union type <code class="bg-gray-100 px-1 rounded">Feature = "darkMode" | "notifications" | "beta"</code></li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">FeatureFlags = Record&lt;Feature, boolean&gt;</code></li>
+                        <li>Buat object <code class="bg-gray-100 px-1 rounded">flags: FeatureFlags</code> dengan nilai boolean</li>
+                        <li>Coba ubah nilai - seharusnya diizinkan karena mutable</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: Immutable Config</h3>
+                    <p class="text-gray-700 mb-3">Gunakan Readonly untuk configuration object.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat interface <code class="bg-gray-100 px-1 rounded">AppConfig</code> dengan beberapa settings</li>
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">ReadonlyConfig = Readonly&lt;AppConfig&gt;</code></li>
+                        <li>Assign ke variable dan coba modify property</li>
+                        <li>Observe TypeScript errors</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: Tuple Operations</h3>
+                    <p class="text-gray-700 mb-3">Bekerja dengan tuple dan readonly tuples.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat tuple <code class="bg-gray-100 px-1 rounded">RGB = [number, number, number]</code></li>
+                        <li>Buat function <code class="bg-gray-100 px-1 rounded">scaleColor(rgb: RGB, factor: number): RGB</code></li>
+                        <li>Ubah ke readonly tuple dan coba modify</li>
+                        <li>Catat perbedaan behavior</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

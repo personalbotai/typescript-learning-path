@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Migrasi JavaScript ke TypeScript - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 10: Integration dengan JavaScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 3 of 4</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 75%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 10</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 3</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Strategi Migrasi JavaScript ke TypeScript</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Memigrasikan codebase JavaScript yang sudah ada ke TypeScript adalah proses yang bisa dilakukan secara bertahap. Panduan ini mencakup strategi, tools, dan best practices untuk migrasi yang aman tanpa mengganggu funkcionalitas existing.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 30 menit</span>
+                <span>📊 Kesulitan: Tinggi</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Memahami pendekatan bertahap untuk migrasi JS ke TS</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-1 rounded">allowJs</code> dan <code class="bg-gray-100 px-1 rounded">checkJs</code> options di tsconfig.json</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Menambahkan type annotations secara incremental</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Mengonversi file .js ke .ts dengan aman</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-primary mr-2">✓</span>
+                    <span>Mengelola mixed JS/TS codebase selama transisi</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Konten Utama</h2>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Migrasi Bertahap (Gradual Migration)</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                TypeScript mendukung migrasi bertahap dengan mengizinkan JavaScript dan TypeScript files berjalan bersama. Ini memungkinkan Anda menambahkan types secara bertahap tanpa harus rewrite seluruh codebase sekaligus.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Tsconfig Options untuk Migrasi</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Konfigurasi <code class="bg-gray-100 px-1 rounded">tsconfig.json</code> berikut memudahkan migrasi:
+            </p>
+            <div class="code-block mb-6">
+{
+  <span class="string">"compilerOptions"</span>: {
+    <span class="string">"allowJs"</span>: <span class="keyword">true</span>,          <span class="comment">// Izinkan import JavaScript files</span>
+    <span class="string">"checkJs"</span>: <span class="keyword">true</span>,          <span class="comment">// Type-check JavaScript files (opsional)</span>
+    <span class="string">"maxNodeModuleJsDepth"</span>: <span class="type">2</span>,  <span class="comment">// Batasi kedalaman checking di node_modules</span>
+    <span class="string">"strict"</span>: <span class="keyword">false</span>,        <span class="comment">// Nonaktifkan strict mode sementara</span>
+    <span class="string">"noEmit"</span>: <span class="keyword">true</span>,          <span class="comment">// Cek type saja, jangan emit JS (opsional)</span>
+    <span class="comment">// ... other options</span>
+  },
+  <span class="string">"include"</span>: [<span class="string">"src/**/*"</span>],
+  <span class="string">"exclude"</span>: [<span class="string">"node_modules"</span>]
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Step-by-Step Migration Process</h3>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">Step 1: Initialize TypeScript</h4>
+            <div class="code-block mb-4">
+npm install --save-dev typescript
+npx tsc --init
+            </div>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">Step 2: Enable <code class="bg-gray-100 px-1 rounded">allowJs</code></h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Edit <code class="bg-gray-100 px-1 rounded">tsconfig.json</code> untuk mengizinkan JavaScript files. TypeScript akan mengimpor dan type-check JS files tanpa error (jika <code class="bg-gray-100 px-1 rounded">checkJs</code> diaktifkan).
+            </p>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">Step 3: Rename Files ke .ts</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Mulai dari file-file yang paling sederhana atau isolated. Gunakan tools seperti <code class="bg-gray-100 px-1 rounded">jscodeshift</code> atau script custom untuk mass rename.
+            </p>
+            <div class="code-block mb-4">
+<span class="comment"># Contoh: rename batch (Unix/Linux)</span>
+find src -name <span class="string">"*.js"</span> -type f -exec bash -c 'mv "$0" "${0%.js}.ts"' {} \;
+            </div>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">Step 4: Fix Type Errors</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Setelah file di-rename ke .ts, TypeScript akan mulai reporting errors. Perbaiki secara bertahap:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li>Tambahkan type annotations untuk fungsi parameters dan return values</li>
+                <li>Gunakan <code class="bg-gray-100 px-1 rounded">any</code> sementara untuk kompleksitas tinggi</li>
+                <li>Definisikan interfaces untuk objects</li>
+                <li>Hindari <code class="bg-gray-100 px-1 rounded">any</code> di kode baru</li>
+            </ul>
+
+            <h4 class="text-lg font-medium text-gray-800 mb-2">Step 5: Enable Strict Mode</h4>
+            <p class="text-gray-700 mb-3 leading-relaxed">
+                Setelah sebagian besar file terkonversi, aktifkan <code class="bg-gray-100 px-1 rounded">"strict": true</code> untuk mendapatkan type safety maksimal.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Incremental Type Annotations</h3>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+                Untuk file JS yang masih ingin di-keep sebagai .js, tambahkan JSDoc type annotations. TypeScript akan membaca JSDoc dan memberikan type checking:
+            </p>
+            <div class="code-block mb-6">
+<span class="comment">/**</span>
+<span class="comment"> * @param {string} name</span>
+<span class="comment"> * @param {number} age</span>
+<span class="comment"> * @returns {{greeting: string}}</span>
+<span class="comment"> */</span>
+<span class="keyword">function</span> <span class="function">createUser</span>(name, age) {
+  <span class="keyword">return</span> { greeting: <span class="string">`Hello ${name}`</span> };
+}
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Common Migration Challenges</h3>
+
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+                <h4 class="font-semibold text-red-800 mb-2">Dynamic Properties & <code class="bg-gray-100 px-1 rounded">any</code></h4>
+                <p class="text-red-800 text-sm">JavaScript sering menggunakan dynamic object properties. Gunakan index signatures atau <code class="bg-gray-100 px-1 rounded">Record<string, any></code> untuk sementara.</p>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+                <h4 class="font-semibold text-red-800 mb-2">External Libraries Without Types</h4>
+                <p class="text-red-800 text-sm">Gunakan <code class="bg-gray-100 px-1 rounded">declare module</code> di custom .d.ts file atau install @types packages.</p>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+                <h4 class="font-semibold text-red-800 mb-2">Implicit Any Parameters</h4>
+                <p class="text-red-800 text-sm"> Dengan <code class="bg-gray-100 px-1 rounded">"noImplicitAny": false</code> sementara, lalu perbaiki satu per satu.</p>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Tools untuk Migrasi</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li><strong>ts-migrate</strong>: Airbnb tool untuk mass migration</li>
+                <li><strong>jscodeshift</strong>: Codemod transforms</li>
+                <li><strong>TypeScript ESLint</strong>: Automated fixes dengan <code class="bg-gray-100 px-1 rounded">--fix</code></li>
+                <li><strong>VS Code</strong>: Quick fixes dan auto-imports</li>
+            </ul>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 1: Setup Mixed Project</h3>
+                    <p class="text-gray-700 mb-3">Buat proyek dengan JS dan TS files berjalan bersama.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Buat <code class="bg-gray-100 px-1 rounded">tsconfig.json</code> dengan <code class="bg-gray-100 px-1 rounded">allowJs: true</code></li>
+                        <li>Tambahkan beberapa .js files yang meng-import module lain</li>
+                        <li>Run <code class="bg-gray-100 px-1 rounded">npx tsc --noEmit</code> untuk cek types tanpa emit</li>
+                        <li>Verifikasi tidak ada errors</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 2: Convert One File</h3>
+                    <p class="text-gray-700 mb-3">Konversi file .js ke .ts dan tambahkan types.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Pilih file .js sederhana (misal: utility function)</li>
+                        <li>Rename ke .ts</li>
+                        <li>Tambahkan parameter types dan return type</li>
+                        <li>Fix semua TypeScript errors yang muncul</li>
+                    </ol>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">Exercise 3: JSDoc Annotations</h3>
+                    <p class="text-gray-700 mb-3">Tambahkan JSDoc ke file .js yang tidak ingin di-convert.</p>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1 text-sm">
+                        <li>Pilih file .js dengan fungsi kompleks</li>
+                        <li>Tambahkan JSDoc comments untuk parameter dan return types</li>
+                        <li>Pastikan <code class="bg-gray-100 px-1 rounded">checkJs: true</code> di tsconfig</li>
+                        <li>Run TypeScript check dan verify types dipahami</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav">
+            <button class="nav-btn" disabled>
+                ← Previous
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat dari quizzes/')">
+                Take Quiz
+            </button>
+        </nav>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

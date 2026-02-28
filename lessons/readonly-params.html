@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6: Readonly dan Static Properties - TypeScript Learning Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                        accent: '#06b6d4',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .code-block { @apply bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto font-mono text-sm; }
+        .keyword { @apply text-purple-400; }
+        .type { @apply text-yellow-400; }
+        .string { @apply text-green-400; }
+        .comment { @apply text-gray-500; }
+        .function { @apply text-blue-400; }
+        .progress-bar { @apply h-2 bg-gray-200 rounded-full overflow-hidden; }
+        .progress-fill { @apply h-full bg-gradient-to-r from-primary to-accent transition-all duration-500; }
+        .lesson-nav { @apply flex items-center justify-between p-4 bg-white rounded-lg shadow-sm border border-gray-200; }
+        .nav-btn { @apply px-4 py-2 rounded-lg font-medium transition-colors; }
+        .nav-btn:hover { @apply bg-gray-100; }
+        .nav-btn:disabled { @apply opacity-50 cursor-not-allowed; }
+        .nav-btn.primary { @apply bg-primary text-white hover:bg-blue-600; }
+        .quiz-option { @apply p-3 border-2 rounded-lg cursor-pointer transition-all hover:border-primary hover:bg-blue-50; }
+        .quiz-option.selected { @apply border-primary bg-blue-50; }
+        .quiz-option.correct { @apply border-green-500 bg-green-50; }
+        .quiz-option.incorrect { @apply border-red-500 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Modul 6: Classes TypeScript</span>
+                <span class="text-sm font-medium text-gray-700" id="progress-text">Lesson 6 of 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 mt-16">
+        <!-- Lesson Header -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">Modul 6</span>
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Lesson 6</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Readonly dan Static Properties</h1>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                <strong>Readonly</strong> modifier mencegah reassignment setelah initial assignment, sedangkan <strong>static</strong> modifier membuat property atau method menjadi milik class itu sendiri (bukan instance). Keduanya penting untuk immutability dan utility functions yang terkait dengan class.
+            </p>
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>⏱️ 20 menit</span>
+                <span>📊 Kesulitan: Menengah</span>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">🎯 Tujuan Pembelajaran</h2>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami modifier <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Menggunakan <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code> pada properties dan array</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Memahami modifier <code class="bg-gray-100 px-2 py-1 rounded font-mono">static</code></span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Membuat static methods dan properties</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="text-primary mt-1">✓</span>
+                    <span>Kombinasi <code class="bg-gray-100 px-2 py-1 rounded font-mono">static readonly</code></span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Main Content -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">📚 Readonly Properties</h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code> modifier mencegah reassignment property setelah initial assignment (di declaration atau constructor). Readonly properties ideal untuk constants, configuration values, atau identifier yang tidak seharusnya berubah.
+            </p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Basic Readonly Usage</h3>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">User</span> {
+    <span class="keyword">readonly</span> id: <span class="type">number</span>;
+    name: <span class="type">string</span>;
+
+    <span class="keyword">constructor</span>(id: <span class="type">number</span>, name: <span class="type">string</span>) {
+        <span class="keyword">this</span>.id = id;   <span class="comment">// OK - first assignment</span>
+        <span class="keyword">this</span>.name = name;
+    }
+}
+
+<span class="keyword">const</span> user = <span class="keyword">new</span> <span class="type">User</span>(<span class="type">1</span>, <span class="string">"Alice"</span>);
+console.log(user.id);   <span class="comment">// 1</span>
+<span class="comment">// user.id = 2;      // Error - readonly, cannot reassign</span>
+user.name = <span class="string">"Bob"</span>;   <span class="comment">// OK - not readonly</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Readonly dengan Parameter Properties</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Kombinasikan <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code> dengan parameter properties untuk immutable properties yang diassign via constructor.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Config</span> {
+    <span class="keyword">constructor</span>(
+        <span class="keyword">public</span> readonly apiKey: <span class="type">string</span>,
+        <span class="keyword">public</span> readonly endpoint: <span class="type">string</span>,
+        <span class="keyword">public</span> timeout: <span class="type">number</span> <span class="comment">// not readonly</span>
+    ) {}
+}
+
+<span class="keyword">const</span> config = <span class="keyword">new</span> <span class="type">Config</span>(<span class="string">"sk-123"</span>, <span class="string">"https://api.example.com"</span>, <span class="type">5000</span>);
+console.log(config.apiKey);    <span class="comment">// "sk-123"</span>
+<span class="comment">// config.apiKey = "sk-456";  // Error - readonly</span>
+config.timeout = <span class="type">10000</span>;      <span class="comment">// OK - mutable</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Readonly Arrays dan Tuples</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono">readonly</code> juga bisa diterapkan pada array dan tuple types. Readonly array tidak bisa di-modify (push, pop, dll).
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">ShoppingCart</span> {
+    <span class="keyword">readonly</span> items: <span class="type">readonly</span> <span class="type">string</span>[] = [];
+
+    addItem(item: <span class="type">string</span>): <span class="type">void</span> {
+        <span class="comment">// Error: Property 'push' does not exist on type 'readonly string[]'</span>
+        <span class="comment">// this.items.push(item);</span>
+        
+        <span class="comment">// Workaround: create new array</span>
+        <span class="keyword">this</span>.items = [...<span class="keyword">this</span>.items, item];
+    }
+}
+
+<span class="keyword">const</span> cart = <span class="keyword">new</span> <span class="type">ShoppingCart</span>();
+cart.addItem(<span class="string">"Book"</span>);
+console.log(cart.items); <span class="comment">// ["Book"]</span>
+<span class="comment">// cart.items.push("Pen"); // Error - readonly array</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Static Properties dan Methods</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                <code class="bg-gray-100 px-2 py-1 rounded font-mono">static</code> member dimiliki oleh class itu sendiri, bukan instance. Static members diakses langsung dari class: <code class="bg-gray-100 px-2 py-1 rounded font-mono">ClassName.member</code>. Static tidak bisa diakses via instance.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">MathUtils</span> {
+    <span class="keyword">static</span> <span class="keyword">readonly</span> PI = <span class="type">3.14159265359</span>;
+
+    <span class="keyword">static</span> circleArea(radius: <span class="type">number</span>): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="keyword">this</span>.PI * radius * radius;
+    }
+
+    <span class="keyword">static</span> circleCircumference(radius: <span class="type">number</span>): <span class="type">number</span> {
+        <span class="keyword">return</span> <span class="type">2</span> * <span class="keyword">this</span>.PI * radius;
+    }
+}
+
+console.log(<span class="type">MathUtils</span>.PI); <span class="comment">// 3.14159265359</span>
+console.log(<span class="type">MathUtils</span>.circleArea(<span class="type">5</span>)); <span class="comment">// 78.539816339745</span>
+console.log(<span class="type">MathUtils</span>.circleCircumference(<span class="type">5</span>)); <span class="comment">// 31.4159265359</span>
+
+<span class="comment">// Cannot access via instance</span>
+<span class="keyword">const</span> utils = <span class="keyword">new</span> <span class="type">MathUtils</span>();
+<span class="comment">// console.log(utils.PI); // Error - static only</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Static Initialization Order</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Static properties di-initialize dalam urutan deklarasi di class. Static fields bisa memiliki initializer expression.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">AppConfig</span> {
+    <span class="keyword">static</span> VERSION = <span class="string">"1.0.0"</span>;
+    <span class="keyword">static</span> ENV = process.env.NODE_ENV || <span class="string">"development"</span>;
+    <span class="keyword">static</span> API_URL = <span class="string">`https://api.\${AppConfig.ENV}.example.com`</span>;
+    <span class="keyword">static</span> <span class="keyword">readonly</span> FEATURES = [<span class="string">"auth"</span>, <span class="string">"logging"</span>, <span class="string">"metrics"</span>];
+}
+
+console.log(<span class="type">AppConfig</span>.VERSION); <span class="comment">// "1.0.0"</span>
+console.log(<span class="type">AppConfig</span>.API_URL);  <span class="comment">// depends on ENV</span></code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Static Blocks (ES2022)</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                TypeScript support <code class="bg-gray-100 px-2 py-1 rounded font-mono">static</code> blocks untuk inisialisasi static properties yang memerlukan logika lebih dari simple expression. Static block berjalan sekali saat class didefinisikan.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">Database</span> {
+    <span class="keyword">static</span> connectionCount = <span class="type">0</span>;
+
+    <span class="keyword">static</span> {
+        <span class="comment">// Complex initialization logic</span>
+        <span class="keyword">try</span> {
+            <span class="keyword">const</span> config = loadConfig();
+            <span class="type">Database</span>.config = config;
+            console.log(<span class="string">"Database config loaded"</span>);
+        } <span class="keyword">catch</span> (error) {
+            console.error(<span class="string">"Failed to load config"</span>, error);
+        }
+    }
+
+    <span class="keyword">static</span> config: <span class="type">any</span>;
+    <span class="keyword">static</span> connect(): <span class="type">boolean</span> {
+        <span class="type">Database</span>.connectionCount++;
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Use Cases untuk Static</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-6 space-y-2">
+                <li><strong>Constants</strong>: <code class="bg-gray-100 px-2 py-1 rounded font-mono">Math.PI</code>, configuration values</li>
+                <li><strong>Utility functions</strong>: <code class="bg-gray-100 px-2 py-1 rounded font-mono">String.fromCharCode()</code>, factory methods</li>
+                <li><strong>Counters/Registry</strong>: tracking instances, global state untuk class</li>
+                <li><strong>Singleton pattern</strong>: static instance property</li>
+            </ul>
+
+            <div class="code-block mb-6">
+                <pre><code><span class="comment">// Factory method static</span>
+<span class="keyword">class</span> <span class="type">HttpRequest</span> {
+    method: <span class="type">string</span>;
+    url: <span class="type">string</span>;
+
+    <span class="keyword">private</span> <span class="keyword">constructor</span>(method: <span class="type">string</span>, url: <span class="type">string</span>) {
+        <span class="keyword">this</span>.method = method;
+        <span class="keyword">this</span>.url = url;
+    }
+
+    <span class="keyword">static</span> get(url: <span class="type">string</span>): <span class="type">HttpRequest</span> {
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">HttpRequest</span>(<span class="string">"GET"</span>, url);
+    }
+
+    <span class="keyword">static</span> post(url: <span class="type">string</span>, body: <span class="type">any</span>): <span class="type">HttpRequest</span> {
+        <span class="keyword">const</span> req = <span class="keyword">new</span> <span class="type">HttpRequest</span>(<span class="string">"POST"</span>, url);
+        req.body = body;
+        <span class="keyword">return</span> req;
+    }
+}
+
+<span class="keyword">const</span> req1 = <span class="type">HttpRequest</span>.get(<span class="string">"/api/users"</span>);
+<span class="keyword">const</span> req2 = <span class="type">HttpRequest</span>.post(<span class="string">"/api/users"</span>, { name: <span class="string">"Alice"</span> });</code></pre>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Kombinasi Readonly + Static</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Static properties juga bisa readonly, biasanya untuk constants yang bersifat global untuk class.
+            </p>
+            <div class="code-block mb-6">
+                <pre><code><span class="keyword">class</span> <span class="type">HttpStatus</span> {
+    <span class="keyword">static</span> <span class="keyword">readonly</span> OK = <span class="type">200</span>;
+    <span class="keyword">static</span> <span class="keyword">readonly</span> NOT_FOUND = <span class="type">404</span>;
+    <span class="keyword">static</span> <span class="keyword">readonly</span> SERVER_ERROR = <span class="type">500</span>;
+
+    <span class="keyword">static</span> isSuccess(code: <span class="type">number</span>): <span class="type">boolean</span> {
+        <span class="keyword">return</span> code >= <span class="type">200</span> && code < <span class="type">300</span>;
+    }
+}
+
+console.log(<span class="type">HttpStatus</span>.OK);           <span class="comment">// 200</span>
+console.log(<span class="type">HttpStatus</span>.NOT_FOUND);    <span class="comment">// 404</span>
+console.log(<span class="type">HttpStatus</span>.isSuccess(<span class="type">200</span>)); <span class="comment">// true</span>
+<span class="comment">// HttpStatus.OK = 201; // Error - readonly</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Exercises -->
+        <section class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">💻 Exercises</h2>
+            
+            <div class="space-y-6">
+                <div class="border-l-4 border-primary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">1. Immutable Point</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Point</code> dengan readonly properties <code class="bg-gray-100 px-2 py-1 rounded font-mono">x: number</code> dan <code class="bg-gray-100 px-2 py-1 rounded font-mono">y: number</code>. Tambahkan method <code class="bg-gray-100 px-2 py-1 rounded font-mono">distanceTo(other: Point): number</code> yang menghitung jarak Euclidean. Pastikan points tidak bisa diubah setelah dibuat.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-secondary pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">2. Math Constants</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">MathConstants</code> dengan static readonly properties untuk pi, e, dan golden ratio. Tambahkan static method <code class="bg-gray-100 px-2 py-1 rounded font-mono">circleArea(radius: number): number</code>. Akses semua melalui class name.
+                    </p>
+                </div>
+
+                <div class="border-l-4 border-accent pl-4">
+                    <h3 class="font-bold text-gray-900 mb-2">3. Counter dengan Static</h3>
+                    <p class="text-gray-700 mb-3">
+                        Buat class <code class="bg-gray-100 px-2 py-1 rounded font-mono">Counter</code> dengan static property <code class="bg-gray-100 px-2 py-1 rounded font-mono">totalCount: number</code> yang di-increment setiap instance dibuat. Tambahkan static readonly <code class="bg-gray-100 px-2 py-1 rounded font-mono">DEFAULT_START: number</code> dan static method <code class="bg-gray-100 px-2 py-1 rounded font-mono">getTotal(): number</code>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="lesson-nav mb-8">
+            <button class="nav-btn" onclick="alert('Previous lesson')">
+                ← Sebelumnya
+            </button>
+            <button class="nav-btn primary" onclick="alert('Quiz akan dimuat setelah semua lesson selesai')">
+                Quiz Module →
+            </button>
+        </nav>
+    </main>
+
+    <script src="/typescript-curriculum/app.js"></script>
+</body>
+</html>
