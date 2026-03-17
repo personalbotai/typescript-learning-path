@@ -158,3 +158,35 @@
         width: 240px;
     }
 }
+
+/* Interactive Code Editor Styles */
+.code-editor {
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+    tab-size: 4;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    resize: none;
+}
+.code-editor:focus {
+    outline: none;
+    border-color: #3b82f6 !important;
+}
+.terminal-output {
+    background: #0a0a0a;
+    color: #22c55e;
+    font-family: 'Fira Code', 'Consolas', monospace;
+}
+.interactive-active {
+    background: linear-gradient(135deg, #065f46, #10b981) !important;
+    color: white !important;
+}
+.progress-bar {
+    transition: width 0.5s ease-in-out;
+}
+#interactive-lessons-nav::-webkit-scrollbar {
+    width: 4px;
+}
+#interactive-lessons-nav::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 2px;
+}

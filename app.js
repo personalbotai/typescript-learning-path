@@ -526,4 +526,289 @@ document.addEventListener('DOMContentLoaded', () => {
             achievementPopup.classList.remove('achievement-show');
         }, 4000);
     }
+
+    // =============================================
+    // Interactive Code Editor Mode
+    // =============================================
+    const interactiveLessons = window.INTERACTIVE_LESSONS || [];
+    let currentInteractiveIndex = 0;
+    let interactiveProgress = new Set(JSON.parse(localStorage.getItem('tsInteractiveProgress') || '[]'));
+
+    // Mode switching
+    const modeBrowserBtn = document.getElementById('mode-browser');
+    const modeInteractiveBtn = document.getElementById('mode-interactive');
+    const browserMode = document.getElementById('browser-mode');
+    const interactiveMode = document.getElementById('interactive-mode');
+
+    if (modeBrowserBtn && modeInteractiveBtn) {
+        modeBrowserBtn.addEventListener('click', () => {
+            modeBrowserBtn.classList.add('bg-blue-600');
+            modeBrowserBtn.classList.remove('bg-gray-700');
+            modeInteractiveBtn.classList.add('bg-gray-700');
+            modeInteractiveBtn.classList.remove('bg-blue-600');
+            browserMode.classList.remove('hidden');
+            interactiveMode.classList.add('hidden');
+        });
+
+        modeInteractiveBtn.addEventListener('click', () => {
+            modeInteractiveBtn.classList.add('bg-blue-600');
+            modeInteractiveBtn.classList.remove('bg-gray-700');
+            modeBrowserBtn.classList.add('bg-gray-700');
+            modeBrowserBtn.classList.remove('bg-blue-600');
+            interactiveMode.classList.remove('hidden');
+            browserMode.classList.add('hidden');
+            initInteractiveEditor();
+        });
+    }
+
+    function initInteractiveEditor() {
+        renderInteractiveLessonsNav();
+        loadInteractiveLesson(0);
+        updateInteractiveProgress();
+    }
+
+    function renderInteractiveLessonsNav() {
+        const nav = document.getElementById('interactive-lessons-nav');
+        if (!nav) return;
+        nav.innerHTML = interactiveLessons.map((lesson, idx) => `
+            <button onclick="window.loadInteractiveLessonJS(${idx})" 
+                    class="w-full text-left px-3 py-2 rounded transition flex items-center text-sm
+                           ${interactiveProgress.has(idx) ? 'bg-green-900/30 text-green-300' : 'bg-gray-700 hover:bg-gray-600'}
+                           ${idx === currentInteractiveIndex ? 'interactive-active' : ''}">
+                <i class="fas fa-${interactiveProgress.has(idx) ? 'check-circle' : 'circle'} mr-2 text-xs"></i>
+                <span class="font-medium truncate">${lesson.title}</span>
+            </button>
+        `).join('');
+    }
+
+    window.loadInteractiveLessonJS = function(index) {
+        if (index < 0 || index >= interactiveLessons.length) return;
+        
+        currentInteractiveIndex = index;
+        const lesson = interactiveLessons[index];
+        
+        const lessonDiv = document.getElementById('interactive-current-lesson');
+        if (lessonDiv) {
+            lessonDiv.innerHTML = `
+                <div class="mb-4">
+                    <h2 class="text-xl font-bold text-blue-400 mb-2">${lesson.title}</h2>
+                    <div class="text-gray-300 text-sm">${lesson.description}</div>
+                </div>
+            `;
+        }
+        
+        const savedCode = localStorage.getItem(`ts_interactive_${index}_code`);
+        const editor = document.getElementById('interactive-code-editor');
+        if (editor) {
+            editor.value = savedCode || lesson.defaultCode;
+        }
+        
+        const outputDiv = document.getElementById('interactive-terminal-output');
+        if (outputDiv) {
+            outputDiv.innerHTML = '<span class="text-gray-500">// Output akan muncul di sini...</span>';
+        }
+        
+        const validationDiv = document.getElementById('interactive-validation-msg');
+        if (validationDiv) {
+            validationDiv.className = 'mt-4 p-3 rounded hidden';
+        }
+        
+        // Quiz
+        const quizSection = document.getElementById('interactive-quiz-section');
+        const quizContent = document.getElementById('interactive-quiz-content');
+        if (lesson.quiz && quizSection && quizContent) {
+            quizSection.classList.remove('hidden');
+            quizContent.innerHTML = `
+                <div class="p-4 bg-gray-700 rounded">
+                    <p class="font-medium mb-3">${lesson.quiz.question}</p>
+                    ${lesson.quiz.options.map((opt, i) => `
+                        <label class="flex items-center space-x-3 p-2 hover:bg-gray-600 rounded cursor-pointer">
+                            <input type="radio" name="interactive-quiz-answer" value="${i}" class="w-4 h-4 text-blue-600">
+                            <span>${opt}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+        } else if (quizSection) {
+            quizSection.classList.add('hidden');
+        }
+        
+        // Navigation buttons
+        const prevBtn = document.getElementById('interactive-prev-btn');
+        const nextBtn = document.getElementById('interactive-next-btn');
+        if (prevBtn) prevBtn.disabled = index === 0;
+        if (nextBtn) nextBtn.disabled = index === interactiveLessons.length - 1;
+        
+        renderInteractiveLessonsNav();
+    };
+
+    // Run interactive code simulation
+    window.runInteractiveCode = function() {
+        const editor = document.getElementById('interactive-code-editor');
+        const outputDiv = document.getElementById('interactive-terminal-output');
+        const validationDiv = document.getElementById('interactive-validation-msg');
+        
+        if (!editor || !outputDiv) return;
+        
+        const code = editor.value;
+        outputDiv.innerHTML = '<span class="text-yellow-400">Menjalankan kode...</span>';
+        
+        setTimeout(() => {
+            const result = simulateTypeScriptExecution(code);
+            outputDiv.innerHTML = result.output;
+            
+            const lesson = interactiveLessons[currentInteractiveIndex];
+            const isCorrect = result.output.trim() === lesson.expectedOutput.trim();
+            
+            if (isCorrect) {
+                interactiveProgress.add(currentInteractiveIndex);
+                localStorage.setItem('tsInteractiveProgress', JSON.stringify([...interactiveProgress]));
+                if (validationDiv) {
+                    validationDiv.className = 'mt-4 p-3 rounded bg-green-900/50 border border-green-600 text-green-200';
+                    validationDiv.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Kode benar! Selamat!';
+                }
+                renderInteractiveLessonsNav();
+                updateInteractiveProgress();
+            } else {
+                if (validationDiv) {
+                    validationDiv.className = 'mt-4 p-3 rounded bg-yellow-900/50 border border-yellow-600 text-yellow-200';
+                    validationDiv.innerHTML = `<i class="fas fa-exclamation-triangle mr-2"></i>Belum tepat. ${lesson.hint ? 'Petunjuk: ' + lesson.hint : ''}`;
+                }
+            }
+            
+            localStorage.setItem(`ts_interactive_${currentInteractiveIndex}_code`, code);
+        }, 500);
+    };
+
+    // TypeScript code simulation
+    function simulateTypeScriptExecution(code) {
+        const lines = code.trim().split('\n');
+        let output = [];
+        
+        // Extract console.log statements
+        for (let line of lines) {
+            line = line.trim();
+            if (line.startsWith('console.log')) {
+                const match = line.match(/console\.log\((.*?)\);?$/);
+                if (match) {
+                    let arg = match[1];
+                    // Handle template literals and concatenation
+                    let parts = [];
+                    let current = '';
+                    let inString = false;
+                    let stringChar = '';
+                    
+                    // Simple parser for console.log arguments
+                    if (arg.includes('+')) {
+                        // Handle string concatenation
+                        const segments = arg.split('+').map(s => s.trim());
+                        let result = '';
+                        for (let seg of segments) {
+                            if (seg.startsWith('"') && seg.endsWith('"')) {
+                                result += seg.slice(1, -1);
+                            } else if (seg.startsWith("'") && seg.endsWith("'")) {
+                                result += seg.slice(1, -1);
+                            } else {
+                                // Variable or expression - try to evaluate
+                                result += seg;
+                            }
+                        }
+                        output.push(result);
+                    } else if (arg.startsWith('"') && arg.endsWith('"')) {
+                        output.push(arg.slice(1, -1));
+                    } else if (arg.startsWith("'") && arg.endsWith("'")) {
+                        output.push(arg.slice(1, -1));
+                    } else {
+                        output.push(arg);
+                    }
+                }
+            }
+        }
+        
+        // If no console.log found, try to match expected patterns
+        if (output.length === 0) {
+            const lesson = interactiveLessons[currentInteractiveIndex];
+            if (lesson) {
+                // Return expected output as hint that code isn't correct
+                return { output: '// Tidak ada output terdeteksi. Pastikan menggunakan console.log()' };
+            }
+        }
+        
+        return { output: output.length > 0 ? output.join('\n') : '// Tidak ada output' };
+    }
+
+    // Check interactive quiz
+    window.checkInteractiveQuiz = function() {
+        const selected = document.querySelector('input[name="interactive-quiz-answer"]:checked');
+        if (!selected) {
+            alert('Pilih jawaban terlebih dahulu!');
+            return;
+        }
+        
+        const answer = parseInt(selected.value);
+        const lesson = interactiveLessons[currentInteractiveIndex];
+        
+        if (answer === lesson.quiz.answer) {
+            interactiveProgress.add(currentInteractiveIndex);
+            localStorage.setItem('tsInteractiveProgress', JSON.stringify([...interactiveProgress]));
+            alert('Jawaban benar! 🎉');
+            renderInteractiveLessonsNav();
+            updateInteractiveProgress();
+        } else {
+            alert('Jawaban salah. Coba lagi!');
+        }
+    };
+
+    // Navigation for interactive mode
+    window.nextInteractiveLesson = function() {
+        if (currentInteractiveIndex < interactiveLessons.length - 1) {
+            loadInteractiveLessonJS(currentInteractiveIndex + 1);
+        }
+    };
+
+    window.prevInteractiveLesson = function() {
+        if (currentInteractiveIndex > 0) {
+            loadInteractiveLessonJS(currentInteractiveIndex - 1);
+        }
+    };
+
+    // Reset code
+    window.resetInteractiveCode = function() {
+        const editor = document.getElementById('interactive-code-editor');
+        if (editor) {
+            editor.value = interactiveLessons[currentInteractiveIndex].defaultCode;
+        }
+        const outputDiv = document.getElementById('interactive-terminal-output');
+        if (outputDiv) {
+            outputDiv.innerHTML = '<span class="text-gray-500">// Output akan muncul di sini...</span>';
+        }
+        const validationDiv = document.getElementById('interactive-validation-msg');
+        if (validationDiv) {
+            validationDiv.className = 'mt-4 p-3 rounded hidden';
+        }
+    };
+
+    // Reset all interactive progress
+    window.resetInteractiveProgress = function() {
+        if (confirm('Reset semua progress interaktif? Ini tidak dapat dibatalkan.')) {
+            interactiveProgress.clear();
+            localStorage.removeItem('tsInteractiveProgress');
+            for (let i = 0; i < interactiveLessons.length; i++) {
+                localStorage.removeItem(`ts_interactive_${i}_code`);
+            }
+            loadInteractiveLessonJS(0);
+            updateInteractiveProgress();
+        }
+    };
+
+    // Update interactive progress bar
+    function updateInteractiveProgress() {
+        const percent = interactiveLessons.length > 0 
+            ? Math.round((interactiveProgress.size / interactiveLessons.length) * 100) 
+            : 0;
+        const textEl = document.getElementById('interactive-progress-text');
+        const barEl = document.getElementById('interactive-progress-bar');
+        if (textEl) textEl.textContent = percent + '%';
+        if (barEl) barEl.style.width = percent + '%';
+    }
 });

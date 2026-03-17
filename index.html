@@ -20,6 +20,15 @@
             <i class="fab fa-ts-square mr-2"></i>TypeScript Learning Path
         </h1>
         <div class="ml-auto flex items-center space-x-4">
+            <!-- Mode Switcher -->
+            <div class="flex bg-gray-700 rounded-lg overflow-hidden">
+                <button id="mode-browser" class="px-3 py-1 text-sm bg-blue-600 transition">
+                    <i class="fas fa-book mr-1"></i>Lessons
+                </button>
+                <button id="mode-interactive" class="px-3 py-1 text-sm bg-gray-700 hover:bg-gray-600 transition">
+                    <i class="fas fa-code mr-1"></i>Interactive
+                </button>
+            </div>
             <div class="text-sm">
                 <span class="text-gray-400">Progress:</span>
                 <span id="total-progress" class="font-bold text-green-400">0%</span>
@@ -55,8 +64,112 @@
 
         <!-- Main Content -->
         <main class="flex-1 overflow-y-auto p-4 lg:p-8 w-full">
-            <div id="content-area" class="max-w-4xl mx-auto">
-                <!-- Content will be loaded here -->
+            <!-- Browser Mode (default) -->
+            <div id="browser-mode">
+                <div id="content-area" class="max-w-4xl mx-auto">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Interactive Code Editor Mode -->
+            <div id="interactive-mode" class="hidden">
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <!-- Interactive Lessons Sidebar -->
+                        <aside class="lg:col-span-1">
+                            <div class="bg-gray-800 rounded-lg p-4 sticky top-20">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold flex items-center">
+                                        <i class="fas fa-code mr-2 text-green-400"></i>
+                                        Interactive
+                                    </h2>
+                                    <div class="text-xs text-gray-400">
+                                        <span id="interactive-progress-text">0%</span>
+                                    </div>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-1.5 mb-4 overflow-hidden">
+                                    <div id="interactive-progress-bar" class="progress-bar bg-gradient-to-r from-green-400 to-cyan-400 h-1.5 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <nav id="interactive-lessons-nav" class="space-y-2 max-h-[60vh] overflow-y-auto">
+                                    <!-- Lessons populated by JS -->
+                                </nav>
+                                <div class="mt-4 pt-4 border-t border-gray-700">
+                                    <button onclick="window.resetInteractiveProgress()" class="w-full px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 rounded transition">
+                                        <i class="fas fa-redo mr-1"></i>Reset Progress
+                                    </button>
+                                </div>
+                            </div>
+                        </aside>
+
+                        <!-- Interactive Main Content -->
+                        <main class="lg:col-span-3 space-y-6">
+                            <!-- Current Lesson -->
+                            <section id="interactive-current-lesson" class="bg-gray-800 rounded-lg p-6">
+                                <!-- Lesson content injected here -->
+                            </section>
+
+                            <!-- Code Editor & Terminal -->
+                            <section class="bg-gray-800 rounded-lg p-6">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-lg font-semibold">
+                                        <i class="fas fa-terminal mr-2 text-green-400"></i>
+                                        Editor Kode TypeScript
+                                    </h3>
+                                    <div class="space-x-2">
+                                        <button onclick="window.runInteractiveCode()" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded font-medium transition flex items-center inline-flex">
+                                            <i class="fas fa-play mr-2"></i> Jalankan
+                                        </button>
+                                        <button onclick="window.resetInteractiveCode()" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded font-medium transition">
+                                            <i class="fas fa-undo mr-2"></i> Reset
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                    <!-- Code Input -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400 mb-2">Kode TypeScript Anda:</label>
+                                        <textarea id="interactive-code-editor" class="code-editor w-full h-80 p-4 rounded-lg border border-gray-700 text-sm" spellcheck="false" placeholder="// Tulis kode TypeScript di sini..."></textarea>
+                                    </div>
+
+                                    <!-- Terminal Output -->
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-400 mb-2">Output:</label>
+                                        <div id="interactive-terminal-output" class="terminal-output w-full h-80 p-4 rounded-lg border border-gray-700 text-sm overflow-auto">
+                                            <span class="text-gray-500">// Output akan muncul di sini setelah Anda menekan "Jalankan"</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="interactive-validation-msg" class="mt-4 p-3 rounded hidden"></div>
+                            </section>
+
+                            <!-- Quiz Section -->
+                            <section id="interactive-quiz-section" class="bg-gray-800 rounded-lg p-6 hidden">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <i class="fas fa-question-circle mr-2 text-yellow-400"></i>
+                                    Quiz Sederhana
+                                </h3>
+                                <div id="interactive-quiz-content" class="space-y-4">
+                                    <!-- Quiz injected here -->
+                                </div>
+                                <button onclick="window.checkInteractiveQuiz()" class="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded font-medium transition">
+                                    Submit Jawaban
+                                </button>
+                            </section>
+
+                            <!-- Navigation -->
+                            <div class="flex justify-between items-center">
+                                <button id="interactive-prev-btn" onclick="window.prevInteractiveLesson()" class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <i class="fas fa-arrow-left mr-2"></i> Sebelumnya
+                                </button>
+                                <button id="interactive-next-btn" onclick="window.nextInteractiveLesson()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                    Selanjutnya <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </main>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -109,6 +222,7 @@
     <script src="modules.js"></script>
     <script src="quiz.js"></script>
     <script src="progress.js"></script>
+    <script src="interactive-lessons.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
