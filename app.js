@@ -3,85 +3,47 @@ const MODULES = [
     {
         "id": 1,
         "title": "Pengenalan TypeScript",
-        "icon": "fas fa-play-circle",
-        "lessons": [
-            "apa-itu-typescript",
-            "setup",
-            "tipe-data"
-        ]
+        "icon": "fas fa-play-circle"
     },
     {
         "id": 2,
         "title": "Type System",
-        "icon": "fas fa-shield-alt",
-        "lessons": [
-            "interface",
-            "type-alias",
-            "union",
-            "generics",
-            "enum",
-            "utility"
-        ]
+        "icon": "fas fa-shield-alt"
     },
     {
         "id": 3,
         "title": "OOP",
-        "icon": "fas fa-object-group",
-        "lessons": [
-            "class",
-            "access",
-            "abstract",
-            "inheritance"
-        ]
+        "icon": "fas fa-object-group"
     },
     {
         "id": 4,
-        "title": "Advanced",
-        "icon": "fas fa-cogs",
-        "lessons": [
-            "type-guard",
-            "decorator",
-            "conditional",
-            "mapped"
-        ]
+        "title": "Advanced Types",
+        "icon": "fas fa-cogs"
     },
     {
         "id": 5,
         "title": "Modules & Tooling",
-        "icon": "fas fa-tools",
-        "lessons": [
-            "modules",
-            "tsconfig",
-            "declaration"
-        ]
-    },
-    {
-        "id": 6,
-        "title": "Async",
-        "icon": "fas fa-sync-alt",
-        "lessons": [
-            "async",
-            "promise",
-            "fetch"
-        ]
+        "icon": "fas fa-tools"
     }
 ];
-
 const lessons = [
     {
         "id": 1,
         "title": "1. Abstract Classes",
-        "description": "<p><strong>Abstract Classes</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "abstract class Shape {\\n    abstract area(): number;\\n    describe(): string { return `Luas: ${this.area()}`; }\\n}\\n\\nclass Circle extends Shape {\\n    constructor(private r: number) { super(); }\\n    area(): number { return Math.PI * this.r ** 2; }\\n}\\nconsole.log(new Circle(5).describe().substring(0,10));",
-        "expectedOutput": "Luas: 78.",
-        "hint": "Abstract class = blueprint, tidak bisa di-instantiate.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/abstract-classes.html",
+        "description": "<p><strong>Abstract Classes</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
             "question": "Apa yang dipelajari di Abstract Classes?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -89,17 +51,20 @@ const lessons = [
     {
         "id": 2,
         "title": "2. Access Modifiers",
-        "description": "<p><strong>Access Modifiers</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "class Bank {\\n    public nama: string;\\n    private saldo: number = 0;\\n    protected id: string = \"B001\";\\n    \\n    constructor(nama: string) { this.nama = nama; }\\n    public cekSaldo(): number { return this.saldo; }\\n}\\nconst b = new Bank(\"BCA\");\\nconsole.log(b.nama, b.cekSaldo());",
-        "expectedOutput": "BCA 0",
-        "hint": "public/private/protected = visibility control.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/access-modifiers.html",
+        "description": "<p><strong>Access Modifiers</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
             "question": "Apa yang dipelajari di Access Modifiers?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -107,71 +72,83 @@ const lessons = [
     {
         "id": 3,
         "title": "3. Ambient Modules",
-        "description": "<p><strong>Ambient Modules</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Ambient Modules\\nconsole.log(\"Belajar Ambient Modules di TypeScript!\");",
-        "expectedOutput": "Belajar Ambient Modules di TypeScript!",
-        "hint": "Pelajari konsep ambient modules dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/ambient-modules.html",
+        "description": "<p><strong>Ambient Modules</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari ambient modules?",
+            "question": "Apa yang dipelajari di Ambient Modules?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
     },
     {
         "id": 4,
-        "title": "4. Any dan Unknown",
-        "description": "<p><strong>Any dan Unknown</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "let data: any = \"hello\";\\ndata = 42; // OK with any\\n\\nlet val: unknown = \"hello\";\\n// let s: string = val; // Error!\\nlet s: string = val as string; // OK with assertion\\nconsole.log(s);",
-        "expectedOutput": "hello",
-        "hint": "unknown lebih aman dari any.",
+        "title": "4. Any Dan Unknown",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/any-dan-unknown.html",
+        "description": "<p><strong>Any Dan Unknown</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa yang dipelajari di Any dan Unknown?",
+            "question": "Apa yang dipelajari di Any Dan Unknown?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
     },
     {
         "id": 5,
-        "title": "5. Apa itu TypeScript?",
-        "description": "<p><strong>Apa itu TypeScript?</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "console.log(\"TypeScript adalah superset dari JavaScript!\");\\nlet nama: string = \"Archon\";\\nconsole.log(`Selamat datang, ${nama}!`);",
-        "expectedOutput": "Selamat datang, Archon!",
-        "hint": "TypeScript = JavaScript + static typing.",
+        "title": "5. Apa Itu Typescript",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/apa-itu-typescript.html",
+        "description": "<p><strong>Apa Itu Typescript</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa yang dipelajari di Apa itu TypeScript??",
+            "question": "Apa yang dipelajari di Apa Itu Typescript?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
     },
     {
         "id": 6,
-        "title": "6. Array dan Tuple",
-        "description": "<p><strong>Array dan Tuple</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "let angka: number[] = [1, 2, 3];\\nlet nama: Array<string> = [\"Alice\", \"Bob\"];\\n\\n// Tuple\\nlet pasangan: [string, number] = [\"Alice\", 25];\\nconsole.log(angka);\\nconsole.log(pasangan);",
-        "expectedOutput": "[1, 2, 3]\n[\"Alice\", 25]",
-        "hint": "Array: tipe[], Tuple: [tipe1, tipe2].",
+        "title": "6. Array Dan Tuple",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/array-dan-tuple.html",
+        "description": "<p><strong>Array Dan Tuple</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa yang dipelajari di Array dan Tuple?",
+            "question": "Apa yang dipelajari di Array Dan Tuple?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -179,17 +156,20 @@ const lessons = [
     {
         "id": 7,
         "title": "7. Arrow Functions Types",
-        "description": "<p><strong>Arrow Functions Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Arrow Functions Types\\nconsole.log(\"Belajar Arrow Functions Types di TypeScript!\");",
-        "expectedOutput": "Belajar Arrow Functions Types di TypeScript!",
-        "hint": "Pelajari konsep arrow functions types dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/arrow-functions-types.html",
+        "description": "<p><strong>Arrow Functions Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari arrow functions types?",
+            "question": "Apa yang dipelajari di Arrow Functions Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -197,17 +177,20 @@ const lessons = [
     {
         "id": 8,
         "title": "8. Barrel Files",
-        "description": "<p><strong>Barrel Files</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Barrel Files\\nconsole.log(\"Belajar Barrel Files di TypeScript!\");",
-        "expectedOutput": "Belajar Barrel Files di TypeScript!",
-        "hint": "Pelajari konsep barrel files dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/barrel-files.html",
+        "description": "<p><strong>Barrel Files</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari barrel files?",
+            "question": "Apa yang dipelajari di Barrel Files?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -215,17 +198,20 @@ const lessons = [
     {
         "id": 9,
         "title": "9. Build Tools Webpack Babel",
-        "description": "<p><strong>Build Tools Webpack Babel</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Build Tools Webpack Babel\\nconsole.log(\"Belajar Build Tools Webpack Babel di TypeScript!\");",
-        "expectedOutput": "Belajar Build Tools Webpack Babel di TypeScript!",
-        "hint": "Pelajari konsep build tools webpack babel dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/build-tools-webpack-babel.html",
+        "description": "<p><strong>Build Tools Webpack Babel</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari build tools webpack babel?",
+            "question": "Apa yang dipelajari di Build Tools Webpack Babel?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -233,17 +219,20 @@ const lessons = [
     {
         "id": 10,
         "title": "10. Class Dasar",
-        "description": "<p><strong>Class Dasar</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "class User {\\n    nama: string;\\n    constructor(nama: string) {\\n        this.nama = nama;\\n    }\\n    sapa(): string {\\n        return `Halo, ${this.nama}!`;\\n    }\\n}\\nconst u = new User(\"Archon\");\\nconsole.log(u.sapa());",
-        "expectedOutput": "Halo, Archon!",
-        "hint": "Class dengan typed properties dan methods.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/class-dasar.html",
+        "description": "<p><strong>Class Dasar</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
             "question": "Apa yang dipelajari di Class Dasar?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -251,17 +240,20 @@ const lessons = [
     {
         "id": 11,
         "title": "11. Compiler Options Target Module Lib",
-        "description": "<p><strong>Compiler Options Target Module Lib</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Compiler Options Target Module Lib\\nconsole.log(\"Belajar Compiler Options Target Module Lib di TypeScript!\");",
-        "expectedOutput": "Belajar Compiler Options Target Module Lib di TypeScript!",
-        "hint": "Pelajari konsep compiler options target module lib dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/compiler-options-target-module-lib.html",
+        "description": "<p><strong>Compiler Options Target Module Lib</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari compiler options target module lib?",
+            "question": "Apa yang dipelajari di Compiler Options Target Module Lib?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -269,17 +261,20 @@ const lessons = [
     {
         "id": 12,
         "title": "12. Conditional Types",
-        "description": "<p><strong>Conditional Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Conditional Types\\nconsole.log(\"Belajar Conditional Types di TypeScript!\");",
-        "expectedOutput": "Belajar Conditional Types di TypeScript!",
-        "hint": "Pelajari konsep conditional types dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/conditional-types.html",
+        "description": "<p><strong>Conditional Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari conditional types?",
+            "question": "Apa yang dipelajari di Conditional Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -287,17 +282,20 @@ const lessons = [
     {
         "id": 13,
         "title": "13. Constructor Parameter Properties",
-        "description": "<p><strong>Constructor Parameter Properties</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Constructor Parameter Properties\\nconsole.log(\"Belajar Constructor Parameter Properties di TypeScript!\");",
-        "expectedOutput": "Belajar Constructor Parameter Properties di TypeScript!",
-        "hint": "Pelajari konsep constructor parameter properties dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/constructor-parameter-properties.html",
+        "description": "<p><strong>Constructor Parameter Properties</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari constructor parameter properties?",
+            "question": "Apa yang dipelajari di Constructor Parameter Properties?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -305,17 +303,20 @@ const lessons = [
     {
         "id": 14,
         "title": "14. Declaration Files D Ts",
-        "description": "<p><strong>Declaration Files D Ts</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Declaration Files D Ts\\nconsole.log(\"Belajar Declaration Files D Ts di TypeScript!\");",
-        "expectedOutput": "Belajar Declaration Files D Ts di TypeScript!",
-        "hint": "Pelajari konsep declaration files d ts dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/declaration-files-d-ts.html",
+        "description": "<p><strong>Declaration Files D Ts</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari declaration files d ts?",
+            "question": "Apa yang dipelajari di Declaration Files D Ts?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -323,17 +324,20 @@ const lessons = [
     {
         "id": 15,
         "title": "15. Declaration Merging",
-        "description": "<p><strong>Declaration Merging</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Declaration Merging\\nconsole.log(\"Belajar Declaration Merging di TypeScript!\");",
-        "expectedOutput": "Belajar Declaration Merging di TypeScript!",
-        "hint": "Pelajari konsep declaration merging dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/declaration-merging.html",
+        "description": "<p><strong>Declaration Merging</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari declaration merging?",
+            "question": "Apa yang dipelajari di Declaration Merging?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -341,17 +345,20 @@ const lessons = [
     {
         "id": 16,
         "title": "16. Default Type Params",
-        "description": "<p><strong>Default Type Params</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Default Type Params\\nconsole.log(\"Belajar Default Type Params di TypeScript!\");",
-        "expectedOutput": "Belajar Default Type Params di TypeScript!",
-        "hint": "Pelajari konsep default type params dengan praktik langsung.",
+        "module": "Pengenalan TypeScript",
+        "moduleId": 1,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/default-type-params.html",
+        "description": "<p><strong>Default Type Params</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari default type params?",
+            "question": "Apa yang dipelajari di Default Type Params?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -359,17 +366,20 @@ const lessons = [
     {
         "id": 17,
         "title": "17. Default Vs Named Export",
-        "description": "<p><strong>Default Vs Named Export</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Default Vs Named Export\\nconsole.log(\"Belajar Default Vs Named Export di TypeScript!\");",
-        "expectedOutput": "Belajar Default Vs Named Export di TypeScript!",
-        "hint": "Pelajari konsep default vs named export dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/default-vs-named-export.html",
+        "description": "<p><strong>Default Vs Named Export</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari default vs named export?",
+            "question": "Apa yang dipelajari di Default Vs Named Export?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -377,17 +387,20 @@ const lessons = [
     {
         "id": 18,
         "title": "18. Definitelytyped",
-        "description": "<p><strong>Definitelytyped</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Definitelytyped\\nconsole.log(\"Belajar Definitelytyped di TypeScript!\");",
-        "expectedOutput": "Belajar Definitelytyped di TypeScript!",
-        "hint": "Pelajari konsep definitelytyped dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/definitelytyped.html",
+        "description": "<p><strong>Definitelytyped</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari definitelytyped?",
+            "question": "Apa yang dipelajari di Definitelytyped?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -395,35 +408,41 @@ const lessons = [
     {
         "id": 19,
         "title": "19. Dynamic Import Code Splitting",
-        "description": "<p><strong>Dynamic Import Code Splitting</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Dynamic Import Code Splitting\\nconsole.log(\"Belajar Dynamic Import Code Splitting di TypeScript!\");",
-        "expectedOutput": "Belajar Dynamic Import Code Splitting di TypeScript!",
-        "hint": "Pelajari konsep dynamic import code splitting dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/dynamic-import-code-splitting.html",
+        "description": "<p><strong>Dynamic Import Code Splitting</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari dynamic import code splitting?",
+            "question": "Apa yang dipelajari di Dynamic Import Code Splitting?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
     },
     {
         "id": 20,
-        "title": "20. Enum",
-        "description": "<p><strong>Enum</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "enum Waktu {\\n    Pagi = \"PAGI\",\\n    Siang = \"SIANG\",\\n    Malam = \"MALAM\"\\n}\\nconsole.log(Waktu.Pagi);\\nconsole.log(Waktu.Siang);",
-        "expectedOutput": "PAGI\nSIANG",
-        "hint": "Enum untuk named constants.",
+        "title": "20. Enum Named Constants",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/enum-named-constants.html",
+        "description": "<p><strong>Enum Named Constants</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa yang dipelajari di Enum?",
+            "question": "Apa yang dipelajari di Enum Named Constants?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -431,17 +450,20 @@ const lessons = [
     {
         "id": 21,
         "title": "21. Es6 Modules Import Export",
-        "description": "<p><strong>Es6 Modules Import Export</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Es6 Modules Import Export\\nconsole.log(\"Belajar Es6 Modules Import Export di TypeScript!\");",
-        "expectedOutput": "Belajar Es6 Modules Import Export di TypeScript!",
-        "hint": "Pelajari konsep es6 modules import export dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/es6-modules-import-export.html",
+        "description": "<p><strong>Es6 Modules Import Export</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari es6 modules import export?",
+            "question": "Apa yang dipelajari di Es6 Modules Import Export?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -449,17 +471,20 @@ const lessons = [
     {
         "id": 22,
         "title": "22. Eslint Typescript",
-        "description": "<p><strong>Eslint Typescript</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Eslint Typescript\\nconsole.log(\"Belajar Eslint Typescript di TypeScript!\");",
-        "expectedOutput": "Belajar Eslint Typescript di TypeScript!",
-        "hint": "Pelajari konsep eslint typescript dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/eslint-typescript.html",
+        "description": "<p><strong>Eslint Typescript</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari eslint typescript?",
+            "question": "Apa yang dipelajari di Eslint Typescript?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -467,17 +492,20 @@ const lessons = [
     {
         "id": 23,
         "title": "23. Exclude Extract Nonnullable",
-        "description": "<p><strong>Exclude Extract Nonnullable</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Exclude Extract Nonnullable\\nconsole.log(\"Belajar Exclude Extract Nonnullable di TypeScript!\");",
-        "expectedOutput": "Belajar Exclude Extract Nonnullable di TypeScript!",
-        "hint": "Pelajari konsep exclude extract nonnullable dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/exclude-extract-nonnullable.html",
+        "description": "<p><strong>Exclude Extract Nonnullable</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari exclude extract nonnullable?",
+            "question": "Apa yang dipelajari di Exclude Extract Nonnullable?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -485,17 +513,20 @@ const lessons = [
     {
         "id": 24,
         "title": "24. Extending Interfaces Types",
-        "description": "<p><strong>Extending Interfaces Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Extending Interfaces Types\\nconsole.log(\"Belajar Extending Interfaces Types di TypeScript!\");",
-        "expectedOutput": "Belajar Extending Interfaces Types di TypeScript!",
-        "hint": "Pelajari konsep extending interfaces types dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/extending-interfaces-types.html",
+        "description": "<p><strong>Extending Interfaces Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari extending interfaces types?",
+            "question": "Apa yang dipelajari di Extending Interfaces Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -503,17 +534,20 @@ const lessons = [
     {
         "id": 25,
         "title": "25. Final Project Fullstack",
-        "description": "<p><strong>Final Project Fullstack</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Final Project Fullstack\\nconsole.log(\"Belajar Final Project Fullstack di TypeScript!\");",
-        "expectedOutput": "Belajar Final Project Fullstack di TypeScript!",
-        "hint": "Pelajari konsep final project fullstack dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/final-project-fullstack.html",
+        "description": "<p><strong>Final Project Fullstack</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari final project fullstack?",
+            "question": "Apa yang dipelajari di Final Project Fullstack?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -521,17 +555,20 @@ const lessons = [
     {
         "id": 26,
         "title": "26. Function Overloads",
-        "description": "<p><strong>Function Overloads</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Function Overloads\\nconsole.log(\"Belajar Function Overloads di TypeScript!\");",
-        "expectedOutput": "Belajar Function Overloads di TypeScript!",
-        "hint": "Pelajari konsep function overloads dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/function-overloads.html",
+        "description": "<p><strong>Function Overloads</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari function overloads?",
+            "question": "Apa yang dipelajari di Function Overloads?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -539,17 +576,20 @@ const lessons = [
     {
         "id": 27,
         "title": "27. Function Types",
-        "description": "<p><strong>Function Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Function Types\\nconsole.log(\"Belajar Function Types di TypeScript!\");",
-        "expectedOutput": "Belajar Function Types di TypeScript!",
-        "hint": "Pelajari konsep function types dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/function-types.html",
+        "description": "<p><strong>Function Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari function types?",
+            "question": "Apa yang dipelajari di Function Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -557,17 +597,20 @@ const lessons = [
     {
         "id": 28,
         "title": "28. Generic Constraints",
-        "description": "<p><strong>Generic Constraints</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Generic Constraints\\nconsole.log(\"Belajar Generic Constraints di TypeScript!\");",
-        "expectedOutput": "Belajar Generic Constraints di TypeScript!",
-        "hint": "Pelajari konsep generic constraints dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/generic-constraints.html",
+        "description": "<p><strong>Generic Constraints</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari generic constraints?",
+            "question": "Apa yang dipelajari di Generic Constraints?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -575,17 +618,20 @@ const lessons = [
     {
         "id": 29,
         "title": "29. Generic Functions Dasar",
-        "description": "<p><strong>Generic Functions Dasar</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Generic Functions Dasar\\nconsole.log(\"Belajar Generic Functions Dasar di TypeScript!\");",
-        "expectedOutput": "Belajar Generic Functions Dasar di TypeScript!",
-        "hint": "Pelajari konsep generic functions dasar dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/generic-functions-dasar.html",
+        "description": "<p><strong>Generic Functions Dasar</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari generic functions dasar?",
+            "question": "Apa yang dipelajari di Generic Functions Dasar?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -593,17 +639,20 @@ const lessons = [
     {
         "id": 30,
         "title": "30. Generic Interfaces Classes",
-        "description": "<p><strong>Generic Interfaces Classes</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Generic Interfaces Classes\\nconsole.log(\"Belajar Generic Interfaces Classes di TypeScript!\");",
-        "expectedOutput": "Belajar Generic Interfaces Classes di TypeScript!",
-        "hint": "Pelajari konsep generic interfaces classes dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/generic-interfaces-classes.html",
+        "description": "<p><strong>Generic Interfaces Classes</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari generic interfaces classes?",
+            "question": "Apa yang dipelajari di Generic Interfaces Classes?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -611,17 +660,20 @@ const lessons = [
     {
         "id": 31,
         "title": "31. Generic Utility Types",
-        "description": "<p><strong>Generic Utility Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Generic Utility Types\\nconsole.log(\"Belajar Generic Utility Types di TypeScript!\");",
-        "expectedOutput": "Belajar Generic Utility Types di TypeScript!",
-        "hint": "Pelajari konsep generic utility types dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/generic-utility-types.html",
+        "description": "<p><strong>Generic Utility Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari generic utility types?",
+            "question": "Apa yang dipelajari di Generic Utility Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -629,17 +681,20 @@ const lessons = [
     {
         "id": 32,
         "title": "32. Hello World",
-        "description": "<p><strong>Hello World</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Hello World\\nconsole.log(\"Belajar Hello World di TypeScript!\");",
-        "expectedOutput": "Belajar Hello World di TypeScript!",
-        "hint": "Pelajari konsep hello world dengan praktik langsung.",
+        "module": "Type System",
+        "moduleId": 2,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/hello-world.html",
+        "description": "<p><strong>Hello World</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari hello world?",
+            "question": "Apa yang dipelajari di Hello World?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -647,17 +702,20 @@ const lessons = [
     {
         "id": 33,
         "title": "33. Include Exclude Files",
-        "description": "<p><strong>Include Exclude Files</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Include Exclude Files\\nconsole.log(\"Belajar Include Exclude Files di TypeScript!\");",
-        "expectedOutput": "Belajar Include Exclude Files di TypeScript!",
-        "hint": "Pelajari konsep include exclude files dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/include-exclude-files.html",
+        "description": "<p><strong>Include Exclude Files</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari include exclude files?",
+            "question": "Apa yang dipelajari di Include Exclude Files?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -665,17 +723,20 @@ const lessons = [
     {
         "id": 34,
         "title": "34. Index Signatures",
-        "description": "<p><strong>Index Signatures</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Index Signatures\\nconsole.log(\"Belajar Index Signatures di TypeScript!\");",
-        "expectedOutput": "Belajar Index Signatures di TypeScript!",
-        "hint": "Pelajari konsep index signatures dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/index-signatures.html",
+        "description": "<p><strong>Index Signatures</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari index signatures?",
+            "question": "Apa yang dipelajari di Index Signatures?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -683,17 +744,20 @@ const lessons = [
     {
         "id": 35,
         "title": "35. Indexed Access Types",
-        "description": "<p><strong>Indexed Access Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Indexed Access Types\\nconsole.log(\"Belajar Indexed Access Types di TypeScript!\");",
-        "expectedOutput": "Belajar Indexed Access Types di TypeScript!",
-        "hint": "Pelajari konsep indexed access types dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/indexed-access-types.html",
+        "description": "<p><strong>Indexed Access Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari indexed access types?",
+            "question": "Apa yang dipelajari di Indexed Access Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -701,17 +765,20 @@ const lessons = [
     {
         "id": 36,
         "title": "36. Inheritance Extends Super",
-        "description": "<p><strong>Inheritance Extends Super</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Inheritance Extends Super\\nconsole.log(\"Belajar Inheritance Extends Super di TypeScript!\");",
-        "expectedOutput": "Belajar Inheritance Extends Super di TypeScript!",
-        "hint": "Pelajari konsep inheritance extends super dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/inheritance-extends-super.html",
+        "description": "<p><strong>Inheritance Extends Super</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari inheritance extends super?",
+            "question": "Apa yang dipelajari di Inheritance Extends Super?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -719,17 +786,20 @@ const lessons = [
     {
         "id": 37,
         "title": "37. Instalasi Typescript",
-        "description": "<p><strong>Instalasi Typescript</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Instalasi Typescript\\nconsole.log(\"Belajar Instalasi Typescript di TypeScript!\");",
-        "expectedOutput": "Belajar Instalasi Typescript di TypeScript!",
-        "hint": "Pelajari konsep instalasi typescript dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/instalasi-typescript.html",
+        "description": "<p><strong>Instalasi Typescript</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari instalasi typescript?",
+            "question": "Apa yang dipelajari di Instalasi Typescript?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -737,17 +807,20 @@ const lessons = [
     {
         "id": 38,
         "title": "38. Interface Dasar",
-        "description": "<p><strong>Interface Dasar</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "interface User {\\n    nama: string;\\n    umur: number;\\n    email?: string; // optional\\n}\\n\\nconst user: User = { nama: \"Archon\", umur: 25 };\\nconsole.log(user.nama);",
-        "expectedOutput": "Archon",
-        "hint": "Interface mendefinisikan bentuk object.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/interface-dasar.html",
+        "description": "<p><strong>Interface Dasar</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
             "question": "Apa yang dipelajari di Interface Dasar?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -755,17 +828,20 @@ const lessons = [
     {
         "id": 39,
         "title": "39. Interface Vs Type Alias",
-        "description": "<p><strong>Interface Vs Type Alias</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Interface Vs Type Alias\\nconsole.log(\"Belajar Interface Vs Type Alias di TypeScript!\");",
-        "expectedOutput": "Belajar Interface Vs Type Alias di TypeScript!",
-        "hint": "Pelajari konsep interface vs type alias dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/interface-vs-type-alias.html",
+        "description": "<p><strong>Interface Vs Type Alias</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari interface vs type alias?",
+            "question": "Apa yang dipelajari di Interface Vs Type Alias?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -773,17 +849,20 @@ const lessons = [
     {
         "id": 40,
         "title": "40. Intersection Types",
-        "description": "<p><strong>Intersection Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Intersection Types\\nconsole.log(\"Belajar Intersection Types di TypeScript!\");",
-        "expectedOutput": "Belajar Intersection Types di TypeScript!",
-        "hint": "Pelajari konsep intersection types dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/intersection-types.html",
+        "description": "<p><strong>Intersection Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari intersection types?",
+            "question": "Apa yang dipelajari di Intersection Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -791,17 +870,20 @@ const lessons = [
     {
         "id": 41,
         "title": "41. Mapped Types",
-        "description": "<p><strong>Mapped Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Mapped Types\\nconsole.log(\"Belajar Mapped Types di TypeScript!\");",
-        "expectedOutput": "Belajar Mapped Types di TypeScript!",
-        "hint": "Pelajari konsep mapped types dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/mapped-types.html",
+        "description": "<p><strong>Mapped Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari mapped types?",
+            "question": "Apa yang dipelajari di Mapped Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -809,17 +891,20 @@ const lessons = [
     {
         "id": 42,
         "title": "42. Migrasi Js Ke Ts",
-        "description": "<p><strong>Migrasi Js Ke Ts</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Migrasi Js Ke Ts\\nconsole.log(\"Belajar Migrasi Js Ke Ts di TypeScript!\");",
-        "expectedOutput": "Belajar Migrasi Js Ke Ts di TypeScript!",
-        "hint": "Pelajari konsep migrasi js ke ts dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/migrasi-js-ke-ts.html",
+        "description": "<p><strong>Migrasi Js Ke Ts</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari migrasi js ke ts?",
+            "question": "Apa yang dipelajari di Migrasi Js Ke Ts?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -827,17 +912,20 @@ const lessons = [
     {
         "id": 43,
         "title": "43. Namespaces Organisasi Kode",
-        "description": "<p><strong>Namespaces Organisasi Kode</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Namespaces Organisasi Kode\\nconsole.log(\"Belajar Namespaces Organisasi Kode di TypeScript!\");",
-        "expectedOutput": "Belajar Namespaces Organisasi Kode di TypeScript!",
-        "hint": "Pelajari konsep namespaces organisasi kode dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/namespaces-organisasi-kode.html",
+        "description": "<p><strong>Namespaces Organisasi Kode</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari namespaces organisasi kode?",
+            "question": "Apa yang dipelajari di Namespaces Organisasi Kode?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -845,17 +933,20 @@ const lessons = [
     {
         "id": 44,
         "title": "44. Nullable Types",
-        "description": "<p><strong>Nullable Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Nullable Types\\nconsole.log(\"Belajar Nullable Types di TypeScript!\");",
-        "expectedOutput": "Belajar Nullable Types di TypeScript!",
-        "hint": "Pelajari konsep nullable types dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/nullable-types.html",
+        "description": "<p><strong>Nullable Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari nullable types?",
+            "question": "Apa yang dipelajari di Nullable Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -863,17 +954,20 @@ const lessons = [
     {
         "id": 45,
         "title": "45. Omit Thisparameter",
-        "description": "<p><strong>Omit Thisparameter</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Omit Thisparameter\\nconsole.log(\"Belajar Omit Thisparameter di TypeScript!\");",
-        "expectedOutput": "Belajar Omit Thisparameter di TypeScript!",
-        "hint": "Pelajari konsep omit thisparameter dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/omit-thisparameter.html",
+        "description": "<p><strong>Omit Thisparameter</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari omit thisparameter?",
+            "question": "Apa yang dipelajari di Omit Thisparameter?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -881,17 +975,20 @@ const lessons = [
     {
         "id": 46,
         "title": "46. Optional Default Params",
-        "description": "<p><strong>Optional Default Params</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Optional Default Params\\nconsole.log(\"Belajar Optional Default Params di TypeScript!\");",
-        "expectedOutput": "Belajar Optional Default Params di TypeScript!",
-        "hint": "Pelajari konsep optional default params dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/optional-default-params.html",
+        "description": "<p><strong>Optional Default Params</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari optional default params?",
+            "question": "Apa yang dipelajari di Optional Default Params?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -899,17 +996,20 @@ const lessons = [
     {
         "id": 47,
         "title": "47. Optional Readonly Properties",
-        "description": "<p><strong>Optional Readonly Properties</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Optional Readonly Properties\\nconsole.log(\"Belajar Optional Readonly Properties di TypeScript!\");",
-        "expectedOutput": "Belajar Optional Readonly Properties di TypeScript!",
-        "hint": "Pelajari konsep optional readonly properties dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/optional-readonly-properties.html",
+        "description": "<p><strong>Optional Readonly Properties</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari optional readonly properties?",
+            "question": "Apa yang dipelajari di Optional Readonly Properties?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -917,17 +1017,20 @@ const lessons = [
     {
         "id": 48,
         "title": "48. Parameter Utilities",
-        "description": "<p><strong>Parameter Utilities</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Parameter Utilities\\nconsole.log(\"Belajar Parameter Utilities di TypeScript!\");",
-        "expectedOutput": "Belajar Parameter Utilities di TypeScript!",
-        "hint": "Pelajari konsep parameter utilities dengan praktik langsung.",
+        "module": "OOP",
+        "moduleId": 3,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/parameter-utilities.html",
+        "description": "<p><strong>Parameter Utilities</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari parameter utilities?",
+            "question": "Apa yang dipelajari di Parameter Utilities?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -935,17 +1038,20 @@ const lessons = [
     {
         "id": 49,
         "title": "49. Parameters Constructorparameters",
-        "description": "<p><strong>Parameters Constructorparameters</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Parameters Constructorparameters\\nconsole.log(\"Belajar Parameters Constructorparameters di TypeScript!\");",
-        "expectedOutput": "Belajar Parameters Constructorparameters di TypeScript!",
-        "hint": "Pelajari konsep parameters constructorparameters dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/parameters-constructorparameters.html",
+        "description": "<p><strong>Parameters Constructorparameters</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari parameters constructorparameters?",
+            "question": "Apa yang dipelajari di Parameters Constructorparameters?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -953,17 +1059,20 @@ const lessons = [
     {
         "id": 50,
         "title": "50. Partial Required",
-        "description": "<p><strong>Partial Required</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Partial Required\\nconsole.log(\"Belajar Partial Required di TypeScript!\");",
-        "expectedOutput": "Belajar Partial Required di TypeScript!",
-        "hint": "Pelajari konsep partial required dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/partial-required.html",
+        "description": "<p><strong>Partial Required</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari partial required?",
+            "question": "Apa yang dipelajari di Partial Required?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -971,17 +1080,20 @@ const lessons = [
     {
         "id": 51,
         "title": "51. Path Mapping Module Resolution",
-        "description": "<p><strong>Path Mapping Module Resolution</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Path Mapping Module Resolution\\nconsole.log(\"Belajar Path Mapping Module Resolution di TypeScript!\");",
-        "expectedOutput": "Belajar Path Mapping Module Resolution di TypeScript!",
-        "hint": "Pelajari konsep path mapping module resolution dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/path-mapping-module-resolution.html",
+        "description": "<p><strong>Path Mapping Module Resolution</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari path mapping module resolution?",
+            "question": "Apa yang dipelajari di Path Mapping Module Resolution?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -989,17 +1101,20 @@ const lessons = [
     {
         "id": 52,
         "title": "52. Pick Omit",
-        "description": "<p><strong>Pick Omit</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Pick Omit\\nconsole.log(\"Belajar Pick Omit di TypeScript!\");",
-        "expectedOutput": "Belajar Pick Omit di TypeScript!",
-        "hint": "Pelajari konsep pick omit dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/pick-omit.html",
+        "description": "<p><strong>Pick Omit</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari pick omit?",
+            "question": "Apa yang dipelajari di Pick Omit?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1007,17 +1122,20 @@ const lessons = [
     {
         "id": 53,
         "title": "53. Prettier Integration",
-        "description": "<p><strong>Prettier Integration</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Prettier Integration\\nconsole.log(\"Belajar Prettier Integration di TypeScript!\");",
-        "expectedOutput": "Belajar Prettier Integration di TypeScript!",
-        "hint": "Pelajari konsep prettier integration dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/prettier-integration.html",
+        "description": "<p><strong>Prettier Integration</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari prettier integration?",
+            "question": "Apa yang dipelajari di Prettier Integration?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1025,17 +1143,20 @@ const lessons = [
     {
         "id": 54,
         "title": "54. Project Cli Tool",
-        "description": "<p><strong>Project Cli Tool</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Project Cli Tool\\nconsole.log(\"Belajar Project Cli Tool di TypeScript!\");",
-        "expectedOutput": "Belajar Project Cli Tool di TypeScript!",
-        "hint": "Pelajari konsep project cli tool dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/project-cli-tool.html",
+        "description": "<p><strong>Project Cli Tool</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari project cli tool?",
+            "question": "Apa yang dipelajari di Project Cli Tool?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1043,17 +1164,20 @@ const lessons = [
     {
         "id": 55,
         "title": "55. Project React Ts",
-        "description": "<p><strong>Project React Ts</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Project React Ts\\nconsole.log(\"Belajar Project React Ts di TypeScript!\");",
-        "expectedOutput": "Belajar Project React Ts di TypeScript!",
-        "hint": "Pelajari konsep project react ts dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/project-react-ts.html",
+        "description": "<p><strong>Project React Ts</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari project react ts?",
+            "question": "Apa yang dipelajari di Project React Ts?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1061,17 +1185,20 @@ const lessons = [
     {
         "id": 56,
         "title": "56. Project Rest Api",
-        "description": "<p><strong>Project Rest Api</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Project Rest Api\\nconsole.log(\"Belajar Project Rest Api di TypeScript!\");",
-        "expectedOutput": "Belajar Project Rest Api di TypeScript!",
-        "hint": "Pelajari konsep project rest api dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/project-rest-api.html",
+        "description": "<p><strong>Project Rest Api</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari project rest api?",
+            "question": "Apa yang dipelajari di Project Rest Api?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1079,17 +1206,20 @@ const lessons = [
     {
         "id": 57,
         "title": "57. Project Setup Typescript",
-        "description": "<p><strong>Project Setup Typescript</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Project Setup Typescript\\nconsole.log(\"Belajar Project Setup Typescript di TypeScript!\");",
-        "expectedOutput": "Belajar Project Setup Typescript di TypeScript!",
-        "hint": "Pelajari konsep project setup typescript dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/project-setup-typescript.html",
+        "description": "<p><strong>Project Setup Typescript</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari project setup typescript?",
+            "question": "Apa yang dipelajari di Project Setup Typescript?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1097,17 +1227,20 @@ const lessons = [
     {
         "id": 58,
         "title": "58. Project Type Definitions",
-        "description": "<p><strong>Project Type Definitions</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Project Type Definitions\\nconsole.log(\"Belajar Project Type Definitions di TypeScript!\");",
-        "expectedOutput": "Belajar Project Type Definitions di TypeScript!",
-        "hint": "Pelajari konsep project type definitions dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/project-type-definitions.html",
+        "description": "<p><strong>Project Type Definitions</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari project type definitions?",
+            "question": "Apa yang dipelajari di Project Type Definitions?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1115,17 +1248,20 @@ const lessons = [
     {
         "id": 59,
         "title": "59. Readonly Params",
-        "description": "<p><strong>Readonly Params</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Readonly Params\\nconsole.log(\"Belajar Readonly Params di TypeScript!\");",
-        "expectedOutput": "Belajar Readonly Params di TypeScript!",
-        "hint": "Pelajari konsep readonly params dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/readonly-params.html",
+        "description": "<p><strong>Readonly Params</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari readonly params?",
+            "question": "Apa yang dipelajari di Readonly Params?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1133,17 +1269,20 @@ const lessons = [
     {
         "id": 60,
         "title": "60. Readonly Record",
-        "description": "<p><strong>Readonly Record</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Readonly Record\\nconsole.log(\"Belajar Readonly Record di TypeScript!\");",
-        "expectedOutput": "Belajar Readonly Record di TypeScript!",
-        "hint": "Pelajari konsep readonly record dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/readonly-record.html",
+        "description": "<p><strong>Readonly Record</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari readonly record?",
+            "question": "Apa yang dipelajari di Readonly Record?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1151,17 +1290,20 @@ const lessons = [
     {
         "id": 61,
         "title": "61. Record Tuple",
-        "description": "<p><strong>Record Tuple</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Record Tuple\\nconsole.log(\"Belajar Record Tuple di TypeScript!\");",
-        "expectedOutput": "Belajar Record Tuple di TypeScript!",
-        "hint": "Pelajari konsep record tuple dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/record-tuple.html",
+        "description": "<p><strong>Record Tuple</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari record tuple?",
+            "question": "Apa yang dipelajari di Record Tuple?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1169,17 +1311,20 @@ const lessons = [
     {
         "id": 62,
         "title": "62. Rest Spread",
-        "description": "<p><strong>Rest Spread</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Rest Spread\\nconsole.log(\"Belajar Rest Spread di TypeScript!\");",
-        "expectedOutput": "Belajar Rest Spread di TypeScript!",
-        "hint": "Pelajari konsep rest spread dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/rest-spread.html",
+        "description": "<p><strong>Rest Spread</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari rest spread?",
+            "question": "Apa yang dipelajari di Rest Spread?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1187,17 +1332,20 @@ const lessons = [
     {
         "id": 63,
         "title": "63. Returntype Parameters Thistype",
-        "description": "<p><strong>Returntype Parameters Thistype</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Returntype Parameters Thistype\\nconsole.log(\"Belajar Returntype Parameters Thistype di TypeScript!\");",
-        "expectedOutput": "Belajar Returntype Parameters Thistype di TypeScript!",
-        "hint": "Pelajari konsep returntype parameters thistype dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/returntype-parameters-thistype.html",
+        "description": "<p><strong>Returntype Parameters Thistype</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari returntype parameters thistype?",
+            "question": "Apa yang dipelajari di Returntype Parameters Thistype?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1205,17 +1353,20 @@ const lessons = [
     {
         "id": 64,
         "title": "64. Strict Mode Options",
-        "description": "<p><strong>Strict Mode Options</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Strict Mode Options\\nconsole.log(\"Belajar Strict Mode Options di TypeScript!\");",
-        "expectedOutput": "Belajar Strict Mode Options di TypeScript!",
-        "hint": "Pelajari konsep strict mode options dengan praktik langsung.",
+        "module": "Advanced Types",
+        "moduleId": 4,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/strict-mode-options.html",
+        "description": "<p><strong>Strict Mode Options</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari strict mode options?",
+            "question": "Apa yang dipelajari di Strict Mode Options?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1223,17 +1374,20 @@ const lessons = [
     {
         "id": 65,
         "title": "65. Template Literal Types",
-        "description": "<p><strong>Template Literal Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Template Literal Types\\nconsole.log(\"Belajar Template Literal Types di TypeScript!\");",
-        "expectedOutput": "Belajar Template Literal Types di TypeScript!",
-        "hint": "Pelajari konsep template literal types dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/template-literal-types.html",
+        "description": "<p><strong>Template Literal Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari template literal types?",
+            "question": "Apa yang dipelajari di Template Literal Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1241,17 +1395,20 @@ const lessons = [
     {
         "id": 66,
         "title": "66. Tipe Primitif",
-        "description": "<p><strong>Tipe Primitif</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Tipe Primitif\\nconsole.log(\"Belajar Tipe Primitif di TypeScript!\");",
-        "expectedOutput": "Belajar Tipe Primitif di TypeScript!",
-        "hint": "Pelajari konsep tipe primitif dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/tipe-primitif.html",
+        "description": "<p><strong>Tipe Primitif</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari tipe primitif?",
+            "question": "Apa yang dipelajari di Tipe Primitif?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1259,17 +1416,20 @@ const lessons = [
     {
         "id": 67,
         "title": "67. Tsconfig Json Struktur",
-        "description": "<p><strong>Tsconfig Json Struktur</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Tsconfig Json Struktur\\nconsole.log(\"Belajar Tsconfig Json Struktur di TypeScript!\");",
-        "expectedOutput": "Belajar Tsconfig Json Struktur di TypeScript!",
-        "hint": "Pelajari konsep tsconfig json struktur dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/tsconfig-json-struktur.html",
+        "description": "<p><strong>Tsconfig Json Struktur</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari tsconfig json struktur?",
+            "question": "Apa yang dipelajari di Tsconfig Json Struktur?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1277,17 +1437,20 @@ const lessons = [
     {
         "id": 68,
         "title": "68. Type Aliases",
-        "description": "<p><strong>Type Aliases</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "type ID = string | number;\\ntype Point = { x: number; y: number; };\\n\\nlet id: ID = \"abc123\";\\nlet pos: Point = { x: 10, y: 20 };\\nconsole.log(id, pos);",
-        "expectedOutput": "abc123 { x: 10, y: 20 }",
-        "hint": "type = alias untuk tipe yang kompleks.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/type-aliases.html",
+        "description": "<p><strong>Type Aliases</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
             "question": "Apa yang dipelajari di Type Aliases?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1295,17 +1458,20 @@ const lessons = [
     {
         "id": 69,
         "title": "69. Type Assertions",
-        "description": "<p><strong>Type Assertions</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Type Assertions\\nconsole.log(\"Belajar Type Assertions di TypeScript!\");",
-        "expectedOutput": "Belajar Type Assertions di TypeScript!",
-        "hint": "Pelajari konsep type assertions dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/type-assertions.html",
+        "description": "<p><strong>Type Assertions</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari type assertions?",
+            "question": "Apa yang dipelajari di Type Assertions?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1313,17 +1479,20 @@ const lessons = [
     {
         "id": 70,
         "title": "70. Type Guards",
-        "description": "<p><strong>Type Guards</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "function print(val: string | number) {\\n    if (typeof val === \"string\") {\\n        console.log(\"String:\", val.toUpperCase());\\n    } else {\\n        console.log(\"Number:\", val.toFixed(2));\\n    }\\n}\\nprint(\"hello\");\\nprint(3.14159);",
-        "expectedOutput": "String: HELLO\nNumber: 3.14",
-        "hint": "typeof, instanceof, in = type guards.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/type-guards.html",
+        "description": "<p><strong>Type Guards</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
             "question": "Apa yang dipelajari di Type Guards?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1331,17 +1500,20 @@ const lessons = [
     {
         "id": 71,
         "title": "71. Type Inference",
-        "description": "<p><strong>Type Inference</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Type Inference\\nconsole.log(\"Belajar Type Inference di TypeScript!\");",
-        "expectedOutput": "Belajar Type Inference di TypeScript!",
-        "hint": "Pelajari konsep type inference dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/type-inference.html",
+        "description": "<p><strong>Type Inference</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari type inference?",
+            "question": "Apa yang dipelajari di Type Inference?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1349,17 +1521,20 @@ const lessons = [
     {
         "id": 72,
         "title": "72. Type Narrowing",
-        "description": "<p><strong>Type Narrowing</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Type Narrowing\\nconsole.log(\"Belajar Type Narrowing di TypeScript!\");",
-        "expectedOutput": "Belajar Type Narrowing di TypeScript!",
-        "hint": "Pelajari konsep type narrowing dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/type-narrowing.html",
+        "description": "<p><strong>Type Narrowing</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari type narrowing?",
+            "question": "Apa yang dipelajari di Type Narrowing?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1367,17 +1542,20 @@ const lessons = [
     {
         "id": 73,
         "title": "73. Typescript Compiler Tsc",
-        "description": "<p><strong>Typescript Compiler Tsc</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Typescript Compiler Tsc\\nconsole.log(\"Belajar Typescript Compiler Tsc di TypeScript!\");",
-        "expectedOutput": "Belajar Typescript Compiler Tsc di TypeScript!",
-        "hint": "Pelajari konsep typescript compiler tsc dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/typescript-compiler-tsc.html",
+        "description": "<p><strong>Typescript Compiler Tsc</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari typescript compiler tsc?",
+            "question": "Apa yang dipelajari di Typescript Compiler Tsc?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1385,17 +1563,20 @@ const lessons = [
     {
         "id": 74,
         "title": "74. Typescript Vs Javascript",
-        "description": "<p><strong>Typescript Vs Javascript</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Typescript Vs Javascript\\nconsole.log(\"Belajar Typescript Vs Javascript di TypeScript!\");",
-        "expectedOutput": "Belajar Typescript Vs Javascript di TypeScript!",
-        "hint": "Pelajari konsep typescript vs javascript dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/typescript-vs-javascript.html",
+        "description": "<p><strong>Typescript Vs Javascript</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari typescript vs javascript?",
+            "question": "Apa yang dipelajari di Typescript Vs Javascript?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1403,17 +1584,20 @@ const lessons = [
     {
         "id": 75,
         "title": "75. Union Types",
-        "description": "<p><strong>Union Types</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Union Types\\nconsole.log(\"Belajar Union Types di TypeScript!\");",
-        "expectedOutput": "Belajar Union Types di TypeScript!",
-        "hint": "Pelajari konsep union types dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/union-types.html",
+        "description": "<p><strong>Union Types</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari union types?",
+            "question": "Apa yang dipelajari di Union Types?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1421,17 +1605,20 @@ const lessons = [
     {
         "id": 76,
         "title": "76. Using Js Libraries",
-        "description": "<p><strong>Using Js Libraries</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Using Js Libraries\\nconsole.log(\"Belajar Using Js Libraries di TypeScript!\");",
-        "expectedOutput": "Belajar Using Js Libraries di TypeScript!",
-        "hint": "Pelajari konsep using js libraries dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/using-js-libraries.html",
+        "description": "<p><strong>Using Js Libraries</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari using js libraries?",
+            "question": "Apa yang dipelajari di Using Js Libraries?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
@@ -1439,168 +1626,200 @@ const lessons = [
     {
         "id": 77,
         "title": "77. Void Never Dan Tipe Khusus",
-        "description": "<p><strong>Void Never Dan Tipe Khusus</strong> adalah konsep penting dalam TypeScript.</p>\n<h4>🎯 Yang Dipelajari:</h4>\n<ul><li>Sintaks TypeScript yang type-safe</li><li>Perbedaan dengan JavaScript biasa</li><li>Best practices dan penggunaan praktis</li></ul>\n<h4>💻 Praktik:</h4>\n<ul><li>Tulis kode di editor interaktif</li><li>Lihat output dan validasi</li><li>Quiz untuk uji pemahaman</li></ul>",
-        "defaultCode": "// Void Never Dan Tipe Khusus\\nconsole.log(\"Belajar Void Never Dan Tipe Khusus di TypeScript!\");",
-        "expectedOutput": "Belajar Void Never Dan Tipe Khusus di TypeScript!",
-        "hint": "Pelajari konsep void never dan tipe khusus dengan praktik langsung.",
+        "module": "Modules & Tooling",
+        "moduleId": 5,
+        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/master/lessons/void-never-dan-tipe-khusus.html",
+        "description": "<p><strong>Void Never Dan Tipe Khusus</strong></p>",
+        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
+        "expectedOutput": "Hello, TypeScript!",
+        "hint": "Pelajari materi dan coba kode.",
         "quiz": {
-            "question": "Apa fungsi dari void never dan tipe khusus?",
+            "question": "Apa yang dipelajari di Void Never Dan Tipe Khusus?",
             "options": [
-                "Opsi A",
-                "Opsi B",
-                "Opsi C",
-                "Opsi D"
+                "A",
+                "B",
+                "C",
+                "D"
             ],
             "answer": 0
         }
     }
 ];
-
-// State
 let currentLesson = 0;
 let progress = JSON.parse(localStorage.getItem('typescript_progress') || '{}');
-
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-    renderNav();
-    loadLesson(0);
-    updateProgress();
-});
-
 function renderNav() {
     const nav = document.getElementById('lessons-nav');
-    nav.innerHTML = lessons.map((l, i) => `
-        <button onclick="loadLesson(${i})" 
-            class="w-full text-left px-3 py-2 rounded text-sm hover:bg-gray-700 transition 
-            ${i === currentLesson ? 'lesson-active' : ''} 
-            ${progress[i] ? 'text-green-400' : 'text-gray-300'}"
-            id="nav-${i}">
-            ${l.title}
-            ${progress[i] ? '<i class="fas fa-check ml-1"></i>' : ''}
-        </button>
-    `).join('');
+    nav.innerHTML = MODULES.map(mod => {
+        const modLessons = lessons.filter(l => l.moduleId === mod.id);
+        const completed = modLessons.filter(l => progress[l.id]).length;
+        const isExpanded = mod.id === (Math.floor(currentLesson / 10) + 1);
+        return `
+            <div class="mb-3">
+                <div class="flex items-center justify-between px-2 py-1.5 text-sm font-semibold text-gray-300 cursor-pointer hover:text-white rounded hover:bg-gray-700/50" onclick="toggleModule(${mod.id})">
+                    <span><i class="${mod.icon} mr-2 text-blue-400"></i>${mod.title}</span>
+                    <span class="text-xs text-gray-500">${completed}/${modLessons.length}</span>
+                </div>
+                <div id="module-${mod.id}" class="space-y-0.5 mt-1 ${isExpanded ? '' : 'hidden'}">
+                    ${modLessons.map(l => {
+                        const idx = lessons.indexOf(l);
+                        return `<button onclick="loadLesson(${idx})" 
+                            class="w-full text-left px-3 py-1.5 rounded text-xs hover:bg-gray-700 transition 
+                            ${idx === currentLesson ? 'lesson-active' : ''} 
+                            ${progress[l.id] ? 'text-green-400' : 'text-gray-400'}">
+                            <span class="mr-1">${progress[l.id] ? '✅' : '○'}</span>${l.title}
+                        </button>`;
+                    }).join('')}
+                </div>
+            </div>
+        `;
+    }).join('');
 }
 
-function loadLesson(index) {
+function toggleModule(modId) {
+    const el = document.getElementById('module-' + modId);
+    if (el) el.classList.toggle('hidden');
+}
+
+async function loadLesson(index) {
     currentLesson = index;
     const lesson = lessons[index];
     
-    document.getElementById('current-lesson').innerHTML = `
-        <h2 class="text-xl font-bold mb-4">${lesson.title}</h2>
-        <div class="prose prose-invert max-w-none">${lesson.description}</div>
-    `;
+    // Show loading
+    document.getElementById('lesson-content').innerHTML = `<h2 class="text-xl font-bold mb-4">${lesson.title}</h2><div class="text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>Loading...</div>`;
     
-    document.getElementById('code-editor').value = lesson.defaultCode.replace(/\\n/g, '\n');
-    document.getElementById('terminal-output').innerHTML = '<span class="text-gray-500">// Output akan muncul di sini</span>';
-    document.getElementById('validation-msg').className = 'mt-4 p-3 rounded hidden';
-    
-    // Quiz
-    if (lesson.quiz) {
-        document.getElementById('quiz-section').classList.remove('hidden');
-        document.getElementById('quiz-content').innerHTML = `
-            <p class="font-medium">${lesson.quiz.question}</p>
-            <div class="space-y-2">
-                ${lesson.quiz.options.map((opt, i) => `
-                    <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="radio" name="quiz" value="${i}" class="text-blue-500">
-                        <span>${opt}</span>
-                    </label>
-                `).join('')}
-            </div>
-        `;
-    } else {
-        document.getElementById('quiz-section').classList.add('hidden');
+    // Fetch and render markdown from lessons folder
+    let contentHtml = lesson.description || '';
+    if (lesson.mdFile && typeof marked !== 'undefined') {
+        try {
+            const response = await fetch(lesson.mdFile);
+            if (response.ok) {
+                const mdText = await response.text();
+                contentHtml = marked.parse(mdText);
+            }
+        } catch (e) {
+            console.error('Error loading:', lesson.mdFile, e);
+        }
     }
     
-    // Nav buttons
+    document.getElementById('lesson-content').innerHTML = `
+        <div class="text-xs text-gray-500 mb-2">${lesson.module || ''}</div>
+        <h2 class="text-xl font-bold mb-4 text-white">${lesson.title}</h2>
+        <div class="prose prose-invert prose-sm max-w-none leading-relaxed
+            prose-headings:text-blue-300 prose-h2:text-lg prose-h2:mt-6 prose-h2:mb-3
+            prose-h3:text-base prose-h3:mt-4 prose-h3:mb-2
+            prose-p:text-gray-300 prose-p:mb-3
+            prose-code:text-green-400 prose-code:bg-gray-800 prose-code:px-1 prose-code:rounded
+            prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700
+            prose-ul:text-gray-300 prose-li:mb-1
+            prose-strong:text-white prose-a:text-blue-400">
+            ${contentHtml}
+        </div>`;
+    document.getElementById('code-editor').value = (lesson.defaultCode || '').replace(/\\n/g, '\n');
+    document.getElementById('output').innerHTML = '<span class="text-gray-500">// Output akan muncul di sini</span>';
+    document.getElementById('validation-msg').className = 'mt-4 p-3 rounded hidden';
+    if (lesson.quiz) {
+        document.getElementById('quiz-section').classList.remove('hidden');
+        document.getElementById('quiz-content').innerHTML = `<p class="font-medium">${lesson.quiz.question}</p><div class="space-y-2">${lesson.quiz.options.map((opt, i) => `<label class="flex items-center space-x-2 cursor-pointer"><input type="radio" name="quiz" value="${i}" class="text-blue-500"><span>${opt}</span></label>`).join('')}</div>`;
+    } else { document.getElementById('quiz-section').classList.add('hidden'); }
+    document.getElementById('prev-btn').disabled = index === 0;
+    document.getElementById('next-btn').disabled = index === lessons.length - 1;
+    // Update complete button
+    const completeBtn = document.getElementById('complete-btn');
+    const completedBtn = document.getElementById('completed-btn');
+    if (progress[lesson.id]) {
+        completeBtn.style.display = 'none';
+        completedBtn.style.display = 'block';
+    } else {
+        completeBtn.style.display = 'block';
+        completedBtn.style.display = 'none';
+    }
+    
+    // Update breadcrumb
+    const mod = MODULES.find(m => m.id === lesson.moduleId);
+    document.getElementById('breadcrumb').textContent = mod ? mod.title : '';
+    
+    // Update nav buttons
     document.getElementById('prev-btn').disabled = index === 0;
     document.getElementById('next-btn').disabled = index === lessons.length - 1;
     
     renderNav();
+    window.scrollTo(0, 0);
 }
 
-function runCode() {
+// Overridden by Pyodide in index.html
+// // runCode is overridden by Pyodide in index.html
+async function runCode() {
     const code = document.getElementById('code-editor').value;
-    const output = document.getElementById('terminal-output');
+    const output = document.getElementById('output');
     const validation = document.getElementById('validation-msg');
-    
-    // Capture console.log
     let logs = [];
-    const originalLog = console.log;
-    console.log = (...args) => {
-        logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '));
-    };
-    
+    const orig = console.log;
+    console.log = (...a) => logs.push(a.map(x => typeof x === 'object' ? JSON.stringify(x) : String(x)).join(' '));
     try {
         eval(code);
         const result = logs.join('\n');
-        output.innerHTML = `<span class="text-green-400">${escapeHtml(result)}</span>`;
-        
-        // Validate
-        const expected = lessons[currentLesson].expectedOutput.replace(/\\n/g, '\n');
-        if (result.trim() === expected.trim()) {
+        output.innerHTML = '<span class="text-green-400">' + escapeHtml(result) + '</span>';
+        const expected = lessons[currentLesson].expectedOutput;
+        if (expected && result.trim() === expected.trim()) {
             validation.className = 'mt-4 p-3 rounded bg-green-900/50 border border-green-500 text-green-300';
-            validation.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Benar! Output sesuai.';
-            progress[currentLesson] = true;
+            validation.innerHTML = '✅ Benar!';
+            progress[lessons[currentLesson].id] = true;
             localStorage.setItem('typescript_progress', JSON.stringify(progress));
-            updateProgress();
-            renderNav();
-        } else {
-            validation.className = 'mt-4 p-3 rounded bg-yellow-900/50 border border-yellow-500 text-yellow-300';
-            validation.innerHTML = `<i class="fas fa-lightbulb mr-2"></i>Hint: ${lessons[currentLesson].hint}`;
+            updateProgress(); renderNav();
         }
-    } catch (e) {
-        output.innerHTML = `<span class="text-red-400">Error: ${escapeHtml(e.message)}</span>`;
-        validation.className = 'mt-4 p-3 rounded bg-red-900/50 border border-red-500 text-red-300';
-        validation.innerHTML = `<i class="fas fa-times-circle mr-2"></i>${e.message}`;
+    } catch(e) {
+        output.innerHTML = '<span class="text-red-400">❌ ' + escapeHtml(e.message) + '</span>';
     }
-    
-    console.log = originalLog;
+    console.log = orig;
 }
 
-function resetCode() {
-    document.getElementById('code-editor').value = lessons[currentLesson].defaultCode.replace(/\\n/g, '\n');
-    document.getElementById('terminal-output').innerHTML = '<span class="text-gray-500">// Output akan muncul di sini</span>';
-}
-
+function resetCode() { document.getElementById('code-editor').value = lessons[currentLesson].defaultCode; }
 function checkQuiz() {
     const selected = document.querySelector('input[name="quiz"]:checked');
     if (!selected) return alert('Pilih jawaban dulu!');
-    
-    const answer = parseInt(selected.value);
-    const correct = lessons[currentLesson].quiz.answer;
     const msg = document.createElement('div');
-    
-    if (answer === correct) {
-        msg.className = 'mt-3 p-3 rounded bg-green-900/50 border border-green-500 text-green-300';
-        msg.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Benar!';
-    } else {
-        msg.className = 'mt-3 p-3 rounded bg-red-900/50 border border-red-500 text-red-300';
-        msg.innerHTML = '<i class="fas fa-times-circle mr-2"></i>Salah, coba lagi!';
-    }
-    
+    msg.className = parseInt(selected.value) === lessons[currentLesson].quiz.answer ? 'mt-3 p-3 rounded bg-green-900/50 border border-green-500 text-green-300' : 'mt-3 p-3 rounded bg-red-900/50 border border-red-500 text-red-300';
+    msg.innerHTML = parseInt(selected.value) === lessons[currentLesson].quiz.answer ? '<i class="fas fa-check-circle mr-2"></i>Benar!' : '<i class="fas fa-times-circle mr-2"></i>Salah!';
     document.getElementById('quiz-content').appendChild(msg);
     setTimeout(() => msg.remove(), 3000);
 }
-
 function nextLesson() { if (currentLesson < lessons.length - 1) loadLesson(currentLesson + 1); }
 function prevLesson() { if (currentLesson > 0) loadLesson(currentLesson - 1); }
 
-function updateProgress() {
-    const done = Object.keys(progress).length;
-    const pct = Math.round((done / lessons.length) * 100);
-    document.getElementById('progress-text').textContent = pct + '%';
-    document.getElementById('progress-bar').style.width = pct + '%';
-}
-
-function resetProgress() {
-    if (!confirm('Reset semua progress?')) return;
-    progress = {};
-    localStorage.removeItem('typescript_progress');
+function markComplete() {
+    const lesson = lessons[currentLesson];
+    progress[lesson.id] = true;
+    localStorage.setItem('typescript_progress', JSON.stringify(progress));
+    
+    const completeBtn = document.getElementById('complete-btn');
+    const completedBtn = document.getElementById('completed-btn');
+    completeBtn.style.display = 'none';
+    completedBtn.style.display = 'block';
+    
     renderNav();
-    updateProgress();
+    
+    // Auto-advance to next lesson
+    if (currentLesson < lessons.length - 1) {
+        setTimeout(() => loadLesson(currentLesson + 1), 500);
+    }
 }
 
-function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
+function updateProgress() { const done = Object.keys(progress).length; const pct = Math.round((done / lessons.length) * 100); document.getElementById('course-progress').textContent = pct + '%'; document.getElementById('progress-fill').style.width = pct + '%'; }
+function resetProgress() { if (!confirm('Reset semua progress?')) return; progress = {}; localStorage.removeItem('typescript_progress'); renderNav(); updateProgress(); }
+function escapeHtml(str) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Load progress from localStorage
+    progress = JSON.parse(localStorage.getItem('typescript_progress') || '{}');
+    
+    // Render sidebar
+    renderNav();
+    
+    // Load first lesson
+    if (lessons.length > 0) {
+        loadLesson(0);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => { renderNav(); if (lessons.length) loadLesson(0); updateProgress(); });
