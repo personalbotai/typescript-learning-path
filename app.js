@@ -1688,7 +1688,7 @@ async function loadLesson(index) {
     const lesson = lessons[index];
     
     // Show loading
-    document.getElementById('lesson-content').innerHTML = `<h2 class="text-xl font-bold mb-4">${lesson.title}</h2><div class="text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>Loading...</div>`;
+    document.getElementById('lessonBody').innerHTML = `<h2 class="text-xl font-bold mb-4">${lesson.title}</h2><div class="text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>Loading...</div>`;
     
     // Fetch and render markdown from lessons folder
     let contentHtml = lesson.description || '';
@@ -1704,7 +1704,7 @@ async function loadLesson(index) {
         }
     }
     
-    document.getElementById('lesson-content').innerHTML = `
+    document.getElementById('lessonBody').innerHTML = `
         <div class="text-xs text-gray-500 mb-2">${lesson.module || ''}</div>
         <h2 class="text-xl font-bold mb-4 text-white">${lesson.title}</h2>
         <div class="prose prose-invert prose-sm max-w-none leading-relaxed
