@@ -27,21 +27,21 @@
         .lesson-duration { font-size: 11px; color: #9da5b1; margin-left: 8px; }
         .content-area { flex: 1; overflow-y: auto; height: 100vh; }
         .video-placeholder { background: #000; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; }
-        .lesson-content { max-width: 800px; margin: 0 auto; padding: 32px 24px; }
-        .lesson-content h1 { font-size: 28px; font-weight: 700; color: #f7f9fa; margin-bottom: 16px; }
-        .lesson-content h2 { font-size: 22px; font-weight: 600; color: #f7f9fa; margin: 32px 0 12px; border-bottom: 1px solid #3e4143; padding-bottom: 8px; }
-        .lesson-content h3 { font-size: 18px; font-weight: 600; color: #f7f9fa; margin: 24px 0 8px; }
-        .lesson-content h4 { font-size: 16px; font-weight: 600; color: #e0e0e0; margin: 16px 0 8px; }
-        .lesson-content p { font-size: 15px; line-height: 1.7; margin-bottom: 12px; color: #b0b0b0; }
-        .lesson-content ul, .lesson-content ol { margin: 12px 0; padding-left: 24px; }
-        .lesson-content li { font-size: 14px; line-height: 1.6; margin-bottom: 6px; color: #c0c0c0; }
-        .lesson-content code { background: #2d2f31; padding: 2px 6px; border-radius: 3px; font-size: 13px; color: #e06c75; }
-        .lesson-content pre { background: #2d2f31; padding: 16px; border-radius: 6px; overflow-x: auto; margin: 16px 0; border: 1px solid #3e4143; }
-        .lesson-content pre code { background: none; padding: 0; color: #d1d7dc; }
-        .lesson-content strong { color: #f7f9fa; }
-        .lesson-content a { color: #3178c6; text-decoration: none; }
-        .lesson-content a:hover { text-decoration: underline; }
-        .lesson-content img { max-width: 100%; border-radius: 6px; margin: 12px 0; }
+        .lessonBody { max-width: 800px; margin: 0 auto; padding: 32px 24px; }
+        .lessonBody h1 { font-size: 28px; font-weight: 700; color: #f7f9fa; margin-bottom: 16px; }
+        .lessonBody h2 { font-size: 22px; font-weight: 600; color: #f7f9fa; margin: 32px 0 12px; border-bottom: 1px solid #3e4143; padding-bottom: 8px; }
+        .lessonBody h3 { font-size: 18px; font-weight: 600; color: #f7f9fa; margin: 24px 0 8px; }
+        .lessonBody h4 { font-size: 16px; font-weight: 600; color: #e0e0e0; margin: 16px 0 8px; }
+        .lessonBody p { font-size: 15px; line-height: 1.7; margin-bottom: 12px; color: #b0b0b0; }
+        .lessonBody ul, .lessonBody ol { margin: 12px 0; padding-left: 24px; }
+        .lessonBody li { font-size: 14px; line-height: 1.6; margin-bottom: 6px; color: #c0c0c0; }
+        .lessonBody code { background: #2d2f31; padding: 2px 6px; border-radius: 3px; font-size: 13px; color: #e06c75; }
+        .lessonBody pre { background: #2d2f31; padding: 16px; border-radius: 6px; overflow-x: auto; margin: 16px 0; border: 1px solid #3e4143; }
+        .lessonBody pre code { background: none; padding: 0; color: #d1d7dc; }
+        .lessonBody strong { color: #f7f9fa; }
+        .lessonBody a { color: #3178c6; text-decoration: none; }
+        .lessonBody a:hover { text-decoration: underline; }
+        .lessonBody img { max-width: 100%; border-radius: 6px; margin: 12px 0; }
         .code-section { background: #1c1d1f; border-top: 1px solid #3e4143; padding: 16px; }
         .code-editor { width: 100%; height: 200px; background: #1e1e1e; color: #d4d4d4; border: 1px solid #3e4143; border-radius: 6px; padding: 12px; font-family: 'Fira Code', 'Consolas', monospace; font-size: 13px; resize: vertical; }
         .code-editor:focus { outline: none; border-color: #3178c6; }
@@ -94,9 +94,11 @@
             </div>
             
             <!-- Lesson Content -->
-            <div id="lesson-content" class="prose prose-invert max-w-none">
+            <div class="flex-1 overflow-y-auto">
+                    <div id="lessonBody" class="prose prose-invert max-w-none" class="prose prose-invert max-w-none">
                 <p class="text-gray-500">Select a lesson from the sidebar to begin.</p>
             </div>
+                </div>
 
             <!-- Code Editor -->
             <div class="code-section" id="code-section" style="max-width: 800px; margin: 0 auto;">
