@@ -350,3 +350,63 @@ textarea:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
 }
+
+
+/* Layout Fixes for Lesson Content */
+#lessonBody {
+    padding: 2rem !important;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Override prose padding if needed */
+#lessonBody.prose {
+    padding: 2rem;
+}
+
+#lessonBody.prose-invert {
+    color: #f1f5f9;
+}
+
+/* Scrollbar styling */
+.overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* Main content area */
+main, .main-content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Flex layout for content with sidebar */
+.flex-layout {
+    display: flex;
+    height: calc(100vh - 64px); /* Adjust based on header height */
+    overflow: hidden;
+}
+
+.flex-layout .sidebar {
+    width: 300px;
+    overflow-y: auto;
+}
+
+.flex-layout .content {
+    flex: 1;
+    overflow-y: auto;
+}
