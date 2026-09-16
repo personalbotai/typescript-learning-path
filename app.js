@@ -1939,8 +1939,10 @@ async function loadLesson(index) {
 
 // ─── Code Execution ────────────────────────────────────────────
 function runCode() {
-    const code = document.getElementById('code-editor').value;
+    const _ed=document.getElementById('code-editor');
+    const code = _ed ? _ed.value : '';
     const output = document.getElementById('output');
+    if(!_ed || !output) return;
     const validation = document.getElementById('validation-msg');
     const status = document.getElementById('compile-status');
     let logs = [];
