@@ -1933,6 +1933,7 @@ async function loadLesson(index) {
 
     closeSidebar();
     renderNav();
+  
     scrollEl?.scrollTo(0, 0);
 }
 
@@ -2100,14 +2101,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Auto-load first lesson or welcome screen
     if (lessons.length > 0) {
-        // Check URL hash for lesson index
+        let targetIdx = 0;
         const hash = window.location.hash;
         if (hash && hash.startsWith('#lesson-')) {
             const idx = parseInt(hash.replace('#lesson-', ''));
-            if (!isNaN(idx) && idx >= 0 && idx < lessons.length) {
-                loadLesson(idx);
-                return;
-            }
+            if (!isNaN(idx) && idx >= 0 && idx < lessons.length) targetIdx = idx;
         }
+        loadLesson(targetIdx);
     }
 });
