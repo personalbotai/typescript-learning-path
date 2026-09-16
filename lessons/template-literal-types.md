@@ -1,73 +1,34 @@
-Modul 3
-                Lesson 10
-            
-            
 # Template Literal Types
 
-            
+**Template Literal Types** memungkinkan kita membuat tipe string berdasarkan template literal, mirip seperti template literal di JavaScript. Fitur ini sangat berguna untuk membuat tipe yang aman untuk string yang memiliki format tertentu, seperti URL, CSS class names, atau API endpoints.
 
-                **Template Literal Types** memungkinkan kita membuat tipe string berdasarkan template literal, mirip seperti template literal di JavaScript. Fitur ini sangat berguna untuk membuat tipe yang aman untuk string yang memiliki format tertentu, seperti URL, CSS class names, atau API endpoints.
-            
+⏱️ 20 menit
+📊 Kesulitan: Lanjutan
+📚 Tipe: Advanced Types
 
-            
-                ⏱️ 20 menit
-                📊 Kesulitan: Lanjutan
-                📚 Tipe: Advanced Types
-            
-        
+##
+1
+Tujuan Pembelajaran
 
-        
-            
-## 
-                1
-                Tujuan Pembelajaran
-            
+-
+Memahami sintaks template literal types
 
-            
-                
-- 
-                    ✓
-                    Memahami sintaks template literal types
-                
+-
+Menggabungkan string literal types
 
-                
-- 
-                    ✓
-                    Menggabungkan string literal types
-                
+-
+Membuat tipe untuk string dengan format tertentu (URL, CSS, dll)
 
-                
-- 
-                    ✓
-                    Membuat tipe untuk string dengan format tertentu (URL, CSS, dll)
-                
+-
+Menggunakan conditional types dengan template literals
 
-                
-- 
-                    ✓
-                    Menggunakan conditional types dengan template literals
-                
+##
+2
+Penjelasan
 
-            
-        
+Template literal types menggunakan backtick syntax (seperti template literal di JavaScript) untuk membuat tipe string yang spesifik. Kita bisa menggabungkan literal strings, variabel tipe, dan conditional types untuk membuat tipe yang sangat ekspresif.
 
-        
-            
-## 
-                2
-                Penjelasan
-            
-
-            
-                
-
-                    Template literal types menggunakan backtick syntax (seperti template literal di JavaScript) untuk membuat tipe string yang spesifik. Kita bisa menggabungkan literal strings, variabel tipe, dan conditional types untuk membuat tipe yang sangat ekspresif.
-                
-
-                
 ### Sintaks Dasar
-
-                
 
 ```
 // Gabungkan dua string literal types
@@ -81,17 +42,9 @@ type UpperHello = typeof "Hello".toUpperCase();
 // Result: "HELLO"
 ```
 
-                
-
-                
 ### Interpolation dengan `${}`
 
-                
-
-                    Kita bisa menyisipkan tipe lain ke dalam template literal menggunakan `${}`.
-                
-
-                
+Kita bisa menyisipkan tipe lain ke dalam template literal menggunakan `${}`.
 
 ```
 type Prefix = "get" | "set";
@@ -104,12 +57,7 @@ type EventName = `on${string}`;
 // Result: string (karena string bisa apa saja)
 ```
 
-                
-
-                
 ### Template Literals untuk URLs
-
-                
 
 ```
 type Protocol = "http" | "https";
@@ -120,12 +68,7 @@ type Url = `${Protocol}://${Domain}`;
 //        "https://example.com" | "https://google.com"
 ```
 
-                
-
-                
 ### Membuat CSS Class Names
-
-                
 
 ```
 type Color = "red" | "blue" | "green";
@@ -136,12 +79,7 @@ type ButtonClass = "btn-${Color}-${Size}";
 //        "btn-blue-sm" | ...
 ```
 
-                
-
-                
 ### Conditional dengan Template Literals
-
-                
 
 ```
 type MaybeArray<T> = T extends any[] ? `${T & string}[]` : T;
@@ -150,59 +88,29 @@ type Test1 = MaybeArray<number>;  // number
 type Test2 = MaybeArray<string[]>; // "string[]"
 ```
 
-                
-
-                
 ### Use Cases
 
-                
-                    
 - **API endpoints**: Type-safe URL construction
 
-                    
 - **CSS class names**: Utility-first class composition (Tailwind, etc)
 
-                    
 - **Event types**: `onClick`, `onChange`, dll
 
-                    
 - **Internationalization**: Message keys dengan prefix tertentu
 
-                    
 - **GraphQL operations**: Query/mutation/fragment names
 
-                
+**💡 Tips:** Template literal types adalah salah satu fitur paling powerful di TypeScript untuk membuat tipe string yang aman. Gunakan untuk membuat DSL (Domain Specific Language) dalam type system.
 
-                
-                    
+##
+3
+Latihan
 
-                        **💡 Tips:** Template literal types adalah salah satu fitur paling powerful di TypeScript untuk membuat tipe string yang aman. Gunakan untuk membuat DSL (Domain Specific Language) dalam type system.
-                    
-
-                
-            
-        
-
-        
-            
-## 
-                3
-                Latihan
-            
-
-            
-                
-                    
 ### Latihan 1: Event Handler Names
 
-                    
+Buat tipe `EventHandlerName` yang mengubah prefix `"on"` menjadi uppercase dan menambahkan suffix `"Handler"`. Contoh: `"click"` → `"onClickHandler"`.
 
-                        Buat tipe `EventHandlerName` yang mengubah prefix `"on"` menjadi uppercase dan menambahkan suffix `"Handler"`. Contoh: `"click"` → `"onClickHandler"`.
-                    
-
-                    
-                        Lihat Solusi
-                        
+Lihat Solusi
 
 ```
 type EventHandlerName<T extends string> = `on${Uppercase<T>}Handler`;
@@ -212,22 +120,11 @@ type ClickHandler = EventHandlerName<"click">;   // "onClickHandler"
 type MouseOverHandler = EventHandlerName<"mouseover">; // "onMouseOverHandler"
 ```
 
-                        
-                    
-                
-
-                
-                    
 ### Latihan 2: API Path Builder
 
-                    
+Buat tipe `ApiPath` yang menggabungkan base path `"/api/v1"` dengan endpoint. Endpoint bisa `"users"`, `"posts"`, atau `"comments"`. Hasil: `"/api/v1/users"`, dll.
 
-                        Buat tipe `ApiPath` yang menggabungkan base path `"/api/v1"` dengan endpoint. Endpoint bisa `"users"`, `"posts"`, atau `"comments"`. Hasil: `"/api/v1/users"`, dll.
-                    
-
-                    
-                        Lihat Solusi
-                        
+Lihat Solusi
 
 ```
 type Endpoint = "users" | "posts" | "comments";
@@ -237,18 +134,8 @@ type ApiPath = `/api/v1/${Endpoint}`;
 // Result: "/api/v1/users" | "/api/v1/posts" | "/api/v1/comments"
 ```
 
-                        
-                    
-                
-            
-        
+← Sebelumnya
 
-        
-            
-                ← Sebelumnya
-            
-            
-                Modul 3 - Lesson 10 dari 10 (Modul 3 Complete!)
-            
-            
-                Selanjutnya →
+Modul 3 - Lesson 10 dari 10 (Modul 3 Complete!)
+
+Selanjutnya →

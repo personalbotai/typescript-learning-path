@@ -1,75 +1,34 @@
-Modul 2
-                Lesson 3
-            
-            
 # Array dan Tuple
 
-            
+TypeScript memberikan kontrol tipe yang ketat untuk array dan tuple. Array adalah kumpulan elemen dengan tipe yang sama, sedangkan tuple memungkinkan kombinasi tipe berbeda dalam jumlah tetap. Memahami kedua struktur data ini esensial untuk menangani koleksi data dengan aman.
 
-                TypeScript memberikan kontrol tipe yang ketat untuk array dan tuple. Array adalah kumpulan elemen dengan tipe yang sama, sedangkan tuple memungkinkan kombinasi tipe berbeda dalam jumlah tetap. Memahami kedua struktur data ini esensial untuk menangani koleksi data dengan aman.
-            
+⏱️ 20 menit
+📊 Kesulitan: Pemula-Intermediate
+✅ prerequisites: Tipe Primitif
 
-            
-                ⏱️ 20 menit
-                📊 Kesulitan: Pemula-Intermediate
-                ✅ prerequisites: Tipe Primitif
-            
-        
-
-        
-        
-            
 ## 🎯 Tujuan Pembelajaran
 
-            
-                
-- 
-                    ✓
-                    Mendeklarasikan array dengan tipe spesifik menggunakan `Type[]` syntax
-                
+-
+Mendeklarasikan array dengan tipe spesifik menggunakan `Type[]` syntax
 
-                
-- 
-                    ✓
-                    Memahami generic array type `Array<Type>`
-                
+-
+Memahami generic array type `Array<Type>`
 
-                
-- 
-                    ✓
-                    Menggunakan tuple untuk fixed-length, fixed-type sequences
-                
+-
+Menggunakan tuple untuk fixed-length, fixed-type sequences
 
-                
-- 
-                    ✓
-                    Operasi array dengan type safety (push, pop, map, filter)
-                
+-
+Operasi array dengan type safety (push, pop, map, filter)
 
-                
-- 
-                    ✓
-                    Tuple operations dan destructuring
-                
+-
+Tuple operations dan destructuring
 
-            
-        
-
-        
-        
-            
 ## 📚 Konten Materi
 
-            
 ### 1. Array dengan Tipe Spesifik
 
-            
+Di TypeScript, array dapat dideklarasikan dengan menentukan tipe elemennya. Ada dua sintaks yang umum digunakan: `Type[]` dan generic `Array<Type>`. Keduanya setara, pilih sesuai preferensi.
 
-                Di TypeScript, array dapat dideklarasikan dengan menentukan tipe elemennya. Ada dua sintaks yang umum digunakan: `Type[]` dan generic `Array<Type>`. Keduanya setara, pilih sesuai preferensi.
-            
-
-            
-                
 ```
 // Array dengan tipe spesifik
 let names: string[] = ["Budi", "Ani", "Siti"];
@@ -89,18 +48,10 @@ let readonlyNames: readonly string[] = ["Budi", "Ani"];
 // readonlyNames.push("Siti"); // Error: readonly array
 ```
 
-            
-
-            
 ### 2. Tuple - Fixed-Type Sequences
 
-            
+Tuple adalah array dengan **fixed number of elements** dan **known types at specific positions**. Berguna untuk mengembalikan multiple values dari fungsi atau menyimpan data dengan struktur tetap seperti koordinat [x, y].
 
-                Tuple adalah array dengan **fixed number of elements** dan **known types at specific positions**. Berguna untuk mengembalikan multiple values dari fungsi atau menyimpan data dengan struktur tetap seperti koordinat [x, y].
-            
-
-            
-                
 ```
 // Tuple: fixed length dan fixed types per position
 let coordinate: [number, number] = [10, 20];
@@ -124,18 +75,10 @@ optionalTuple[1] = 42; // OK: second element optional
 let stringList: [string, ...string[]] = ["first", "second", "third"];
 ```
 
-            
-
-            
 ### 3. Array Operations dengan Type Safety
 
-            
+TypeScript memastikan semua operasi array aman secara tipe. Metode seperti `push`, `pop`, `map`, `filter` akan mempertahankan tipe array asli atau mengembalikan tipe yang sesuai.
 
-                TypeScript memastikan semua operasi array aman secara tipe. Metode seperti `push`, `pop`, `map`, `filter` akan mempertahankan tipe array asli atau mengembalikan tipe yang sesuai.
-            
-
-            
-                
 ```
 // Array methods preserve type
 let nums: number[] = [1, 2, 3, 4];
@@ -158,18 +101,10 @@ const evens = nums.filter(n => n % 2 === 0); // number[]
 nums.forEach(n => console.log(n));
 ```
 
-            
-
-            
 ### 4. Tuple Destructuring
 
-            
+Tuple dapat di-destructure seperti array, tetapi TypeScript akan mempertahankan tipe untuk setiap elemen yang diekstrak. Ini membuat kode lebih readable dan type-safe.
 
-                Tuple dapat di-destructure seperti array, tetapi TypeScript akan mempertahankan tipe untuk setiap elemen yang diekstrak. Ini membuat kode lebih readable dan type-safe.
-            
-
-            
-                
 ```
 // Destructuring tuple
 const point: [number, number] = [100, 200];
@@ -186,97 +121,49 @@ let b = 2;
 
 // Function yang mengembalikan tuple
 function getMinMax(arr: number[]): [number, number] {
-    return [Math.min(...arr), Math.max(...arr)];
+return [Math.min(...arr), Math.max(...arr)];
 }
 const [min, max] = getMinMax([1, 5, 3, 9, 2]);
 ```
 
-            
-
-            
-                
 #### ⚠️ Important Notes
 
-                
-                    
 - Tuple memiliki panjang tetap - menambah elemen di luar indeks yang dideklarasikan mengubahnya menjadi `any[]`
 
-                    
 - Gunakan tuple untuk fungsi yang mengembalikan multiple values
 
-                    
 - Untuk array dengan mixed types, gunakan union type: `(string | number)[]`
 
-                    
 - Readonly tuple: `readonly [number, string]`
 
-                
-            
-        
-
-        
-        
-            
 ## 💪 Latihan Praktek
 
-            
-                
-                    
 ### Latihan 1: Student Data Array
 
-                    
 Buat array of objects yang merepresentasikan students dengan tipe yang ketat.
 
-                    
-                        
 Definisikan interface `Student` dengan properti: `id: number`, `name: string`, `grades: number[]`. Buat array `students: Student[]` dengan 3 data.
 
-                        
 Gunakan `map` untuk menghitung rata-rata grades setiap student.
 
-                    
-                
-
-                
-                    
 ### Latihan 2: Tuple untuk Coordinate System
 
-                    
 Buat fungsi yang menggunakan tuple untuk 3D coordinate dan menghitung distance.
 
-                    
-                        
 Fungsi: `distance3D(p1: [number, number, number], p2: [number, number, number]): number`
 
-                        
 Implementasikan Euclidean distance: √((x2-x1)² + (y2-y1)² + (z2-z1)²). Gunakan destructuring untuk readability.
 
-                    
-                
-            
-        
-
-        
-        
-            
 ## 📝 Quiz
 
-            
 Quiz ini akan menguji pemahaman Anda tentang array types, tuple, dan operasi array yang type-safe.
 
-            
-                📌 Module 2 Quiz
-                •
-                10 questions
-                •
-                Passing score: 70%
-            
-        
+📌 Module 2 Quiz
+•
+10 questions
+•
+Passing score: 70%
 
-        
-        
-            
-                ← Previous Lesson
-            
-            
-                Next Lesson →
+← Previous Lesson
+
+Next Lesson →

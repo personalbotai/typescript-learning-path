@@ -1,78 +1,37 @@
-Modul 7
-                Lesson 1
-            
-            
 # Generic Functions Dasar
 
-            
+**Generics** memungkinkan membuat komponen yang bekerja dengan berbagai tipe tanpa loss type safety. Generic functions menggunakan type parameters (dilambangkan dengan `<T>`) untuk menghasilkan code yang reusable namun tetap type-checked. Ini adalah salah satu fitur paling powerful di TypeScript.
 
-                **Generics** memungkinkan membuat komponen yang bekerja dengan berbagai tipe tanpa loss type safety. Generic functions menggunakan type parameters (dilambangkan dengan `<T>`) untuk menghasilkan code yang reusable namun tetap type-checked. Ini adalah salah satu fitur paling powerful di TypeScript.
-            
+⏱️ 25 menit
+📊 Kesulitan: Lanjutan
 
-            
-                ⏱️ 25 menit
-                📊 Kesulitan: Lanjutan
-            
-        
-
-        
-        
-            
 ## 🎯 Tujuan Pembelajaran
 
-            
-                
-- 
-                    ✓
-                    Memahami konsep generic dan type parameters
-                
+-
+Memahami konsep generic dan type parameters
 
-                
-- 
-                    ✓
-                    Mendeklarasi generic functions dengan `<T>`
-                
+-
+Mendeklarasi generic functions dengan `<T>`
 
-                
-- 
-                    ✓
-                    Type inference pada generic functions
-                
+-
+Type inference pada generic functions
 
-                
-- 
-                    ✓
-                    Generic constraints dengan `extends`
-                
+-
+Generic constraints dengan `extends`
 
-                
-- 
-                    ✓
-                    Multiple type parameters (`<T, U>`)
-                
+-
+Multiple type parameters (`<T, U>`)
 
-            
-        
-
-        
-        
-            
 ## 📚 Apa itu Generics?
 
-            
+Tanpa generics, kita harus membuat multiple functions untuk berbagai tipe, atau menggunakan `any` yang mengorbankan type safety. Generics memungkinkan kita menulis **type-safe reusable code**.
 
-                Tanpa generics, kita harus membuat multiple functions untuk berbagai tipe, atau menggunakan `any` yang mengorbankan type safety. Generics memungkinkan kita menulis **type-safe reusable code**.
-            
-
-            
 ### The Problem: Without Generics
 
-            
-                
 ```
 // Without generics - using any (unsafe)
 function identity(arg: any): any {
-    return arg;
+return arg;
 }
 
 const result1 = identity("hello"); // any - no type checking
@@ -84,22 +43,14 @@ function identityNumber(arg: number): number;
 // ... more overloads for each type
 ```
 
-            
-
-            
 ### Generic Function Sederhana
 
-            
+Gunakan type parameter `<T>` (T adalah conventional name, bisa apa saja) untuk mewakili tipe yang akan ditekan/diambil.
 
-                Gunakan type parameter `<T>` (T adalah conventional name, bisa apa saja) untuk mewakili tipe yang akan ditekan/diambil.
-            
-
-            
-                
 ```
 // Generic function - type-safe dan reusable
 function identity<T>(arg: T): T {
-    return arg;
+return arg;
 }
 
 // Type inference - TypeScript figures out T automatically
@@ -110,21 +61,13 @@ const num = identity(100);     // T inferred as number
 const explicit = identity<boolean>(true);
 ```
 
-            
-
-            
 ### Generic Functions dengan Multiple Parameters
 
-            
+Generic functions bisa memiliki multiple type parameters, dipisahkan dengan comma.
 
-                Generic functions bisa memiliki multiple type parameters, dipisahkan dengan comma.
-            
-
-            
-                
 ```
 function createPair<T, U>(first: T, second: U): [T, U] {
-    return [first, second];
+return [first, second];
 }
 
 const pair1 = createPair("name", 30);     // [string, number]
@@ -132,41 +75,28 @@ const pair2 = createPair(1, "value");   // [number, string]
 const pair3 = createPair<number, number>(1, 2); // explicit
 ```
 
-            
-
-            
 ### Generic Arrow Functions
 
-            
-                
 ```
 const getFirst = <T>(arr: T[]): T | undefined => {
-    return arr[0];
+return arr[0];
 };
 
 const firstNum = getFirst([1, 2, 3]);      // number | undefined
 const firstStr = getFirst(["a", "b"]);   // string | undefined
 ```
 
-            
-
-            
 ### Working with Generic Arrays
 
-            
+Generic functions sering digunakan untuk array manipulation dengan type safety.
 
-                Generic functions sering digunakan untuk array manipulation dengan type safety.
-            
-
-            
-                
 ```
 function reverse<T>(arr: T[]): T[] {
-    return arr.slice().reverse();
+return arr.slice().reverse();
 }
 
 function filter<T>(arr: T[], predicate: (item: T) => boolean): T[] {
-    return arr.filter(predicate);
+return arr.filter(predicate);
 }
 
 const numbers = [1, 2, 3, 4];
@@ -176,81 +106,41 @@ const strings = ["a", "bb", "ccc"];
 const long = filter(strings, s => s.length > 1); // string[]
 ```
 
-            
-
-            
 ### Generic Functions dalam Collections
 
-            
-                
 ```
 interface User {
-    id: number;
-    name: string;
+id: number;
+name: string;
 }
 
 function findById<T extends { id: number }>(arr: T[], id: number): T | undefined {
-    return arr.find(item => item.id === id);
+return arr.find(item => item.id === id);
 }
 
 const users: User[] = [
-    { id: 1, name: "Alice" },
-    { id: 2, name: "Bob" }
+{ id: 1, name: "Alice" },
+{ id: 2, name: "Bob" }
 ];
 
 const user = findById(users, 1); // User | undefined
 console.log(user?.name); // "Alice"
 ```
 
-            
-        
-
-        
-        
-            
 ## 💻 Exercises
 
-            
-            
-                
-                    
 ### 1. Identity Function
 
-                    
+Implementasikan generic function `identity<T>(arg: T): T` yang mengembalikan argumen yang sama. Test dengan tipe: string, number, boolean, array.
 
-                        Implementasikan generic function `identity<T>(arg: T): T` yang mengembalikan argumen yang sama. Test dengan tipe: string, number, boolean, array.
-                    
-
-                
-
-                
-                    
 ### 2. First Element
 
-                    
+Buat generic function `first<T>(arr: T[]): T | undefined` yang mengembalikan elemen pertama array. Pastikan type terpreserve.
 
-                        Buat generic function `first<T>(arr: T[]): T | undefined` yang mengembalikan elemen pertama array. Pastikan type terpreserve.
-                    
-
-                
-
-                
-                    
 ### 3. Merge Objects
 
-                    
+Buat generic function `merge<T, U>(obj1: T, obj2: U): T & U` yang menggabungkan dua objects dan mengembalikan intersection type. Test dengan objects yang memiliki properties berbeda.
 
-                        Buat generic function `merge<T, U>(obj1: T, obj2: U): T & U` yang menggabungkan dua objects dan mengembalikan intersection type. Test dengan objects yang memiliki properties berbeda.
-                    
+← Sebelumnya
 
-                
-            
-        
-
-        
-        
-            
-                ← Sebelumnya
-            
-            
-                Quiz Module →
+Quiz Module →

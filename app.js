@@ -1,1675 +1,1828 @@
-// TypeScript Learning Path
+// TypeScript Learning Path - Main Application
+// 12 Modules, 77 Lessons
+'use strict';
+
 const MODULES = [
     {
         "id": 1,
-        "title": "Pengenalan TypeScript",
-        "icon": "fas fa-play-circle"
+        "title": "Dasar-Dasar TypeScript",
+        "icon": "fas fa-play-circle",
+        "description": "Pengenalan TypeScript, setup environment, dan kompilasi.",
+        "lessonCount": 6
     },
     {
         "id": 2,
-        "title": "Type System",
-        "icon": "fas fa-shield-alt"
+        "title": "Tipe Dasar TypeScript",
+        "icon": "fas fa-shield-alt",
+        "description": "Tipe primitif, type assertions, any, unknown, array, tuple, enum.",
+        "lessonCount": 6
     },
     {
         "id": 3,
-        "title": "OOP",
-        "icon": "fas fa-object-group"
+        "title": "Advanced Types",
+        "icon": "fas fa-layer-group",
+        "description": "Union, intersection, type guards, narrowing, conditional, mapped types.",
+        "lessonCount": 10
     },
     {
         "id": 4,
-        "title": "Advanced Types",
-        "icon": "fas fa-cogs"
+        "title": "Interfaces & Type Aliases",
+        "icon": "fas fa-shapes",
+        "description": "Interface, optional/readonly, type aliases, extending.",
+        "lessonCount": 6
     },
     {
         "id": 5,
-        "title": "Modules & Tooling",
-        "icon": "fas fa-tools"
+        "title": "Functions TypeScript",
+        "icon": "fas fa-code",
+        "description": "Function types, overloads, rest params, arrow functions.",
+        "lessonCount": 5
+    },
+    {
+        "id": 6,
+        "title": "Classes & OOP",
+        "icon": "fas fa-sitemap",
+        "description": "Class, inheritance, access modifiers, abstract classes.",
+        "lessonCount": 6
+    },
+    {
+        "id": 7,
+        "title": "Generics",
+        "icon": "fas fa-cubes",
+        "description": "Generic functions, interfaces, classes, constraints, utility types.",
+        "lessonCount": 6
+    },
+    {
+        "id": 8,
+        "title": "Modules & Namespaces",
+        "icon": "fas fa-puzzle-piece",
+        "description": "ES6 modules, barrel files, dynamic import, namespaces.",
+        "lessonCount": 7
+    },
+    {
+        "id": 9,
+        "title": "Configuration & Tooling",
+        "icon": "fas fa-cogs",
+        "description": "tsconfig.json, compiler options, build tools, linting.",
+        "lessonCount": 8
+    },
+    {
+        "id": 10,
+        "title": "JS Integration",
+        "icon": "fab fa-js",
+        "description": "Using JS libraries, .d.ts files, DefinitelyTyped, migration.",
+        "lessonCount": 4
+    },
+    {
+        "id": 11,
+        "title": "Advanced Utility Types",
+        "icon": "fas fa-toolbox",
+        "description": "Partial, Required, Pick, Omit, Record, ReturnType, ThisType.",
+        "lessonCount": 8
+    },
+    {
+        "id": 12,
+        "title": "Real-World Projects",
+        "icon": "fas fa-rocket",
+        "description": "CLI tool, React, REST API, type definitions, fullstack.",
+        "lessonCount": 5
     }
 ];
 
 const lessons = [
     {
         "id": 1,
-        "title": "1. Abstract Classes",
-        "module": "Pengenalan TypeScript",
+        "title": "1. Apa itu TypeScript?",
+        "module": "Dasar-Dasar TypeScript",
         "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/abstract-classes.md",
-        "description": "<p><strong>Abstract Classes</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "mdFile": "lessons/apa-itu-typescript.md",
+        "duration": "15 min",
+        "description": "<p><strong>Apa itu TypeScript?</strong></p>",
+        "defaultCode": "// TypeScript = JavaScript + Types\nconst message: string = \"Hello, TypeScript!\";\nconsole.log(message);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Abstract Classes?",
+            "question": "Apa konsep utama dari 'Apa itu TypeScript?'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Apa itu TypeScript?",
+                "Tidak terkait Apa itu TypeScript?",
+                "Kebalikan Apa itu TypeScript?",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 2,
-        "title": "2. Access Modifiers",
-        "module": "Pengenalan TypeScript",
+        "title": "2. TypeScript vs JavaScript",
+        "module": "Dasar-Dasar TypeScript",
         "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/access-modifiers.md",
-        "description": "<p><strong>Access Modifiers</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "mdFile": "lessons/typescript-vs-javascript.md",
+        "duration": "10 min",
+        "description": "<p><strong>TypeScript vs JavaScript</strong></p>",
+        "defaultCode": "// Typed vs Untyped\nlet name: string = \"TypeScript\";\nlet year: number = 2024;\nconsole.log(name + \" \" + year);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Access Modifiers?",
+            "question": "Apa konsep utama dari 'TypeScript vs JavaScript'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami TypeScript vs JavaScript",
+                "Tidak terkait TypeScript vs JavaScript",
+                "Kebalikan TypeScript vs JavaScript",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 3,
-        "title": "3. Ambient Modules",
-        "module": "Pengenalan TypeScript",
+        "title": "3. Instalasi TypeScript",
+        "module": "Dasar-Dasar TypeScript",
         "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/ambient-modules.md",
-        "description": "<p><strong>Ambient Modules</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "mdFile": "lessons/instalasi-typescript.md",
+        "duration": "10 min",
+        "description": "<p><strong>Instalasi TypeScript</strong></p>",
+        "defaultCode": "// Cek versi TypeScript\nconst version: string = \"5.0+\";\nconsole.log(\"TypeScript \" + version);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Ambient Modules?",
+            "question": "Apa konsep utama dari 'Instalasi TypeScript'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Instalasi TypeScript",
+                "Tidak terkait Instalasi TypeScript",
+                "Kebalikan Instalasi TypeScript",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 4,
-        "title": "4. Any Dan Unknown",
-        "module": "Pengenalan TypeScript",
+        "title": "4. TypeScript Compiler (tsc)",
+        "module": "Dasar-Dasar TypeScript",
         "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/any-dan-unknown.md",
-        "description": "<p><strong>Any Dan Unknown</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "mdFile": "lessons/typescript-compiler-tsc.md",
+        "duration": "15 min",
+        "description": "<p><strong>TypeScript Compiler (tsc)</strong></p>",
+        "defaultCode": "// tsc hello.ts -> hello.js\nconst greeting: string = \"Compiled!\";\nconsole.log(greeting);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Any Dan Unknown?",
+            "question": "Apa konsep utama dari 'TypeScript Compiler (tsc)'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami TypeScript Compiler (tsc)",
+                "Tidak terkait TypeScript Compiler (tsc)",
+                "Kebalikan TypeScript Compiler (tsc)",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 5,
-        "title": "5. Apa Itu Typescript",
-        "module": "Pengenalan TypeScript",
+        "title": "5. Project Setup TypeScript",
+        "module": "Dasar-Dasar TypeScript",
         "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/apa-itu-typescript.md",
-        "description": "<p><strong>Apa Itu Typescript</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "mdFile": "lessons/project-setup-typescript.md",
+        "duration": "15 min",
+        "description": "<p><strong>Project Setup TypeScript</strong></p>",
+        "defaultCode": "// tsconfig.json project\ninterface Config {\n  strict: boolean;\n  target: string;\n}\nconst cfg: Config = { strict: true, target: \"ES2020\" };\nconsole.log(JSON.stringify(cfg));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Apa Itu Typescript?",
+            "question": "Apa konsep utama dari 'Project Setup TypeScript'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Project Setup TypeScript",
+                "Tidak terkait Project Setup TypeScript",
+                "Kebalikan Project Setup TypeScript",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 6,
-        "title": "6. Array Dan Tuple",
-        "module": "Pengenalan TypeScript",
+        "title": "6. Hello World",
+        "module": "Dasar-Dasar TypeScript",
         "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/array-dan-tuple.md",
-        "description": "<p><strong>Array Dan Tuple</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "mdFile": "lessons/hello-world.md",
+        "duration": "10 min",
+        "description": "<p><strong>Hello World</strong></p>",
+        "defaultCode": "// Program pertama\nfunction greet(name: string): string {\n  return `Hello, ${name}!`;\n}\nconsole.log(greet(\"TypeScript\"));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Array Dan Tuple?",
+            "question": "Apa konsep utama dari 'Hello World'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Hello World",
+                "Tidak terkait Hello World",
+                "Kebalikan Hello World",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 7,
-        "title": "7. Arrow Functions Types",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/arrow-functions-types.md",
-        "description": "<p><strong>Arrow Functions Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "7. Tipe Primitif",
+        "module": "Tipe Dasar TypeScript",
+        "moduleId": 2,
+        "mdFile": "lessons/tipe-primitif.md",
+        "duration": "20 min",
+        "description": "<p><strong>Tipe Primitif</strong></p>",
+        "defaultCode": "// Primitive types\nconst nama: string = \"Budi\";\nconst umur: number = 25;\nconst aktif: boolean = true;\nconsole.log(`${nama} - ${umur} - ${aktif}`);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Arrow Functions Types?",
+            "question": "Apa konsep utama dari 'Tipe Primitif'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Tipe Primitif",
+                "Tidak terkait Tipe Primitif",
+                "Kebalikan Tipe Primitif",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 8,
-        "title": "8. Barrel Files",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/barrel-files.md",
-        "description": "<p><strong>Barrel Files</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "8. Type any dan unknown",
+        "module": "Tipe Dasar TypeScript",
+        "moduleId": 2,
+        "mdFile": "lessons/any-dan-unknown.md",
+        "duration": "15 min",
+        "description": "<p><strong>Type any dan unknown</strong></p>",
+        "defaultCode": "// any vs unknown\nlet flex: any = 42;\nflex = \"bisa apa saja\";\nconsole.log(flex);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Barrel Files?",
+            "question": "Apa konsep utama dari 'Type any dan unknown'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Type any dan unknown",
+                "Tidak terkait Type any dan unknown",
+                "Kebalikan Type any dan unknown",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 9,
-        "title": "9. Build Tools Webpack Babel",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/build-tools-webpack-babel.md",
-        "description": "<p><strong>Build Tools Webpack Babel</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "9. Array dan Tuple",
+        "module": "Tipe Dasar TypeScript",
+        "moduleId": 2,
+        "mdFile": "lessons/array-dan-tuple.md",
+        "duration": "20 min",
+        "description": "<p><strong>Array dan Tuple</strong></p>",
+        "defaultCode": "// Array & Tuple\nconst nums: number[] = [1, 2, 3];\nconst pair: [string, number] = [\"age\", 25];\nconsole.log(nums.length + \" \" + pair[1]);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Build Tools Webpack Babel?",
+            "question": "Apa konsep utama dari 'Array dan Tuple'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Array dan Tuple",
+                "Tidak terkait Array dan Tuple",
+                "Kebalikan Array dan Tuple",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 10,
-        "title": "10. Class Dasar",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/class-dasar.md",
-        "description": "<p><strong>Class Dasar</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "10. Enum dan Named Constants",
+        "module": "Tipe Dasar TypeScript",
+        "moduleId": 2,
+        "mdFile": "lessons/enum-named-constants.md",
+        "duration": "15 min",
+        "description": "<p><strong>Enum dan Named Constants</strong></p>",
+        "defaultCode": "// Enum\nenum Role { Admin, User, Guest }\nconst r: Role = Role.Admin;\nconsole.log(r);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Class Dasar?",
+            "question": "Apa konsep utama dari 'Enum dan Named Constants'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Enum dan Named Constants",
+                "Tidak terkait Enum dan Named Constants",
+                "Kebalikan Enum dan Named Constants",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 11,
-        "title": "11. Compiler Options Target Module Lib",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/compiler-options-target-module-lib.md",
-        "description": "<p><strong>Compiler Options Target Module Lib</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "11. void, never, null, undefined",
+        "module": "Tipe Dasar TypeScript",
+        "moduleId": 2,
+        "mdFile": "lessons/void-never-dan-tipe-khusus.md",
+        "duration": "15 min",
+        "description": "<p><strong>void, never, null, undefined</strong></p>",
+        "defaultCode": "// void & never\nfunction log(msg: string): void {\n  console.log(msg);\n}\nlog(\"done\");",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Compiler Options Target Module Lib?",
+            "question": "Apa konsep utama dari 'void, never, null, undefined'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami void, never, null, undefined",
+                "Tidak terkait void, never, null, undefined",
+                "Kebalikan void, never, null, undefined",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 12,
-        "title": "12. Conditional Types",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/conditional-types.md",
-        "description": "<p><strong>Conditional Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "12. Type Assertions",
+        "module": "Tipe Dasar TypeScript",
+        "moduleId": 2,
+        "mdFile": "lessons/type-assertions.md",
+        "duration": "15 min",
+        "description": "<p><strong>Type Assertions</strong></p>",
+        "defaultCode": "// Type assertion\nconst val: unknown = \"hello\";\nconst len: number = (val as string).length;\nconsole.log(len);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Conditional Types?",
+            "question": "Apa konsep utama dari 'Type Assertions'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Type Assertions",
+                "Tidak terkait Type Assertions",
+                "Kebalikan Type Assertions",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 13,
-        "title": "13. Constructor Parameter Properties",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/constructor-parameter-properties.md",
-        "description": "<p><strong>Constructor Parameter Properties</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "13. Union Types",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/union-types.md",
+        "duration": "20 min",
+        "description": "<p><strong>Union Types</strong></p>",
+        "defaultCode": "// Union\nfunction fmt(id: string | number): string {\n  return `ID: ${id}`;\n}\nconsole.log(fmt(42));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Constructor Parameter Properties?",
+            "question": "Apa konsep utama dari 'Union Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Union Types",
+                "Tidak terkait Union Types",
+                "Kebalikan Union Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 14,
-        "title": "14. Declaration Files D Ts",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/declaration-files-d-ts.md",
-        "description": "<p><strong>Declaration Files D Ts</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "14. Intersection Types",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/intersection-types.md",
+        "duration": "20 min",
+        "description": "<p><strong>Intersection Types</strong></p>",
+        "defaultCode": "// Intersection\ntype A = { name: string };\ntype B = { age: number };\nconst p: A & B = { name: \"Budi\", age: 25 };\nconsole.log(p.name);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Declaration Files D Ts?",
+            "question": "Apa konsep utama dari 'Intersection Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Intersection Types",
+                "Tidak terkait Intersection Types",
+                "Kebalikan Intersection Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 15,
-        "title": "15. Declaration Merging",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/declaration-merging.md",
-        "description": "<p><strong>Declaration Merging</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "15. Type Guards",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/type-guards.md",
+        "duration": "25 min",
+        "description": "<p><strong>Type Guards</strong></p>",
+        "defaultCode": "// Type guard\nfunction isStr(x: unknown): x is string {\n  return typeof x === \"string\";\n}\nconsole.log(isStr(\"hi\"));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Declaration Merging?",
+            "question": "Apa konsep utama dari 'Type Guards'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Type Guards",
+                "Tidak terkait Type Guards",
+                "Kebalikan Type Guards",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 16,
-        "title": "16. Default Type Params",
-        "module": "Pengenalan TypeScript",
-        "moduleId": 1,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/default-type-params.md",
-        "description": "<p><strong>Default Type Params</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "16. Type Narrowing",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/type-narrowing.md",
+        "duration": "20 min",
+        "description": "<p><strong>Type Narrowing</strong></p>",
+        "defaultCode": "// Narrowing\nfunction pad(n: number | string): string {\n  if (typeof n === \"number\") return n.toFixed(2);\n  return n;\n}\nconsole.log(pad(3.14159));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Default Type Params?",
+            "question": "Apa konsep utama dari 'Type Narrowing'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Type Narrowing",
+                "Tidak terkait Type Narrowing",
+                "Kebalikan Type Narrowing",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 17,
-        "title": "17. Default Vs Named Export",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/default-vs-named-export.md",
-        "description": "<p><strong>Default Vs Named Export</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "17. Nullable Types",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/nullable-types.md",
+        "duration": "15 min",
+        "description": "<p><strong>Nullable Types</strong></p>",
+        "defaultCode": "// Nullable\nfunction greet(name?: string): string {\n  return `Hi, ${name ?? \"Guest\"}!`;\n}\nconsole.log(greet());",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Default Vs Named Export?",
+            "question": "Apa konsep utama dari 'Nullable Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Nullable Types",
+                "Tidak terkait Nullable Types",
+                "Kebalikan Nullable Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 18,
-        "title": "18. Definitelytyped",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/definitelytyped.md",
-        "description": "<p><strong>Definitelytyped</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "18. Type Inference",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/type-inference.md",
+        "duration": "15 min",
+        "description": "<p><strong>Type Inference</strong></p>",
+        "defaultCode": "// Inference\nlet msg = \"auto string\";\nlet count = 10;\nconsole.log(typeof msg + \" \" + typeof count);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Definitelytyped?",
+            "question": "Apa konsep utama dari 'Type Inference'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Type Inference",
+                "Tidak terkait Type Inference",
+                "Kebalikan Type Inference",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 19,
-        "title": "19. Dynamic Import Code Splitting",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/dynamic-import-code-splitting.md",
-        "description": "<p><strong>Dynamic Import Code Splitting</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "19. Indexed Access Types",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/indexed-access-types.md",
+        "duration": "20 min",
+        "description": "<p><strong>Indexed Access Types</strong></p>",
+        "defaultCode": "// Indexed access\ninterface User { name: string; age: number; }\ntype Age = User[\"age\"];\nconst a: Age = 25;\nconsole.log(a);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Dynamic Import Code Splitting?",
+            "question": "Apa konsep utama dari 'Indexed Access Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Indexed Access Types",
+                "Tidak terkait Indexed Access Types",
+                "Kebalikan Indexed Access Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 20,
-        "title": "20. Enum Named Constants",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/enum-named-constants.md",
-        "description": "<p><strong>Enum Named Constants</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "20. Conditional Types",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/conditional-types.md",
+        "duration": "25 min",
+        "description": "<p><strong>Conditional Types</strong></p>",
+        "defaultCode": "// Conditional\ntype IsStr<T> = T extends string ? true : false;\nconst t: IsStr<string> = true;\nconsole.log(t);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Enum Named Constants?",
+            "question": "Apa konsep utama dari 'Conditional Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Conditional Types",
+                "Tidak terkait Conditional Types",
+                "Kebalikan Conditional Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 21,
-        "title": "21. Es6 Modules Import Export",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/es6-modules-import-export.md",
-        "description": "<p><strong>Es6 Modules Import Export</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "21. Mapped Types",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/mapped-types.md",
+        "duration": "25 min",
+        "description": "<p><strong>Mapped Types</strong></p>",
+        "defaultCode": "// Mapped\ntype Opt<T> = { [K in keyof T]?: T[K] };\ninterface U { name: string }\nconst u: Opt<U> = {};\nconsole.log(JSON.stringify(u));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Es6 Modules Import Export?",
+            "question": "Apa konsep utama dari 'Mapped Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Mapped Types",
+                "Tidak terkait Mapped Types",
+                "Kebalikan Mapped Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 22,
-        "title": "22. Eslint Typescript",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/eslint-typescript.md",
-        "description": "<p><strong>Eslint Typescript</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "22. Template Literal Types",
+        "module": "Advanced Types",
+        "moduleId": 3,
+        "mdFile": "lessons/template-literal-types.md",
+        "duration": "20 min",
+        "description": "<p><strong>Template Literal Types</strong></p>",
+        "defaultCode": "// Template literal\ntype Greet = `Hello, ${string}!`;\nconst g: Greet = \"Hello, TS!\";\nconsole.log(g);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Eslint Typescript?",
+            "question": "Apa konsep utama dari 'Template Literal Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Template Literal Types",
+                "Tidak terkait Template Literal Types",
+                "Kebalikan Template Literal Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 23,
-        "title": "23. Exclude Extract Nonnullable",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/exclude-extract-nonnullable.md",
-        "description": "<p><strong>Exclude Extract Nonnullable</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "23. Interface Dasar",
+        "module": "Interfaces & Type Aliases",
+        "moduleId": 4,
+        "mdFile": "lessons/interface-dasar.md",
+        "duration": "20 min",
+        "description": "<p><strong>Interface Dasar</strong></p>",
+        "defaultCode": "// Interface\ninterface User {\n  name: string;\n  age: number;\n}\nconst u: User = { name: \"Budi\", age: 25 };\nconsole.log(u.name);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Exclude Extract Nonnullable?",
+            "question": "Apa konsep utama dari 'Interface Dasar'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Interface Dasar",
+                "Tidak terkait Interface Dasar",
+                "Kebalikan Interface Dasar",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 24,
-        "title": "24. Extending Interfaces Types",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/extending-interfaces-types.md",
-        "description": "<p><strong>Extending Interfaces Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "24. Optional & Readonly Properties",
+        "module": "Interfaces & Type Aliases",
+        "moduleId": 4,
+        "mdFile": "lessons/optional-readonly-properties.md",
+        "duration": "15 min",
+        "description": "<p><strong>Optional & Readonly Properties</strong></p>",
+        "defaultCode": "// Optional & readonly\ninterface Cfg {\n  readonly id: number;\n  name?: string;\n}\nconst c: Cfg = { id: 1 };\nconsole.log(c.id);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Extending Interfaces Types?",
+            "question": "Apa konsep utama dari 'Optional dan Readonly Properties'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Optional dan Readonly Properties",
+                "Tidak terkait Optional dan Readonly Properties",
+                "Kebalikan Optional dan Readonly Properties",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 25,
-        "title": "25. Final Project Fullstack",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/final-project-fullstack.md",
-        "description": "<p><strong>Final Project Fullstack</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "25. Type Aliases",
+        "module": "Interfaces & Type Aliases",
+        "moduleId": 4,
+        "mdFile": "lessons/type-aliases.md",
+        "duration": "15 min",
+        "description": "<p><strong>Type Aliases</strong></p>",
+        "defaultCode": "// Type alias\ntype ID = string | number;\nconst id: ID = \"abc-123\";\nconsole.log(id);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Final Project Fullstack?",
+            "question": "Apa konsep utama dari 'Type Aliases'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Type Aliases",
+                "Tidak terkait Type Aliases",
+                "Kebalikan Type Aliases",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 26,
-        "title": "26. Function Overloads",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/function-overloads.md",
-        "description": "<p><strong>Function Overloads</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "26. Interface vs Type Alias",
+        "module": "Interfaces & Type Aliases",
+        "moduleId": 4,
+        "mdFile": "lessons/interface-vs-type-alias.md",
+        "duration": "20 min",
+        "description": "<p><strong>Interface vs Type Alias</strong></p>",
+        "defaultCode": "// Interface extends\ninterface A { x: number }\ninterface B extends A { y: string }\nconst b: B = { x: 1, y: \"hi\" };\nconsole.log(b.x + b.y);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Function Overloads?",
+            "question": "Apa konsep utama dari 'Interface vs Type Alias'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Interface vs Type Alias",
+                "Tidak terkait Interface vs Type Alias",
+                "Kebalikan Interface vs Type Alias",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 27,
-        "title": "27. Function Types",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/function-types.md",
-        "description": "<p><strong>Function Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "27. Extending Interfaces",
+        "module": "Interfaces & Type Aliases",
+        "moduleId": 4,
+        "mdFile": "lessons/extending-interfaces-types.md",
+        "duration": "20 min",
+        "description": "<p><strong>Extending Interfaces</strong></p>",
+        "defaultCode": "// Extending\ninterface Animal { name: string }\ninterface Dog extends Animal { breed: string }\nconst d: Dog = { name: \"Rex\", breed: \"Lab\" };\nconsole.log(d.breed);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Function Types?",
+            "question": "Apa konsep utama dari 'Extending Interfaces'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Extending Interfaces",
+                "Tidak terkait Extending Interfaces",
+                "Kebalikan Extending Interfaces",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 28,
-        "title": "28. Generic Constraints",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/generic-constraints.md",
-        "description": "<p><strong>Generic Constraints</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "28. Index Signatures",
+        "module": "Interfaces & Type Aliases",
+        "moduleId": 4,
+        "mdFile": "lessons/index-signatures.md",
+        "duration": "15 min",
+        "description": "<p><strong>Index Signatures</strong></p>",
+        "defaultCode": "// Index signature\ninterface Dict {\n  [key: string]: number;\n}\nconst scores: Dict = { math: 90 };\nconsole.log(scores.math);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Generic Constraints?",
+            "question": "Apa konsep utama dari 'Index Signatures'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Index Signatures",
+                "Tidak terkait Index Signatures",
+                "Kebalikan Index Signatures",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 29,
-        "title": "29. Generic Functions Dasar",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/generic-functions-dasar.md",
-        "description": "<p><strong>Generic Functions Dasar</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "29. Function Types",
+        "module": "Functions TypeScript",
+        "moduleId": 5,
+        "mdFile": "lessons/function-types.md",
+        "duration": "20 min",
+        "description": "<p><strong>Function Types</strong></p>",
+        "defaultCode": "// Function type\ntype Add = (a: number, b: number) => number;\nconst add: Add = (a, b) => a + b;\nconsole.log(add(2, 3));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Generic Functions Dasar?",
+            "question": "Apa konsep utama dari 'Function Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Function Types",
+                "Tidak terkait Function Types",
+                "Kebalikan Function Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 30,
-        "title": "30. Generic Interfaces Classes",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/generic-interfaces-classes.md",
-        "description": "<p><strong>Generic Interfaces Classes</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "30. Rest & Spread",
+        "module": "Functions TypeScript",
+        "moduleId": 5,
+        "mdFile": "lessons/rest-spread.md",
+        "duration": "15 min",
+        "description": "<p><strong>Rest & Spread</strong></p>",
+        "defaultCode": "// Rest & spread\nfunction sum(...nums: number[]): number {\n  return nums.reduce((a, b) => a + b, 0);\n}\nconsole.log(sum(1, 2, 3));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Generic Interfaces Classes?",
+            "question": "Apa konsep utama dari 'Rest dan Spread'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Rest dan Spread",
+                "Tidak terkait Rest dan Spread",
+                "Kebalikan Rest dan Spread",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 31,
-        "title": "31. Generic Utility Types",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/generic-utility-types.md",
-        "description": "<p><strong>Generic Utility Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "31. Optional & Default Params",
+        "module": "Functions TypeScript",
+        "moduleId": 5,
+        "mdFile": "lessons/optional-default-params.md",
+        "duration": "15 min",
+        "description": "<p><strong>Optional & Default Params</strong></p>",
+        "defaultCode": "// Default param\nfunction greet(n: string = \"Guest\"): string {\n  return `Hi, ${n}!`;\n}\nconsole.log(greet());",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Generic Utility Types?",
+            "question": "Apa konsep utama dari 'Optional dan Default Params'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Optional dan Default Params",
+                "Tidak terkait Optional dan Default Params",
+                "Kebalikan Optional dan Default Params",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 32,
-        "title": "32. Hello World",
-        "module": "Type System",
-        "moduleId": 2,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/hello-world.md",
-        "description": "<p><strong>Hello World</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "32. Function Overloads",
+        "module": "Functions TypeScript",
+        "moduleId": 5,
+        "mdFile": "lessons/function-overloads.md",
+        "duration": "20 min",
+        "description": "<p><strong>Function Overloads</strong></p>",
+        "defaultCode": "// Overload\nfunction pick(x: string): string;\nfunction pick(x: number): number;\nfunction pick(x: any): any { return x; }\nconsole.log(pick(\"a\"));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Hello World?",
+            "question": "Apa konsep utama dari 'Function Overloads'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Function Overloads",
+                "Tidak terkait Function Overloads",
+                "Kebalikan Function Overloads",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 33,
-        "title": "33. Include Exclude Files",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/include-exclude-files.md",
-        "description": "<p><strong>Include Exclude Files</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "33. Arrow Functions & Types",
+        "module": "Functions TypeScript",
+        "moduleId": 5,
+        "mdFile": "lessons/arrow-functions-types.md",
+        "duration": "15 min",
+        "description": "<p><strong>Arrow Functions & Types</strong></p>",
+        "defaultCode": "// Arrow\nconst double = (n: number): number => n * 2;\nconsole.log(double(21));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Include Exclude Files?",
+            "question": "Apa konsep utama dari 'Arrow Functions dan Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Arrow Functions dan Types",
+                "Tidak terkait Arrow Functions dan Types",
+                "Kebalikan Arrow Functions dan Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 34,
-        "title": "34. Index Signatures",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/index-signatures.md",
-        "description": "<p><strong>Index Signatures</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "34. Class Dasar",
+        "module": "Classes & OOP",
+        "moduleId": 6,
+        "mdFile": "lessons/class-dasar.md",
+        "duration": "20 min",
+        "description": "<p><strong>Class Dasar</strong></p>",
+        "defaultCode": "// Class\nclass Person {\n  constructor(public name: string) {}\n  greet(): string { return `Hi, ${this.name}`; }\n}\nconsole.log(new Person(\"Budi\").greet());",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Index Signatures?",
+            "question": "Apa konsep utama dari 'Class Dasar'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Class Dasar",
+                "Tidak terkait Class Dasar",
+                "Kebalikan Class Dasar",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 35,
-        "title": "35. Indexed Access Types",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/indexed-access-types.md",
-        "description": "<p><strong>Indexed Access Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "35. Inheritance (extends/super)",
+        "module": "Classes & OOP",
+        "moduleId": 6,
+        "mdFile": "lessons/inheritance-extends-super.md",
+        "duration": "20 min",
+        "description": "<p><strong>Inheritance (extends/super)</strong></p>",
+        "defaultCode": "// Inheritance\nclass Animal {\n  constructor(public name: string) {}\n}\nclass Dog extends Animal {\n  bark(): string { return `${this.name} barks!`; }\n}\nconsole.log(new Dog(\"Rex\").bark());",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Indexed Access Types?",
+            "question": "Apa konsep utama dari 'Inheritance (extends/super)'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Inheritance (extends/super)",
+                "Tidak terkait Inheritance (extends/super)",
+                "Kebalikan Inheritance (extends/super)",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 36,
-        "title": "36. Inheritance Extends Super",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/inheritance-extends-super.md",
-        "description": "<p><strong>Inheritance Extends Super</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "36. Access Modifiers",
+        "module": "Classes & OOP",
+        "moduleId": 6,
+        "mdFile": "lessons/access-modifiers.md",
+        "duration": "20 min",
+        "description": "<p><strong>Access Modifiers</strong></p>",
+        "defaultCode": "// Modifiers\nclass Acc {\n  private secret = 42;\n  getSecret(): number { return this.secret; }\n}\nconsole.log(new Acc().getSecret());",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Inheritance Extends Super?",
+            "question": "Apa konsep utama dari 'Access Modifiers'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Access Modifiers",
+                "Tidak terkait Access Modifiers",
+                "Kebalikan Access Modifiers",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 37,
-        "title": "37. Instalasi Typescript",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/instalasi-typescript.md",
-        "description": "<p><strong>Instalasi Typescript</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "37. Constructor Parameter Properties",
+        "module": "Classes & OOP",
+        "moduleId": 6,
+        "mdFile": "lessons/constructor-parameter-properties.md",
+        "duration": "15 min",
+        "description": "<p><strong>Constructor Parameter Properties</strong></p>",
+        "defaultCode": "// Param props\nclass Point {\n  constructor(public x: number, public y: number) {}\n}\nconsole.log(new Point(1, 2).x);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Instalasi Typescript?",
+            "question": "Apa konsep utama dari 'Constructor Parameter Properties'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Constructor Parameter Properties",
+                "Tidak terkait Constructor Parameter Properties",
+                "Kebalikan Constructor Parameter Properties",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 38,
-        "title": "38. Interface Dasar",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/interface-dasar.md",
-        "description": "<p><strong>Interface Dasar</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "38. Abstract Classes",
+        "module": "Classes & OOP",
+        "moduleId": 6,
+        "mdFile": "lessons/abstract-classes.md",
+        "duration": "20 min",
+        "description": "<p><strong>Abstract Classes</strong></p>",
+        "defaultCode": "// Abstract\nabstract class Shape {\n  abstract area(): number;\n}\nclass Circle extends Shape {\n  constructor(private r: number) { super(); }\n  area(): number { return Math.PI * this.r ** 2; }\n}\nconsole.log(new Circle(2).area().toFixed(2));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Interface Dasar?",
+            "question": "Apa konsep utama dari 'Abstract Classes'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Abstract Classes",
+                "Tidak terkait Abstract Classes",
+                "Kebalikan Abstract Classes",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 39,
-        "title": "39. Interface Vs Type Alias",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/interface-vs-type-alias.md",
-        "description": "<p><strong>Interface Vs Type Alias</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "39. Readonly & Static",
+        "module": "Classes & OOP",
+        "moduleId": 6,
+        "mdFile": "lessons/readonly-params.md",
+        "duration": "15 min",
+        "description": "<p><strong>Readonly & Static</strong></p>",
+        "defaultCode": "// Readonly\nclass Cfg {\n  constructor(public readonly id: number) {}\n}\nconsole.log(new Cfg(7).id);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Interface Vs Type Alias?",
+            "question": "Apa konsep utama dari 'Readonly dan Static'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Readonly dan Static",
+                "Tidak terkait Readonly dan Static",
+                "Kebalikan Readonly dan Static",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 40,
-        "title": "40. Intersection Types",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/intersection-types.md",
-        "description": "<p><strong>Intersection Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "40. Generic Functions Dasar",
+        "module": "Generics",
+        "moduleId": 7,
+        "mdFile": "lessons/generic-functions-dasar.md",
+        "duration": "25 min",
+        "description": "<p><strong>Generic Functions Dasar</strong></p>",
+        "defaultCode": "// Generic fn\nfunction identity<T>(x: T): T { return x; }\nconsole.log(identity<string>(\"hi\"));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Intersection Types?",
+            "question": "Apa konsep utama dari 'Generic Functions Dasar'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Generic Functions Dasar",
+                "Tidak terkait Generic Functions Dasar",
+                "Kebalikan Generic Functions Dasar",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 41,
-        "title": "41. Mapped Types",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/mapped-types.md",
-        "description": "<p><strong>Mapped Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "41. Generic Interfaces & Classes",
+        "module": "Generics",
+        "moduleId": 7,
+        "mdFile": "lessons/generic-interfaces-classes.md",
+        "duration": "25 min",
+        "description": "<p><strong>Generic Interfaces & Classes</strong></p>",
+        "defaultCode": "// Generic interface\ninterface Box<T> { value: T }\nconst b: Box<number> = { value: 42 };\nconsole.log(b.value);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Mapped Types?",
+            "question": "Apa konsep utama dari 'Generic Interfaces dan Classes'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Generic Interfaces dan Classes",
+                "Tidak terkait Generic Interfaces dan Classes",
+                "Kebalikan Generic Interfaces dan Classes",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 42,
-        "title": "42. Migrasi Js Ke Ts",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/migrasi-js-ke-ts.md",
-        "description": "<p><strong>Migrasi Js Ke Ts</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "42. Generic Constraints",
+        "module": "Generics",
+        "moduleId": 7,
+        "mdFile": "lessons/generic-constraints.md",
+        "duration": "20 min",
+        "description": "<p><strong>Generic Constraints</strong></p>",
+        "defaultCode": "// Constraint\nfunction longest<T extends { length: number }>(x: T): number {\n  return x.length;\n}\nconsole.log(longest(\"hello\"));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Migrasi Js Ke Ts?",
+            "question": "Apa konsep utama dari 'Generic Constraints'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Generic Constraints",
+                "Tidak terkait Generic Constraints",
+                "Kebalikan Generic Constraints",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 43,
-        "title": "43. Namespaces Organisasi Kode",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/namespaces-organisasi-kode.md",
-        "description": "<p><strong>Namespaces Organisasi Kode</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "43. Default Type Parameters",
+        "module": "Generics",
+        "moduleId": 7,
+        "mdFile": "lessons/default-type-params.md",
+        "duration": "15 min",
+        "description": "<p><strong>Default Type Parameters</strong></p>",
+        "defaultCode": "// Default param\ninterface Store<T = string> { item: T }\nconst s: Store = { item: \"default string\" };\nconsole.log(s.item);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Namespaces Organisasi Kode?",
+            "question": "Apa konsep utama dari 'Default Type Parameters'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Default Type Parameters",
+                "Tidak terkait Default Type Parameters",
+                "Kebalikan Default Type Parameters",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 44,
-        "title": "44. Nullable Types",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/nullable-types.md",
-        "description": "<p><strong>Nullable Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "44. Generic Utility Types",
+        "module": "Generics",
+        "moduleId": 7,
+        "mdFile": "lessons/generic-utility-types.md",
+        "duration": "20 min",
+        "description": "<p><strong>Generic Utility Types</strong></p>",
+        "defaultCode": "// Utility\ninterface Todo { title: string; done: boolean }\nconst t: Partial<Todo> = { title: \"Belajar\" };\nconsole.log(t.title);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Nullable Types?",
+            "question": "Apa konsep utama dari 'Generic Utility Types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Generic Utility Types",
+                "Tidak terkait Generic Utility Types",
+                "Kebalikan Generic Utility Types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 45,
-        "title": "45. Omit Thisparameter",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/omit-thisparameter.md",
-        "description": "<p><strong>Omit Thisparameter</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "45. Parameter Utilities",
+        "module": "Generics",
+        "moduleId": 7,
+        "mdFile": "lessons/parameter-utilities.md",
+        "duration": "25 min",
+        "description": "<p><strong>Parameter Utilities</strong></p>",
+        "defaultCode": "// Partial & Pick\ninterface U { name: string; age: number }\nconst p: Partial<U> = { name: \"Budi\" };\nconsole.log(p.name);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Omit Thisparameter?",
+            "question": "Apa konsep utama dari 'Parameter Utilities'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Parameter Utilities",
+                "Tidak terkait Parameter Utilities",
+                "Kebalikan Parameter Utilities",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 46,
-        "title": "46. Optional Default Params",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/optional-default-params.md",
-        "description": "<p><strong>Optional Default Params</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "46. ES6 Modules (import/export)",
+        "module": "Modules & Namespaces",
+        "moduleId": 8,
+        "mdFile": "lessons/es6-modules-import-export.md",
+        "duration": "20 min",
+        "description": "<p><strong>ES6 Modules (import/export)</strong></p>",
+        "defaultCode": "// Modules\nconst PI: number = 3.14;\nfunction circle(r: number): number { return PI * r * r; }\nconsole.log(circle(2).toFixed(2));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Optional Default Params?",
+            "question": "Apa konsep utama dari 'ES6 Modules (import/export)'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami ES6 Modules (import/export)",
+                "Tidak terkait ES6 Modules (import/export)",
+                "Kebalikan ES6 Modules (import/export)",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 47,
-        "title": "47. Optional Readonly Properties",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/optional-readonly-properties.md",
-        "description": "<p><strong>Optional Readonly Properties</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "47. Default vs Named Export",
+        "module": "Modules & Namespaces",
+        "moduleId": 8,
+        "mdFile": "lessons/default-vs-named-export.md",
+        "duration": "15 min",
+        "description": "<p><strong>Default vs Named Export</strong></p>",
+        "defaultCode": "// Named export pattern\nconst ver: string = \"1.0.0\";\nconsole.log(\"v\" + ver);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Optional Readonly Properties?",
+            "question": "Apa konsep utama dari 'Default vs Named Export'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Default vs Named Export",
+                "Tidak terkait Default vs Named Export",
+                "Kebalikan Default vs Named Export",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 48,
-        "title": "48. Parameter Utilities",
-        "module": "OOP",
-        "moduleId": 3,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/parameter-utilities.md",
-        "description": "<p><strong>Parameter Utilities</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "48. Barrel Files",
+        "module": "Modules & Namespaces",
+        "moduleId": 8,
+        "mdFile": "lessons/barrel-files.md",
+        "duration": "15 min",
+        "description": "<p><strong>Barrel Files</strong></p>",
+        "defaultCode": "// Barrel: re-export\nconst utils = { add: (a: number, b: number) => a + b };\nconsole.log(utils.add(1, 2));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Parameter Utilities?",
+            "question": "Apa konsep utama dari 'Barrel Files'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Barrel Files",
+                "Tidak terkait Barrel Files",
+                "Kebalikan Barrel Files",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 49,
-        "title": "49. Parameters Constructorparameters",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/parameters-constructorparameters.md",
-        "description": "<p><strong>Parameters Constructorparameters</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "49. Dynamic Import & Code Splitting",
+        "module": "Modules & Namespaces",
+        "moduleId": 8,
+        "mdFile": "lessons/dynamic-import-code-splitting.md",
+        "duration": "20 min",
+        "description": "<p><strong>Dynamic Import & Code Splitting</strong></p>",
+        "defaultCode": "// Dynamic import (simulasi)\nasync function load(): Promise<string> {\n  return \"module loaded\";\n}\nload().then(console.log);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Parameters Constructorparameters?",
+            "question": "Apa konsep utama dari 'Dynamic Import dan Code Splitting'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Dynamic Import dan Code Splitting",
+                "Tidak terkait Dynamic Import dan Code Splitting",
+                "Kebalikan Dynamic Import dan Code Splitting",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 50,
-        "title": "50. Partial Required",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/partial-required.md",
-        "description": "<p><strong>Partial Required</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "50. Ambient Modules",
+        "module": "Modules & Namespaces",
+        "moduleId": 8,
+        "mdFile": "lessons/ambient-modules.md",
+        "duration": "20 min",
+        "description": "<p><strong>Ambient Modules</strong></p>",
+        "defaultCode": "// Ambient: declare\ndeclare const VERSION: string;\nconsole.log(\"ambient ok\");",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Partial Required?",
+            "question": "Apa konsep utama dari 'Ambient Modules'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Ambient Modules",
+                "Tidak terkait Ambient Modules",
+                "Kebalikan Ambient Modules",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 51,
-        "title": "51. Path Mapping Module Resolution",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/path-mapping-module-resolution.md",
-        "description": "<p><strong>Path Mapping Module Resolution</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "51. Namespaces",
+        "module": "Modules & Namespaces",
+        "moduleId": 8,
+        "mdFile": "lessons/namespaces-organisasi-kode.md",
+        "duration": "20 min",
+        "description": "<p><strong>Namespaces</strong></p>",
+        "defaultCode": "// Namespace\nnamespace Math2 {\n  export const add = (a: number, b: number) => a + b;\n}\nconsole.log(Math2.add(3, 4));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Path Mapping Module Resolution?",
+            "question": "Apa konsep utama dari 'Namespaces'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Namespaces",
+                "Tidak terkait Namespaces",
+                "Kebalikan Namespaces",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 52,
-        "title": "52. Pick Omit",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/pick-omit.md",
-        "description": "<p><strong>Pick Omit</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "52. Declaration Merging",
+        "module": "Modules & Namespaces",
+        "moduleId": 8,
+        "mdFile": "lessons/declaration-merging.md",
+        "duration": "20 min",
+        "description": "<p><strong>Declaration Merging</strong></p>",
+        "defaultCode": "// Merging\ninterface Box { h: number }\ninterface Box { w: number }\nconst b: Box = { h: 1, w: 2 };\nconsole.log(b.h + b.w);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Pick Omit?",
+            "question": "Apa konsep utama dari 'Declaration Merging'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Declaration Merging",
+                "Tidak terkait Declaration Merging",
+                "Kebalikan Declaration Merging",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 53,
-        "title": "53. Prettier Integration",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/prettier-integration.md",
-        "description": "<p><strong>Prettier Integration</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "53. tsconfig.json Struktur",
+        "module": "Configuration & Tooling",
+        "moduleId": 9,
+        "mdFile": "lessons/tsconfig-json-struktur.md",
+        "duration": "25 min",
+        "description": "<p><strong>tsconfig.json Struktur</strong></p>",
+        "defaultCode": "// tsconfig strict\nconst strict: boolean = true;\nconsole.log(\"strict: \" + strict);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Prettier Integration?",
+            "question": "Apa konsep utama dari 'tsconfig.json Struktur'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami tsconfig.json Struktur",
+                "Tidak terkait tsconfig.json Struktur",
+                "Kebalikan tsconfig.json Struktur",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 54,
-        "title": "54. Project Cli Tool",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/project-cli-tool.md",
-        "description": "<p><strong>Project Cli Tool</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "54. Compiler Options",
+        "module": "Configuration & Tooling",
+        "moduleId": 9,
+        "mdFile": "lessons/compiler-options-target-module-lib.md",
+        "duration": "20 min",
+        "description": "<p><strong>Compiler Options</strong></p>",
+        "defaultCode": "// Target ES2020\nconst big: bigint = BigInt(9007199254740991);\nconsole.log(typeof big);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Project Cli Tool?",
+            "question": "Apa konsep utama dari 'Compiler Options'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Compiler Options",
+                "Tidak terkait Compiler Options",
+                "Kebalikan Compiler Options",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 55,
-        "title": "55. Project React Ts",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/project-react-ts.md",
-        "description": "<p><strong>Project React Ts</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "55. Strict Mode Options",
+        "module": "Configuration & Tooling",
+        "moduleId": 9,
+        "mdFile": "lessons/strict-mode-options.md",
+        "duration": "20 min",
+        "description": "<p><strong>Strict Mode Options</strong></p>",
+        "defaultCode": "// Strict null check\nfunction len(s: string | null): number {\n  return s?.length ?? 0;\n}\nconsole.log(len(null));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Project React Ts?",
+            "question": "Apa konsep utama dari 'Strict Mode Options'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Strict Mode Options",
+                "Tidak terkait Strict Mode Options",
+                "Kebalikan Strict Mode Options",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 56,
-        "title": "56. Project Rest Api",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/project-rest-api.md",
-        "description": "<p><strong>Project Rest Api</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "56. Include, Exclude, Files",
+        "module": "Configuration & Tooling",
+        "moduleId": 9,
+        "mdFile": "lessons/include-exclude-files.md",
+        "duration": "15 min",
+        "description": "<p><strong>Include, Exclude, Files</strong></p>",
+        "defaultCode": "// include/exclude\nconst files: string[] = [\"src/index.ts\"];\nconsole.log(files.length + \" file\");",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Project Rest Api?",
+            "question": "Apa konsep utama dari 'Include, Exclude, Files'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Include, Exclude, Files",
+                "Tidak terkait Include, Exclude, Files",
+                "Kebalikan Include, Exclude, Files",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 57,
-        "title": "57. Project Setup Typescript",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/project-setup-typescript.md",
-        "description": "<p><strong>Project Setup Typescript</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "57. Path Mapping & Module Resolution",
+        "module": "Configuration & Tooling",
+        "moduleId": 9,
+        "mdFile": "lessons/path-mapping-module-resolution.md",
+        "duration": "20 min",
+        "description": "<p><strong>Path Mapping & Module Resolution</strong></p>",
+        "defaultCode": "// Path alias @/*\nconst alias: Record<string, string> = { \"@utils\": \"src/utils\" };\nconsole.log(alias[\"@utils\"]);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Project Setup Typescript?",
+            "question": "Apa konsep utama dari 'Path Mapping dan Module Resolution'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Path Mapping dan Module Resolution",
+                "Tidak terkait Path Mapping dan Module Resolution",
+                "Kebalikan Path Mapping dan Module Resolution",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 58,
-        "title": "58. Project Type Definitions",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/project-type-definitions.md",
-        "description": "<p><strong>Project Type Definitions</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "58. Build Tools (Webpack/Babel)",
+        "module": "Configuration & Tooling",
+        "moduleId": 9,
+        "mdFile": "lessons/build-tools-webpack-babel.md",
+        "duration": "25 min",
+        "description": "<p><strong>Build Tools (Webpack/Babel)</strong></p>",
+        "defaultCode": "// Build: bundle\nconst env: string = \"production\";\nconsole.log(\"build:\" + env);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Project Type Definitions?",
+            "question": "Apa konsep utama dari 'Build Tools (Webpack/Babel)'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Build Tools (Webpack/Babel)",
+                "Tidak terkait Build Tools (Webpack/Babel)",
+                "Kebalikan Build Tools (Webpack/Babel)",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 59,
-        "title": "59. Readonly Params",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/readonly-params.md",
-        "description": "<p><strong>Readonly Params</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "59. ESLint TypeScript",
+        "module": "Configuration & Tooling",
+        "moduleId": 9,
+        "mdFile": "lessons/eslint-typescript.md",
+        "duration": "20 min",
+        "description": "<p><strong>ESLint TypeScript</strong></p>",
+        "defaultCode": "// ESLint: no-explicit-any\nconst clean: string = \"lint passed\";\nconsole.log(clean);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Readonly Params?",
+            "question": "Apa konsep utama dari 'ESLint TypeScript'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami ESLint TypeScript",
+                "Tidak terkait ESLint TypeScript",
+                "Kebalikan ESLint TypeScript",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 60,
-        "title": "60. Readonly Record",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/readonly-record.md",
-        "description": "<p><strong>Readonly Record</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "60. Prettier Integration",
+        "module": "Configuration & Tooling",
+        "moduleId": 9,
+        "mdFile": "lessons/prettier-integration.md",
+        "duration": "15 min",
+        "description": "<p><strong>Prettier Integration</strong></p>",
+        "defaultCode": "// Prettier: formatted\nconst formatted = { a: 1, b: 2 };\nconsole.log(JSON.stringify(formatted));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Readonly Record?",
+            "question": "Apa konsep utama dari 'Prettier Integration'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Prettier Integration",
+                "Tidak terkait Prettier Integration",
+                "Kebalikan Prettier Integration",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 61,
-        "title": "61. Record Tuple",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/record-tuple.md",
-        "description": "<p><strong>Record Tuple</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "61. Using JS Libraries",
+        "module": "JS Integration",
+        "moduleId": 10,
+        "mdFile": "lessons/using-js-libraries.md",
+        "duration": "20 min",
+        "description": "<p><strong>Using JS Libraries</strong></p>",
+        "defaultCode": "// JS lib interop\nconst now: number = Date.now();\nconsole.log(typeof now);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Record Tuple?",
+            "question": "Apa konsep utama dari 'Using JS Libraries'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Using JS Libraries",
+                "Tidak terkait Using JS Libraries",
+                "Kebalikan Using JS Libraries",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 62,
-        "title": "62. Rest Spread",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/rest-spread.md",
-        "description": "<p><strong>Rest Spread</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "62. Declaration Files (.d.ts)",
+        "module": "JS Integration",
+        "moduleId": 10,
+        "mdFile": "lessons/declaration-files-d-ts.md",
+        "duration": "25 min",
+        "description": "<p><strong>Declaration Files (.d.ts)</strong></p>",
+        "defaultCode": "// .d.ts\ninterface Lib { version: string }\nconst lib: Lib = { version: \"2.0\" };\nconsole.log(lib.version);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Rest Spread?",
+            "question": "Apa konsep utama dari 'Declaration Files (.d.ts)'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Declaration Files (.d.ts)",
+                "Tidak terkait Declaration Files (.d.ts)",
+                "Kebalikan Declaration Files (.d.ts)",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 63,
-        "title": "63. Returntype Parameters Thistype",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/returntype-parameters-thistype.md",
-        "description": "<p><strong>Returntype Parameters Thistype</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "63. DefinitelyTyped & @types",
+        "module": "JS Integration",
+        "moduleId": 10,
+        "mdFile": "lessons/definitelytyped.md",
+        "duration": "15 min",
+        "description": "<p><strong>DefinitelyTyped & @types</strong></p>",
+        "defaultCode": "// @types/node\nconst platform: string = \"node-types\";\nconsole.log(platform);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Returntype Parameters Thistype?",
+            "question": "Apa konsep utama dari 'DefinitelyTyped dan @types'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami DefinitelyTyped dan @types",
+                "Tidak terkait DefinitelyTyped dan @types",
+                "Kebalikan DefinitelyTyped dan @types",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 64,
-        "title": "64. Strict Mode Options",
-        "module": "Advanced Types",
-        "moduleId": 4,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/strict-mode-options.md",
-        "description": "<p><strong>Strict Mode Options</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "64. Migrasi JS ke TS",
+        "module": "JS Integration",
+        "moduleId": 10,
+        "mdFile": "lessons/migrasi-js-ke-ts.md",
+        "duration": "25 min",
+        "description": "<p><strong>Migrasi JS ke TS</strong></p>",
+        "defaultCode": "// Migrasi bertahap\nlet legacy: any = \"old js\";\nconst modern: string = legacy as string;\nconsole.log(modern);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Strict Mode Options?",
+            "question": "Apa konsep utama dari 'Migrasi JS ke TS'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Migrasi JS ke TS",
+                "Tidak terkait Migrasi JS ke TS",
+                "Kebalikan Migrasi JS ke TS",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 65,
-        "title": "65. Template Literal Types",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/template-literal-types.md",
-        "description": "<p><strong>Template Literal Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "65. Partial & Required",
+        "module": "Advanced Utility Types",
+        "moduleId": 11,
+        "mdFile": "lessons/partial-required.md",
+        "duration": "20 min",
+        "description": "<p><strong>Partial & Required</strong></p>",
+        "defaultCode": "// Partial\ninterface U { name: string; age: number }\nconst p: Partial<U> = { name: \"A\" };\nconsole.log(p.name);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Template Literal Types?",
+            "question": "Apa konsep utama dari 'Partial dan Required'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Partial dan Required",
+                "Tidak terkait Partial dan Required",
+                "Kebalikan Partial dan Required",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 66,
-        "title": "66. Tipe Primitif",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/tipe-primitif.md",
-        "description": "<p><strong>Tipe Primitif</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "66. Pick & Omit",
+        "module": "Advanced Utility Types",
+        "moduleId": 11,
+        "mdFile": "lessons/pick-omit.md",
+        "duration": "20 min",
+        "description": "<p><strong>Pick & Omit</strong></p>",
+        "defaultCode": "// Pick\ninterface U { name: string; age: number; city: string }\nconst p: Pick<U, \"name\"> = { name: \"Budi\" };\nconsole.log(p.name);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Tipe Primitif?",
+            "question": "Apa konsep utama dari 'Pick dan Omit'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Pick dan Omit",
+                "Tidak terkait Pick dan Omit",
+                "Kebalikan Pick dan Omit",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 67,
-        "title": "67. Tsconfig Json Struktur",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/tsconfig-json-struktur.md",
-        "description": "<p><strong>Tsconfig Json Struktur</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "67. Record & Tuple",
+        "module": "Advanced Utility Types",
+        "moduleId": 11,
+        "mdFile": "lessons/record-tuple.md",
+        "duration": "15 min",
+        "description": "<p><strong>Record & Tuple</strong></p>",
+        "defaultCode": "// Record\nconst scores: Record<string, number> = { a: 90, b: 85 };\nconsole.log(scores.a);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Tsconfig Json Struktur?",
+            "question": "Apa konsep utama dari 'Record dan Tuple'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Record dan Tuple",
+                "Tidak terkait Record dan Tuple",
+                "Kebalikan Record dan Tuple",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 68,
-        "title": "68. Type Aliases",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/type-aliases.md",
-        "description": "<p><strong>Type Aliases</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "68. Readonly & Record",
+        "module": "Advanced Utility Types",
+        "moduleId": 11,
+        "mdFile": "lessons/readonly-record.md",
+        "duration": "15 min",
+        "description": "<p><strong>Readonly & Record</strong></p>",
+        "defaultCode": "// Readonly\nconst cfg: Readonly<{ port: number }> = { port: 3000 };\nconsole.log(cfg.port);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Type Aliases?",
+            "question": "Apa konsep utama dari 'Readonly dan Record'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Readonly dan Record",
+                "Tidak terkait Readonly dan Record",
+                "Kebalikan Readonly dan Record",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 69,
-        "title": "69. Type Assertions",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/type-assertions.md",
-        "description": "<p><strong>Type Assertions</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "69. ReturnType & ThisType",
+        "module": "Advanced Utility Types",
+        "moduleId": 11,
+        "mdFile": "lessons/returntype-parameters-thistype.md",
+        "duration": "25 min",
+        "description": "<p><strong>ReturnType & ThisType</strong></p>",
+        "defaultCode": "// ReturnType\nfunction make(): { ok: boolean } { return { ok: true }; }\ntype R = ReturnType<typeof make>;\nconst r: R = { ok: true };\nconsole.log(r.ok);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Type Assertions?",
+            "question": "Apa konsep utama dari 'ReturnType dan ThisType'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami ReturnType dan ThisType",
+                "Tidak terkait ReturnType dan ThisType",
+                "Kebalikan ReturnType dan ThisType",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 70,
-        "title": "70. Type Guards",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/type-guards.md",
-        "description": "<p><strong>Type Guards</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "70. Exclude, Extract, NonNullable",
+        "module": "Advanced Utility Types",
+        "moduleId": 11,
+        "mdFile": "lessons/exclude-extract-nonnullable.md",
+        "duration": "20 min",
+        "description": "<p><strong>Exclude, Extract, NonNullable</strong></p>",
+        "defaultCode": "// Exclude\ntype T = Exclude<\"a\" | \"b\" | \"c\", \"a\">;\nconst t: T = \"b\";\nconsole.log(t);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Type Guards?",
+            "question": "Apa konsep utama dari 'Exclude, Extract, NonNullable'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Exclude, Extract, NonNullable",
+                "Tidak terkait Exclude, Extract, NonNullable",
+                "Kebalikan Exclude, Extract, NonNullable",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 71,
-        "title": "71. Type Inference",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/type-inference.md",
-        "description": "<p><strong>Type Inference</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "71. Parameters & ConstructorParameters",
+        "module": "Advanced Utility Types",
+        "moduleId": 11,
+        "mdFile": "lessons/parameters-constructorparameters.md",
+        "duration": "20 min",
+        "description": "<p><strong>Parameters & ConstructorParameters</strong></p>",
+        "defaultCode": "// Parameters\nfunction f(a: string, b: number): void {}\ntype P = Parameters<typeof f>;\nconst p: P = [\"x\", 1];\nconsole.log(p[0]);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Type Inference?",
+            "question": "Apa konsep utama dari 'Parameters dan ConstructorParameters'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Parameters dan ConstructorParameters",
+                "Tidak terkait Parameters dan ConstructorParameters",
+                "Kebalikan Parameters dan ConstructorParameters",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 72,
-        "title": "72. Type Narrowing",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/type-narrowing.md",
-        "description": "<p><strong>Type Narrowing</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "72. OmitThisParameter",
+        "module": "Advanced Utility Types",
+        "moduleId": 11,
+        "mdFile": "lessons/omit-thisparameter.md",
+        "duration": "15 min",
+        "description": "<p><strong>OmitThisParameter</strong></p>",
+        "defaultCode": "// OmitThisParameter\nfunction greet(this: { n: string }): string { return this.n; }\nconsole.log(typeof greet);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Type Narrowing?",
+            "question": "Apa konsep utama dari 'OmitThisParameter'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami OmitThisParameter",
+                "Tidak terkait OmitThisParameter",
+                "Kebalikan OmitThisParameter",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 73,
-        "title": "73. Typescript Compiler Tsc",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/typescript-compiler-tsc.md",
-        "description": "<p><strong>Typescript Compiler Tsc</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "73. Project: CLI Tool",
+        "module": "Real-World Projects",
+        "moduleId": 12,
+        "mdFile": "lessons/project-cli-tool.md",
+        "duration": "30 min",
+        "description": "<p><strong>Project: CLI Tool</strong></p>",
+        "defaultCode": "// CLI tool\nconst args: string[] = [\"--help\"];\nfunction cli(a: string[]): string { return a[0] ?? \"no args\"; }\nconsole.log(cli(args));",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Typescript Compiler Tsc?",
+            "question": "Apa konsep utama dari 'Project: CLI Tool'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Project: CLI Tool",
+                "Tidak terkait Project: CLI Tool",
+                "Kebalikan Project: CLI Tool",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 74,
-        "title": "74. Typescript Vs Javascript",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/typescript-vs-javascript.md",
-        "description": "<p><strong>Typescript Vs Javascript</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "74. Project: React + TypeScript",
+        "module": "Real-World Projects",
+        "moduleId": 12,
+        "mdFile": "lessons/project-react-ts.md",
+        "duration": "40 min",
+        "description": "<p><strong>Project: React + TypeScript</strong></p>",
+        "defaultCode": "// React props\ninterface Props { title: string; count?: number }\nconst props: Props = { title: \"App\" };\nconsole.log(props.title);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Typescript Vs Javascript?",
+            "question": "Apa konsep utama dari 'Project: React + TypeScript'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Project: React + TypeScript",
+                "Tidak terkait Project: React + TypeScript",
+                "Kebalikan Project: React + TypeScript",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 75,
-        "title": "75. Union Types",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/union-types.md",
-        "description": "<p><strong>Union Types</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "75. Project: REST API",
+        "module": "Real-World Projects",
+        "moduleId": 12,
+        "mdFile": "lessons/project-rest-api.md",
+        "duration": "40 min",
+        "description": "<p><strong>Project: REST API</strong></p>",
+        "defaultCode": "// REST API\ninterface Req { method: string; path: string }\nconst req: Req = { method: \"GET\", path: \"/api/users\" };\nconsole.log(req.method + \" \" + req.path);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Union Types?",
+            "question": "Apa konsep utama dari 'Project: REST API'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Project: REST API",
+                "Tidak terkait Project: REST API",
+                "Kebalikan Project: REST API",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 76,
-        "title": "76. Using Js Libraries",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/using-js-libraries.md",
-        "description": "<p><strong>Using Js Libraries</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "76. Project: Type Definitions",
+        "module": "Real-World Projects",
+        "moduleId": 12,
+        "mdFile": "lessons/project-type-definitions.md",
+        "duration": "30 min",
+        "description": "<p><strong>Project: Type Definitions</strong></p>",
+        "defaultCode": "// Custom .d.ts\ninterface ApiResponse<T> { data: T; status: number }\nconst res: ApiResponse<string> = { data: \"ok\", status: 200 };\nconsole.log(res.status);",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Using Js Libraries?",
+            "question": "Apa konsep utama dari 'Project: Type Definitions'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Project: Type Definitions",
+                "Tidak terkait Project: Type Definitions",
+                "Kebalikan Project: Type Definitions",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     },
     {
         "id": 77,
-        "title": "77. Void Never Dan Tipe Khusus",
-        "module": "Modules & Tooling",
-        "moduleId": 5,
-        "mdFile": "https://raw.githubusercontent.com/personalbotai/typescript-learning-path/gh-pages/lessons/void-never-dan-tipe-khusus.md",
-        "description": "<p><strong>Void Never Dan Tipe Khusus</strong></p>",
-        "defaultCode": "// Write TypeScript here\nconst msg: string = \"Hello, TypeScript!\";\nconsole.log(msg);",
-        "expectedOutput": "Hello, TypeScript!",
-        "hint": "Pelajari materi.",
+        "title": "77. Final: Fullstack App",
+        "module": "Real-World Projects",
+        "moduleId": 12,
+        "mdFile": "lessons/final-project-fullstack.md",
+        "duration": "60 min",
+        "description": "<p><strong>Final: Fullstack App</strong></p>",
+        "defaultCode": "// Fullstack\ninterface Task { id: number; title: string; done: boolean }\nconst tasks: Task[] = [{ id: 1, title: \"Deploy\", done: true }];\nconsole.log(tasks.filter(t => t.done).length + \" done\");",
+        "expectedOutput": null,
+        "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
-            "question": "Apa yang dipelajari di Void Never Dan Tipe Khusus?",
+            "question": "Apa konsep utama dari 'Final: Fullstack App'?",
             "options": [
-                "A",
-                "B",
-                "C",
-                "D"
+                "Memahami Final: Fullstack App",
+                "Tidak terkait Final: Fullstack App",
+                "Kebalikan Final: Fullstack App",
+                "Tidak ada jawaban"
             ],
             "answer": 0
         }
     }
 ];
 
-let currentLesson=0;
-let progress=JSON.parse(localStorage.getItem('typescript_progress')||'{}');
+// State
+let currentLesson = -1;
+let progress = JSON.parse(localStorage.getItem('typescript_progress') || '{}');
 
-function renderNav() {
+// ─── Sidebar Navigation ────────────────────────────────────────
+function renderNav(filter) {
     const nav = document.getElementById('lessons-nav');
+    if (!nav) return;
+    const q = (filter || '').toLowerCase().trim();
+
     nav.innerHTML = MODULES.map(mod => {
         const modLessons = lessons.filter(l => l.moduleId === mod.id);
+        const filtered = q ? modLessons.filter(l => l.title.toLowerCase().includes(q) || mod.title.toLowerCase().includes(q)) : modLessons;
+        if (q && filtered.length === 0) return '';
         const completed = modLessons.filter(l => progress[l.id]).length;
-        const isExpanded = mod.id === (Math.floor(currentLesson / 10) + 1);
+        const isOpen = q || modLessons.some((_, i) => {
+            const idx = lessons.indexOf(modLessons[0]) + i;
+            return idx === currentLesson;
+        });
+
         return `
-            <div class="mb-3">
-                <div class="flex items-center justify-between px-2 py-1.5 text-sm font-semibold text-gray-300 cursor-pointer hover:text-white rounded hover:bg-gray-700/50" onclick="toggleModule(${mod.id})">
-                    <span><i class="${mod.icon} mr-2 text-blue-400"></i>${mod.title}</span>
-                    <span class="text-xs text-gray-500">${completed}/${modLessons.length}</span>
+            <div class="module-group">
+                <div class="module-header ${isOpen ? 'open active' : ''}" onclick="toggleModule(${mod.id})">
+                    <span><i class="${mod.icon} mr-2 text-blue-400 text-xs"></i>${mod.title}</span>
+                    <span class="flex items-center gap-2">
+                        <span class="text-[10px] text-slate-600">${completed}/${modLessons.length}</span>
+                        <i class="fas fa-chevron-right chevron text-slate-600"></i>
+                    </span>
                 </div>
-                <div id="module-${mod.id}" class="space-y-0.5 mt-1 ${isExpanded ? '' : 'hidden'}">
-                    ${modLessons.map(l => {
+                <div id="module-${mod.id}" class="lesson-list ${isOpen ? '' : 'hidden'}">
+                    ${filtered.map(l => {
                         const idx = lessons.indexOf(l);
-                        return `<button onclick="loadLesson(${idx})" 
-                            class="w-full text-left px-3 py-1.5 rounded text-xs hover:bg-gray-700 transition 
-                            ${idx === currentLesson ? 'lesson-active' : ''} 
-                            ${progress[l.id] ? 'text-green-400' : 'text-gray-400'}">
-                            <span class="mr-1">${progress[l.id] ? '✅' : '○'}</span>${l.title}
+                        const isActive = idx === currentLesson;
+                        const isDone = progress[l.id];
+                        return `<button onclick="loadLesson(${idx})" class="lesson-btn ${isActive ? 'active' : ''} ${isDone ? 'completed' : ''}">
+                            <span class="status-dot"></span>
+                            <span class="truncate">${l.title}</span>
                         </button>`;
                     }).join('')}
                 </div>
@@ -1680,151 +1833,281 @@ function renderNav() {
 
 function toggleModule(modId) {
     const el = document.getElementById('module-' + modId);
+    const header = el?.previousElementSibling;
     if (el) el.classList.toggle('hidden');
+    if (header) header.classList.toggle('open');
 }
 
+// ─── Mobile Sidebar ────────────────────────────────────────────
+function openSidebar() {
+    document.getElementById('sidebar')?.classList.add('open');
+    document.getElementById('sidebar-overlay')?.classList.remove('hidden');
+}
+
+function closeSidebar() {
+    document.getElementById('sidebar')?.classList.remove('open');
+    document.getElementById('sidebar-overlay')?.classList.add('hidden');
+}
+
+// ─── Lesson Loading ────────────────────────────────────────────
 async function loadLesson(index) {
+    if (index < 0 || index >= lessons.length) return;
     currentLesson = index;
     const lesson = lessons[index];
-    
+    const mod = MODULES.find(m => m.id === lesson.moduleId);
+    const contentEl = document.getElementById('lessonBody');
+    const scrollEl = document.getElementById('content-scroll');
+
+    // Update header
+    document.getElementById('breadcrumb-module').textContent = mod ? mod.title : '';
+    document.getElementById('breadcrumb-lesson').textContent = 'Lesson ' + lesson.id;
+    document.getElementById('lesson-title').textContent = lesson.title;
+    document.getElementById('lesson-duration').textContent = lesson.duration || '';
+
     // Show loading
-    document.getElementById('lessonBody').innerHTML = `<h2 class="text-xl font-bold mb-4">${lesson.title}</h2><div class="text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>Loading...</div>`;
-    
-    // Fetch and render markdown from lessons folder
-    let contentHtml = lesson.description || '';
+    contentEl.innerHTML = '<div class="text-center py-12"><i class="fas fa-spinner fa-spin text-blue-400 text-2xl"></i><p class="text-slate-500 mt-3 text-sm">Memuat materi...</p></div>';
+
+    // Fetch markdown
+    let html = lesson.description || '';
     if (lesson.mdFile && typeof marked !== 'undefined') {
         try {
-            const response = await fetch(lesson.mdFile);
-            if (response.ok) {
-                const mdText = await response.text();
-                contentHtml = marked.parse(mdText);
+            const resp = await fetch(lesson.mdFile);
+            if (resp.ok) {
+                const md = await resp.text();
+                html = marked.parse(md);
             }
         } catch (e) {
-            console.error('Error loading:', lesson.mdFile, e);
+            console.error('Fetch error:', lesson.mdFile, e);
+            html = '<p class="text-red-400">⚠️ Gagal memuat materi. Coba refresh halaman.</p>';
         }
     }
-    
-    document.getElementById('lessonBody').innerHTML = `
-        <div class="text-xs text-gray-500 mb-2">${lesson.module || ''}</div>
-        <h2 class="text-xl font-bold mb-4 text-white">${lesson.title}</h2>
-        <div class="prose prose-invert prose-sm max-w-none leading-relaxed
-            prose-headings:text-blue-300 prose-h2:text-lg prose-h2:mt-6 prose-h2:mb-3
-            prose-h3:text-base prose-h3:mt-4 prose-h3:mb-2
-            prose-p:text-gray-300 prose-p:mb-3
-            prose-code:text-green-400 prose-code:bg-gray-800 prose-code:px-1 prose-code:rounded
-            prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-700
-            prose-ul:text-gray-300 prose-li:mb-1
-            prose-strong:text-white prose-a:text-blue-400">
-            ${contentHtml}
-        </div>`;
+
+    contentEl.innerHTML = html;
+
+    // Apply syntax highlighting
+    contentEl.querySelectorAll('pre code').forEach(block => {
+        hljs.highlightElement(block);
+    });
+
+    // Set code editor
     document.getElementById('code-editor').value = (lesson.defaultCode || '').replace(/\\n/g, '\n');
-    document.getElementById('output').innerHTML = '<span class="text-gray-500">// Output akan muncul di sini</span>';
-    document.getElementById('validation-msg').className = 'mt-4 p-3 rounded hidden';
-    if (lesson.quiz) {
+    document.getElementById('output').innerHTML = '<span class="text-slate-600">// Output akan muncul di sini</span>';
+
+    const vm = document.getElementById('validation-msg');
+    vm.className = 'validation-msg hidden';
+    vm.innerHTML = '';
+
+    // Quiz
+    if (lesson.quiz && lesson.quiz.question) {
         document.getElementById('quiz-section').classList.remove('hidden');
-        document.getElementById('quiz-content').innerHTML = `<p class="font-medium">${lesson.quiz.question}</p><div class="space-y-2">${lesson.quiz.options.map((opt, i) => `<label class="flex items-center space-x-2 cursor-pointer"><input type="radio" name="quiz" value="${i}" class="text-blue-500"><span>${opt}</span></label>`).join('')}</div>`;
-    } else { document.getElementById('quiz-section').classList.add('hidden'); }
+        document.getElementById('quiz-content').innerHTML = `
+            <p class="text-sm font-medium text-slate-300 mb-3">${lesson.quiz.question}</p>
+            <div class="space-y-2">
+                ${lesson.quiz.options.map((opt, i) => `
+                    <label class="quiz-option" onclick="this.querySelector('input').checked=true;document.querySelectorAll('.quiz-option').forEach(e=>e.classList.remove('selected'));this.classList.add('selected')">
+                        <input type="radio" name="quiz" value="${i}" class="hidden">
+                        <span class="mr-2 text-slate-500 font-mono text-xs">${String.fromCharCode(65 + i)}</span>
+                        <span>${opt}</span>
+                    </label>
+                `).join('')}
+            </div>`;
+        document.getElementById('quiz-result').innerHTML = '';
+    } else {
+        document.getElementById('quiz-section').classList.add('hidden');
+    }
+
+    // Nav buttons
     document.getElementById('prev-btn').disabled = index === 0;
     document.getElementById('next-btn').disabled = index === lessons.length - 1;
-    // Update complete button
+
+    // Complete button state
     const completeBtn = document.getElementById('complete-btn');
     const completedBtn = document.getElementById('completed-btn');
     if (progress[lesson.id]) {
         completeBtn.style.display = 'none';
-        completedBtn.style.display = 'block';
+        completedBtn.style.display = 'inline-flex';
     } else {
-        completeBtn.style.display = 'block';
+        completeBtn.style.display = 'inline-flex';
         completedBtn.style.display = 'none';
     }
-    
-    // Update breadcrumb
-    const mod = MODULES.find(m => m.id === lesson.moduleId);
-    document.getElementById('breadcrumb').textContent = mod ? mod.title : '';
-    
-    // Update nav buttons
-    document.getElementById('prev-btn').disabled = index === 0;
-    document.getElementById('next-btn').disabled = index === lessons.length - 1;
-    
+
+    closeSidebar();
     renderNav();
-    window.scrollTo(0, 0);
+    scrollEl?.scrollTo(0, 0);
 }
 
-// Overridden by Pyodide in index.html
-// // runCode is overridden by Pyodide in index.html
-async function runCode() {
+// ─── Code Execution ────────────────────────────────────────────
+function runCode() {
     const code = document.getElementById('code-editor').value;
     const output = document.getElementById('output');
     const validation = document.getElementById('validation-msg');
+    const status = document.getElementById('compile-status');
     let logs = [];
-    const orig = console.log;
-    console.log = (...a) => logs.push(a.map(x => typeof x === 'object' ? JSON.stringify(x) : String(x)).join(' '));
+    const origLog = console.log;
+    const origWarn = console.warn;
+    const origError = console.error;
+
+    console.log = (...a) => logs.push(a.map(x => typeof x === 'object' ? JSON.stringify(x, null, 2) : String(x)).join(' '));
+    console.warn = (...a) => logs.push('⚠️ ' + a.map(x => String(x)).join(' '));
+    console.error = (...a) => logs.push('❌ ' + a.map(x => String(x)).join(' '));
+
     try {
-        let js = ts.transpileModule(code, { compilerOptions: { module: ts.ModuleKind.None, target: ts.ScriptTarget.ESNext } }).outputText;
+        if (typeof ts === 'undefined') {
+            output.innerHTML = '<span class="text-red-400">TypeScript compiler not loaded</span>';
+            return;
+        }
+        const js = ts.transpileModule(code, {
+            compilerOptions: {
+                module: ts.ModuleKind.None,
+                target: ts.ScriptTarget.ESNext,
+                strict: false,
+            }
+        }).outputText;
+
         eval(js);
         const result = logs.join('\n');
-        output.innerHTML = '<span class="text-green-400">' + escapeHtml(result) + '</span>';
+        output.innerHTML = result ? '<span class="text-emerald-400">' + escapeHtml(result) + '</span>' : '<span class="text-slate-600">// No output</span>';
+        status.textContent = '✓ Compiled';
+        status.className = 'text-xs text-emerald-500 ml-auto';
+
         const exp = lessons[currentLesson]?.expectedOutput;
         if (exp && result.trim() === exp.trim()) {
-            validation.className = 'mt-4 p-3 rounded bg-green-900/50 border border-green-500 text-green-300';
-            validation.innerHTML = '✅ Benar!';
+            validation.className = 'validation-msg bg-emerald-900/30 border border-emerald-500/30 text-emerald-400';
+            validation.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Output benar!';
             progress[lessons[currentLesson].id] = true;
             localStorage.setItem('typescript_progress', JSON.stringify(progress));
-            updateProgress(); renderNav();
-        } else if (exp) {
-            validation.className = 'mt-4 p-3 rounded bg-yellow-900/50 border border-yellow-500 text-yellow-300';
-            validation.innerHTML = '💡 ' + (lessons[currentLesson]?.hint || '');
+            updateProgress();
+            renderNav();
         }
-    } catch(e) {
+    } catch (e) {
         output.innerHTML = '<span class="text-red-400">❌ ' + escapeHtml(e.message) + '</span>';
+        status.textContent = '✗ Error';
+        status.className = 'text-xs text-red-400 ml-auto';
     }
-    console.log = orig;
+
+    console.log = origLog;
+    console.warn = origWarn;
+    console.error = origError;
 }
 
-function resetCode() { document.getElementById('code-editor').value = lessons[currentLesson].defaultCode; }
-function checkQuiz() {
-    const selected = document.querySelector('input[name="quiz"]:checked');
-    if (!selected) return alert('Pilih jawaban dulu!');
-    const msg = document.createElement('div');
-    msg.className = parseInt(selected.value) === lessons[currentLesson].quiz.answer ? 'mt-3 p-3 rounded bg-green-900/50 border border-green-500 text-green-300' : 'mt-3 p-3 rounded bg-red-900/50 border border-red-500 text-red-300';
-    msg.innerHTML = parseInt(selected.value) === lessons[currentLesson].quiz.answer ? '<i class="fas fa-check-circle mr-2"></i>Benar!' : '<i class="fas fa-times-circle mr-2"></i>Salah!';
-    document.getElementById('quiz-content').appendChild(msg);
-    setTimeout(() => msg.remove(), 3000);
+function resetCode() {
+    if (currentLesson >= 0 && currentLesson < lessons.length) {
+        document.getElementById('code-editor').value = (lessons[currentLesson].defaultCode || '').replace(/\\n/g, '\n');
+        document.getElementById('output').innerHTML = '<span class="text-slate-600">// Output akan muncul di sini</span>';
+        const vm = document.getElementById('validation-msg');
+        vm.className = 'validation-msg hidden';
+    }
 }
-function nextLesson() { if (currentLesson < lessons.length - 1) loadLesson(currentLesson + 1); }
-function prevLesson() { if (currentLesson > 0) loadLesson(currentLesson - 1); }
+
+// ─── Quiz ──────────────────────────────────────────────────────
+function checkQuiz() {
+    const sel = document.querySelector('input[name="quiz"]:checked');
+    if (!sel) return alert('Pilih jawaban dulu!');
+    const correct = parseInt(sel.value) === lessons[currentLesson]?.quiz?.answer;
+    const div = document.getElementById('quiz-result');
+    div.innerHTML = `<div class="mt-3 p-3 rounded-lg text-sm ${correct ? 'bg-emerald-900/30 border border-emerald-500/30 text-emerald-400' : 'bg-red-900/30 border border-red-500/30 text-red-400'}">
+        <i class="fas fa-${correct ? 'check-circle' : 'times-circle'} mr-2"></i>${correct ? 'Benar! 🎉' : 'Belum tepat. Coba lagi!'}
+    </div>`;
+    if (correct) setTimeout(() => div.innerHTML = '', 4000);
+}
+
+// ─── Navigation ────────────────────────────────────────────────
+function nextLesson() {
+    if (currentLesson < lessons.length - 1) loadLesson(currentLesson + 1);
+}
+function prevLesson() {
+    if (currentLesson > 0) loadLesson(currentLesson - 1);
+}
 
 function markComplete() {
     const lesson = lessons[currentLesson];
+    if (!lesson) return;
     progress[lesson.id] = true;
     localStorage.setItem('typescript_progress', JSON.stringify(progress));
-    
-    const completeBtn = document.getElementById('complete-btn');
-    const completedBtn = document.getElementById('completed-btn');
-    completeBtn.style.display = 'none';
-    completedBtn.style.display = 'block';
-    
+    document.getElementById('complete-btn').style.display = 'none';
+    document.getElementById('completed-btn').style.display = 'inline-flex';
     renderNav();
-    
-    // Auto-advance to next lesson
+    updateProgress();
     if (currentLesson < lessons.length - 1) {
-        setTimeout(() => loadLesson(currentLesson + 1), 500);
+        setTimeout(() => loadLesson(currentLesson + 1), 400);
     }
 }
 
-function updateProgress() { const done = Object.keys(progress).length; const pct = Math.round((done / lessons.length) * 100); document.getElementById('course-progress').textContent = pct + '%'; document.getElementById('progress-fill').style.width = pct + '%'; }
-function resetProgress() { if (!confirm('Reset semua progress?')) return; progress = {}; localStorage.removeItem('typescript_progress'); renderNav(); updateProgress(); }
-function escapeHtml(str) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+// ─── Progress ──────────────────────────────────────────────────
+function updateProgress() {
+    const done = Object.keys(progress).filter(k => progress[k]).length;
+    const pct = Math.round((done / lessons.length) * 100);
+    const fill = document.getElementById('progress-fill');
+    const text = document.getElementById('sidebar-progress-text');
+    const count = document.getElementById('sidebar-completed-count');
+    const mobile = document.getElementById('mobile-progress');
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-    // Load progress from localStorage
-    progress = JSON.parse(localStorage.getItem('typescript_progress') || '{}');
-    
-    // Render sidebar
+    if (fill) fill.style.width = pct + '%';
+    if (text) text.textContent = pct + '% complete';
+    if (count) count.textContent = done + '/' + lessons.length;
+    if (mobile) mobile.textContent = pct + '%';
+}
+
+function resetProgress() {
+    if (!confirm('Reset semua progress?')) return;
+    progress = {};
+    localStorage.removeItem('typescript_progress');
     renderNav();
-    
-    // Load first lesson
+    updateProgress();
+    if (currentLesson >= 0) loadLesson(currentLesson);
+}
+
+// ─── Utility ───────────────────────────────────────────────────
+function escapeHtml(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ─── Init ──────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    progress = JSON.parse(localStorage.getItem('typescript_progress') || '{}');
+
+    // Search
+    const searchInput = document.getElementById('lesson-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => renderNav(searchInput.value));
+    }
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    if (menuToggle) {
+        menuToggle.addEventListener('click', openSidebar);
+    }
+
+    // Configure marked
+    if (typeof marked !== 'undefined') {
+        marked.setOptions({
+            gfm: true,
+            breaks: false,
+            highlight: function(code, lang) {
+                if (typeof hljs !== 'undefined' && lang && hljs.getLanguage(lang)) {
+                    return hljs.highlight(code, { language: lang }).value;
+                }
+                if (typeof hljs !== 'undefined') {
+                    return hljs.highlightAuto(code).value;
+                }
+                return code;
+            }
+        });
+    }
+
+    renderNav();
+    updateProgress();
+
+    // Auto-load first lesson or welcome screen
     if (lessons.length > 0) {
-        loadLesson(0);
+        // Check URL hash for lesson index
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#lesson-')) {
+            const idx = parseInt(hash.replace('#lesson-', ''));
+            if (!isNaN(idx) && idx >= 0 && idx < lessons.length) {
+                loadLesson(idx);
+                return;
+            }
+        }
     }
 });
