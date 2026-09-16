@@ -1855,7 +1855,7 @@ async function loadLesson(index) {
     currentLesson = index;
     const lesson = lessons[index];
     const mod = MODULES.find(m => m.id === lesson.moduleId);
-    const contentEl = document.getElementById('lessonBody');
+    const contentEl = document.getElementById('lesson-content') || document.getElementById('lessonBody');
     const scrollEl = document.getElementById('content-scroll');
 
     // Update header
