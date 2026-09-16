@@ -1,9 +1,10 @@
 # TypeScript Learning Path 📘
 
-> **Master TypeScript from zero to advanced full-stack development with in-browser compilation.**
+> **Master TypeScript from zero to advanced type-level engineering with in-browser compilation.**
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-GitHub_Pages-3b82f6?style=for-the-badge&logo=github&logoColor=white)](https://personalbotai.github.io/typescript-learning-path/)
 [![Hub Portal](https://img.shields.io/badge/🚀_Hub_Portal-hub.syamsulbahri.dev-10b981?style=for-the-badge)](https://hub.syamsulbahri.dev)
+[![PWA Ready](https://img.shields.io/badge/📱_PWA-Installable-purple?style=for-the-badge)](https://personalbotai.github.io/typescript-learning-path/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 ---
@@ -18,12 +19,13 @@
 
 ## ✨ Features
 
-- 💻 **In-Browser TypeScript Compiler:** Write TypeScript with live type diagnostics and transpilation directly in your browser.
-- 📖 **77 In-Depth Lessons:** 12 structured modules covering beginner basics to complex type-level programming.
-- 🎯 **Interactive Quizzes:** Challenge your type system understanding with instant feedback.
-- 📊 **Progress Tracker:** Persists your learning state automatically via `localStorage`.
+- 💻 **In-Browser TypeScript Compiler:** Write TypeScript with live type diagnostics and JavaScript transpilation directly in your browser.
+- 📖 **77 In-Depth Lessons:** 12 structured modules covering beginner basics to complex type-level programming and utility types.
+- 🎯 **Rigorous Technical Quizzes:** 77 technical challenges on structural typing, type narrowing, generics, and compiler options.
+- 🎖️ **Graduation Certificate Generator:** High-resolution Canvas certificate generator with PNG & PDF export — gated to 100% completion.
+- 📱 **PWA & Offline Support:** Service Worker caching and installable Web App Manifest.
+- 📊 **Progress Tracker:** Persists learning progress and auto-resumes active lessons via `localStorage`.
 - 🎨 **Developer-Grade Dark Theme:** Clean syntax highlighting, mobile sidebar navigation, and quick search.
-- ⚡ **Lightweight Architecture:** Zero backend or build step needed — runs entirely client-side.
 
 ---
 
@@ -31,7 +33,7 @@
 
 1. **Getting Started with TypeScript** — Why TypeScript, basic config (`tsconfig.json`), compiler basics.
 2. **Primitive & Literal Types** — String, number, boolean, literal types, `any` vs `unknown` vs `never`.
-3. **Complex Types** — Arrays, tuples, object shapes, enums.
+3. **Complex Types** — Arrays, tuples, object shapes, enums, and const assertions.
 4. **Interfaces & Type Aliases** — Differences, declaration merging, extending interfaces, index signatures.
 5. **Functions & Typing** — Parameter types, return types, optional/default parameters, function overloads.
 6. **Object-Oriented TypeScript** — Classes, access modifiers (`public`, `private`, `protected`, `readonly`), abstract classes.
@@ -48,13 +50,14 @@
 
 This repository is part of the **PersonalBot Interactive Learning Series**:
 
-| Track | Language | Lessons | Live Demo |
-|---|---|---|---|
-| 🐍 | **Python** | 55 Lessons | [Open Python Path](https://personalbotai.github.io/python-learning-path/) |
-| ⚡ | **JavaScript** | 54 Lessons | [Open JavaScript Path](https://personalbotai.github.io/javascript-learning-path/) |
-| 📘 | **TypeScript** | 77 Lessons | [Open TypeScript Path](https://personalbotai.github.io/typescript-learning-path/) |
-| 🐹 | **Go (Golang)** | 69 Lessons | [Open Go Path](https://personalbotai.github.io/go-learning-path/) |
-| ☕ | **Java** | 30 Lessons | [Open Java Path](https://personalbotai.github.io/java-learning-path/) |
+| Track | Language | Scope & Lessons | Runtime Engine | Live Demo |
+|---|---|---|---|---|
+| 🐍 | **Python** | 55 In-Depth Lessons | Pyodide WASM (Lazy-Loaded) | [Open Python Path](https://personalbotai.github.io/python-learning-path/) |
+| ⚡ | **JavaScript** | 10 Modules (100 Lessons) | Native In-Browser Sandbox | [Open JavaScript Path](https://personalbotai.github.io/javascript-learning-path/) |
+| 📘 | **TypeScript** | 77 Type-Level Lessons | In-Browser TS Compiler & Transpiler | [Open TypeScript Path](https://personalbotai.github.io/typescript-learning-path/) |
+| 🐹 | **Go (Golang)** | 53 Idiomatic Lessons | Go Playground API & Sandbox | [Open Go Path](https://personalbotai.github.io/go-learning-path/) |
+| ☕ | **Java** | 30 Modern Java 21 Lessons | Judge0 CE JDK 17 Compiler | [Open Java Path](https://personalbotai.github.io/java-learning-path/) |
+
 
 ---
 
