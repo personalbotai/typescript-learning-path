@@ -1859,10 +1859,10 @@ async function loadLesson(index) {
     const scrollEl = document.getElementById('content-scroll');
 
     // Update header
-    document.getElementById('breadcrumb-module').textContent = mod ? mod.title : '';
-    document.getElementById('breadcrumb-lesson').textContent = 'Lesson ' + lesson.id;
-    document.getElementById('lesson-title').textContent = lesson.title;
-    document.getElementById('lesson-duration').textContent = lesson.duration || '';
+    { const _el=document.getElementById('breadcrumb-module'); if(_el) _el.textContent = mod ? mod.title : ''; }
+    { const _el=document.getElementById('breadcrumb-lesson'); if(_el) _el.textContent = 'Lesson ' + lesson.id; }
+    { const _el=document.getElementById('lesson-title'); if(_el) _el.textContent = lesson.title; }
+    { const _el=document.getElementById('lesson-duration'); if(_el) _el.textContent = lesson.duration || ''; }
 
     // Show loading
     contentEl.innerHTML = '<div class="text-center py-12"><i class="fas fa-spinner fa-spin text-blue-400 text-2xl"></i><p class="text-slate-500 mt-3 text-sm">Memuat materi...</p></div>';
@@ -1890,8 +1890,8 @@ async function loadLesson(index) {
     });
 
     // Set code editor
-    document.getElementById('code-editor').value = (lesson.defaultCode || '').replace(/\\n/g, '\n');
-    document.getElementById('output').innerHTML = '<span class="text-slate-600">// Output akan muncul di sini</span>';
+    { const _ed=document.getElementById('code-editor'); if(_ed) _ed.value = (lesson.defaultCode || '').replace(/\\n/g, '\n'); }
+    { const _out=document.getElementById('output'); if(_out) _out.innerHTML = '<span class="text-slate-600">// Output akan muncul di sini</span>'; }
 
     const vm = document.getElementById('validation-msg');
     vm.className = 'validation-msg hidden';
@@ -1924,8 +1924,8 @@ async function loadLesson(index) {
     const completeBtn = document.getElementById('complete-btn');
     const completedBtn = document.getElementById('completed-btn');
     if (progress[lesson.id]) {
-        completeBtn.style.display = 'none';
-        completedBtn.style.display = 'inline-flex';
+        if(completeBtn) completeBtn.style.display = 'none';
+        if(completedBtn) completedBtn.style.display = 'inline-flex';
     } else {
         completeBtn.style.display = 'inline-flex';
         completedBtn.style.display = 'none';
@@ -1994,7 +1994,7 @@ function runCode() {
 function resetCode() {
     if (currentLesson >= 0 && currentLesson < lessons.length) {
         document.getElementById('code-editor').value = (lessons[currentLesson].defaultCode || '').replace(/\\n/g, '\n');
-        document.getElementById('output').innerHTML = '<span class="text-slate-600">// Output akan muncul di sini</span>';
+        { const _out=document.getElementById('output'); if(_out) _out.innerHTML = '<span class="text-slate-600">// Output akan muncul di sini</span>'; }
         const vm = document.getElementById('validation-msg');
         vm.className = 'validation-msg hidden';
     }
@@ -2025,8 +2025,8 @@ function markComplete() {
     if (!lesson) return;
     progress[lesson.id] = true;
     localStorage.setItem('typescript_progress', JSON.stringify(progress));
-    document.getElementById('complete-btn').style.display = 'none';
-    document.getElementById('completed-btn').style.display = 'inline-flex';
+    { const _a=document.getElementById('complete-btn'); if(_a) _a.style.display='none'; }
+    { const _b=document.getElementById('completed-btn'); if(_b) _b.style.display='inline-flex'; }
     renderNav();
     updateProgress();
     if (currentLesson < lessons.length - 1) {
