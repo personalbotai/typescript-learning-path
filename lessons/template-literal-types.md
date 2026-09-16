@@ -102,6 +102,47 @@ type Test2 = MaybeArray<string[]>; // "string[]"
 
 **💡 Tips:** Template literal types adalah salah satu fitur paling powerful di TypeScript untuk membuat tipe string yang aman. Gunakan untuk membuat DSL (Domain Specific Language) dalam type system.
 
+### Template Literals + Pattern Matching via `infer`
+
+Kita bisa mem-parse string pada type-level menggunakan `infer` di dalam template literal:
+
+```ts
+// Ekstrak parameter URL `:param`
+type ExtractRouteParam<Path extends string> = 
+  Path extends `${string}:${infer Param}/${infer Rest}`
+    ? Param | ExtractRouteParam<`/${Rest}`>
+    : Path extends `${string}:${infer Param}`
+    ? Param
+    : never;
+
+type Params = ExtractRouteParam<"/users/:userId/posts/:postId">; // "userId" | "postId"
+
+// Tipe request params otomatis sesuai pola path:
+type RouteRequest<Path extends string> = {
+  [K in ExtractRouteParam<Path>]: string;
+};
+type UserPostReq = RouteRequest<"/users/:userId/posts/:postId">;
+// { userId: string; postId: string; }
+```
+
+### Event Names, CSS Tokens & `satisfies`
+
+```ts
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
+type Endpoint = `/api/v1/${string}`;
+type RouteKey = `${HttpMethod} ${Endpoint}`;
+
+// Template literal validation with satisfies
+const apiEndpoints = {
+  getUser: "GET /api/v1/users",
+  createPost: "POST /api/v1/posts",
+  deleteUser: "DELETE /api/v1/users/:id",
+} satisfies Record<string, RouteKey>;
+
+// apiEndpoints.getUser tetap literal "GET /api/v1/users"
+// Jika salah tulis "FETCH /api/v1/x" -> TS error compile-time
+```
+
 ##
 3
 Latihan

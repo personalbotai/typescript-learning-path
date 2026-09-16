@@ -109,6 +109,65 @@ type PartialUser = MyPartial<User>;
 
 **⚠️ Tip:** Conditional types bisa menjadi kompleks. Mulailah dengan conditional sederhana, lalu kombinasikan untuk logic yang lebih rumit. Gunakan them untuk membuat type transformations yang aman dan reusable.
 
+### Distributive Conditional Types & `never` Filtering
+
+Ketika tipe generic berupa naked type parameter (seperti `T`) dan argumennya adalah union, conditional type mendistribusikan operasi ke setiap anggota union secara otomatis:
+
+```ts
+type ToArray<T> = T extends any ? T[] : never;
+type StrOrNumArr = ToArray<string | number>; // string[] | number[] (bukan (string | number)[])
+
+// Pola filter union dengan `never`:
+type NonEmpty<T> = T extends "" | null | undefined ? never : T;
+type Clean = NonEmpty<"hello" | "" | null | 42>; // "hello" | 42
+
+// Cegah distribusi dengan tuple wrap `[T]`:
+type IsUnion<T, U = T> = T extends any ? ([U] extends [T] ? false : true) : never;
+```
+
+### Infer Keyword (`infer`) dalam Conditional Types
+
+Keyword `infer` mendeklarasikan variabel tipe baru yang diekstrak langsung dari pola:
+
+```ts
+// Ekstrak ReturnType secara manual:
+type MyReturnType<T> = T extends (...args: any[]) => infer R ? R : never;
+type F = () => { id: number; token: string };
+type Out = MyReturnType<F>; // { id: number; token: string }
+
+// Ekstrak elemen dari Array:
+type Flatten<T> = T extends Array<infer Item> ? Item : T;
+type N = Flatten<number[]>; // number
+type S = Flatten<string>;   // string (bukan array, lolos apa adanya)
+
+// Ekstrak tipe resolved dari Promise (mirip Awaited<T>):
+type MyAwaited<T> = T extends Promise<infer V> ? MyAwaited<V> : T;
+type P = MyAwaited<Promise<Promise<string>>>; // string (unwrapped rekursif)
+```
+
+### Conditional Types + `satisfies` & Utility Real-World
+
+```ts
+type Action = 
+  | { type: "FETCH_START" }
+  | { type: "FETCH_SUCCESS"; payload: { id: number; title: string } }
+  | { type: "FETCH_ERROR"; error: string };
+
+// Ekstrak payload dari Action tertentu:
+type ExtractPayload<A, T> = A extends { type: T; payload: infer P } ? P : never;
+type SuccessData = ExtractPayload<Action, "FETCH_SUCCESS">; // { id: number; title: string }
+
+// Handler map type-safe dengan satisfies:
+type ActionHandlers = {
+  [A in Action as A["type"]]?: (action: A) => void;
+};
+
+const handlers = {
+  FETCH_START: () => console.log("Loading..."),
+  FETCH_SUCCESS: (a) => console.log("Done:", a.payload.title),
+} satisfies ActionHandlers;
+```
+
 ##
 3
 Latihan

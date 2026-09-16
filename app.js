@@ -1937,60 +1937,98 @@ async function loadLesson(index) {
     scrollEl?.scrollTo(0, 0);
 }
 
-// ─── Code Execution ────────────────────────────────────────────
+// ─── Code Execution (TS 5.4.5 via ts.transpileModule — 100% in-browser) ─
 function runCode() {
-    const _ed=document.getElementById('code-editor');
+    const _ed = document.getElementById('code-editor');
     const code = _ed ? _ed.value : '';
     const output = document.getElementById('output');
-    if(!_ed || !output) return;
+    if (!_ed || !output) return;
     const validation = document.getElementById('validation-msg');
     const status = document.getElementById('compile-status');
+    if (!code.trim()) {
+        output.innerHTML = '<span class="text-slate-500">// Tulis kode dulu, lalu Run ▶</span>';
+        if (status) { status.textContent = '○ Idle'; status.className = 'text-xs text-slate-500 ml-auto'; }
+        return;
+    }
     let logs = [];
     const origLog = console.log;
     const origWarn = console.warn;
     const origError = console.error;
-
-    console.log = (...a) => logs.push(a.map(x => typeof x === 'object' ? JSON.stringify(x, null, 2) : String(x)).join(' '));
-    console.warn = (...a) => logs.push('⚠️ ' + a.map(x => String(x)).join(' '));
-    console.error = (...a) => logs.push('❌ ' + a.map(x => String(x)).join(' '));
-
+    const origInfo = console.info;
+    const stringify = (x) => {
+        if (x === null) return 'null';
+        if (typeof x === 'object') { try { return JSON.stringify(x, null, 2); } catch (_) { return String(x); } }
+        return String(x);
+    };
+    console.log   = (...a) => logs.push(a.map(stringify).join(' '));
+    console.warn  = (...a) => logs.push('⚠️ ' + a.map(stringify).join(' '));
+    console.error = (...a) => logs.push('❌ ' + a.map(stringify).join(' '));
+    console.info  = (...a) => logs.push(a.map(stringify).join(' '));
     try {
-        if (typeof ts === 'undefined') {
-            output.innerHTML = '<span class="text-red-400">TypeScript compiler not loaded</span>';
+        if (typeof ts === 'undefined' || !ts.transpileModule) {
+            output.innerHTML = '<span class="text-amber-400">⚠️ TypeScript compiler belum dimuat. Cek koneksi/CDN jsDelivr lalu refresh. <span class="text-slate-500 text-xs">cdn.jsdelivr.net/npm/typescript@5.4.5</span></span>';
+            if (status) { status.textContent = '○ Offline'; status.className = 'text-xs text-amber-400 ml-auto'; }
             return;
         }
-        const js = ts.transpileModule(code, {
+        // ts.transpileModule is transpile-only (strip types) — diagnostics optional but we surface errors cleanly
+        const transpiled = ts.transpileModule(code, {
             compilerOptions: {
                 module: ts.ModuleKind.None,
-                target: ts.ScriptTarget.ESNext,
+                target: ts.ScriptTarget.ES2022,
                 strict: false,
+                esModuleInterop: true,
+                allowSyntheticDefaultImports: true,
+                skipLibCheck: true
+            },
+            reportDiagnostics: true
+        });
+        if (transpiled.diagnostics && transpiled.diagnostics.length) {
+            const errs = transpiled.diagnostics.filter(function(d){ return d.category === ts.DiagnosticCategory.Error; });
+            if (errs.length) {
+                const fmt = function(d){
+                    var msg = ts.flattenDiagnosticMessageText(d.messageText, '\n');
+                    if (typeof d.start === 'number') {
+                        var upTo = code.slice(0, d.start);
+                        var line = upTo.split('\n').length;
+                        var col = upTo.length - upTo.lastIndexOf('\n');
+                        return 'TS' + d.code + ' [L' + line + ':' + col + '] ' + msg;
+                    }
+                    return 'TS' + d.code + ' ' + msg;
+                };
+                throw new Error(errs.map(fmt).join('\n'));
             }
-        }).outputText;
-
+        }
+        var js = transpiled.outputText;
+        // eslint-disable-next-line no-eval
         eval(js);
-        const result = logs.join('\n');
-        output.innerHTML = result ? '<span class="text-emerald-400">' + escapeHtml(result) + '</span>' : '<span class="text-slate-600">// No output</span>';
-        status.textContent = '✓ Compiled';
-        status.className = 'text-xs text-emerald-500 ml-auto';
-
-        const exp = lessons[currentLesson]?.expectedOutput;
-        if (exp && result.trim() === exp.trim()) {
-            validation.className = 'validation-msg bg-emerald-900/30 border border-emerald-500/30 text-emerald-400';
-            validation.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Output benar!';
-            progress[lessons[currentLesson].id] = true;
-            localStorage.setItem('typescript_progress', JSON.stringify(progress));
-            updateProgress();
-            renderNav();
+        var result = logs.join('\n');
+        output.innerHTML = result ? '<span class="text-emerald-400">' + escapeHtml(result) + '</span>' : '<span class="text-slate-600">// No output — coba console.log(...)</span>';
+        if (status) { status.textContent = '✓ Compiled'; status.className = 'text-xs text-emerald-500 ml-auto'; }
+        if (validation) {
+            var exp = lessons[currentLesson] && lessons[currentLesson].expectedOutput;
+            if (exp && result.trim() === exp.trim()) {
+                validation.className = 'validation-msg bg-emerald-900/30 border border-emerald-500/30 text-emerald-400';
+                validation.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Output benar!';
+                progress[lessons[currentLesson].id] = true;
+                localStorage.setItem('typescript_progress', JSON.stringify(progress));
+                updateProgress();
+                renderNav();
+            } else {
+                validation.className = 'validation-msg hidden';
+            }
         }
     } catch (e) {
-        output.innerHTML = '<span class="text-red-400">❌ ' + escapeHtml(e.message) + '</span>';
-        status.textContent = '✗ Error';
-        status.className = 'text-xs text-red-400 ml-auto';
+        var msg = (e && e.message) ? e.message : String(e);
+        var stack = (e && e.stack) ? ('\n' + e.stack.split('\n').slice(1, 3).join('\n')) : '';
+        output.innerHTML = '<span class="text-red-400">❌ ' + escapeHtml(msg + stack) + '</span>';
+        if (status) { status.textContent = '✗ Error'; status.className = 'text-xs text-red-400 ml-auto'; }
+        if (validation) validation.className = 'validation-msg hidden';
+    } finally {
+        console.log = origLog;
+        console.warn = origWarn;
+        console.error = origError;
+        console.info = origInfo;
     }
-
-    console.log = origLog;
-    console.warn = origWarn;
-    console.error = origError;
 }
 
 function resetCode() {

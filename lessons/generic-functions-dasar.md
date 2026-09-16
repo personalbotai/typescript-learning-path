@@ -127,6 +127,37 @@ const user = findById(users, 1); // User | undefined
 console.log(user?.name); // "Alice"
 ```
 
+### `const` Type Parameters (TS 5.0+): Inferensi Literal Paling Tajam
+
+Tanpa `const`, array/string argumen melebar (widen) ke `string[]`/`string`. Dengan `const T`, TypeScript menginferensikan literal + readonly tuple — setara `as const` tapi otomatis di call-site.
+
+```ts
+// ❌ melebar: kehilangan literal
+function getIds<T>(ids: T[]): T[] { return ids; }
+const a = getIds(["admin", "user"]); // string[] — "admin"|"user" hilang
+
+// ✅ const type param: literal terjaga sebagai readonly tuple
+function getIdsConst<const T extends readonly string[]>(...ids: T): T {
+  return ids;
+}
+const b = getIdsConst("admin", "user"); // readonly ["admin","user"]
+type Role = typeof b[number]; // "admin" | "user" — siap jadi union!
+
+// Kasus route path: presisi penuh
+function makeRoutes<const T extends string[]>(...paths: T): { [K in T[number]]: `/${K}` } {
+  return Object.fromEntries(paths.map(p => [p, `/${p}`])) as any;
+}
+const routes = makeRoutes("home", "profile", "settings");
+// routes.profile bertipe "/profile" literal — autocomplete & cek typo jalan
+
+// Bandingkan: `as const` manual vs `const` param
+const manual = ["a", "b"] as const;        // readonly ["a","b"] — di tiap call-site
+function auto<const T>(x: T): T { return x; }
+const inferred = auto(["a", "b"]);          // readonly ["a","b"] — otomatis, tanpa as const
+```
+
+**Kapan pakai `const` type params?** Factory key/route/event-name, i18n keys, design tokens, state machine transitions — di mana typo string harus ketangkap compile-time dan autocomplete harus presisi. Batasan: hanya untuk inferensi literal/readonly; jangan pakai jika memang butuh mutable array lebar.
+
 ## 💻 Exercises
 
 ### 1. Identity Function

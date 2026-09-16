@@ -202,6 +202,52 @@ return localStorage.getItem(key) as any;
 }
 ```
 
+### Deep Utility Types: Melampaui Dangkal
+
+`Partial`/`Readonly` bawaan hanya satu level. Untuk nested config/state, buat versi rekursif:
+
+```ts
+type DeepPartial<T> = T extends object ? { [K in keyof T]?: DeepPartial<T[K]> } : T;
+type DeepReadonly<T> = { readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]> : T[K] };
+
+interface AppConfig { api: { url: string; timeout: number }; ui: { theme: { dark: boolean } } }
+type Patch = DeepPartial<AppConfig>;
+const patch: Patch = { api: { timeout: 5000 } }; // nested parsial OK — Partial dangkal tak bisa
+
+const frozen: DeepReadonly<AppConfig> = { api: { url: "/api", timeout: 3000 }, ui: { theme: { dark: true } } };
+// frozen.api.url = "/x"; // Error rekursif
+```
+
+### `satisfies` + Utility Types: Config Aman & Presisi
+
+```ts
+type Env = "dev" | "staging" | "prod";
+type DeployConfig = { env: Env; url: `https://${string}`; replicas: number };
+
+// Partial untuk override + satisfies untuk validasi akhir:
+type Override = DeepPartial<DeployConfig>;
+function deploy(base: DeployConfig, over: Override): DeployConfig {
+  return { ...base, ...over, url: (over.url ?? base.url) } as DeployConfig;
+}
+
+const base = { env: "prod", url: "https://api.example.com", replicas: 3 } satisfies DeployConfig;
+// base.env literal "prod" — bukan Env lebar; typo url ketangkap di sini, bukan saat deploy
+```
+
+### Pick/Omit/Exclude/Extract Composition Cheat-Sheet
+
+```ts
+type Evt = "click" | "hover" | "focus" | "blur";
+type Mouse = Extract<Evt, "click" | "hover">;   // "click" | "hover"
+type NonMouse = Exclude<Evt, Mouse>;            // "focus" | "blur"
+
+interface Full { id: number; name: string; secret: string; ts: Date }
+type Safe = Omit<Full, "secret">;               // buang sensitif
+type Key = keyof Safe;                          // "id"|"name"|"ts"
+type StrKeys = Extract<Key, "name">;            // "name"
+type Public = Pick<Safe, StrKeys>;              // { name: string } — alur komposisi penuh
+```
+
 ## 💻 Exercises
 
 ### 1. Partial Form Data

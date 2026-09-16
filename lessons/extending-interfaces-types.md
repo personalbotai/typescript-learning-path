@@ -124,7 +124,62 @@ const obj = new BaseClass("test");
 // const e: Extended = obj; // Error - tidak punya age
 ```
 
-**💡 Tips:** Gunakan extending ketika ingin membuat tipe yang lebih spesifik dari tipe yang sudah ada. Interface `extends` lebih cocok untuk hierarki class/object. Type alias intersection lebih fleksibel untuk compose tipe heterogeneous.
+### Extends + Utility Types: API Modeling Real-World
+
+```ts
+interface BaseEntity { id: number; createdAt: Date; }
+interface User extends BaseEntity { name: string; email: string; password: string; }
+
+// Turunan publik: extends + Omit agar password tak bocor
+type PublicUser = Omit<User, "password">;
+// Versi update parsial: extends implisit via Partial<Pick<...>>
+type UserUpdate = Partial<Pick<User, "name" | "email">>;
+
+// Repository generik yang di-extends per entitas:
+interface Repository<T extends BaseEntity> {
+  findById(id: number): T | undefined;
+  save(e: T): void;
+  list(): T[];
+}
+interface UserRepository extends Repository<User> {
+  findByEmail(email: string): User | undefined;
+}
+```
+
+### `satisfies` untuk Hierarki Config (TS 4.9+)
+
+```ts
+type Size = "sm" | "md" | "lg";
+type Variant = "primary" | "secondary" | "danger";
+
+interface ButtonTheme { size: Size; variant: Variant; rounded: boolean; }
+
+// satisfies validasi tiap tema tanpa widen — autocomplete size/variant tetap literal
+const themes = {
+  submit: { size: "md", variant: "primary", rounded: true },
+  cancel: { size: "sm", variant: "secondary", rounded: false },
+  hapus:  { size: "md", variant: "danger", rounded: true },
+} satisfies Record<string, ButtonTheme>;
+
+// themes.submit.size bertipe "md" literal — bukan Size lebar
+type SubmitSize = typeof themes.submit.size; // "md"
+```
+
+### `const` Type Params dengan Extended Keys (TS 5.0+)
+
+```ts
+// Tangkap literal keys tanpa `as const`:
+declare function pickKeys<const K extends string>(...keys: K[]): K[];
+const ks = pickKeys("name", "email", "role"); // ["name","email","role"] tuple literal
+type K = typeof ks[number]; // "name" | "email" | "role"
+
+interface User { name: string; email: string; role: string; age: number; }
+declare function pick<T, const K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K>;
+declare const user: User;
+const sub = pick(user, "name", "email"); // Pick<User,"name"|"email"> — presisi
+```
+
+**💡 Tips:** Gunakan extending ketika ingin membuat tipe yang lebih spesifik dari tipe yang sudah ada. Interface `extends` lebih cocok untuk hierarki class/object. Type alias intersection lebih fleksibel untuk compose tipe heterogeneous. Validasi object hierarki dengan `satisfies`, dan gunakan `const` type params saat butuh literal keys presisi.
 
 ##
 3
