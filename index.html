@@ -153,12 +153,11 @@
                 </div>
             </div>
 
-            <!-- Shell: left materi + right editor samping -->
-            <div class="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0" id="content-shell">
-                <div class="flex-1 overflow-y-auto scroll-smooth scrollbar-thin lg:border-r border-white/5 min-w-0" id="content-scroll">
-                    <div class="max-w-4xl mx-auto px-4 sm:px-8 py-8">
-                        <!-- Markdown prose -->
-                        <article id="lesson-content" class="prose prose-invert max-w-none">
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto scroll-smooth scrollbar-thin" id="content-scroll">
+                <div class="max-w-4xl mx-auto px-4 sm:px-8 py-8">
+                    <!-- Markdown prose -->
+                    <article id="lesson-content" class="prose prose-invert max-w-none">
                         <div class="hero text-center py-10">
                             <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 mb-6"><i class="fas fa-bolt"></i> Interaktif • Modern TS 5.x • Gratis</div>
                             <div class="text-6xl mb-4">🔵</div>
@@ -181,45 +180,6 @@
                     </article>
                 </div>
 
-                <!-- editor moved to right panel -->
-
-                <!-- Quiz Card -->
-                <div id="quiz-section" class="max-w-4xl mx-auto px-4 sm:px-8 pb-4 hidden">
-                    <div class="bg-[#111827] rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
-                        <div class="flex items-center gap-3 px-6 py-4 bg-[#172033] border-b border-white/5">
-                            <div class="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center"><i class="fas fa-brain text-blue-400"></i></div>
-                            <h3 class="font-bold text-white">Quiz — uji pemahamanmu</h3>
-                        </div>
-                        <div class="p-6">
-                            <div id="quiz-content" class="space-y-3"></div>
-                            <button onclick="checkQuiz()" class="mt-5 px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition shadow-lg shadow-blue-600/20">
-                                <i class="fas fa-paper-plane mr-2"></i>Submit Jawaban
-                            </button>
-                            <div id="quiz-result" class="mt-4"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation -->
-                <div class="max-w-4xl mx-auto px-4 sm:px-8 py-6">
-                    <div class="flex items-center justify-between gap-3">
-                        <button id="prev-btn" onclick="prevLesson()" disabled class="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-slate-300 text-sm font-medium rounded-xl transition disabled:opacity-30 disabled:cursor-not-allowed border border-white/5">
-                            <i class="fas fa-chevron-left text-xs"></i> Prev
-                        </button>
-                        <button id="next-btn" onclick="nextLesson()" class="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition shadow-lg shadow-blue-600/20">
-                            Next <i class="fas fa-chevron-right text-xs"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Footer -->
-                <footer class="max-w-4xl mx-auto px-4 sm:px-8 pb-8 text-center text-xs text-slate-600 border-t border-white/5 pt-6 mt-2">
-                    <p>TypeScript Learning Path — dibuat dengan <i class="fas fa-heart text-blue-500/60"></i> untuk developer Indonesia • Modern TS 5.x</p>
-                    <p class="mt-1">© 2024 personalbotai · <a href="https://github.com/personalbotai/typescript-learning-path" class="hover:text-blue-400 transition">GitHub</a> · <a href="https://www.typescriptlang.org/docs/" target="_blank" class="hover:text-blue-400 transition">www.typescriptlang.org</a></p>
-                </footer>
-                </div>
-                <!-- Right: Editor samping (desktop) -->
-                <div class="w-full lg:w-[520px] xl:w-[560px] shrink-0 border-t lg:border-t-0 lg:border-l border-white/5 bg-[#0f172a]/30 lg:bg-[#0f172a]/50 flex flex-col lg:overflow-y-auto lg:h-full max-h-[55vh] lg:max-h-none overflow-y-auto" id="editor-panel">
                 <!-- Code Editor Panel: run button + terminal output -->
                 <div id="code-section" class="max-w-4xl mx-auto px-4 sm:px-8 pb-4">
                     <div class="bg-[#111827] rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
@@ -255,7 +215,41 @@
                     </div>
                     <div id="validation-msg" class="mt-3 p-4 rounded-xl hidden text-sm border"></div>
                 </div>
+
+                <!-- Quiz Card -->
+                <div id="quiz-section" class="max-w-4xl mx-auto px-4 sm:px-8 pb-4 hidden">
+                    <div class="bg-[#111827] rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
+                        <div class="flex items-center gap-3 px-6 py-4 bg-[#172033] border-b border-white/5">
+                            <div class="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center"><i class="fas fa-brain text-blue-400"></i></div>
+                            <h3 class="font-bold text-white">Quiz — uji pemahamanmu</h3>
+                        </div>
+                        <div class="p-6">
+                            <div id="quiz-content" class="space-y-3"></div>
+                            <button onclick="checkQuiz()" class="mt-5 px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition shadow-lg shadow-blue-600/20">
+                                <i class="fas fa-paper-plane mr-2"></i>Submit Jawaban
+                            </button>
+                            <div id="quiz-result" class="mt-4"></div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Navigation -->
+                <div class="max-w-4xl mx-auto px-4 sm:px-8 py-6">
+                    <div class="flex items-center justify-between gap-3">
+                        <button id="prev-btn" onclick="prevLesson()" disabled class="flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-slate-300 text-sm font-medium rounded-xl transition disabled:opacity-30 disabled:cursor-not-allowed border border-white/5">
+                            <i class="fas fa-chevron-left text-xs"></i> Prev
+                        </button>
+                        <button id="next-btn" onclick="nextLesson()" class="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white text-sm font-semibold rounded-xl transition shadow-lg shadow-blue-600/20">
+                            Next <i class="fas fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="max-w-4xl mx-auto px-4 sm:px-8 pb-8 text-center text-xs text-slate-600 border-t border-white/5 pt-6 mt-2">
+                    <p>TypeScript Learning Path — dibuat dengan <i class="fas fa-heart text-blue-500/60"></i> untuk developer Indonesia • Modern TS 5.x</p>
+                    <p class="mt-1">© 2024 personalbotai · <a href="https://github.com/personalbotai/typescript-learning-path" class="hover:text-blue-400 transition">GitHub</a> · <a href="https://www.typescriptlang.org/docs/" target="_blank" class="hover:text-blue-400 transition">www.typescriptlang.org</a></p>
+                </footer>
             </div>
         </main>
     </div>
