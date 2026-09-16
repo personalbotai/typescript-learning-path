@@ -340,7 +340,7 @@ const lessons = [
         "mdFile": "lessons/type-assertions.md",
         "duration": "15 min",
         "description": "<p><strong>Type Assertions</strong></p>",
-        "defaultCode": "// Type assertion\nconst val: unknown = \"hello\";\nconst len: number = (val as string).length;\nconsole.log(len);",
+        "defaultCode": "// Type assertion & satisfies (TS 5.x)\nconst val: unknown = \"hello\";\nconst len: number = (val as string).length;\nconsole.log(len);\n\n// satisfies: validasi shape tanpa widening (TS 4.9+/5.x)\ntype Color = \"red\" | \"blue\";\ntype Hex = `#${string}`;\nconst theme = { primary: \"#3b82f6\", accent: \"#60a5fa\" } satisfies Record<string, Hex>;\nconsole.log(theme.primary);",
         "expectedOutput": null,
         "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
@@ -824,7 +824,7 @@ const lessons = [
         "mdFile": "lessons/class-dasar.md",
         "duration": "20 min",
         "description": "<p><strong>Class Dasar</strong></p>",
-        "defaultCode": "// Class\nclass Person {\n  constructor(public name: string) {}\n  greet(): string { return `Hi, ${this.name}`; }\n}\nconsole.log(new Person(\"Budi\").greet());",
+        "defaultCode": "// Class & Decorators TS 5.x (TC39 stage-3)\nfunction sealed<T extends { new(...args:any[]): {} }>(ctor: T) { Object.seal(ctor); return ctor; }\n@sealed\nclass Person {\n  constructor(public name: string) {}\n  greet(): string { return `Hi, ${this.name}`; }\n}\nconsole.log(new Person(\"Budi\").greet());",
         "expectedOutput": null,
         "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
@@ -956,7 +956,7 @@ const lessons = [
         "mdFile": "lessons/generic-functions-dasar.md",
         "duration": "25 min",
         "description": "<p><strong>Generic Functions Dasar</strong></p>",
-        "defaultCode": "// Generic fn\nfunction identity<T>(x: T): T { return x; }\nconsole.log(identity<string>(\"hi\"));",
+        "defaultCode": "// Generic fn & const type params (TS 5.0)\nfunction identity<T>(x: T): T { return x; }\nconsole.log(identity<string>(\"hi\"));\n\n// const type param: preserve literals\nfunction withConst<const T>(arr: T): T { return arr; }\nconst arr = withConst([\"ts\", \"5.x\"] as const);\nconsole.log(arr[0]);",
         "expectedOutput": null,
         "hint": "Baca materi, lalu eksperimen di editor.",
         "quiz": {
