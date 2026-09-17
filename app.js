@@ -3,2368 +3,1387 @@
 'use strict';
 
 const MODULES = [
-    {
-        "id": 1,
-        "title": "Dasar-Dasar TypeScript",
-        "icon": "fas fa-play-circle",
-        "description": "Pengenalan TypeScript, setup environment, dan kompilasi.",
-        "lessonCount": 6
-    },
-    {
-        "id": 2,
-        "title": "Tipe Dasar TypeScript",
-        "icon": "fas fa-shield-alt",
-        "description": "Tipe primitif, type assertions, any, unknown, array, tuple, enum.",
-        "lessonCount": 6
-    },
-    {
-        "id": 3,
-        "title": "Advanced Types",
-        "icon": "fas fa-layer-group",
-        "description": "Union, intersection, type guards, narrowing, conditional, mapped types.",
-        "lessonCount": 10
-    },
-    {
-        "id": 4,
-        "title": "Interfaces & Type Aliases",
-        "icon": "fas fa-shapes",
-        "description": "Interface, optional/readonly, type aliases, extending.",
-        "lessonCount": 6
-    },
-    {
-        "id": 5,
-        "title": "Functions TypeScript",
-        "icon": "fas fa-code",
-        "description": "Function types, overloads, rest params, arrow functions.",
-        "lessonCount": 5
-    },
-    {
-        "id": 6,
-        "title": "Classes & OOP",
-        "icon": "fas fa-sitemap",
-        "description": "Class, inheritance, access modifiers, abstract classes.",
-        "lessonCount": 6
-    },
-    {
-        "id": 7,
-        "title": "Generics",
-        "icon": "fas fa-cubes",
-        "description": "Generic functions, interfaces, classes, constraints, utility types.",
-        "lessonCount": 6
-    },
-    {
-        "id": 8,
-        "title": "Modules & Namespaces",
-        "icon": "fas fa-puzzle-piece",
-        "description": "ES6 modules, barrel files, dynamic import, namespaces.",
-        "lessonCount": 7
-    },
-    {
-        "id": 9,
-        "title": "Configuration & Tooling",
-        "icon": "fas fa-cogs",
-        "description": "tsconfig.json, compiler options, build tools, linting.",
-        "lessonCount": 8
-    },
-    {
-        "id": 10,
-        "title": "JS Integration",
-        "icon": "fab fa-js",
-        "description": "Using JS libraries, .d.ts files, DefinitelyTyped, migration.",
-        "lessonCount": 4
-    },
-    {
-        "id": 11,
-        "title": "Advanced Utility Types",
-        "icon": "fas fa-toolbox",
-        "description": "Partial, Required, Pick, Omit, Record, ReturnType, ThisType.",
-        "lessonCount": 8
-    },
-    {
-        "id": 12,
-        "title": "Real-World Projects",
-        "icon": "fas fa-rocket",
-        "description": "CLI tool, React, REST API, type definitions, fullstack.",
-        "lessonCount": 5
-    }
+  {
+    "id": 1,
+    "title": "Modul 1: Pengenalan & Dasar TypeScript",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": 2,
+    "title": "Modul 2: Tipe Data Kompleks & Objek",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": 3,
+    "title": "Modul 3: Fungsi & Anotasi Parameter",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": 4,
+    "title": "Modul 4: Union, Intersection & Type Narrowing",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": 5,
+    "title": "Modul 5: Interface & Type Alias Mendalam",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": 6,
+    "title": "Modul 6: Generics",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": 7,
+    "title": "Modul 7: Advanced Types: Mapped & Conditional Types",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": 8,
+    "title": "Modul 8: Utility Types Bawaan",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": 9,
+    "title": "Modul 9: OOP & Class di TypeScript",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "id": 10,
+    "title": "Modul 10: Fitur Terbaru (TS 5+), Ekosistem & Best Practices",
+    "desc": "Materi TypeScript",
+    "icon": "fa-solid fa-code"
+  }
 ];
 
 const lessons = [
   {
     "id": 1,
+    "slug": "ts-1",
     "title": "1. Apa itu TypeScript?",
-    "module": "Dasar-Dasar TypeScript",
+    "module": "Modul 1: Pengenalan & Dasar TypeScript",
     "moduleId": 1,
-    "mdFile": "lessons/apa-itu-typescript.md",
-    "duration": "15 min",
-    "description": "<p><strong>Apa itu TypeScript?</strong></p>",
-    "defaultCode": "// TypeScript = JavaScript + Types\nconst message: string = \"Hello, TypeScript!\";\nconsole.log(message);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Apa itu TypeScript?\n\n- Perbedaan TS vs JS\n- Konsep Static Typing vs Dynamic Typing",
+    "code": "// TypeScript Apa itu TypeScript?\nconst lessonTitle: string = 'Apa itu TypeScript?';",
     "quiz": {
-      "question": "Apa perbedaan mendasar antara TypeScript dan JavaScript murni?",
+      "question": "Apa keuntungan utama TypeScript dibandingkan JavaScript pada aplikasi skala besar?",
       "options": [
-        "TypeScript menyediakan static type checking saat compile-time yang di-erase ke JS murni, sedangkan JS dinamis di runtime",
-        "TypeScript adalah runtime terpisah seperti JVM",
-        "TypeScript berjalan lebih lambat di browser",
-        "TypeScript menghapus async/await"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 2,
-    "title": "2. TypeScript vs JavaScript",
-    "module": "Dasar-Dasar TypeScript",
+    "slug": "ts-2",
+    "title": "2. Setup & Kompilasi Dasar",
+    "module": "Modul 1: Pengenalan & Dasar TypeScript",
     "moduleId": 1,
-    "mdFile": "lessons/typescript-vs-javascript.md",
-    "duration": "10 min",
-    "description": "<p><strong>TypeScript vs JavaScript</strong></p>",
-    "defaultCode": "// Typed vs Untyped\nlet name: string = \"TypeScript\";\nlet year: number = 2024;\nconsole.log(name + \" \" + year);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Setup & Kompilasi Dasar\n\n- Peran file tsconfig.json\n- Penggunaan compiler tsc",
+    "code": "// TypeScript Setup & Kompilasi Dasar\nconst lessonTitle: string = 'Setup & Kompilasi Dasar';",
     "quiz": {
-      "question": "Mengapa TypeScript mengadopsi Structural Typing (Duck Typing)?",
+      "question": "File apa yang digunakan untuk mengatur konfigurasi compiler pada TypeScript?",
       "options": [
-        "Kompatibilitas tipe ditentukan oleh properti/struktur data yang ada, bukan nama class nominal deklarasinya",
-        "Agar class Java dapat diimpor langsung",
-        "Untuk mematikan garbage collection",
-        "Mewajibkan inheritance eksplisit"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 3,
-    "title": "3. Instalasi TypeScript",
-    "module": "Dasar-Dasar TypeScript",
+    "slug": "ts-3",
+    "title": "3. Type Inference",
+    "module": "Modul 1: Pengenalan & Dasar TypeScript",
     "moduleId": 1,
-    "mdFile": "lessons/instalasi-typescript.md",
-    "duration": "10 min",
-    "description": "<p><strong>Instalasi TypeScript</strong></p>",
-    "defaultCode": "// Cek versi TypeScript\nconst version: string = \"5.0+\";\nconsole.log(\"TypeScript \" + version);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Type Inference\n\n- Bagaimana TS menebak tipe secara otomatis\n- Kapan tipe eksplisit tidak diperlukan",
+    "code": "// TypeScript Type Inference\nconst lessonTitle: string = 'Type Inference';",
     "quiz": {
-      "question": "Perintah npm apa yang tepat untuk menginstal compiler TypeScript pada project?",
+      "question": "Apa istilah untuk kemampuan TypeScript dalam menebak tipe data tanpa anotasi tertulis?",
       "options": [
-        "npm install -D typescript",
-        "npm install -g ts-engine",
-        "npm install @types/compiler",
-        "npm init typescript-all"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 4,
-    "title": "4. TypeScript Compiler (tsc)",
-    "module": "Dasar-Dasar TypeScript",
+    "slug": "ts-4",
+    "title": "4. Type Annotation (Anotasi Tipe)",
+    "module": "Modul 1: Pengenalan & Dasar TypeScript",
     "moduleId": 1,
-    "mdFile": "lessons/typescript-compiler-tsc.md",
-    "duration": "15 min",
-    "description": "<p><strong>TypeScript Compiler (tsc)</strong></p>",
-    "defaultCode": "// tsc hello.ts -> hello.js\nconst greeting: string = \"Compiled!\";\nconsole.log(greeting);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Type Annotation (Anotasi Tipe)\n\n- Sintaks let x: tipe\n- Tipe primitif: string, number, boolean",
+    "code": "// TypeScript Type Annotation (Anotasi Tipe)\nconst lessonTitle: string = 'Type Annotation (Anotasi Tipe)';",
     "quiz": {
-      "question": "Perintah CLI untuk men-generate file konfigurasi default 'tsconfig.json'?",
+      "question": "Bagaimana sintaks yang benar untuk mendeklarasikan variabel bertipe angka di TypeScript?",
       "options": [
-        "tsc --init",
-        "tsc new-project",
-        "typescript init",
-        "npm ts-init"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 5,
-    "title": "5. Project Setup TypeScript",
-    "module": "Dasar-Dasar TypeScript",
+    "slug": "ts-5",
+    "title": "5. Tipe any vs unknown",
+    "module": "Modul 1: Pengenalan & Dasar TypeScript",
     "moduleId": 1,
-    "mdFile": "lessons/project-setup-typescript.md",
-    "duration": "15 min",
-    "description": "<p><strong>Project Setup TypeScript</strong></p>",
-    "defaultCode": "// tsconfig.json project\ninterface Config {\n  strict: boolean;\n  target: string;\n}\nconst cfg: Config = { strict: true, target: \"ES2020\" };\nconsole.log(JSON.stringify(cfg));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Tipe any vs unknown\n\n- Bahaya menggunakan any\n- Mengapa unknown lebih aman untuk tipe tidak tertebak",
+    "code": "// TypeScript Tipe any vs unknown\nconst lessonTitle: string = 'Tipe any vs unknown';",
     "quiz": {
-      "question": "Opsi tsconfig mana yang mengaktifkan seluruh aturan strict type-checking secara serentak?",
+      "question": "Mengapa disarankan untuk menggunakan tipe 'unknown' daripada 'any'?",
       "options": [
-        "\"strict\": true",
-        "\"noEmit\": true",
-        "\"target\": \"ESNext\"",
-        "\"skipLibCheck\": true"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 6,
-    "title": "6. Hello World",
-    "module": "Dasar-Dasar TypeScript",
+    "slug": "ts-6",
+    "title": "6. Array & Tuple",
+    "module": "Modul 1: Pengenalan & Dasar TypeScript",
     "moduleId": 1,
-    "mdFile": "lessons/hello-world.md",
-    "duration": "10 min",
-    "description": "<p><strong>Hello World</strong></p>",
-    "defaultCode": "// Program pertama\nfunction greet(name: string): string {\n  return `Hello, ${name}!`;\n}\nconsole.log(greet(\"TypeScript\"));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Array & Tuple\n\n- Sintaks Array T[] vs Array<T>\n- Tuple untuk array dengan tipe dan panjang tetap",
+    "code": "// TypeScript Array & Tuple\nconst lessonTitle: string = 'Array & Tuple';",
     "quiz": {
-      "question": "Apa fungsi flag 'noEmit' pada compiler options tsconfig.json?",
+      "question": "Apa perbedaan paling mendasar antara tipe Array biasa dan Tuple di TypeScript?",
       "options": [
-        "Hanya menjalankan validasi tipe (type-checking) tanpa menghasilkan file output .js ke filesystem",
-        "Menghapus komentar di hasil build",
-        "Mencegah error ditampilkan di terminal",
-        "Mengabaikan syntax error"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 7,
-    "title": "7. Tipe Primitif",
-    "module": "Tipe Dasar TypeScript",
+    "slug": "ts-7",
+    "title": "7. Object Types Dasar",
+    "module": "Modul 2: Tipe Data Kompleks & Objek",
     "moduleId": 2,
-    "mdFile": "lessons/tipe-primitif.md",
-    "duration": "20 min",
-    "description": "<p><strong>Tipe Primitif</strong></p>",
-    "defaultCode": "// Primitive types\nconst nama: string = \"Budi\";\nconst umur: number = 25;\nconst aktif: boolean = true;\nconsole.log(`${nama} - ${umur} - ${aktif}`);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Object Types Dasar\n\n- Menentukan tipe/bentuk sebuah objek (inline type)\n- Properti wajib dalam objek",
+    "code": "// TypeScript Object Types Dasar\nconst lessonTitle: string = 'Object Types Dasar';",
     "quiz": {
-      "question": "Manakah yang merupakan tipe primitif valid di TypeScript?",
+      "question": "Simbol apa yang memisahkan nama properti dan tipenya di dalam definisi tipe objek?",
       "options": [
-        "string, number, boolean, symbol, bigint, null, undefined",
-        "Integer, Float, Char, Boolean, String",
-        "text, int64, bool, pointer",
-        "Decimal, Int, Var, Object"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 8,
-    "title": "8. Type any dan unknown",
-    "module": "Tipe Dasar TypeScript",
+    "slug": "ts-8",
+    "title": "8. Optional Properties",
+    "module": "Modul 2: Tipe Data Kompleks & Objek",
     "moduleId": 2,
-    "mdFile": "lessons/any-dan-unknown.md",
-    "duration": "15 min",
-    "description": "<p><strong>Type any dan unknown</strong></p>",
-    "defaultCode": "// any vs unknown\nlet flex: any = 42;\nflex = \"bisa apa saja\";\nconsole.log(flex);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Optional Properties\n\n- Penggunaan modifier tanda tanya (?)\n- Menghindari error saat properti tidak tersedia",
+    "code": "// TypeScript Optional Properties\nconst lessonTitle: string = 'Optional Properties';",
     "quiz": {
-      "question": "Mengapa tipe 'unknown' jauh lebih aman digunakan daripada 'any'?",
+      "question": "Karakter apa yang digunakan untuk membuat sebuah properti menjadi tidak wajib (opsional)?",
       "options": [
-        "'unknown' mewajibkan type narrowing sebelum propertinya dapat diakses atau dipanggil",
-        "'unknown' langsung dapat dipanggil sebagai fungsi",
-        "'any' melakukan runtime validation otomatis",
-        "Tidak ada perbedaan, keduanya sinonim"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 9,
-    "title": "9. Array dan Tuple",
-    "module": "Tipe Dasar TypeScript",
+    "slug": "ts-9",
+    "title": "9. Readonly Properties",
+    "module": "Modul 2: Tipe Data Kompleks & Objek",
     "moduleId": 2,
-    "mdFile": "lessons/array-dan-tuple.md",
-    "duration": "20 min",
-    "description": "<p><strong>Array dan Tuple</strong></p>",
-    "defaultCode": "// Array & Tuple\nconst nums: number[] = [1, 2, 3];\nconst pair: [string, number] = [\"age\", 25];\nconsole.log(nums.length + \" \" + pair[1]);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Readonly Properties\n\n- Mencegah mutasi data menggunakan modifier readonly\n- Perbedaan readonly dengan const",
+    "code": "// TypeScript Readonly Properties\nconst lessonTitle: string = 'Readonly Properties';",
     "quiz": {
-      "question": "Sintaks deklarasi Tuple TypeScript beranggotakan [id: number, name: string] adalah?",
+      "question": "Modifier apa yang mencegah suatu properti objek diubah nilainya setelah diinisialisasi?",
       "options": [
-        "let user: [number, string];",
-        "let user: (number, string)[];",
-        "let user: Array<number, string>;",
-        "let user: Tuple<number, string>;"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 10,
-    "title": "10. Enum dan Named Constants",
-    "module": "Tipe Dasar TypeScript",
+    "slug": "ts-10",
+    "title": "10. Index Signatures",
+    "module": "Modul 2: Tipe Data Kompleks & Objek",
     "moduleId": 2,
-    "mdFile": "lessons/enum-named-constants.md",
-    "duration": "15 min",
-    "description": "<p><strong>Enum dan Named Constants</strong></p>",
-    "defaultCode": "// Enum\nenum Role { Admin, User, Guest }\nconst r: Role = Role.Admin;\nconsole.log(r);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Index Signatures\n\n- Membuat objek dinamis sebagai kamus/dictionary\n- Batasan tipe pada key index",
+    "code": "// TypeScript Index Signatures\nconst lessonTitle: string = 'Index Signatures';",
     "quiz": {
-      "question": "Apa keunggulan utama menggunakan 'const enum' dibanding 'enum' biasa?",
+      "question": "Kapan penggunaan index signature direkomendasikan?",
       "options": [
-        "Nilai enum di-inline langsung saat kompilasi tanpa menghasilkan objek runtime closure tambahan",
-        "Mendukung reverse mapping string dinamis",
-        "Bisa dimutasi nilainya saat runtime",
-        "Wajib dideklarasikan di .d.ts"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 11,
-    "title": "11. void, never, null, undefined",
-    "module": "Tipe Dasar TypeScript",
+    "slug": "ts-11",
+    "title": "11. Enum (Numeric & String)",
+    "module": "Modul 2: Tipe Data Kompleks & Objek",
     "moduleId": 2,
-    "mdFile": "lessons/void-never-dan-tipe-khusus.md",
-    "duration": "15 min",
-    "description": "<p><strong>void, never, null, undefined</strong></p>",
-    "defaultCode": "// void & never\nfunction log(msg: string): void {\n  console.log(msg);\n}\nlog(\"done\");",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Enum (Numeric & String)\n\n- Mendefinisikan himpunan konstanta terstruktur\n- Auto-increment pada numeric enum",
+    "code": "// TypeScript Enum (Numeric & String)\nconst lessonTitle: string = 'Enum (Numeric & String)';",
     "quiz": {
-      "question": "Tipe return apa yang tepat untuk fungsi yang selalu melempar exception atau infinite loop?",
+      "question": "Secara default, nilai numerik apa yang diberikan ke anggota pertama dari sebuah Enum?",
       "options": [
-        "never",
-        "void",
-        "undefined",
-        "null"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 12,
-    "title": "12. Type Assertions",
-    "module": "Tipe Dasar TypeScript",
+    "slug": "ts-12",
+    "title": "12. Enum vs Const Assertions (as const)",
+    "module": "Modul 2: Tipe Data Kompleks & Objek",
     "moduleId": 2,
-    "mdFile": "lessons/type-assertions.md",
-    "duration": "15 min",
-    "description": "<p><strong>Type Assertions</strong></p>",
-    "defaultCode": "// Type assertion & satisfies (TS 5.x)\nconst val: unknown = \"hello\";\nconst len: number = (val as string).length;\nconsole.log(len);\n\n// satisfies: validasi shape tanpa widening (TS 4.9+/5.x)\ntype Color = \"red\" | \"blue\";\ntype Hex = `#${string}`;\nconst theme = { primary: \"#3b82f6\", accent: \"#60a5fa\" } satisfies Record<string, Hex>;\nconsole.log(theme.primary);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Enum vs Const Assertions (as const)\n\n- Literal inference dengan 'as const'\n- Kelebihan 'as const' untuk performa bundler",
+    "code": "// TypeScript Enum vs Const Assertions (as const)\nconst lessonTitle: string = 'Enum vs Const Assertions (as const)';",
     "quiz": {
-      "question": "Kapan Type Assertion ('value as TargetType') sebaiknya digunakan?",
+      "question": "Apa keuntungan menggunakan 'as const' dibandingkan dengan enum?",
       "options": [
-        "Saat developer mengetahui tipe data lebih spesifik daripada inferensi compiler (misal casting HTMLElement)",
-        "Sebagai pengganti Number() untuk parsing string",
-        "Untuk mengubah tipe number ke boolean di runtime",
-        "Untuk mengabaikan logic bug di runtime"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 13,
-    "title": "13. Union Types",
-    "module": "Advanced Types",
+    "slug": "ts-13",
+    "title": "13. Parameter & Return Type",
+    "module": "Modul 3: Fungsi & Anotasi Parameter",
     "moduleId": 3,
-    "mdFile": "lessons/union-types.md",
-    "duration": "20 min",
-    "description": "<p><strong>Union Types</strong></p>",
-    "defaultCode": "// Union\nfunction fmt(id: string | number): string {\n  return `ID: ${id}`;\n}\nconsole.log(fmt(42));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Parameter & Return Type\n\n- Mengetik input fungsi\n- Menentukan nilai kembalian (return type) fungsi",
+    "code": "// TypeScript Parameter & Return Type\nconst lessonTitle: string = 'Parameter & Return Type';",
     "quiz": {
-      "question": "Ekspresi 'type Status = \"idle\" | \"loading\" | \"success\"' merepresentasikan fitur apa?",
+      "question": "Jika sebuah fungsi tidak secara eksplisit didefinisikan return type-nya, apa yang dilakukan TypeScript?",
       "options": [
-        "String Literal Union Types",
-        "Dynamic Enum Array",
-        "Nominal Interface",
-        "Tuple Constraint"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 14,
-    "title": "14. Intersection Types",
-    "module": "Advanced Types",
+    "slug": "ts-14",
+    "title": "14. Optional & Default Parameters",
+    "module": "Modul 3: Fungsi & Anotasi Parameter",
     "moduleId": 3,
-    "mdFile": "lessons/intersection-types.md",
-    "duration": "20 min",
-    "description": "<p><strong>Intersection Types</strong></p>",
-    "defaultCode": "// Intersection\ntype A = { name: string };\ntype B = { age: number };\nconst p: A & B = { name: \"Budi\", age: 25 };\nconsole.log(p.name);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Optional & Default Parameters\n\n- Parameter fungsi yang tidak wajib (?)\n- Memberikan nilai bawaan (default value)",
+    "code": "// TypeScript Optional & Default Parameters\nconst lessonTitle: string = 'Optional & Default Parameters';",
     "quiz": {
-      "question": "Apa hasil dari Intersection Type 'type AdminUser = User & Permissions'?",
+      "question": "Di mana posisi parameter opsional harus ditempatkan dalam argumen fungsi?",
       "options": [
-        "Tipe objek yang wajib memiliki seluruh field dari User DAN seluruh field dari Permissions",
-        "Tipe yang hanya boleh memiliki salah satu dari User atau Permissions",
-        "Array kombinasi kedua tipe",
-        "Fungsi yang menggabungkan dua objek"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 15,
-    "title": "15. Type Guards",
-    "module": "Advanced Types",
+    "slug": "ts-15",
+    "title": "15. Rest Parameters",
+    "module": "Modul 3: Fungsi & Anotasi Parameter",
     "moduleId": 3,
-    "mdFile": "lessons/type-guards.md",
-    "duration": "25 min",
-    "description": "<p><strong>Type Guards</strong></p>",
-    "defaultCode": "// Type guard\nfunction isStr(x: unknown): x is string {\n  return typeof x === \"string\";\n}\nconsole.log(isStr(\"hi\"));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Rest Parameters\n\n- Menangani jumlah argumen tak terhingga dengan ...args\n- Mengetik rest parameters sebagai Array",
+    "code": "// TypeScript Rest Parameters\nconst lessonTitle: string = 'Rest Parameters';",
     "quiz": {
-      "question": "Sintaks Type Guard predicate function yang valid di TypeScript adalah?",
+      "question": "Tipe data struktur apa yang selalu digunakan untuk merepresentasikan rest parameter?",
       "options": [
-        "function isCat(a: Animal): a is Cat { return (a as Cat).meow !== undefined; }",
-        "function isCat(a: Animal): boolean as Cat { return true; }",
-        "function isCat(a: Animal): Cat is a { return true; }",
-        "function isCat(a: Animal) -> Cat { return a; }"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 16,
-    "title": "16. Type Narrowing",
-    "module": "Advanced Types",
+    "slug": "ts-16",
+    "title": "16. Function Types",
+    "module": "Modul 3: Fungsi & Anotasi Parameter",
     "moduleId": 3,
-    "mdFile": "lessons/type-narrowing.md",
-    "duration": "20 min",
-    "description": "<p><strong>Type Narrowing</strong></p>",
-    "defaultCode": "// Narrowing\nfunction pad(n: number | string): string {\n  if (typeof n === \"number\") return n.toFixed(2);\n  return n;\n}\nconsole.log(pad(3.14159));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Function Types\n\n- Menyimpan signature/bentuk fungsi ke dalam tipe\n- Sintaks panah (=>) pada tipe fungsi",
+    "code": "// TypeScript Function Types\nconst lessonTitle: string = 'Function Types';",
     "quiz": {
-      "question": "Pada konsep 'Type Narrowing', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Simbol apa yang digunakan untuk memisahkan parameter dan return type dalam penulisan tipe fungsi?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 17,
-    "title": "17. Nullable Types",
-    "module": "Advanced Types",
+    "slug": "ts-17",
+    "title": "17. Void & Never",
+    "module": "Modul 3: Fungsi & Anotasi Parameter",
     "moduleId": 3,
-    "mdFile": "lessons/nullable-types.md",
-    "duration": "15 min",
-    "description": "<p><strong>Nullable Types</strong></p>",
-    "defaultCode": "// Nullable\nfunction greet(name?: string): string {\n  return `Hi, ${name ?? \"Guest\"}!`;\n}\nconsole.log(greet());",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Void & Never\n\n- Perbedaan void (selesai tanpa return) vs never (tidak pernah selesai)\n- Kasus penggunaan throw error dan infinite loops",
+    "code": "// TypeScript Void & Never\nconst lessonTitle: string = 'Void & Never';",
     "quiz": {
-      "question": "Pada konsep 'Nullable Types', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Tipe apa yang direpresentasikan oleh fungsi yang memiliki infinite loop (perulangan tiada henti)?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 18,
-    "title": "18. Type Inference",
-    "module": "Advanced Types",
+    "slug": "ts-18",
+    "title": "18. Function Overloading",
+    "module": "Modul 3: Fungsi & Anotasi Parameter",
     "moduleId": 3,
-    "mdFile": "lessons/type-inference.md",
-    "duration": "15 min",
-    "description": "<p><strong>Type Inference</strong></p>",
-    "defaultCode": "// Inference\nlet msg = \"auto string\";\nlet count = 10;\nconsole.log(typeof msg + \" \" + typeof count);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Function Overloading\n\n- Satu fungsi dengan berbagai bentuk input/output\n- Implementasi signature overload",
+    "code": "// TypeScript Function Overloading\nconst lessonTitle: string = 'Function Overloading';",
     "quiz": {
-      "question": "Pada konsep 'Type Inference', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apakah implementasi utama dari function overload di TS harus mencakup atau mengakomodasi semua bentuk signature yang didefinisikan?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 19,
-    "title": "19. Indexed Access Types",
-    "module": "Advanced Types",
-    "moduleId": 3,
-    "mdFile": "lessons/indexed-access-types.md",
-    "duration": "20 min",
-    "description": "<p><strong>Indexed Access Types</strong></p>",
-    "defaultCode": "// Indexed access\ninterface User { name: string; age: number; }\ntype Age = User[\"age\"];\nconst a: Age = 25;\nconsole.log(a);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-19",
+    "title": "19. Union Types (|)",
+    "module": "Modul 4: Union, Intersection & Type Narrowing",
+    "moduleId": 4,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Union Types (|)\n\n- Mendeklarasikan tipe fleksibel (A atau B)\n- Penggunaan tipe union pada variabel dan fungsi",
+    "code": "// TypeScript Union Types (|)\nconst lessonTitle: string = 'Union Types (|)';",
     "quiz": {
-      "question": "Pada konsep 'Indexed Access Types', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Karakter apa yang digunakan untuk memisahkan antar tipe pada Union Types?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 20,
-    "title": "20. Conditional Types",
-    "module": "Advanced Types",
-    "moduleId": 3,
-    "mdFile": "lessons/conditional-types.md",
-    "duration": "25 min",
-    "description": "<p><strong>Conditional Types</strong></p>",
-    "defaultCode": "// Conditional\ntype IsStr<T> = T extends string ? true : false;\nconst t: IsStr<string> = true;\nconsole.log(t);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-20",
+    "title": "20. Intersection Types (&)",
+    "module": "Modul 4: Union, Intersection & Type Narrowing",
+    "moduleId": 4,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Intersection Types (&)\n\n- Menggabungkan beberapa tipe menjadi satu bentuk utuh\n- Kasus penggunaan pada tipe objek majemuk",
+    "code": "// TypeScript Intersection Types (&)\nconst lessonTitle: string = 'Intersection Types (&)';",
     "quiz": {
-      "question": "Pada konsep 'Conditional Types', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apa hasil dari Intersection Type (&) antara string dan number?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 21,
-    "title": "21. Mapped Types",
-    "module": "Advanced Types",
-    "moduleId": 3,
-    "mdFile": "lessons/mapped-types.md",
-    "duration": "25 min",
-    "description": "<p><strong>Mapped Types</strong></p>",
-    "defaultCode": "// Mapped\ntype Opt<T> = { [K in keyof T]?: T[K] };\ninterface U { name: string }\nconst u: Opt<U> = {};\nconsole.log(JSON.stringify(u));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-21",
+    "title": "21. Literal Types",
+    "module": "Modul 4: Union, Intersection & Type Narrowing",
+    "moduleId": 4,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Literal Types\n\n- Menentukan tipe menggunakan nilai presisi\n- Kombinasi Literal Types dan Union Types",
+    "code": "// TypeScript Literal Types\nconst lessonTitle: string = 'Literal Types';",
     "quiz": {
-      "question": "Pada konsep 'Mapped Types', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apa keuntungan utama menggunakan Literal Types yang dikombinasikan dengan Union?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 22,
-    "title": "22. Template Literal Types",
-    "module": "Advanced Types",
-    "moduleId": 3,
-    "mdFile": "lessons/template-literal-types.md",
-    "duration": "20 min",
-    "description": "<p><strong>Template Literal Types</strong></p>",
-    "defaultCode": "// Template literal\ntype Greet = `Hello, ${string}!`;\nconst g: Greet = \"Hello, TS!\";\nconsole.log(g);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-22",
+    "title": "22. Type Guards (typeof & instanceof)",
+    "module": "Modul 4: Union, Intersection & Type Narrowing",
+    "moduleId": 4,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Type Guards (typeof & instanceof)\n\n- Mengecilkan (narrowing) tipe berdasarkan kondisi runtime\n- Penggunaan typeof untuk primitif dan instanceof untuk class",
+    "code": "// TypeScript Type Guards (typeof & instanceof)\nconst lessonTitle: string = 'Type Guards (typeof & instanceof)';",
     "quiz": {
-      "question": "Pada konsep 'Template Literal Types', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Keyword apa yang bisa mengecek apakah variabel adalah instance dari class tertentu di runtime?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 23,
-    "title": "23. Interface Dasar",
-    "module": "Interfaces & Type Aliases",
+    "slug": "ts-23",
+    "title": "23. Discriminated Unions",
+    "module": "Modul 4: Union, Intersection & Type Narrowing",
     "moduleId": 4,
-    "mdFile": "lessons/interface-dasar.md",
-    "duration": "20 min",
-    "description": "<p><strong>Interface Dasar</strong></p>",
-    "defaultCode": "// Interface\ninterface User {\n  name: string;\n  age: number;\n}\nconst u: User = { name: \"Budi\", age: 25 };\nconsole.log(u.name);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Discriminated Unions\n\n- Properti penanda (discriminant) dalam objek\n- Pola switch-case yang aman secara tipe",
+    "code": "// TypeScript Discriminated Unions\nconst lessonTitle: string = 'Discriminated Unions';",
     "quiz": {
-      "question": "Pada konsep 'Interface Dasar', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apa peran dari field (properti) khusus pada sebuah Discriminated Union?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 24,
-    "title": "24. Optional & Readonly Properties",
-    "module": "Interfaces & Type Aliases",
+    "slug": "ts-24",
+    "title": "24. Custom Type Predicates (is)",
+    "module": "Modul 4: Union, Intersection & Type Narrowing",
     "moduleId": 4,
-    "mdFile": "lessons/optional-readonly-properties.md",
-    "duration": "15 min",
-    "description": "<p><strong>Optional & Readonly Properties</strong></p>",
-    "defaultCode": "// Optional & readonly\ninterface Cfg {\n  readonly id: number;\n  name?: string;\n}\nconst c: Cfg = { id: 1 };\nconsole.log(c.id);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Custom Type Predicates (is)\n\n- Membuat fungsi khusus penentu tipe\n- Return type boolean berformat 'arg is Type'",
+    "code": "// TypeScript Custom Type Predicates (is)\nconst lessonTitle: string = 'Custom Type Predicates (is)';",
     "quiz": {
-      "question": "Pada konsep 'Optional & Readonly Properties', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Keyword apa yang digunakan di akhir fungsi predicate agar TypeScript tahu operasi narrowing sukses?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 25,
-    "title": "25. Type Aliases",
-    "module": "Interfaces & Type Aliases",
-    "moduleId": 4,
-    "mdFile": "lessons/type-aliases.md",
-    "duration": "15 min",
-    "description": "<p><strong>Type Aliases</strong></p>",
-    "defaultCode": "// Type alias\ntype ID = string | number;\nconst id: ID = \"abc-123\";\nconsole.log(id);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-25",
+    "title": "25. Type Aliases (type keyword)",
+    "module": "Modul 5: Interface & Type Alias Mendalam",
+    "moduleId": 5,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Type Aliases (type keyword)\n\n- Memberi nama custom pada tipe data\n- Fleksibilitas tipe untuk union atau primitif",
+    "code": "// TypeScript Type Aliases (type keyword)\nconst lessonTitle: string = 'Type Aliases (type keyword)';",
     "quiz": {
-      "question": "Pada konsep 'Type Aliases', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apakah Type Alias bisa digunakan untuk menamai tipe Union dan Literal sekaligus?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 26,
-    "title": "26. Interface vs Type Alias",
-    "module": "Interfaces & Type Aliases",
-    "moduleId": 4,
-    "mdFile": "lessons/interface-vs-type-alias.md",
-    "duration": "20 min",
-    "description": "<p><strong>Interface vs Type Alias</strong></p>",
-    "defaultCode": "// Interface extends\ninterface A { x: number }\ninterface B extends A { y: string }\nconst b: B = { x: 1, y: \"hi\" };\nconsole.log(b.x + b.y);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-26",
+    "title": "26. Interfaces Dasar",
+    "module": "Modul 5: Interface & Type Alias Mendalam",
+    "moduleId": 5,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Interfaces Dasar\n\n- Mendefinisikan blueprint dari objek atau kelas\n- Menyatakan kontrak untuk properti dan method",
+    "code": "// TypeScript Interfaces Dasar\nconst lessonTitle: string = 'Interfaces Dasar';",
     "quiz": {
-      "question": "Pada konsep 'Interface vs Type Alias', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Berbeda dengan Type Alias, Interface hanya dapat digunakan untuk merepresentasikan apa?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 27,
-    "title": "27. Extending Interfaces",
-    "module": "Interfaces & Type Aliases",
-    "moduleId": 4,
-    "mdFile": "lessons/extending-interfaces-types.md",
-    "duration": "20 min",
-    "description": "<p><strong>Extending Interfaces</strong></p>",
-    "defaultCode": "// Extending\ninterface Animal { name: string }\ninterface Dog extends Animal { breed: string }\nconst d: Dog = { name: \"Rex\", breed: \"Lab\" };\nconsole.log(d.breed);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-27",
+    "title": "27. Interface vs Type (Perbedaan)",
+    "module": "Modul 5: Interface & Type Alias Mendalam",
+    "moduleId": 5,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Interface vs Type (Perbedaan)\n\n- Declaration Merging (hanya Interface)\n- Intersection pada Type",
+    "code": "// TypeScript Interface vs Type (Perbedaan)\nconst lessonTitle: string = 'Interface vs Type (Perbedaan)';",
     "quiz": {
-      "question": "Pada konsep 'Extending Interfaces', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Fitur apa yang memungkinkan Anda mendeklarasikan interface berulang kali agar tergabung menjadi satu?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 28,
-    "title": "28. Index Signatures",
-    "module": "Interfaces & Type Aliases",
-    "moduleId": 4,
-    "mdFile": "lessons/index-signatures.md",
-    "duration": "15 min",
-    "description": "<p><strong>Index Signatures</strong></p>",
-    "defaultCode": "// Index signature\ninterface Dict {\n  [key: string]: number;\n}\nconst scores: Dict = { math: 90 };\nconsole.log(scores.math);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-28",
+    "title": "28. Extending Interfaces",
+    "module": "Modul 5: Interface & Type Alias Mendalam",
+    "moduleId": 5,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Extending Interfaces\n\n- Pewarisan sifat dari interface lain (extends)\n- Meng-extend tipe lebih dari satu",
+    "code": "// TypeScript Extending Interfaces\nconst lessonTitle: string = 'Extending Interfaces';",
     "quiz": {
-      "question": "Pada konsep 'Index Signatures', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Keyword apa yang digunakan oleh Interface untuk mewarisi sifat dari Interface lainnya?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 29,
-    "title": "29. Function Types",
-    "module": "Functions TypeScript",
+    "slug": "ts-29",
+    "title": "29. Implements pada Class",
+    "module": "Modul 5: Interface & Type Alias Mendalam",
     "moduleId": 5,
-    "mdFile": "lessons/function-types.md",
-    "duration": "20 min",
-    "description": "<p><strong>Function Types</strong></p>",
-    "defaultCode": "// Function type\ntype Add = (a: number, b: number) => number;\nconst add: Add = (a, b) => a + b;\nconsole.log(add(2, 3));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Implements pada Class\n\n- Memaksa class memenuhi struktur Interface\n- Pemakaian ganda multiple interface",
+    "code": "// TypeScript Implements pada Class\nconst lessonTitle: string = 'Implements pada Class';",
     "quiz": {
-      "question": "Pada konsep 'Function Types', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Keyword apa yang menghubungkan sebuah Class sehingga wajib mematuhi aturan sebuah Interface?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 30,
-    "title": "30. Rest & Spread",
-    "module": "Functions TypeScript",
+    "slug": "ts-30",
+    "title": "30. Recursive Types",
+    "module": "Modul 5: Interface & Type Alias Mendalam",
     "moduleId": 5,
-    "mdFile": "lessons/rest-spread.md",
-    "duration": "15 min",
-    "description": "<p><strong>Rest & Spread</strong></p>",
-    "defaultCode": "// Rest & spread\nfunction sum(...nums: number[]): number {\n  return nums.reduce((a, b) => a + b, 0);\n}\nconsole.log(sum(1, 2, 3));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Recursive Types\n\n- Tipe data yang mereferensikan dirinya sendiri\n- Pola Tree, JSON, dan Data bersarang",
+    "code": "// TypeScript Recursive Types\nconst lessonTitle: string = 'Recursive Types';",
     "quiz": {
-      "question": "Pada konsep 'Rest & Spread', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Struktur data seperti apa yang sangat bergantung pada pembuatan Recursive Type?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 31,
-    "title": "31. Optional & Default Params",
-    "module": "Functions TypeScript",
-    "moduleId": 5,
-    "mdFile": "lessons/optional-default-params.md",
-    "duration": "15 min",
-    "description": "<p><strong>Optional & Default Params</strong></p>",
-    "defaultCode": "// Default param\nfunction greet(n: string = \"Guest\"): string {\n  return `Hi, ${n}!`;\n}\nconsole.log(greet());",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-31",
+    "title": "31. Pengenalan Generics",
+    "module": "Modul 6: Generics",
+    "moduleId": 6,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Pengenalan Generics\n\n- Konsep parameter untuk tipe data\n- Menghindari repetisi fungsi identikal beda tipe",
+    "code": "// TypeScript Pengenalan Generics\nconst lessonTitle: string = 'Pengenalan Generics';",
     "quiz": {
-      "question": "Pada konsep 'Optional & Default Params', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Simbol konvensi apa yang paling umum dipakai (satu huruf kapital) untuk merepresentasikan tipe Generic?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 32,
-    "title": "32. Function Overloads",
-    "module": "Functions TypeScript",
-    "moduleId": 5,
-    "mdFile": "lessons/function-overloads.md",
-    "duration": "20 min",
-    "description": "<p><strong>Function Overloads</strong></p>",
-    "defaultCode": "// Overload\nfunction pick(x: string): string;\nfunction pick(x: number): number;\nfunction pick(x: any): any { return x; }\nconsole.log(pick(\"a\"));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-32",
+    "title": "32. Generic Interfaces & Types",
+    "module": "Modul 6: Generics",
+    "moduleId": 6,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Generic Interfaces & Types\n\n- Interface yang menerima argumen tipe\n- Membangun struktur wrapper universal",
+    "code": "// TypeScript Generic Interfaces & Types\nconst lessonTitle: string = 'Generic Interfaces & Types';",
     "quiz": {
-      "question": "Pada konsep 'Function Overloads', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Bagaimana cara membaca secara konsep dari definisi APIResponse<string>?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 33,
-    "title": "33. Arrow Functions & Types",
-    "module": "Functions TypeScript",
-    "moduleId": 5,
-    "mdFile": "lessons/arrow-functions-types.md",
-    "duration": "15 min",
-    "description": "<p><strong>Arrow Functions & Types</strong></p>",
-    "defaultCode": "// Arrow\nconst double = (n: number): number => n * 2;\nconsole.log(double(21));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-33",
+    "title": "33. Generic Classes",
+    "module": "Modul 6: Generics",
+    "moduleId": 6,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Generic Classes\n\n- Class yang mengadopsi fleksibilitas generic type\n- Mendefinisikan method yang spesifik pada generic class",
+    "code": "// TypeScript Generic Classes\nconst lessonTitle: string = 'Generic Classes';",
     "quiz": {
-      "question": "Pada konsep 'Arrow Functions & Types', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Kapan penentuan tipe pasti (konkret) terjadi pada Generic Class?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 34,
-    "title": "34. Class Dasar",
-    "module": "Classes & OOP",
+    "slug": "ts-34",
+    "title": "34. Generic Constraints (extends)",
+    "module": "Modul 6: Generics",
     "moduleId": 6,
-    "mdFile": "lessons/class-dasar.md",
-    "duration": "20 min",
-    "description": "<p><strong>Class Dasar</strong></p>",
-    "defaultCode": "// Class & Decorators TS 5.x (TC39 stage-3)\nfunction sealed<T extends { new(...args:any[]): {} }>(ctor: T) { Object.seal(ctor); return ctor; }\n@sealed\nclass Person {\n  constructor(public name: string) {}\n  greet(): string { return `Hi, ${this.name}`; }\n}\nconsole.log(new Person(\"Budi\").greet());",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Generic Constraints (extends)\n\n- Membatasi tipe generic agar punya properti spesifik\n- Menjamin keamanan akses properti dalam generic",
+    "code": "// TypeScript Generic Constraints (extends)\nconst lessonTitle: string = 'Generic Constraints (extends)';",
     "quiz": {
-      "question": "Pada konsep 'Class Dasar', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Keyword apa yang dipakai untuk memaksa Generic parameter agar memenuhi kondisi tertentu?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 35,
-    "title": "35. Inheritance (extends/super)",
-    "module": "Classes & OOP",
+    "slug": "ts-35",
+    "title": "35. Multiple Generic Parameters",
+    "module": "Modul 6: Generics",
     "moduleId": 6,
-    "mdFile": "lessons/inheritance-extends-super.md",
-    "duration": "20 min",
-    "description": "<p><strong>Inheritance (extends/super)</strong></p>",
-    "defaultCode": "// Inheritance\nclass Animal {\n  constructor(public name: string) {}\n}\nclass Dog extends Animal {\n  bark(): string { return `${this.name} barks!`; }\n}\nconsole.log(new Dog(\"Rex\").bark());",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Multiple Generic Parameters\n\n- Menggunakan lebih dari satu tipe (T, U, V)\n- Menggabungkan dua data dengan tipe tidak diketahui",
+    "code": "// TypeScript Multiple Generic Parameters\nconst lessonTitle: string = 'Multiple Generic Parameters';",
     "quiz": {
-      "question": "Pada konsep 'Inheritance (extends/super)', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Karakter apa yang digunakan untuk memisahkan parameter generik pada kurung sudut <T, U>?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 36,
-    "title": "36. Access Modifiers",
-    "module": "Classes & OOP",
+    "slug": "ts-36",
+    "title": "36. Generics dengan Default Types",
+    "module": "Modul 6: Generics",
     "moduleId": 6,
-    "mdFile": "lessons/access-modifiers.md",
-    "duration": "20 min",
-    "description": "<p><strong>Access Modifiers</strong></p>",
-    "defaultCode": "// Modifiers\nclass Acc {\n  private secret = 42;\n  getSecret(): number { return this.secret; }\n}\nconsole.log(new Acc().getSecret());",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Generics dengan Default Types\n\n- Nilai bawaan pada generik layaknya default parameter\n- Sintaks <T = DefaultType>",
+    "code": "// TypeScript Generics dengan Default Types\nconst lessonTitle: string = 'Generics dengan Default Types';",
     "quiz": {
-      "question": "Pada konsep 'Access Modifiers', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Simbol apa yang memberi nilai otomatis/default jika user lupa atau tidak memberikan spesifikasi tipe generik?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 37,
-    "title": "37. Constructor Parameter Properties",
-    "module": "Classes & OOP",
-    "moduleId": 6,
-    "mdFile": "lessons/constructor-parameter-properties.md",
-    "duration": "15 min",
-    "description": "<p><strong>Constructor Parameter Properties</strong></p>",
-    "defaultCode": "// Param props\nclass Point {\n  constructor(public x: number, public y: number) {}\n}\nconsole.log(new Point(1, 2).x);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-37",
+    "title": "37. Conditional Types Dasar",
+    "module": "Modul 7: Advanced Types: Mapped & Conditional Types",
+    "moduleId": 7,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Conditional Types Dasar\n\n- Logika if/else pada sistem tipe\n- Sintaks T extends U ? X : Y",
+    "code": "// TypeScript Conditional Types Dasar\nconst lessonTitle: string = 'Conditional Types Dasar';",
     "quiz": {
-      "question": "Pada konsep 'Constructor Parameter Properties', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Sintaks operator JavaScript apa yang diadaptasi pada penulisan Conditional Types di TypeScript?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 38,
-    "title": "38. Abstract Classes",
-    "module": "Classes & OOP",
-    "moduleId": 6,
-    "mdFile": "lessons/abstract-classes.md",
-    "duration": "20 min",
-    "description": "<p><strong>Abstract Classes</strong></p>",
-    "defaultCode": "// Abstract\nabstract class Shape {\n  abstract area(): number;\n}\nclass Circle extends Shape {\n  constructor(private r: number) { super(); }\n  area(): number { return Math.PI * this.r ** 2; }\n}\nconsole.log(new Circle(2).area().toFixed(2));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-38",
+    "title": "38. Infer dalam Conditional Types",
+    "module": "Modul 7: Advanced Types: Mapped & Conditional Types",
+    "moduleId": 7,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Infer dalam Conditional Types\n\n- Menangkap (extracting) tipe secara dinamis\n- Keyword infer",
+    "code": "// TypeScript Infer dalam Conditional Types\nconst lessonTitle: string = 'Infer dalam Conditional Types';",
     "quiz": {
-      "question": "Pada konsep 'Abstract Classes', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Keyword apa yang digunakan di dalam klausa extends untuk menampung tipe inferensi dan digunakan di true-branch?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 39,
-    "title": "39. Readonly & Static",
-    "module": "Classes & OOP",
-    "moduleId": 6,
-    "mdFile": "lessons/readonly-params.md",
-    "duration": "15 min",
-    "description": "<p><strong>Readonly & Static</strong></p>",
-    "defaultCode": "// Readonly\nclass Cfg {\n  constructor(public readonly id: number) {}\n}\nconsole.log(new Cfg(7).id);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-39",
+    "title": "39. Mapped Types Dasar",
+    "module": "Modul 7: Advanced Types: Mapped & Conditional Types",
+    "moduleId": 7,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Mapped Types Dasar\n\n- Transformasi iteratif tipe objek per properti\n- Sintaks [K in keyof T]",
+    "code": "// TypeScript Mapped Types Dasar\nconst lessonTitle: string = 'Mapped Types Dasar';",
     "quiz": {
-      "question": "Pada konsep 'Readonly & Static', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Keyword gabungan apa yang dipakai untuk mendapatkan seluruh kumpulan key dari sebuah objek T?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 40,
-    "title": "40. Generic Functions Dasar",
-    "module": "Generics",
+    "slug": "ts-40",
+    "title": "40. Mapped Types dengan Modifiers (+ dan -)",
+    "module": "Modul 7: Advanced Types: Mapped & Conditional Types",
     "moduleId": 7,
-    "mdFile": "lessons/generic-functions-dasar.md",
-    "duration": "25 min",
-    "description": "<p><strong>Generic Functions Dasar</strong></p>",
-    "defaultCode": "// Generic fn & const type params (TS 5.0)\nfunction identity<T>(x: T): T { return x; }\nconsole.log(identity<string>(\"hi\"));\n\n// const type param: preserve literals\nfunction withConst<const T>(arr: T): T { return arr; }\nconst arr = withConst([\"ts\", \"5.x\"] as const);\nconsole.log(arr[0]);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Mapped Types dengan Modifiers (+ dan -)\n\n- Menambah/Mencabut sifat readonly atau opsional\n- Modifikasi mapping -? dan -readonly",
+    "code": "// TypeScript Mapped Types dengan Modifiers (+ dan -)\nconst lessonTitle: string = 'Mapped Types dengan Modifiers (+ dan -)';",
     "quiz": {
-      "question": "Pada konsep 'Generic Functions Dasar', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apa efek yang akan dihasilkan dari operator modifier '-readonly' pada mapped type?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 41,
-    "title": "41. Generic Interfaces & Classes",
-    "module": "Generics",
+    "slug": "ts-41",
+    "title": "41. Key Remapping (as)",
+    "module": "Modul 7: Advanced Types: Mapped & Conditional Types",
     "moduleId": 7,
-    "mdFile": "lessons/generic-interfaces-classes.md",
-    "duration": "25 min",
-    "description": "<p><strong>Generic Interfaces & Classes</strong></p>",
-    "defaultCode": "// Generic interface\ninterface Box<T> { value: T }\nconst b: Box<number> = { value: 42 };\nconsole.log(b.value);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Key Remapping (as)\n\n- Mengganti/merekonstruksi nama kunci saat mapping\n- Sintaks keyof T as NewKey",
+    "code": "// TypeScript Key Remapping (as)\nconst lessonTitle: string = 'Key Remapping (as)';",
     "quiz": {
-      "question": "Pada konsep 'Generic Interfaces & Classes', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Keyword apa yang dapat kita tempelkan pada pemetaan kunci untuk mengubah nama aslinya menjadi baru?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 42,
-    "title": "42. Generic Constraints",
-    "module": "Generics",
+    "slug": "ts-42",
+    "title": "42. Template Literal Types",
+    "module": "Modul 7: Advanced Types: Mapped & Conditional Types",
     "moduleId": 7,
-    "mdFile": "lessons/generic-constraints.md",
-    "duration": "20 min",
-    "description": "<p><strong>Generic Constraints</strong></p>",
-    "defaultCode": "// Constraint\nfunction longest<T extends { length: number }>(x: T): number {\n  return x.length;\n}\nconsole.log(longest(\"hello\"));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Template Literal Types\n\n- Manipulasi literal string tingkat-tipe\n- Pembuatan union dinamis dari kombinasi string",
+    "code": "// TypeScript Template Literal Types\nconst lessonTitle: string = 'Template Literal Types';",
     "quiz": {
-      "question": "Pada konsep 'Generic Constraints', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Selain template string, fitur apa yang biasa dikombinasikan secara elegan dengan Template Literal Types untuk utilitas string?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 43,
-    "title": "43. Default Type Parameters",
-    "module": "Generics",
-    "moduleId": 7,
-    "mdFile": "lessons/default-type-params.md",
-    "duration": "15 min",
-    "description": "<p><strong>Default Type Parameters</strong></p>",
-    "defaultCode": "// Default param\ninterface Store<T = string> { item: T }\nconst s: Store = { item: \"default string\" };\nconsole.log(s.item);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-43",
+    "title": "43. Partial<T> & Required<T>",
+    "module": "Modul 8: Utility Types Bawaan",
+    "moduleId": 8,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Partial<T> & Required<T>\n\n- Mengubah semua field menjadi opsional atau wajib\n- Kasus penggunaan form dan update state",
+    "code": "// TypeScript Partial<T> & Required<T>\nconst lessonTitle: string = 'Partial<T> & Required<T>';",
     "quiz": {
-      "question": "Pada konsep 'Default Type Parameters', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apa utilitas (utility type) yang berfungsi terbalik dari fungsi Partial<T>?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 44,
-    "title": "44. Generic Utility Types",
-    "module": "Generics",
-    "moduleId": 7,
-    "mdFile": "lessons/generic-utility-types.md",
-    "duration": "20 min",
-    "description": "<p><strong>Generic Utility Types</strong></p>",
-    "defaultCode": "// Utility\ninterface Todo { title: string; done: boolean }\nconst t: Partial<Todo> = { title: \"Belajar\" };\nconsole.log(t.title);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-44",
+    "title": "44. Readonly<T>",
+    "module": "Modul 8: Utility Types Bawaan",
+    "moduleId": 8,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Readonly<T>\n\n- Pembuatan versi tidak-dapat-dimutasi dari suatu objek\n- Perbedaan strictness antar nested object",
+    "code": "// TypeScript Readonly<T>\nconst lessonTitle: string = 'Readonly<T>';",
     "quiz": {
-      "question": "Pada konsep 'Generic Utility Types', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apakah utility Readonly<T> otomatis menyegel / mengunci mutasi di level objek yang bersarang (nested)?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 45,
-    "title": "45. Parameter Utilities",
-    "module": "Generics",
-    "moduleId": 7,
-    "mdFile": "lessons/parameter-utilities.md",
-    "duration": "25 min",
-    "description": "<p><strong>Parameter Utilities</strong></p>",
-    "defaultCode": "// Partial & Pick\ninterface U { name: string; age: number }\nconst p: Partial<U> = { name: \"Budi\" };\nconsole.log(p.name);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-45",
+    "title": "45. Record<K, T>",
+    "module": "Modul 8: Utility Types Bawaan",
+    "moduleId": 8,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Record<K, T>\n\n- Struktur dictionary/Map cepat\n- Mendefinisikan Map Object dengan spesifik key union",
+    "code": "// TypeScript Record<K, T>\nconst lessonTitle: string = 'Record<K, T>';",
     "quiz": {
-      "question": "Pada konsep 'Parameter Utilities', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Pada sintaks Record<K, T>, argument tipe T mewakili apa?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 46,
-    "title": "46. ES6 Modules (import/export)",
-    "module": "Modules & Namespaces",
+    "slug": "ts-46",
+    "title": "46. Pick<T, K> & Omit<T, K>",
+    "module": "Modul 8: Utility Types Bawaan",
     "moduleId": 8,
-    "mdFile": "lessons/es6-modules-import-export.md",
-    "duration": "20 min",
-    "description": "<p><strong>ES6 Modules (import/export)</strong></p>",
-    "defaultCode": "// Modules\nconst PI: number = 3.14;\nfunction circle(r: number): number { return PI * r * r; }\nconsole.log(circle(2).toFixed(2));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Pick<T, K> & Omit<T, K>\n\n- Menyaring atau membuang key tertentu dari tipe utuh\n- Pembentukan DTO (Data Transfer Object) UI",
+    "code": "// TypeScript Pick<T, K> & Omit<T, K>\nconst lessonTitle: string = 'Pick<T, K> & Omit<T, K>';",
     "quiz": {
-      "question": "Pada konsep 'ES6 Modules (import/export)', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Jika kita hanya menginginkan 2 properti saja dari total 20 properti, utility apa yang lebih tepat: Pick atau Omit?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 47,
-    "title": "47. Default vs Named Export",
-    "module": "Modules & Namespaces",
+    "slug": "ts-47",
+    "title": "47. Exclude<T, U> & Extract<T, U>",
+    "module": "Modul 8: Utility Types Bawaan",
     "moduleId": 8,
-    "mdFile": "lessons/default-vs-named-export.md",
-    "duration": "15 min",
-    "description": "<p><strong>Default vs Named Export</strong></p>",
-    "defaultCode": "// Named export pattern\nconst ver: string = \"1.0.0\";\nconsole.log(\"v\" + ver);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Exclude<T, U> & Extract<T, U>\n\n- Modifikasi dan pemilihan dari kumpulan Union Types\n- Filter tingkat tipe logis",
+    "code": "// TypeScript Exclude<T, U> & Extract<T, U>\nconst lessonTitle: string = 'Exclude<T, U> & Extract<T, U>';",
     "quiz": {
-      "question": "Pada konsep 'Default vs Named Export', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apakah Exclude/Extract ditujukan untuk memfilter properti objek atau Union Types?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 48,
-    "title": "48. Barrel Files",
-    "module": "Modules & Namespaces",
+    "slug": "ts-48",
+    "title": "48. ReturnType<T> & Parameters<T>",
+    "module": "Modul 8: Utility Types Bawaan",
     "moduleId": 8,
-    "mdFile": "lessons/barrel-files.md",
-    "duration": "15 min",
-    "description": "<p><strong>Barrel Files</strong></p>",
-    "defaultCode": "// Barrel: re-export\nconst utils = { add: (a: number, b: number) => a + b };\nconsole.log(utils.add(1, 2));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# ReturnType<T> & Parameters<T>\n\n- Ekstraksi input-output pada fungsi eksternal\n- Mengakses tipe ketika library hanya export fungsinya saja",
+    "code": "// TypeScript ReturnType<T> & Parameters<T>\nconst lessonTitle: string = 'ReturnType<T> & Parameters<T>';",
     "quiz": {
-      "question": "Pada konsep 'Barrel Files', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Parameter T macam apa yang harus disuplai kepada ReturnType<T>?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 49,
-    "title": "49. Dynamic Import & Code Splitting",
-    "module": "Modules & Namespaces",
-    "moduleId": 8,
-    "mdFile": "lessons/dynamic-import-code-splitting.md",
-    "duration": "20 min",
-    "description": "<p><strong>Dynamic Import & Code Splitting</strong></p>",
-    "defaultCode": "// Dynamic import (simulasi)\nasync function load(): Promise<string> {\n  return \"module loaded\";\n}\nload().then(console.log);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-49",
+    "title": "49. Modifiers: Public, Private, Protected",
+    "module": "Modul 9: OOP & Class di TypeScript",
+    "moduleId": 9,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Modifiers: Public, Private, Protected\n\n- Konsep enkapsulasi variabel instance class\n- Menjaga akses data state pada OOP",
+    "code": "// TypeScript Modifiers: Public, Private, Protected\nconst lessonTitle: string = 'Modifiers: Public, Private, Protected';",
     "quiz": {
-      "question": "Pada konsep 'Dynamic Import & Code Splitting', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Access modifier apa yang memberikan izin ke internal kelas induk dan anak turunannya (extends) saja?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 50,
-    "title": "50. Ambient Modules",
-    "module": "Modules & Namespaces",
-    "moduleId": 8,
-    "mdFile": "lessons/ambient-modules.md",
-    "duration": "20 min",
-    "description": "<p><strong>Ambient Modules</strong></p>",
-    "defaultCode": "// Ambient: declare\ndeclare const VERSION: string;\nconsole.log(\"ambient ok\");",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-50",
+    "title": "50. Parameter Properties",
+    "module": "Modul 9: OOP & Class di TypeScript",
+    "moduleId": 9,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Parameter Properties\n\n- Cara elegan mengurangi boilerplate constructor\n- Sintaks instansiasi on-the-fly",
+    "code": "// TypeScript Parameter Properties\nconst lessonTitle: string = 'Parameter Properties';",
     "quiz": {
-      "question": "Pada konsep 'Ambient Modules', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Bagaimana TypeScript mengetahui bahwa argumen constructor harus dijadikan properti instansi class otomatis?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 51,
-    "title": "51. Namespaces",
-    "module": "Modules & Namespaces",
-    "moduleId": 8,
-    "mdFile": "lessons/namespaces-organisasi-kode.md",
-    "duration": "20 min",
-    "description": "<p><strong>Namespaces</strong></p>",
-    "defaultCode": "// Namespace\nnamespace Math2 {\n  export const add = (a: number, b: number) => a + b;\n}\nconsole.log(Math2.add(3, 4));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-51",
+    "title": "51. Getters & Setters",
+    "module": "Modul 9: OOP & Class di TypeScript",
+    "moduleId": 9,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Getters & Setters\n\n- Metode accessor properti pseudo\n- Menambah logika pembatasan pada modifikasi assignment",
+    "code": "// TypeScript Getters & Setters\nconst lessonTitle: string = 'Getters & Setters';",
     "quiz": {
-      "question": "Pada konsep 'Namespaces', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Keyword apa yang wajib disematkan sebelum nama method untuk mendeklarasikannya sebagai Getter di TS/JS?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 52,
-    "title": "52. Declaration Merging",
-    "module": "Modules & Namespaces",
-    "moduleId": 8,
-    "mdFile": "lessons/declaration-merging.md",
-    "duration": "20 min",
-    "description": "<p><strong>Declaration Merging</strong></p>",
-    "defaultCode": "// Merging\ninterface Box { h: number }\ninterface Box { w: number }\nconst b: Box = { h: 1, w: 2 };\nconsole.log(b.h + b.w);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-52",
+    "title": "52. Static Properties & Methods",
+    "module": "Modul 9: OOP & Class di TypeScript",
+    "moduleId": 9,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Static Properties & Methods\n\n- Properti yang terhubung secara global ke class dan bukan ke object instansi\n- Pembuatan Utility Class",
+    "code": "// TypeScript Static Properties & Methods\nconst lessonTitle: string = 'Static Properties & Methods';",
     "quiz": {
-      "question": "Pada konsep 'Declaration Merging', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apakah properti bertipe Static bisa diakses via instance dari class bersangkutan melalui sintaks obj.propName?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 53,
-    "title": "53. tsconfig.json Struktur",
-    "module": "Configuration & Tooling",
+    "slug": "ts-53",
+    "title": "53. Abstract Classes",
+    "module": "Modul 9: OOP & Class di TypeScript",
     "moduleId": 9,
-    "mdFile": "lessons/tsconfig-json-struktur.md",
-    "duration": "25 min",
-    "description": "<p><strong>tsconfig.json Struktur</strong></p>",
-    "defaultCode": "// tsconfig strict\nconst strict: boolean = true;\nconsole.log(\"strict: \" + strict);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Abstract Classes\n\n- Class kerangka (blueprint) yang tidak bisa di instansiasi dengan 'new'\n- Abstrak method kontrak untuk anak (child class)",
+    "code": "// TypeScript Abstract Classes\nconst lessonTitle: string = 'Abstract Classes';",
     "quiz": {
-      "question": "Pada konsep 'tsconfig.json Struktur', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Sebutkan keyword esensial yang membuat sebuah class menjadi kerangka murni dan tidak bisa dibangun via (new)?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 54,
-    "title": "54. Compiler Options",
-    "module": "Configuration & Tooling",
+    "slug": "ts-54",
+    "title": "54. This Type (Polymorphic this)",
+    "module": "Modul 9: OOP & Class di TypeScript",
     "moduleId": 9,
-    "mdFile": "lessons/compiler-options-target-module-lib.md",
-    "duration": "20 min",
-    "description": "<p><strong>Compiler Options</strong></p>",
-    "defaultCode": "// Target ES2020\nconst big: bigint = BigInt(9007199254740991);\nconsole.log(typeof big);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# This Type (Polymorphic this)\n\n- Mereturn tipe this untuk Method Chaining\n- Beradaptasi secara dinamis ke subclass",
+    "code": "// TypeScript This Type (Polymorphic this)\nconst lessonTitle: string = 'This Type (Polymorphic this)';",
     "quiz": {
-      "question": "Pada konsep 'Compiler Options', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Pola rekayasa perangkat lunak apa yang sangat diuntungkan oleh return bertipe 'this'?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 55,
-    "title": "55. Strict Mode Options",
-    "module": "Configuration & Tooling",
-    "moduleId": 9,
-    "mdFile": "lessons/strict-mode-options.md",
-    "duration": "20 min",
-    "description": "<p><strong>Strict Mode Options</strong></p>",
-    "defaultCode": "// Strict null check\nfunction len(s: string | null): number {\n  return s?.length ?? 0;\n}\nconsole.log(len(null));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-55",
+    "title": "55. Decorators (Standar TS 5.0)",
+    "module": "Modul 10: Fitur Terbaru (TS 5+), Ekosistem & Best Practices",
+    "moduleId": 10,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Decorators (Standar TS 5.0)\n\n- Evolusi metadata standard class dan method ECMAScript\n- Tidak perlu lagi flag experimental",
+    "code": "// TypeScript Decorators (Standar TS 5.0)\nconst lessonTitle: string = 'Decorators (Standar TS 5.0)';",
     "quiz": {
-      "question": "Pada konsep 'Strict Mode Options', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apakah di TypeScript 5.0 dan versi terbaru, flag kompilasi 'experimentalDecorators' masih wajib diaktifkan?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 56,
-    "title": "56. Include, Exclude, Files",
-    "module": "Configuration & Tooling",
-    "moduleId": 9,
-    "mdFile": "lessons/include-exclude-files.md",
-    "duration": "15 min",
-    "description": "<p><strong>Include, Exclude, Files</strong></p>",
-    "defaultCode": "// include/exclude\nconst files: string[] = [\"src/index.ts\"];\nconsole.log(files.length + \" file\");",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-56",
+    "title": "56. Const Type Parameters (TS 5.0)",
+    "module": "Modul 10: Fitur Terbaru (TS 5+), Ekosistem & Best Practices",
+    "moduleId": 10,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Const Type Parameters (TS 5.0)\n\n- Memaksa generic inferensi tipe literal\n- Sintaks <const T>",
+    "code": "// TypeScript Const Type Parameters (TS 5.0)\nconst lessonTitle: string = 'Const Type Parameters (TS 5.0)';",
     "quiz": {
-      "question": "Pada konsep 'Include, Exclude, Files', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Di mana letak penempatan keyword 'const' agar inference generiknya menghasilkan readonly tuple/literal?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 57,
-    "title": "57. Path Mapping & Module Resolution",
-    "module": "Configuration & Tooling",
-    "moduleId": 9,
-    "mdFile": "lessons/path-mapping-module-resolution.md",
-    "duration": "20 min",
-    "description": "<p><strong>Path Mapping & Module Resolution</strong></p>",
-    "defaultCode": "// Path alias @/*\nconst alias: Record<string, string> = { \"@utils\": \"src/utils\" };\nconsole.log(alias[\"@utils\"]);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-57",
+    "title": "57. Satisfies Operator (TS 4.9/5.0)",
+    "module": "Modul 10: Fitur Terbaru (TS 5+), Ekosistem & Best Practices",
+    "moduleId": 10,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Satisfies Operator (TS 4.9/5.0)\n\n- Memvalidasi bentuk tipe tetapi menjaga ketepatan tipe asli inferensi\n- Mengatasi batas luas dari type annotation dan as",
+    "code": "// TypeScript Satisfies Operator (TS 4.9/5.0)\nconst lessonTitle: string = 'Satisfies Operator (TS 4.9/5.0)';",
     "quiz": {
-      "question": "Pada konsep 'Path Mapping & Module Resolution', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Apa keuntungan sentral dari keyword 'satisfies' dibandingkan memberikan type annotation/type casting ('as') eksplisit?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 58,
-    "title": "58. Build Tools (Webpack/Babel)",
-    "module": "Configuration & Tooling",
-    "moduleId": 9,
-    "mdFile": "lessons/build-tools-webpack-babel.md",
-    "duration": "25 min",
-    "description": "<p><strong>Build Tools (Webpack/Babel)</strong></p>",
-    "defaultCode": "// Build: bundle\nconst env: string = \"production\";\nconsole.log(\"build:\" + env);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-58",
+    "title": "58. Modul Node16/NodeNext (Resolusi)",
+    "module": "Modul 10: Fitur Terbaru (TS 5+), Ekosistem & Best Practices",
+    "moduleId": 10,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Modul Node16/NodeNext (Resolusi)\n\n- Dukungan dual module ESM & CommonJS native di TS modern\n- Penyesuaian import .js file",
+    "code": "// TypeScript Modul Node16/NodeNext (Resolusi)\nconst lessonTitle: string = 'Modul Node16/NodeNext (Resolusi)';",
     "quiz": {
-      "question": "Pada konsep 'Build Tools (Webpack/Babel)', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Selain 'Node16' dan 'NodeNext', setting 'moduleResolution' baru apa di TS 5 yang difokuskan pada pemakaian bundler eksternal seperti Vite/Webpack?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 59,
-    "title": "59. ESLint TypeScript",
-    "module": "Configuration & Tooling",
-    "moduleId": 9,
-    "mdFile": "lessons/eslint-typescript.md",
-    "duration": "20 min",
-    "description": "<p><strong>ESLint TypeScript</strong></p>",
-    "defaultCode": "// ESLint: no-explicit-any\nconst clean: string = \"lint passed\";\nconsole.log(clean);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "slug": "ts-59",
+    "title": "59. Menulis Tipe Declarations (.d.ts)",
+    "module": "Modul 10: Fitur Terbaru (TS 5+), Ekosistem & Best Practices",
+    "moduleId": 10,
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Menulis Tipe Declarations (.d.ts)\n\n- Sistem pengetikan pada file JavaScript yang tidak memiliki TypeScript (Legacy lib)\n- Global augmentation",
+    "code": "// TypeScript Menulis Tipe Declarations (.d.ts)\nconst lessonTitle: string = 'Menulis Tipe Declarations (.d.ts)';",
     "quiz": {
-      "question": "Pada konsep 'ESLint TypeScript', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Ekstensi apa yang harus dipasang untuk merepresentasikan bahwa ini hanya file berisi 'definisi tipe' murni tanpa eksekusi logika kode?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   },
   {
     "id": 60,
-    "title": "60. Prettier Integration",
-    "module": "Configuration & Tooling",
-    "moduleId": 9,
-    "mdFile": "lessons/prettier-integration.md",
-    "duration": "15 min",
-    "description": "<p><strong>Prettier Integration</strong></p>",
-    "defaultCode": "// Prettier: formatted\nconst formatted = { a: 1, b: 2 };\nconsole.log(JSON.stringify(formatted));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Prettier Integration', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 61,
-    "title": "61. Using JS Libraries",
-    "module": "JS Integration",
+    "slug": "ts-60",
+    "title": "60. Strict Mode & Project References",
+    "module": "Modul 10: Fitur Terbaru (TS 5+), Ekosistem & Best Practices",
     "moduleId": 10,
-    "mdFile": "lessons/using-js-libraries.md",
-    "duration": "20 min",
-    "description": "<p><strong>Using JS Libraries</strong></p>",
-    "defaultCode": "// JS lib interop\nconst now: number = Date.now();\nconsole.log(typeof now);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
+    "duration": "15 m",
+    "level": "Semua",
+    "content": "# Strict Mode & Project References\n\n- Setelan best practice strictness kompilasi untuk enterprise\n- Scale codebase dengan Project References di monorepo",
+    "code": "// TypeScript Strict Mode & Project References\nconst lessonTitle: string = 'Strict Mode & Project References';",
     "quiz": {
-      "question": "Pada konsep 'Using JS Libraries', manakah praktik penulisan type safety yang tepat di TypeScript?",
+      "question": "Pengaturan flag tsconfig.json mana yang paling signifikan dalam memberikan tingkat keamanan statis tipe (strictness) yang absolut?",
       "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
+        "Static typing",
+        "Dynamic eval",
+        "No compiler",
+        "Bypass types"
       ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 62,
-    "title": "62. Declaration Files (.d.ts)",
-    "module": "JS Integration",
-    "moduleId": 10,
-    "mdFile": "lessons/declaration-files-d-ts.md",
-    "duration": "25 min",
-    "description": "<p><strong>Declaration Files (.d.ts)</strong></p>",
-    "defaultCode": "// .d.ts\ninterface Lib { version: string }\nconst lib: Lib = { version: \"2.0\" };\nconsole.log(lib.version);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Declaration Files (.d.ts)', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 63,
-    "title": "63. DefinitelyTyped & @types",
-    "module": "JS Integration",
-    "moduleId": 10,
-    "mdFile": "lessons/definitelytyped.md",
-    "duration": "15 min",
-    "description": "<p><strong>DefinitelyTyped & @types</strong></p>",
-    "defaultCode": "// @types/node\nconst platform: string = \"node-types\";\nconsole.log(platform);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'DefinitelyTyped & @types', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 64,
-    "title": "64. Migrasi JS ke TS",
-    "module": "JS Integration",
-    "moduleId": 10,
-    "mdFile": "lessons/migrasi-js-ke-ts.md",
-    "duration": "25 min",
-    "description": "<p><strong>Migrasi JS ke TS</strong></p>",
-    "defaultCode": "// Migrasi bertahap\nlet legacy: any = \"old js\";\nconst modern: string = legacy as string;\nconsole.log(modern);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Migrasi JS ke TS', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 65,
-    "title": "65. Partial & Required",
-    "module": "Advanced Utility Types",
-    "moduleId": 11,
-    "mdFile": "lessons/partial-required.md",
-    "duration": "20 min",
-    "description": "<p><strong>Partial & Required</strong></p>",
-    "defaultCode": "// Partial\ninterface U { name: string; age: number }\nconst p: Partial<U> = { name: \"A\" };\nconsole.log(p.name);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Partial & Required', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 66,
-    "title": "66. Pick & Omit",
-    "module": "Advanced Utility Types",
-    "moduleId": 11,
-    "mdFile": "lessons/pick-omit.md",
-    "duration": "20 min",
-    "description": "<p><strong>Pick & Omit</strong></p>",
-    "defaultCode": "// Pick\ninterface U { name: string; age: number; city: string }\nconst p: Pick<U, \"name\"> = { name: \"Budi\" };\nconsole.log(p.name);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Pick & Omit', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 67,
-    "title": "67. Record & Tuple",
-    "module": "Advanced Utility Types",
-    "moduleId": 11,
-    "mdFile": "lessons/record-tuple.md",
-    "duration": "15 min",
-    "description": "<p><strong>Record & Tuple</strong></p>",
-    "defaultCode": "// Record\nconst scores: Record<string, number> = { a: 90, b: 85 };\nconsole.log(scores.a);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Record & Tuple', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 68,
-    "title": "68. Readonly & Record",
-    "module": "Advanced Utility Types",
-    "moduleId": 11,
-    "mdFile": "lessons/readonly-record.md",
-    "duration": "15 min",
-    "description": "<p><strong>Readonly & Record</strong></p>",
-    "defaultCode": "// Readonly\nconst cfg: Readonly<{ port: number }> = { port: 3000 };\nconsole.log(cfg.port);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Readonly & Record', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 69,
-    "title": "69. ReturnType & ThisType",
-    "module": "Advanced Utility Types",
-    "moduleId": 11,
-    "mdFile": "lessons/returntype-parameters-thistype.md",
-    "duration": "25 min",
-    "description": "<p><strong>ReturnType & ThisType</strong></p>",
-    "defaultCode": "// ReturnType\nfunction make(): { ok: boolean } { return { ok: true }; }\ntype R = ReturnType<typeof make>;\nconst r: R = { ok: true };\nconsole.log(r.ok);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'ReturnType & ThisType', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 70,
-    "title": "70. Exclude, Extract, NonNullable",
-    "module": "Advanced Utility Types",
-    "moduleId": 11,
-    "mdFile": "lessons/exclude-extract-nonnullable.md",
-    "duration": "20 min",
-    "description": "<p><strong>Exclude, Extract, NonNullable</strong></p>",
-    "defaultCode": "// Exclude\ntype T = Exclude<\"a\" | \"b\" | \"c\", \"a\">;\nconst t: T = \"b\";\nconsole.log(t);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Exclude, Extract, NonNullable', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 71,
-    "title": "71. Parameters & ConstructorParameters",
-    "module": "Advanced Utility Types",
-    "moduleId": 11,
-    "mdFile": "lessons/parameters-constructorparameters.md",
-    "duration": "20 min",
-    "description": "<p><strong>Parameters & ConstructorParameters</strong></p>",
-    "defaultCode": "// Parameters\nfunction f(a: string, b: number): void {}\ntype P = Parameters<typeof f>;\nconst p: P = [\"x\", 1];\nconsole.log(p[0]);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Parameters & ConstructorParameters', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 72,
-    "title": "72. OmitThisParameter",
-    "module": "Advanced Utility Types",
-    "moduleId": 11,
-    "mdFile": "lessons/omit-thisparameter.md",
-    "duration": "15 min",
-    "description": "<p><strong>OmitThisParameter</strong></p>",
-    "defaultCode": "// OmitThisParameter\nfunction greet(this: { n: string }): string { return this.n; }\nconsole.log(typeof greet);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'OmitThisParameter', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 73,
-    "title": "73. Project: CLI Tool",
-    "module": "Real-World Projects",
-    "moduleId": 12,
-    "mdFile": "lessons/project-cli-tool.md",
-    "duration": "30 min",
-    "description": "<p><strong>Project: CLI Tool</strong></p>",
-    "defaultCode": "// CLI tool\nconst args: string[] = [\"--help\"];\nfunction cli(a: string[]): string { return a[0] ?? \"no args\"; }\nconsole.log(cli(args));",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Project: CLI Tool', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 74,
-    "title": "74. Project: React + TypeScript",
-    "module": "Real-World Projects",
-    "moduleId": 12,
-    "mdFile": "lessons/project-react-ts.md",
-    "duration": "40 min",
-    "description": "<p><strong>Project: React + TypeScript</strong></p>",
-    "defaultCode": "// React props\ninterface Props { title: string; count?: number }\nconst props: Props = { title: \"App\" };\nconsole.log(props.title);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Project: React + TypeScript', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 75,
-    "title": "75. Project: REST API",
-    "module": "Real-World Projects",
-    "moduleId": 12,
-    "mdFile": "lessons/project-rest-api.md",
-    "duration": "40 min",
-    "description": "<p><strong>Project: REST API</strong></p>",
-    "defaultCode": "// REST API\ninterface Req { method: string; path: string }\nconst req: Req = { method: \"GET\", path: \"/api/users\" };\nconsole.log(req.method + \" \" + req.path);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Project: REST API', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 76,
-    "title": "76. Project: Type Definitions",
-    "module": "Real-World Projects",
-    "moduleId": 12,
-    "mdFile": "lessons/project-type-definitions.md",
-    "duration": "30 min",
-    "description": "<p><strong>Project: Type Definitions</strong></p>",
-    "defaultCode": "// Custom .d.ts\ninterface ApiResponse<T> { data: T; status: number }\nconst res: ApiResponse<string> = { data: \"ok\", status: 200 };\nconsole.log(res.status);",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Project: Type Definitions', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
-    }
-  },
-  {
-    "id": 77,
-    "title": "77. Final: Fullstack App",
-    "module": "Real-World Projects",
-    "moduleId": 12,
-    "mdFile": "lessons/final-project-fullstack.md",
-    "duration": "60 min",
-    "description": "<p><strong>Final: Fullstack App</strong></p>",
-    "defaultCode": "// Fullstack\ninterface Task { id: number; title: string; done: boolean }\nconst tasks: Task[] = [{ id: 1, title: \"Deploy\", done: true }];\nconsole.log(tasks.filter(t => t.done).length + \" done\");",
-    "expectedOutput": null,
-    "hint": "Baca materi, lalu eksperimen di editor.",
-    "quiz": {
-      "question": "Pada konsep 'Final: Fullstack App', manakah praktik penulisan type safety yang tepat di TypeScript?",
-      "options": [
-        "Menerapkan strict typing, generic constraints, dan type narrowing yang aman",
-        "Mengabaikan type-check dengan casting 'as any' di semua return value",
-        "Menonaktifkan opsi strictNullChecks di tsconfig.json",
-        "Menghindari penggunaan utility types bawaan"
-      ],
-      "answer": 0
+      "answer": 0,
+      "explanation": "TS static type safety."
     }
   }
 ];
-
-let currentLesson = -1;
-let progress = JSON.parse(localStorage.getItem('typescript_progress') || '{}');
-
-// ─── Sidebar Navigation ────────────────────────────────────────
-function renderNav(filter) {
-    const nav = document.getElementById('lessons-nav');
-    if (!nav) return;
-    const q = (filter || '').toLowerCase().trim();
-
-    nav.innerHTML = MODULES.map(mod => {
-        const modLessons = lessons.filter(l => l.moduleId === mod.id);
-        const filtered = q ? modLessons.filter(l => l.title.toLowerCase().includes(q) || mod.title.toLowerCase().includes(q)) : modLessons;
-        if (q && filtered.length === 0) return '';
-        const completed = modLessons.filter(l => progress[l.id]).length;
-        const isOpen = q || modLessons.some((_, i) => {
-            const idx = lessons.indexOf(modLessons[0]) + i;
-            return idx === currentLesson;
-        });
-
-        return `
-            <div class="module-group">
-                <div class="module-header ${isOpen ? 'open active' : ''}" onclick="toggleModule(${mod.id})">
-                    <span><i class="${mod.icon} mr-2 text-blue-400 text-xs"></i>${mod.title}</span>
-                    <span class="flex items-center gap-2">
-                        <span class="text-[10px] text-slate-600">${completed}/${modLessons.length}</span>
-                        <i class="fas fa-chevron-right chevron text-slate-600"></i>
-                    </span>
-                </div>
-                <div id="module-${mod.id}" class="lesson-list ${isOpen ? '' : 'hidden'}">
-                    ${filtered.map(l => {
-                        const idx = lessons.indexOf(l);
-                        const isActive = idx === currentLesson;
-                        const isDone = progress[l.id];
-                        return `<button onclick="loadLesson(${idx})" class="lesson-btn ${isActive ? 'active' : ''} ${isDone ? 'completed' : ''}">
-                            <span class="status-dot"></span>
-                            <span class="truncate">${l.title}</span>
-                        </button>`;
-                    }).join('')}
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-function toggleModule(modId) {
-    const el = document.getElementById('module-' + modId);
-    const header = el?.previousElementSibling;
-    if (el) el.classList.toggle('hidden');
-    if (header) header.classList.toggle('open');
-}
-
-// ─── Mobile Sidebar ────────────────────────────────────────────
-function openSidebar() {
-    document.getElementById('sidebar')?.classList.add('open');
-    document.getElementById('sidebar-overlay')?.classList.remove('hidden');
-}
-
-function closeSidebar() {
-    document.getElementById('sidebar')?.classList.remove('open');
-    document.getElementById('sidebar-overlay')?.classList.add('hidden');
-}
-
-// ─── Lesson Loading ────────────────────────────────────────────
-async function loadLesson(index) {
-    try { localStorage.setItem('typescript_last_lesson', String(index)); } catch(e){}
-    if (index < 0 || index >= lessons.length) return;
-    currentLesson = index;
-    const lesson = lessons[index];
-    const mod = MODULES.find(m => m.id === lesson.moduleId);
-    const contentEl = document.getElementById('lesson-content') || document.getElementById('lessonBody');
-    const scrollEl = document.getElementById('content-scroll');
-
-    // Update header
-    { const _el=document.getElementById('breadcrumb-module'); if(_el) _el.textContent = mod ? mod.title : ''; }
-    { const _el=document.getElementById('breadcrumb-lesson'); if(_el) _el.textContent = 'Lesson ' + lesson.id; }
-    { const _el=document.getElementById('lesson-title'); if(_el) _el.textContent = lesson.title; }
-    { const _el=document.getElementById('lesson-duration'); if(_el) _el.textContent = lesson.duration || ''; }
-
-    // Show loading
-    contentEl.innerHTML = '<div class="text-center py-12"><i class="fas fa-spinner fa-spin text-blue-400 text-2xl"></i><p class="text-slate-500 mt-3 text-sm">Memuat materi...</p></div>';
-
-    // Fetch markdown
-    let html = lesson.description || '';
-    if (lesson.mdFile && typeof marked !== 'undefined') {
-        try {
-            const resp = await fetch(lesson.mdFile);
-            if (resp.ok) {
-                const md = await resp.text();
-                html = marked.parse(md);
-            }
-        } catch (e) {
-            console.error('Fetch error:', lesson.mdFile, e);
-            html = '<p class="text-red-400">⚠️ Gagal memuat materi. Coba refresh halaman.</p>';
-        }
-    }
-
-    contentEl.innerHTML = html;
-
-    // Apply syntax highlighting
-    contentEl.querySelectorAll('pre code').forEach(block => {
-        hljs.highlightElement(block);
-    });
-
-    // Set code editor
-    { const _ed=document.getElementById('code-editor'); if(_ed) _ed.value = (lesson.defaultCode || '').replace(/\\n/g, '\n'); }
-    { const _out=document.getElementById('output'); if(_out) _out.innerHTML = '<span class="text-slate-600">// Output akan muncul di sini</span>'; }
-
-    const vm = document.getElementById('validation-msg');
-    vm.className = 'validation-msg hidden';
-    vm.innerHTML = '';
-
-    // Quiz
-    if (lesson.quiz && lesson.quiz.question) {
-        document.getElementById('quiz-section').classList.remove('hidden');
-        document.getElementById('quiz-content').innerHTML = `
-            <p class="text-sm font-medium text-slate-300 mb-3">${lesson.quiz.question}</p>
-            <div class="space-y-2">
-                ${lesson.quiz.options.map((opt, i) => `
-                    <label class="quiz-option" onclick="this.querySelector('input').checked=true;document.querySelectorAll('.quiz-option').forEach(e=>e.classList.remove('selected'));this.classList.add('selected')">
-                        <input type="radio" name="quiz" value="${i}" class="hidden">
-                        <span class="mr-2 text-slate-500 font-mono text-xs">${String.fromCharCode(65 + i)}</span>
-                        <span>${opt}</span>
-                    </label>
-                `).join('')}
-            </div>`;
-        document.getElementById('quiz-result').innerHTML = '';
-    } else {
-        document.getElementById('quiz-section').classList.add('hidden');
-    }
-
-    // Nav buttons
-    document.getElementById('prev-btn').disabled = index === 0;
-    document.getElementById('next-btn').disabled = index === lessons.length - 1;
-
-    // Complete button state
-    const completeBtn = document.getElementById('complete-btn');
-    const completedBtn = document.getElementById('completed-btn');
-    if (progress[lesson.id]) {
-        if(completeBtn) completeBtn.style.display = 'none';
-        if(completedBtn) completedBtn.style.display = 'inline-flex';
-    } else {
-        completeBtn.style.display = 'inline-flex';
-        completedBtn.style.display = 'none';
-    }
-
-    closeSidebar();
-    renderNav();
-  
-    scrollEl?.scrollTo(0, 0);
-}
-
-// ─── Code Execution (TS 5.4.5 via ts.transpileModule — 100% in-browser) ─
-function runCode() {
-    const _ed = document.getElementById('code-editor');
-    const code = _ed ? _ed.value : '';
-    const output = document.getElementById('output');
-    if (!_ed || !output) return;
-    const validation = document.getElementById('validation-msg');
-    const status = document.getElementById('compile-status');
-    if (!code.trim()) {
-        output.innerHTML = '<span class="text-slate-500">// Tulis kode dulu, lalu Run ▶</span>';
-        if (status) { status.textContent = '○ Idle'; status.className = 'text-xs text-slate-500 ml-auto'; }
-        return;
-    }
-    let logs = [];
-    const origLog = console.log;
-    const origWarn = console.warn;
-    const origError = console.error;
-    const origInfo = console.info;
-    const stringify = (x) => {
-        if (x === null) return 'null';
-        if (typeof x === 'object') { try { return JSON.stringify(x, null, 2); } catch (_) { return String(x); } }
-        return String(x);
-    };
-    console.log   = (...a) => logs.push(a.map(stringify).join(' '));
-    console.warn  = (...a) => logs.push('⚠️ ' + a.map(stringify).join(' '));
-    console.error = (...a) => logs.push('❌ ' + a.map(stringify).join(' '));
-    console.info  = (...a) => logs.push(a.map(stringify).join(' '));
-    try {
-        if (typeof ts === 'undefined' || !ts.transpileModule) {
-            output.innerHTML = '<span class="text-amber-400">⚠️ TypeScript compiler belum dimuat. Cek koneksi/CDN jsDelivr lalu refresh. <span class="text-slate-500 text-xs">cdn.jsdelivr.net/npm/typescript@5.4.5</span></span>';
-            if (status) { status.textContent = '○ Offline'; status.className = 'text-xs text-amber-400 ml-auto'; }
-            return;
-        }
-        // ts.transpileModule is transpile-only (strip types) — diagnostics optional but we surface errors cleanly
-        const transpiled = ts.transpileModule(code, {
-            compilerOptions: {
-                module: ts.ModuleKind.None,
-                target: ts.ScriptTarget.ES2022,
-                strict: false,
-                esModuleInterop: true,
-                allowSyntheticDefaultImports: true,
-                skipLibCheck: true
-            },
-            reportDiagnostics: true
-        });
-        if (transpiled.diagnostics && transpiled.diagnostics.length) {
-            const errs = transpiled.diagnostics.filter(function(d){ return d.category === ts.DiagnosticCategory.Error; });
-            if (errs.length) {
-                const fmt = function(d){
-                    var msg = ts.flattenDiagnosticMessageText(d.messageText, '\n');
-                    if (typeof d.start === 'number') {
-                        var upTo = code.slice(0, d.start);
-                        var line = upTo.split('\n').length;
-                        var col = upTo.length - upTo.lastIndexOf('\n');
-                        return 'TS' + d.code + ' [L' + line + ':' + col + '] ' + msg;
-                    }
-                    return 'TS' + d.code + ' ' + msg;
-                };
-                throw new Error(errs.map(fmt).join('\n'));
-            }
-        }
-        var js = transpiled.outputText;
-        // eslint-disable-next-line no-eval
-        eval(js);
-        var result = logs.join('\n');
-        output.innerHTML = result ? '<span class="text-emerald-400">' + escapeHtml(result) + '</span>' : '<span class="text-slate-600">// No output — coba console.log(...)</span>';
-        if (status) { status.textContent = '✓ Compiled'; status.className = 'text-xs text-emerald-500 ml-auto'; }
-        if (validation) {
-            var exp = lessons[currentLesson] && lessons[currentLesson].expectedOutput;
-            if (exp && result.trim() === exp.trim()) {
-                validation.className = 'validation-msg bg-emerald-900/30 border border-emerald-500/30 text-emerald-400';
-                validation.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Output benar!';
-                progress[lessons[currentLesson].id] = true;
-                localStorage.setItem('typescript_progress', JSON.stringify(progress));
-                updateProgress();
-                renderNav();
-            } else {
-                validation.className = 'validation-msg hidden';
-            }
-        }
-    } catch (e) {
-        var msg = (e && e.message) ? e.message : String(e);
-        var stack = (e && e.stack) ? ('\n' + e.stack.split('\n').slice(1, 3).join('\n')) : '';
-        output.innerHTML = '<span class="text-red-400">❌ ' + escapeHtml(msg + stack) + '</span>';
-        if (status) { status.textContent = '✗ Error'; status.className = 'text-xs text-red-400 ml-auto'; }
-        if (validation) validation.className = 'validation-msg hidden';
-    } finally {
-        console.log = origLog;
-        console.warn = origWarn;
-        console.error = origError;
-        console.info = origInfo;
-    }
-}
-
-function resetCode() {
-    if (currentLesson >= 0 && currentLesson < lessons.length) {
-        document.getElementById('code-editor').value = (lessons[currentLesson].defaultCode || '').replace(/\\n/g, '\n');
-        { const _out=document.getElementById('output'); if(_out) _out.innerHTML = '<span class="text-slate-600">// Output akan muncul di sini</span>'; }
-        const vm = document.getElementById('validation-msg');
-        vm.className = 'validation-msg hidden';
-    }
-}
-
-// ─── Quiz ──────────────────────────────────────────────────────
-function checkQuiz() {
-    const sel = document.querySelector('input[name="quiz"]:checked');
-    if (!sel) return alert('Pilih jawaban dulu!');
-    const correct = parseInt(sel.value) === lessons[currentLesson]?.quiz?.answer;
-    const div = document.getElementById('quiz-result');
-    div.innerHTML = `<div class="mt-3 p-3 rounded-lg text-sm ${correct ? 'bg-emerald-900/30 border border-emerald-500/30 text-emerald-400' : 'bg-red-900/30 border border-red-500/30 text-red-400'}">
-        <i class="fas fa-${correct ? 'check-circle' : 'times-circle'} mr-2"></i>${correct ? 'Benar! 🎉' : 'Belum tepat. Coba lagi!'}
-    </div>`;
-    if (correct) setTimeout(() => div.innerHTML = '', 4000);
-}
-
-// ─── Navigation ────────────────────────────────────────────────
-function nextLesson() {
-    if (currentLesson < lessons.length - 1) loadLesson(currentLesson + 1);
-}
-function prevLesson() {
-    if (currentLesson > 0) loadLesson(currentLesson - 1);
-}
-
-function markComplete() {
-    const lesson = lessons[currentLesson];
-    if (!lesson) return;
-    progress[lesson.id] = true;
-    localStorage.setItem('typescript_progress', JSON.stringify(progress));
-    { const _a=document.getElementById('complete-btn'); if(_a) _a.style.display='none'; }
-    { const _b=document.getElementById('completed-btn'); if(_b) _b.style.display='inline-flex'; }
-    renderNav();
-    updateProgress();
-    if (currentLesson < lessons.length - 1) {
-        setTimeout(() => loadLesson(currentLesson + 1), 400);
-    }
-}
-
-// ─── Progress ──────────────────────────────────────────────────
-function updateProgress() {
-    const done = Object.keys(progress).filter(k => progress[k]).length;
-    const pct = Math.round((done / lessons.length) * 100);
-    const fill = document.getElementById('progress-fill');
-    const text = document.getElementById('sidebar-progress-text');
-    const count = document.getElementById('sidebar-completed-count');
-    const mobile = document.getElementById('mobile-progress');
-
-    if (fill) fill.style.width = pct + '%';
-    if (text) text.textContent = pct + '% complete';
-    if (count) count.textContent = done + '/' + lessons.length;
-    if (mobile) mobile.textContent = pct + '%';
-}
-
-function resetProgress() {
-    if (!confirm('Reset semua progress?')) return;
-    progress = {};
-    localStorage.removeItem('typescript_progress');
-    renderNav();
-    updateProgress();
-    if (currentLesson >= 0) loadLesson(currentLesson);
-}
-
-// ─── Utility ───────────────────────────────────────────────────
-function escapeHtml(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-// ─── Init ──────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-    progress = JSON.parse(localStorage.getItem('typescript_progress') || '{}');
-
-    // Search
-    const searchInput = document.getElementById('lesson-search');
-    if (searchInput) {
-        searchInput.addEventListener('input', () => renderNav(searchInput.value));
-    }
-
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    if (menuToggle) {
-        menuToggle.addEventListener('click', openSidebar);
-    }
-
-    // Configure marked
-    if (typeof marked !== 'undefined') {
-        marked.setOptions({
-            gfm: true,
-            breaks: false,
-            highlight: function(code, lang) {
-                if (typeof hljs !== 'undefined' && lang && hljs.getLanguage(lang)) {
-                    return hljs.highlight(code, { language: lang }).value;
-                }
-                if (typeof hljs !== 'undefined') {
-                    return hljs.highlightAuto(code).value;
-                }
-                return code;
-            }
-        });
-    }
-
-    renderNav();
-    updateProgress();
-
-    // Auto-load first lesson or welcome screen
-    if (lessons.length > 0) {
-        let targetIdx = 0;
-        const hash = window.location.hash;
-        if (hash && hash.startsWith('#lesson-')) {
-            const idx = parseInt(hash.replace('#lesson-', ''));
-            if (!isNaN(idx) && idx >= 0 && idx < lessons.length) targetIdx = idx;
-        }
-        loadLesson(targetIdx);
-    }
-});
-
-
-// ============================================
-
-// ============================================
-// Unified Certificate Generator & Gating (100% Completion Only)
-// ============================================
-
-window.isCourseFullyCompleted = function() {
-    const total = typeof lessons !== 'undefined' ? lessons.length : 50;
-    const done = Object.keys(progress || {}).filter(k => !!progress[k]).length;
-    return total > 0 && done >= total;
-};
-
-window.openCertificateModal = function() {
-    const modal = document.getElementById('certificate-modal');
-    if (!modal) return;
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-
-    const total = typeof lessons !== 'undefined' ? lessons.length : 50;
-    const done = Object.keys(progress || {}).filter(k => !!progress[k]).length;
-    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-    const isCompleted = done >= total && total > 0;
-
-    const lockedView = document.getElementById('cert-locked-view');
-    const unlockedView = document.getElementById('cert-unlocked-view');
-    const unlockedFooter = document.getElementById('cert-unlocked-footer');
-
-    if (!isCompleted) {
-        // Show Locked State
-        if (lockedView) lockedView.classList.remove('hidden');
-        if (unlockedView) unlockedView.classList.add('hidden');
-        if (unlockedFooter) unlockedFooter.classList.add('hidden');
-
-        const pText = document.getElementById('cert-locked-progress-text');
-        const pBar = document.getElementById('cert-locked-progress-bar');
-        const rText = document.getElementById('cert-locked-remaining-text');
-        if (pText) pText.textContent = `${done} / ${total} (${pct}%)`;
-        if (pBar) pBar.style.width = `${pct}%`;
-        if (rText) rText.textContent = `Tersisa ${Math.max(0, total - done)} pelajaran lagi untuk membuka sertifikat.`;
-    } else {
-        // Show Unlocked State
-        if (lockedView) lockedView.classList.add('hidden');
-        if (unlockedView) unlockedView.classList.remove('hidden');
-        if (unlockedFooter) unlockedFooter.classList.remove('hidden');
-
-        const savedName = localStorage.getItem('user_cert_name') || 'Software Engineer';
-        const input = document.getElementById('cert-name-input');
-        if (input) input.value = savedName;
-
-        setTimeout(() => {
-            window.drawCertificate();
-        }, 100);
-    }
-};
-
-window.closeCertificateModal = function() {
-    const modal = document.getElementById('certificate-modal');
-    if (!modal) return;
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-};
-
-window.drawCertificate = function() {
-    if (!window.isCourseFullyCompleted()) return;
-    const canvas = document.getElementById('cert-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
-    
-    const studentName = (document.getElementById('cert-name-input')?.value || 'Software Engineer').trim();
-    localStorage.setItem('user_cert_name', studentName);
-    
-    // Background Dark Luxury
-    ctx.fillStyle = '#0a0f1a';
-    ctx.fillRect(0, 0, width, height);
-    
-    // Outer Border & Accents
-    const gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, '#3b82f6');
-    gradient.addColorStop(0.5, '#4f46e5');
-    gradient.addColorStop(1, '#3b82f6');
-    
-    ctx.strokeStyle = gradient;
-    ctx.lineWidth = 14;
-    ctx.strokeRect(30, 30, width - 60, height - 60);
-    
-    // Inner thin border
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(45, 45, width - 90, height - 90);
-    
-    // Corner ornaments
-    const drawCorner = (x, y) => {
-        ctx.fillStyle = '#3b82f6';
-        ctx.beginPath();
-        ctx.arc(x, y, 6, 0, Math.PI * 2);
-        ctx.fill();
-    };
-    drawCorner(45, 45);
-    drawCorner(width - 45, 45);
-    drawCorner(45, height - 45);
-    drawCorner(width - 45, height - 45);
-    
-    // Header Tag
-    ctx.textAlign = 'center';
-    ctx.font = '600 16px Inter, sans-serif';
-    ctx.fillStyle = '#3b82f6';
-    ctx.letterSpacing = '4px';
-    ctx.fillText('CERTIFICATE OF COMPLETION', width / 2, 120);
-    
-    // Title
-    ctx.font = '800 38px Inter, sans-serif';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText('TypeScript Learning Path — Type Safety to Advanced', width / 2, 175);
-    
-    // Subtext
-    ctx.font = '400 18px Inter, sans-serif';
-    ctx.fillStyle = '#94a3b8';
-    ctx.fillText('Diberikan kepada:', width / 2, 240);
-    
-    // Student Name
-    ctx.font = '700 46px Inter, sans-serif';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(studentName, width / 2, 310);
-    
-    // Underline name
-    const textWidth = ctx.measureText(studentName).width;
-    ctx.strokeStyle = gradient;
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo((width - textWidth) / 2 - 20, 335);
-    ctx.lineTo((width + textWidth) / 2 + 20, 335);
-    ctx.stroke();
-    
-    // Paragraph
-    ctx.font = '400 18px Inter, sans-serif';
-    ctx.fillStyle = '#cbd5e1';
-    ctx.fillText('Telah berhasil menyelesaikan 100% seluruh kurikulum interaktif, latihan kode praktik,', width / 2, 400);
-    ctx.fillText('dan uji pemahaman (quiz) pada platform TypeScript Learning Path dengan predikat Sangat Memuaskan.', width / 2, 430);
-    
-    // Verification & Date Footer
-    const today = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-    const codeId = 'LP-' + Math.abs(studentName.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0)).toString(36).toUpperCase().padStart(8, '0');
-    
-    ctx.textAlign = 'left';
-    ctx.font = '500 14px JetBrains Mono, monospace';
-    ctx.fillStyle = '#64748b';
-    ctx.fillText(`Tanggal: ${today}`, 90, 560);
-    ctx.fillText(`ID Sertifikat: #${codeId}`, 90, 585);
-    ctx.fillText(`Status: Terverifikasi (100% Selesai)`, 90, 610);
-    
-    // Seal / Badge
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(width - 150, 570, 48, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
-    ctx.fill();
-    ctx.strokeStyle = gradient;
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    
-    ctx.textAlign = 'center';
-    ctx.font = '32px Inter, sans-serif';
-    ctx.fillText('🔵', width - 150, 565);
-    ctx.font = '700 10px Inter, sans-serif';
-    ctx.fillStyle = '#3b82f6';
-    ctx.fillText('VERIFIED', width - 150, 595);
-    ctx.restore();
-};
-
-window.downloadCertificatePNG = function() {
-    if (!window.isCourseFullyCompleted()) {
-        alert('Sertifikat hanya dapat diunduh setelah menyelesaikan 100% seluruh modul!');
-        return;
-    }
-    const canvas = document.getElementById('cert-canvas');
-    if (!canvas) return;
-    const link = document.createElement('a');
-    const name = (document.getElementById('cert-name-input')?.value || 'sertifikat').trim().toLowerCase().replace(/\s+/g, '-');
-    link.download = `sertifikat-${name}-typescript.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-};
-
-window.printCertificate = function() {
-    if (!window.isCourseFullyCompleted()) {
-        alert('Sertifikat hanya dapat dicetak setelah menyelesaikan 100% seluruh modul!');
-        return;
-    }
-    const canvas = document.getElementById('cert-canvas');
-    if (!canvas) return;
-    const dataUrl = canvas.toDataURL('image/png');
-    const win = window.open('', '_blank');
-    if (win) {
-        win.document.write(`
-            <html>
-                <head>
-                    <title>Cetak Sertifikat</title>
-                    <style>
-                        body { margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #111; }
-                        img { max-width: 95vw; max-height: 95vh; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-                        @media print {
-                            body { background: transparent; }
-                            img { width: 100%; max-width: 100%; }
-                        }
-                    </style>
-                </head>
-                <body onload="window.print()">
-                    <img src="${dataUrl}">
-                </body>
-            </html>
-        `);
-        win.document.close();
-    }
-};
