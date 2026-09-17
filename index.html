@@ -280,7 +280,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/typescript@5.4.5/lib/typescript.min.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=70f6b975"></script>
     <script>
             
         // Mobile Search Bar Accordion Toggle
@@ -862,7 +862,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(err => console.debug('SW reg skipped:', err));
+                navigator.serviceWorker.register('./sw.js').then(r => r.update()).catch(err => console.debug('SW reg skipped:', err));
             });
         }
     </script>
