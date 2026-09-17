@@ -74,12 +74,8 @@ const lessons = [
     "moduleId": 1,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Apa itu TypeScript?
-
-- Perbedaan TS vs JS
-- Konsep Static Typing vs Dynamic Typing",
-    "code": "// TypeScript Apa itu TypeScript?
-const lessonTitle: string = 'Apa itu TypeScript?';",
+    "content": "# Apa itu TypeScript?\n\n- Perbedaan TS vs JS\n- Konsep Static Typing vs Dynamic Typing",
+    "code": "// TypeScript Apa itu TypeScript?\nconst lessonTitle: string = 'Apa itu TypeScript?';",
     "quiz": {
       "question": "Apa keuntungan utama TypeScript dibandingkan JavaScript pada aplikasi skala besar?",
       "options": [
@@ -100,12 +96,8 @@ const lessonTitle: string = 'Apa itu TypeScript?';",
     "moduleId": 1,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Setup & Kompilasi Dasar
-
-- Peran file tsconfig.json
-- Penggunaan compiler tsc",
-    "code": "// TypeScript Setup & Kompilasi Dasar
-const lessonTitle: string = 'Setup & Kompilasi Dasar';",
+    "content": "# Setup & Kompilasi Dasar\n\n- Peran file tsconfig.json\n- Penggunaan compiler tsc",
+    "code": "// TypeScript Setup & Kompilasi Dasar\nconst lessonTitle: string = 'Setup & Kompilasi Dasar';",
     "quiz": {
       "question": "File apa yang digunakan untuk mengatur konfigurasi compiler pada TypeScript?",
       "options": [
@@ -126,12 +118,8 @@ const lessonTitle: string = 'Setup & Kompilasi Dasar';",
     "moduleId": 1,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Type Inference
-
-- Bagaimana TS menebak tipe secara otomatis
-- Kapan tipe eksplisit tidak diperlukan",
-    "code": "// TypeScript Type Inference
-const lessonTitle: string = 'Type Inference';",
+    "content": "# Type Inference\n\n- Bagaimana TS menebak tipe secara otomatis\n- Kapan tipe eksplisit tidak diperlukan",
+    "code": "// TypeScript Type Inference\nconst lessonTitle: string = 'Type Inference';",
     "quiz": {
       "question": "Apa istilah untuk kemampuan TypeScript dalam menebak tipe data tanpa anotasi tertulis?",
       "options": [
@@ -152,12 +140,8 @@ const lessonTitle: string = 'Type Inference';",
     "moduleId": 1,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Type Annotation (Anotasi Tipe)
-
-- Sintaks let x: tipe
-- Tipe primitif: string, number, boolean",
-    "code": "// TypeScript Type Annotation (Anotasi Tipe)
-const lessonTitle: string = 'Type Annotation (Anotasi Tipe)';",
+    "content": "# Type Annotation (Anotasi Tipe)\n\n- Sintaks let x: tipe\n- Tipe primitif: string, number, boolean",
+    "code": "// TypeScript Type Annotation (Anotasi Tipe)\nconst lessonTitle: string = 'Type Annotation (Anotasi Tipe)';",
     "quiz": {
       "question": "Bagaimana sintaks yang benar untuk mendeklarasikan variabel bertipe angka di TypeScript?",
       "options": [
@@ -178,12 +162,8 @@ const lessonTitle: string = 'Type Annotation (Anotasi Tipe)';",
     "moduleId": 1,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Tipe any vs unknown
-
-- Bahaya menggunakan any
-- Mengapa unknown lebih aman untuk tipe tidak tertebak",
-    "code": "// TypeScript Tipe any vs unknown
-const lessonTitle: string = 'Tipe any vs unknown';",
+    "content": "# Tipe any vs unknown\n\n- Bahaya menggunakan any\n- Mengapa unknown lebih aman untuk tipe tidak tertebak",
+    "code": "// TypeScript Tipe any vs unknown\nconst lessonTitle: string = 'Tipe any vs unknown';",
     "quiz": {
       "question": "Mengapa disarankan untuk menggunakan tipe 'unknown' daripada 'any'?",
       "options": [
@@ -204,12 +184,8 @@ const lessonTitle: string = 'Tipe any vs unknown';",
     "moduleId": 1,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Array & Tuple
-
-- Sintaks Array T[] vs Array<T>
-- Tuple untuk array dengan tipe dan panjang tetap",
-    "code": "// TypeScript Array & Tuple
-const lessonTitle: string = 'Array & Tuple';",
+    "content": "# Array & Tuple\n\n- Sintaks Array T[] vs Array<T>\n- Tuple untuk array dengan tipe dan panjang tetap",
+    "code": "// TypeScript Array & Tuple\nconst lessonTitle: string = 'Array & Tuple';",
     "quiz": {
       "question": "Apa perbedaan paling mendasar antara tipe Array biasa dan Tuple di TypeScript?",
       "options": [
@@ -230,12 +206,8 @@ const lessonTitle: string = 'Array & Tuple';",
     "moduleId": 2,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Object Types Dasar
-
-- Menentukan tipe/bentuk sebuah objek (inline type)
-- Properti wajib dalam objek",
-    "code": "// TypeScript Object Types Dasar
-const lessonTitle: string = 'Object Types Dasar';",
+    "content": "# Object Types Dasar\n\n- Menentukan tipe/bentuk sebuah objek (inline type)\n- Properti wajib dalam objek",
+    "code": "// TypeScript Object Types Dasar\nconst lessonTitle: string = 'Object Types Dasar';",
     "quiz": {
       "question": "Simbol apa yang memisahkan nama properti dan tipenya di dalam definisi tipe objek?",
       "options": [
@@ -256,12 +228,8 @@ const lessonTitle: string = 'Object Types Dasar';",
     "moduleId": 2,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Optional Properties
-
-- Penggunaan modifier tanda tanya (?)
-- Menghindari error saat properti tidak tersedia",
-    "code": "// TypeScript Optional Properties
-const lessonTitle: string = 'Optional Properties';",
+    "content": "# Optional Properties\n\n- Penggunaan modifier tanda tanya (?)\n- Menghindari error saat properti tidak tersedia",
+    "code": "// TypeScript Optional Properties\nconst lessonTitle: string = 'Optional Properties';",
     "quiz": {
       "question": "Karakter apa yang digunakan untuk membuat sebuah properti menjadi tidak wajib (opsional)?",
       "options": [
@@ -282,12 +250,8 @@ const lessonTitle: string = 'Optional Properties';",
     "moduleId": 2,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Readonly Properties
-
-- Mencegah mutasi data menggunakan modifier readonly
-- Perbedaan readonly dengan const",
-    "code": "// TypeScript Readonly Properties
-const lessonTitle: string = 'Readonly Properties';",
+    "content": "# Readonly Properties\n\n- Mencegah mutasi data menggunakan modifier readonly\n- Perbedaan readonly dengan const",
+    "code": "// TypeScript Readonly Properties\nconst lessonTitle: string = 'Readonly Properties';",
     "quiz": {
       "question": "Modifier apa yang mencegah suatu properti objek diubah nilainya setelah diinisialisasi?",
       "options": [
@@ -308,12 +272,8 @@ const lessonTitle: string = 'Readonly Properties';",
     "moduleId": 2,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Index Signatures
-
-- Membuat objek dinamis sebagai kamus/dictionary
-- Batasan tipe pada key index",
-    "code": "// TypeScript Index Signatures
-const lessonTitle: string = 'Index Signatures';",
+    "content": "# Index Signatures\n\n- Membuat objek dinamis sebagai kamus/dictionary\n- Batasan tipe pada key index",
+    "code": "// TypeScript Index Signatures\nconst lessonTitle: string = 'Index Signatures';",
     "quiz": {
       "question": "Kapan penggunaan index signature direkomendasikan?",
       "options": [
@@ -334,12 +294,8 @@ const lessonTitle: string = 'Index Signatures';",
     "moduleId": 2,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Enum (Numeric & String)
-
-- Mendefinisikan himpunan konstanta terstruktur
-- Auto-increment pada numeric enum",
-    "code": "// TypeScript Enum (Numeric & String)
-const lessonTitle: string = 'Enum (Numeric & String)';",
+    "content": "# Enum (Numeric & String)\n\n- Mendefinisikan himpunan konstanta terstruktur\n- Auto-increment pada numeric enum",
+    "code": "// TypeScript Enum (Numeric & String)\nconst lessonTitle: string = 'Enum (Numeric & String)';",
     "quiz": {
       "question": "Secara default, nilai numerik apa yang diberikan ke anggota pertama dari sebuah Enum?",
       "options": [
@@ -360,12 +316,8 @@ const lessonTitle: string = 'Enum (Numeric & String)';",
     "moduleId": 2,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Enum vs Const Assertions (as const)
-
-- Literal inference dengan 'as const'
-- Kelebihan 'as const' untuk performa bundler",
-    "code": "// TypeScript Enum vs Const Assertions (as const)
-const lessonTitle: string = 'Enum vs Const Assertions (as const)';",
+    "content": "# Enum vs Const Assertions (as const)\n\n- Literal inference dengan 'as const'\n- Kelebihan 'as const' untuk performa bundler",
+    "code": "// TypeScript Enum vs Const Assertions (as const)\nconst lessonTitle: string = 'Enum vs Const Assertions (as const)';",
     "quiz": {
       "question": "Apa keuntungan menggunakan 'as const' dibandingkan dengan enum?",
       "options": [
@@ -386,12 +338,8 @@ const lessonTitle: string = 'Enum vs Const Assertions (as const)';",
     "moduleId": 3,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Parameter & Return Type
-
-- Mengetik input fungsi
-- Menentukan nilai kembalian (return type) fungsi",
-    "code": "// TypeScript Parameter & Return Type
-const lessonTitle: string = 'Parameter & Return Type';",
+    "content": "# Parameter & Return Type\n\n- Mengetik input fungsi\n- Menentukan nilai kembalian (return type) fungsi",
+    "code": "// TypeScript Parameter & Return Type\nconst lessonTitle: string = 'Parameter & Return Type';",
     "quiz": {
       "question": "Jika sebuah fungsi tidak secara eksplisit didefinisikan return type-nya, apa yang dilakukan TypeScript?",
       "options": [
@@ -412,12 +360,8 @@ const lessonTitle: string = 'Parameter & Return Type';",
     "moduleId": 3,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Optional & Default Parameters
-
-- Parameter fungsi yang tidak wajib (?)
-- Memberikan nilai bawaan (default value)",
-    "code": "// TypeScript Optional & Default Parameters
-const lessonTitle: string = 'Optional & Default Parameters';",
+    "content": "# Optional & Default Parameters\n\n- Parameter fungsi yang tidak wajib (?)\n- Memberikan nilai bawaan (default value)",
+    "code": "// TypeScript Optional & Default Parameters\nconst lessonTitle: string = 'Optional & Default Parameters';",
     "quiz": {
       "question": "Di mana posisi parameter opsional harus ditempatkan dalam argumen fungsi?",
       "options": [
@@ -438,12 +382,8 @@ const lessonTitle: string = 'Optional & Default Parameters';",
     "moduleId": 3,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Rest Parameters
-
-- Menangani jumlah argumen tak terhingga dengan ...args
-- Mengetik rest parameters sebagai Array",
-    "code": "// TypeScript Rest Parameters
-const lessonTitle: string = 'Rest Parameters';",
+    "content": "# Rest Parameters\n\n- Menangani jumlah argumen tak terhingga dengan ...args\n- Mengetik rest parameters sebagai Array",
+    "code": "// TypeScript Rest Parameters\nconst lessonTitle: string = 'Rest Parameters';",
     "quiz": {
       "question": "Tipe data struktur apa yang selalu digunakan untuk merepresentasikan rest parameter?",
       "options": [
@@ -464,12 +404,8 @@ const lessonTitle: string = 'Rest Parameters';",
     "moduleId": 3,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Function Types
-
-- Menyimpan signature/bentuk fungsi ke dalam tipe
-- Sintaks panah (=>) pada tipe fungsi",
-    "code": "// TypeScript Function Types
-const lessonTitle: string = 'Function Types';",
+    "content": "# Function Types\n\n- Menyimpan signature/bentuk fungsi ke dalam tipe\n- Sintaks panah (=>) pada tipe fungsi",
+    "code": "// TypeScript Function Types\nconst lessonTitle: string = 'Function Types';",
     "quiz": {
       "question": "Simbol apa yang digunakan untuk memisahkan parameter dan return type dalam penulisan tipe fungsi?",
       "options": [
@@ -490,12 +426,8 @@ const lessonTitle: string = 'Function Types';",
     "moduleId": 3,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Void & Never
-
-- Perbedaan void (selesai tanpa return) vs never (tidak pernah selesai)
-- Kasus penggunaan throw error dan infinite loops",
-    "code": "// TypeScript Void & Never
-const lessonTitle: string = 'Void & Never';",
+    "content": "# Void & Never\n\n- Perbedaan void (selesai tanpa return) vs never (tidak pernah selesai)\n- Kasus penggunaan throw error dan infinite loops",
+    "code": "// TypeScript Void & Never\nconst lessonTitle: string = 'Void & Never';",
     "quiz": {
       "question": "Tipe apa yang direpresentasikan oleh fungsi yang memiliki infinite loop (perulangan tiada henti)?",
       "options": [
@@ -516,12 +448,8 @@ const lessonTitle: string = 'Void & Never';",
     "moduleId": 3,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Function Overloading
-
-- Satu fungsi dengan berbagai bentuk input/output
-- Implementasi signature overload",
-    "code": "// TypeScript Function Overloading
-const lessonTitle: string = 'Function Overloading';",
+    "content": "# Function Overloading\n\n- Satu fungsi dengan berbagai bentuk input/output\n- Implementasi signature overload",
+    "code": "// TypeScript Function Overloading\nconst lessonTitle: string = 'Function Overloading';",
     "quiz": {
       "question": "Apakah implementasi utama dari function overload di TS harus mencakup atau mengakomodasi semua bentuk signature yang didefinisikan?",
       "options": [
@@ -542,12 +470,8 @@ const lessonTitle: string = 'Function Overloading';",
     "moduleId": 4,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Union Types (|)
-
-- Mendeklarasikan tipe fleksibel (A atau B)
-- Penggunaan tipe union pada variabel dan fungsi",
-    "code": "// TypeScript Union Types (|)
-const lessonTitle: string = 'Union Types (|)';",
+    "content": "# Union Types (|)\n\n- Mendeklarasikan tipe fleksibel (A atau B)\n- Penggunaan tipe union pada variabel dan fungsi",
+    "code": "// TypeScript Union Types (|)\nconst lessonTitle: string = 'Union Types (|)';",
     "quiz": {
       "question": "Karakter apa yang digunakan untuk memisahkan antar tipe pada Union Types?",
       "options": [
@@ -568,12 +492,8 @@ const lessonTitle: string = 'Union Types (|)';",
     "moduleId": 4,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Intersection Types (&)
-
-- Menggabungkan beberapa tipe menjadi satu bentuk utuh
-- Kasus penggunaan pada tipe objek majemuk",
-    "code": "// TypeScript Intersection Types (&)
-const lessonTitle: string = 'Intersection Types (&)';",
+    "content": "# Intersection Types (&)\n\n- Menggabungkan beberapa tipe menjadi satu bentuk utuh\n- Kasus penggunaan pada tipe objek majemuk",
+    "code": "// TypeScript Intersection Types (&)\nconst lessonTitle: string = 'Intersection Types (&)';",
     "quiz": {
       "question": "Apa hasil dari Intersection Type (&) antara string dan number?",
       "options": [
@@ -594,12 +514,8 @@ const lessonTitle: string = 'Intersection Types (&)';",
     "moduleId": 4,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Literal Types
-
-- Menentukan tipe menggunakan nilai presisi
-- Kombinasi Literal Types dan Union Types",
-    "code": "// TypeScript Literal Types
-const lessonTitle: string = 'Literal Types';",
+    "content": "# Literal Types\n\n- Menentukan tipe menggunakan nilai presisi\n- Kombinasi Literal Types dan Union Types",
+    "code": "// TypeScript Literal Types\nconst lessonTitle: string = 'Literal Types';",
     "quiz": {
       "question": "Apa keuntungan utama menggunakan Literal Types yang dikombinasikan dengan Union?",
       "options": [
@@ -620,12 +536,8 @@ const lessonTitle: string = 'Literal Types';",
     "moduleId": 4,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Type Guards (typeof & instanceof)
-
-- Mengecilkan (narrowing) tipe berdasarkan kondisi runtime
-- Penggunaan typeof untuk primitif dan instanceof untuk class",
-    "code": "// TypeScript Type Guards (typeof & instanceof)
-const lessonTitle: string = 'Type Guards (typeof & instanceof)';",
+    "content": "# Type Guards (typeof & instanceof)\n\n- Mengecilkan (narrowing) tipe berdasarkan kondisi runtime\n- Penggunaan typeof untuk primitif dan instanceof untuk class",
+    "code": "// TypeScript Type Guards (typeof & instanceof)\nconst lessonTitle: string = 'Type Guards (typeof & instanceof)';",
     "quiz": {
       "question": "Keyword apa yang bisa mengecek apakah variabel adalah instance dari class tertentu di runtime?",
       "options": [
@@ -646,12 +558,8 @@ const lessonTitle: string = 'Type Guards (typeof & instanceof)';",
     "moduleId": 4,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Discriminated Unions
-
-- Properti penanda (discriminant) dalam objek
-- Pola switch-case yang aman secara tipe",
-    "code": "// TypeScript Discriminated Unions
-const lessonTitle: string = 'Discriminated Unions';",
+    "content": "# Discriminated Unions\n\n- Properti penanda (discriminant) dalam objek\n- Pola switch-case yang aman secara tipe",
+    "code": "// TypeScript Discriminated Unions\nconst lessonTitle: string = 'Discriminated Unions';",
     "quiz": {
       "question": "Apa peran dari field (properti) khusus pada sebuah Discriminated Union?",
       "options": [
@@ -672,12 +580,8 @@ const lessonTitle: string = 'Discriminated Unions';",
     "moduleId": 4,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Custom Type Predicates (is)
-
-- Membuat fungsi khusus penentu tipe
-- Return type boolean berformat 'arg is Type'",
-    "code": "// TypeScript Custom Type Predicates (is)
-const lessonTitle: string = 'Custom Type Predicates (is)';",
+    "content": "# Custom Type Predicates (is)\n\n- Membuat fungsi khusus penentu tipe\n- Return type boolean berformat 'arg is Type'",
+    "code": "// TypeScript Custom Type Predicates (is)\nconst lessonTitle: string = 'Custom Type Predicates (is)';",
     "quiz": {
       "question": "Keyword apa yang digunakan di akhir fungsi predicate agar TypeScript tahu operasi narrowing sukses?",
       "options": [
@@ -698,12 +602,8 @@ const lessonTitle: string = 'Custom Type Predicates (is)';",
     "moduleId": 5,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Type Aliases (type keyword)
-
-- Memberi nama custom pada tipe data
-- Fleksibilitas tipe untuk union atau primitif",
-    "code": "// TypeScript Type Aliases (type keyword)
-const lessonTitle: string = 'Type Aliases (type keyword)';",
+    "content": "# Type Aliases (type keyword)\n\n- Memberi nama custom pada tipe data\n- Fleksibilitas tipe untuk union atau primitif",
+    "code": "// TypeScript Type Aliases (type keyword)\nconst lessonTitle: string = 'Type Aliases (type keyword)';",
     "quiz": {
       "question": "Apakah Type Alias bisa digunakan untuk menamai tipe Union dan Literal sekaligus?",
       "options": [
@@ -724,12 +624,8 @@ const lessonTitle: string = 'Type Aliases (type keyword)';",
     "moduleId": 5,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Interfaces Dasar
-
-- Mendefinisikan blueprint dari objek atau kelas
-- Menyatakan kontrak untuk properti dan method",
-    "code": "// TypeScript Interfaces Dasar
-const lessonTitle: string = 'Interfaces Dasar';",
+    "content": "# Interfaces Dasar\n\n- Mendefinisikan blueprint dari objek atau kelas\n- Menyatakan kontrak untuk properti dan method",
+    "code": "// TypeScript Interfaces Dasar\nconst lessonTitle: string = 'Interfaces Dasar';",
     "quiz": {
       "question": "Berbeda dengan Type Alias, Interface hanya dapat digunakan untuk merepresentasikan apa?",
       "options": [
@@ -750,12 +646,8 @@ const lessonTitle: string = 'Interfaces Dasar';",
     "moduleId": 5,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Interface vs Type (Perbedaan)
-
-- Declaration Merging (hanya Interface)
-- Intersection pada Type",
-    "code": "// TypeScript Interface vs Type (Perbedaan)
-const lessonTitle: string = 'Interface vs Type (Perbedaan)';",
+    "content": "# Interface vs Type (Perbedaan)\n\n- Declaration Merging (hanya Interface)\n- Intersection pada Type",
+    "code": "// TypeScript Interface vs Type (Perbedaan)\nconst lessonTitle: string = 'Interface vs Type (Perbedaan)';",
     "quiz": {
       "question": "Fitur apa yang memungkinkan Anda mendeklarasikan interface berulang kali agar tergabung menjadi satu?",
       "options": [
@@ -776,12 +668,8 @@ const lessonTitle: string = 'Interface vs Type (Perbedaan)';",
     "moduleId": 5,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Extending Interfaces
-
-- Pewarisan sifat dari interface lain (extends)
-- Meng-extend tipe lebih dari satu",
-    "code": "// TypeScript Extending Interfaces
-const lessonTitle: string = 'Extending Interfaces';",
+    "content": "# Extending Interfaces\n\n- Pewarisan sifat dari interface lain (extends)\n- Meng-extend tipe lebih dari satu",
+    "code": "// TypeScript Extending Interfaces\nconst lessonTitle: string = 'Extending Interfaces';",
     "quiz": {
       "question": "Keyword apa yang digunakan oleh Interface untuk mewarisi sifat dari Interface lainnya?",
       "options": [
@@ -802,12 +690,8 @@ const lessonTitle: string = 'Extending Interfaces';",
     "moduleId": 5,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Implements pada Class
-
-- Memaksa class memenuhi struktur Interface
-- Pemakaian ganda multiple interface",
-    "code": "// TypeScript Implements pada Class
-const lessonTitle: string = 'Implements pada Class';",
+    "content": "# Implements pada Class\n\n- Memaksa class memenuhi struktur Interface\n- Pemakaian ganda multiple interface",
+    "code": "// TypeScript Implements pada Class\nconst lessonTitle: string = 'Implements pada Class';",
     "quiz": {
       "question": "Keyword apa yang menghubungkan sebuah Class sehingga wajib mematuhi aturan sebuah Interface?",
       "options": [
@@ -828,12 +712,8 @@ const lessonTitle: string = 'Implements pada Class';",
     "moduleId": 5,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Recursive Types
-
-- Tipe data yang mereferensikan dirinya sendiri
-- Pola Tree, JSON, dan Data bersarang",
-    "code": "// TypeScript Recursive Types
-const lessonTitle: string = 'Recursive Types';",
+    "content": "# Recursive Types\n\n- Tipe data yang mereferensikan dirinya sendiri\n- Pola Tree, JSON, dan Data bersarang",
+    "code": "// TypeScript Recursive Types\nconst lessonTitle: string = 'Recursive Types';",
     "quiz": {
       "question": "Struktur data seperti apa yang sangat bergantung pada pembuatan Recursive Type?",
       "options": [
@@ -854,12 +734,8 @@ const lessonTitle: string = 'Recursive Types';",
     "moduleId": 6,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Pengenalan Generics
-
-- Konsep parameter untuk tipe data
-- Menghindari repetisi fungsi identikal beda tipe",
-    "code": "// TypeScript Pengenalan Generics
-const lessonTitle: string = 'Pengenalan Generics';",
+    "content": "# Pengenalan Generics\n\n- Konsep parameter untuk tipe data\n- Menghindari repetisi fungsi identikal beda tipe",
+    "code": "// TypeScript Pengenalan Generics\nconst lessonTitle: string = 'Pengenalan Generics';",
     "quiz": {
       "question": "Simbol konvensi apa yang paling umum dipakai (satu huruf kapital) untuk merepresentasikan tipe Generic?",
       "options": [
@@ -880,12 +756,8 @@ const lessonTitle: string = 'Pengenalan Generics';",
     "moduleId": 6,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Generic Interfaces & Types
-
-- Interface yang menerima argumen tipe
-- Membangun struktur wrapper universal",
-    "code": "// TypeScript Generic Interfaces & Types
-const lessonTitle: string = 'Generic Interfaces & Types';",
+    "content": "# Generic Interfaces & Types\n\n- Interface yang menerima argumen tipe\n- Membangun struktur wrapper universal",
+    "code": "// TypeScript Generic Interfaces & Types\nconst lessonTitle: string = 'Generic Interfaces & Types';",
     "quiz": {
       "question": "Bagaimana cara membaca secara konsep dari definisi APIResponse<string>?",
       "options": [
@@ -906,12 +778,8 @@ const lessonTitle: string = 'Generic Interfaces & Types';",
     "moduleId": 6,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Generic Classes
-
-- Class yang mengadopsi fleksibilitas generic type
-- Mendefinisikan method yang spesifik pada generic class",
-    "code": "// TypeScript Generic Classes
-const lessonTitle: string = 'Generic Classes';",
+    "content": "# Generic Classes\n\n- Class yang mengadopsi fleksibilitas generic type\n- Mendefinisikan method yang spesifik pada generic class",
+    "code": "// TypeScript Generic Classes\nconst lessonTitle: string = 'Generic Classes';",
     "quiz": {
       "question": "Kapan penentuan tipe pasti (konkret) terjadi pada Generic Class?",
       "options": [
@@ -932,12 +800,8 @@ const lessonTitle: string = 'Generic Classes';",
     "moduleId": 6,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Generic Constraints (extends)
-
-- Membatasi tipe generic agar punya properti spesifik
-- Menjamin keamanan akses properti dalam generic",
-    "code": "// TypeScript Generic Constraints (extends)
-const lessonTitle: string = 'Generic Constraints (extends)';",
+    "content": "# Generic Constraints (extends)\n\n- Membatasi tipe generic agar punya properti spesifik\n- Menjamin keamanan akses properti dalam generic",
+    "code": "// TypeScript Generic Constraints (extends)\nconst lessonTitle: string = 'Generic Constraints (extends)';",
     "quiz": {
       "question": "Keyword apa yang dipakai untuk memaksa Generic parameter agar memenuhi kondisi tertentu?",
       "options": [
@@ -958,12 +822,8 @@ const lessonTitle: string = 'Generic Constraints (extends)';",
     "moduleId": 6,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Multiple Generic Parameters
-
-- Menggunakan lebih dari satu tipe (T, U, V)
-- Menggabungkan dua data dengan tipe tidak diketahui",
-    "code": "// TypeScript Multiple Generic Parameters
-const lessonTitle: string = 'Multiple Generic Parameters';",
+    "content": "# Multiple Generic Parameters\n\n- Menggunakan lebih dari satu tipe (T, U, V)\n- Menggabungkan dua data dengan tipe tidak diketahui",
+    "code": "// TypeScript Multiple Generic Parameters\nconst lessonTitle: string = 'Multiple Generic Parameters';",
     "quiz": {
       "question": "Karakter apa yang digunakan untuk memisahkan parameter generik pada kurung sudut <T, U>?",
       "options": [
@@ -984,12 +844,8 @@ const lessonTitle: string = 'Multiple Generic Parameters';",
     "moduleId": 6,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Generics dengan Default Types
-
-- Nilai bawaan pada generik layaknya default parameter
-- Sintaks <T = DefaultType>",
-    "code": "// TypeScript Generics dengan Default Types
-const lessonTitle: string = 'Generics dengan Default Types';",
+    "content": "# Generics dengan Default Types\n\n- Nilai bawaan pada generik layaknya default parameter\n- Sintaks <T = DefaultType>",
+    "code": "// TypeScript Generics dengan Default Types\nconst lessonTitle: string = 'Generics dengan Default Types';",
     "quiz": {
       "question": "Simbol apa yang memberi nilai otomatis/default jika user lupa atau tidak memberikan spesifikasi tipe generik?",
       "options": [
@@ -1010,12 +866,8 @@ const lessonTitle: string = 'Generics dengan Default Types';",
     "moduleId": 7,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Conditional Types Dasar
-
-- Logika if/else pada sistem tipe
-- Sintaks T extends U ? X : Y",
-    "code": "// TypeScript Conditional Types Dasar
-const lessonTitle: string = 'Conditional Types Dasar';",
+    "content": "# Conditional Types Dasar\n\n- Logika if/else pada sistem tipe\n- Sintaks T extends U ? X : Y",
+    "code": "// TypeScript Conditional Types Dasar\nconst lessonTitle: string = 'Conditional Types Dasar';",
     "quiz": {
       "question": "Sintaks operator JavaScript apa yang diadaptasi pada penulisan Conditional Types di TypeScript?",
       "options": [
@@ -1036,12 +888,8 @@ const lessonTitle: string = 'Conditional Types Dasar';",
     "moduleId": 7,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Infer dalam Conditional Types
-
-- Menangkap (extracting) tipe secara dinamis
-- Keyword infer",
-    "code": "// TypeScript Infer dalam Conditional Types
-const lessonTitle: string = 'Infer dalam Conditional Types';",
+    "content": "# Infer dalam Conditional Types\n\n- Menangkap (extracting) tipe secara dinamis\n- Keyword infer",
+    "code": "// TypeScript Infer dalam Conditional Types\nconst lessonTitle: string = 'Infer dalam Conditional Types';",
     "quiz": {
       "question": "Keyword apa yang digunakan di dalam klausa extends untuk menampung tipe inferensi dan digunakan di true-branch?",
       "options": [
@@ -1062,12 +910,8 @@ const lessonTitle: string = 'Infer dalam Conditional Types';",
     "moduleId": 7,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Mapped Types Dasar
-
-- Transformasi iteratif tipe objek per properti
-- Sintaks [K in keyof T]",
-    "code": "// TypeScript Mapped Types Dasar
-const lessonTitle: string = 'Mapped Types Dasar';",
+    "content": "# Mapped Types Dasar\n\n- Transformasi iteratif tipe objek per properti\n- Sintaks [K in keyof T]",
+    "code": "// TypeScript Mapped Types Dasar\nconst lessonTitle: string = 'Mapped Types Dasar';",
     "quiz": {
       "question": "Keyword gabungan apa yang dipakai untuk mendapatkan seluruh kumpulan key dari sebuah objek T?",
       "options": [
@@ -1088,12 +932,8 @@ const lessonTitle: string = 'Mapped Types Dasar';",
     "moduleId": 7,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Mapped Types dengan Modifiers (+ dan -)
-
-- Menambah/Mencabut sifat readonly atau opsional
-- Modifikasi mapping -? dan -readonly",
-    "code": "// TypeScript Mapped Types dengan Modifiers (+ dan -)
-const lessonTitle: string = 'Mapped Types dengan Modifiers (+ dan -)';",
+    "content": "# Mapped Types dengan Modifiers (+ dan -)\n\n- Menambah/Mencabut sifat readonly atau opsional\n- Modifikasi mapping -? dan -readonly",
+    "code": "// TypeScript Mapped Types dengan Modifiers (+ dan -)\nconst lessonTitle: string = 'Mapped Types dengan Modifiers (+ dan -)';",
     "quiz": {
       "question": "Apa efek yang akan dihasilkan dari operator modifier '-readonly' pada mapped type?",
       "options": [
@@ -1114,12 +954,8 @@ const lessonTitle: string = 'Mapped Types dengan Modifiers (+ dan -)';",
     "moduleId": 7,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Key Remapping (as)
-
-- Mengganti/merekonstruksi nama kunci saat mapping
-- Sintaks keyof T as NewKey",
-    "code": "// TypeScript Key Remapping (as)
-const lessonTitle: string = 'Key Remapping (as)';",
+    "content": "# Key Remapping (as)\n\n- Mengganti/merekonstruksi nama kunci saat mapping\n- Sintaks keyof T as NewKey",
+    "code": "// TypeScript Key Remapping (as)\nconst lessonTitle: string = 'Key Remapping (as)';",
     "quiz": {
       "question": "Keyword apa yang dapat kita tempelkan pada pemetaan kunci untuk mengubah nama aslinya menjadi baru?",
       "options": [
@@ -1140,12 +976,8 @@ const lessonTitle: string = 'Key Remapping (as)';",
     "moduleId": 7,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Template Literal Types
-
-- Manipulasi literal string tingkat-tipe
-- Pembuatan union dinamis dari kombinasi string",
-    "code": "// TypeScript Template Literal Types
-const lessonTitle: string = 'Template Literal Types';",
+    "content": "# Template Literal Types\n\n- Manipulasi literal string tingkat-tipe\n- Pembuatan union dinamis dari kombinasi string",
+    "code": "// TypeScript Template Literal Types\nconst lessonTitle: string = 'Template Literal Types';",
     "quiz": {
       "question": "Selain template string, fitur apa yang biasa dikombinasikan secara elegan dengan Template Literal Types untuk utilitas string?",
       "options": [
@@ -1166,12 +998,8 @@ const lessonTitle: string = 'Template Literal Types';",
     "moduleId": 8,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Partial<T> & Required<T>
-
-- Mengubah semua field menjadi opsional atau wajib
-- Kasus penggunaan form dan update state",
-    "code": "// TypeScript Partial<T> & Required<T>
-const lessonTitle: string = 'Partial<T> & Required<T>';",
+    "content": "# Partial<T> & Required<T>\n\n- Mengubah semua field menjadi opsional atau wajib\n- Kasus penggunaan form dan update state",
+    "code": "// TypeScript Partial<T> & Required<T>\nconst lessonTitle: string = 'Partial<T> & Required<T>';",
     "quiz": {
       "question": "Apa utilitas (utility type) yang berfungsi terbalik dari fungsi Partial<T>?",
       "options": [
@@ -1192,12 +1020,8 @@ const lessonTitle: string = 'Partial<T> & Required<T>';",
     "moduleId": 8,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Readonly<T>
-
-- Pembuatan versi tidak-dapat-dimutasi dari suatu objek
-- Perbedaan strictness antar nested object",
-    "code": "// TypeScript Readonly<T>
-const lessonTitle: string = 'Readonly<T>';",
+    "content": "# Readonly<T>\n\n- Pembuatan versi tidak-dapat-dimutasi dari suatu objek\n- Perbedaan strictness antar nested object",
+    "code": "// TypeScript Readonly<T>\nconst lessonTitle: string = 'Readonly<T>';",
     "quiz": {
       "question": "Apakah utility Readonly<T> otomatis menyegel / mengunci mutasi di level objek yang bersarang (nested)?",
       "options": [
@@ -1218,12 +1042,8 @@ const lessonTitle: string = 'Readonly<T>';",
     "moduleId": 8,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Record<K, T>
-
-- Struktur dictionary/Map cepat
-- Mendefinisikan Map Object dengan spesifik key union",
-    "code": "// TypeScript Record<K, T>
-const lessonTitle: string = 'Record<K, T>';",
+    "content": "# Record<K, T>\n\n- Struktur dictionary/Map cepat\n- Mendefinisikan Map Object dengan spesifik key union",
+    "code": "// TypeScript Record<K, T>\nconst lessonTitle: string = 'Record<K, T>';",
     "quiz": {
       "question": "Pada sintaks Record<K, T>, argument tipe T mewakili apa?",
       "options": [
@@ -1244,12 +1064,8 @@ const lessonTitle: string = 'Record<K, T>';",
     "moduleId": 8,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Pick<T, K> & Omit<T, K>
-
-- Menyaring atau membuang key tertentu dari tipe utuh
-- Pembentukan DTO (Data Transfer Object) UI",
-    "code": "// TypeScript Pick<T, K> & Omit<T, K>
-const lessonTitle: string = 'Pick<T, K> & Omit<T, K>';",
+    "content": "# Pick<T, K> & Omit<T, K>\n\n- Menyaring atau membuang key tertentu dari tipe utuh\n- Pembentukan DTO (Data Transfer Object) UI",
+    "code": "// TypeScript Pick<T, K> & Omit<T, K>\nconst lessonTitle: string = 'Pick<T, K> & Omit<T, K>';",
     "quiz": {
       "question": "Jika kita hanya menginginkan 2 properti saja dari total 20 properti, utility apa yang lebih tepat: Pick atau Omit?",
       "options": [
@@ -1270,12 +1086,8 @@ const lessonTitle: string = 'Pick<T, K> & Omit<T, K>';",
     "moduleId": 8,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Exclude<T, U> & Extract<T, U>
-
-- Modifikasi dan pemilihan dari kumpulan Union Types
-- Filter tingkat tipe logis",
-    "code": "// TypeScript Exclude<T, U> & Extract<T, U>
-const lessonTitle: string = 'Exclude<T, U> & Extract<T, U>';",
+    "content": "# Exclude<T, U> & Extract<T, U>\n\n- Modifikasi dan pemilihan dari kumpulan Union Types\n- Filter tingkat tipe logis",
+    "code": "// TypeScript Exclude<T, U> & Extract<T, U>\nconst lessonTitle: string = 'Exclude<T, U> & Extract<T, U>';",
     "quiz": {
       "question": "Apakah Exclude/Extract ditujukan untuk memfilter properti objek atau Union Types?",
       "options": [
@@ -1296,12 +1108,8 @@ const lessonTitle: string = 'Exclude<T, U> & Extract<T, U>';",
     "moduleId": 8,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# ReturnType<T> & Parameters<T>
-
-- Ekstraksi input-output pada fungsi eksternal
-- Mengakses tipe ketika library hanya export fungsinya saja",
-    "code": "// TypeScript ReturnType<T> & Parameters<T>
-const lessonTitle: string = 'ReturnType<T> & Parameters<T>';",
+    "content": "# ReturnType<T> & Parameters<T>\n\n- Ekstraksi input-output pada fungsi eksternal\n- Mengakses tipe ketika library hanya export fungsinya saja",
+    "code": "// TypeScript ReturnType<T> & Parameters<T>\nconst lessonTitle: string = 'ReturnType<T> & Parameters<T>';",
     "quiz": {
       "question": "Parameter T macam apa yang harus disuplai kepada ReturnType<T>?",
       "options": [
@@ -1322,12 +1130,8 @@ const lessonTitle: string = 'ReturnType<T> & Parameters<T>';",
     "moduleId": 9,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Modifiers: Public, Private, Protected
-
-- Konsep enkapsulasi variabel instance class
-- Menjaga akses data state pada OOP",
-    "code": "// TypeScript Modifiers: Public, Private, Protected
-const lessonTitle: string = 'Modifiers: Public, Private, Protected';",
+    "content": "# Modifiers: Public, Private, Protected\n\n- Konsep enkapsulasi variabel instance class\n- Menjaga akses data state pada OOP",
+    "code": "// TypeScript Modifiers: Public, Private, Protected\nconst lessonTitle: string = 'Modifiers: Public, Private, Protected';",
     "quiz": {
       "question": "Access modifier apa yang memberikan izin ke internal kelas induk dan anak turunannya (extends) saja?",
       "options": [
@@ -1348,12 +1152,8 @@ const lessonTitle: string = 'Modifiers: Public, Private, Protected';",
     "moduleId": 9,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Parameter Properties
-
-- Cara elegan mengurangi boilerplate constructor
-- Sintaks instansiasi on-the-fly",
-    "code": "// TypeScript Parameter Properties
-const lessonTitle: string = 'Parameter Properties';",
+    "content": "# Parameter Properties\n\n- Cara elegan mengurangi boilerplate constructor\n- Sintaks instansiasi on-the-fly",
+    "code": "// TypeScript Parameter Properties\nconst lessonTitle: string = 'Parameter Properties';",
     "quiz": {
       "question": "Bagaimana TypeScript mengetahui bahwa argumen constructor harus dijadikan properti instansi class otomatis?",
       "options": [
@@ -1374,12 +1174,8 @@ const lessonTitle: string = 'Parameter Properties';",
     "moduleId": 9,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Getters & Setters
-
-- Metode accessor properti pseudo
-- Menambah logika pembatasan pada modifikasi assignment",
-    "code": "// TypeScript Getters & Setters
-const lessonTitle: string = 'Getters & Setters';",
+    "content": "# Getters & Setters\n\n- Metode accessor properti pseudo\n- Menambah logika pembatasan pada modifikasi assignment",
+    "code": "// TypeScript Getters & Setters\nconst lessonTitle: string = 'Getters & Setters';",
     "quiz": {
       "question": "Keyword apa yang wajib disematkan sebelum nama method untuk mendeklarasikannya sebagai Getter di TS/JS?",
       "options": [
@@ -1400,12 +1196,8 @@ const lessonTitle: string = 'Getters & Setters';",
     "moduleId": 9,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Static Properties & Methods
-
-- Properti yang terhubung secara global ke class dan bukan ke object instansi
-- Pembuatan Utility Class",
-    "code": "// TypeScript Static Properties & Methods
-const lessonTitle: string = 'Static Properties & Methods';",
+    "content": "# Static Properties & Methods\n\n- Properti yang terhubung secara global ke class dan bukan ke object instansi\n- Pembuatan Utility Class",
+    "code": "// TypeScript Static Properties & Methods\nconst lessonTitle: string = 'Static Properties & Methods';",
     "quiz": {
       "question": "Apakah properti bertipe Static bisa diakses via instance dari class bersangkutan melalui sintaks obj.propName?",
       "options": [
@@ -1426,12 +1218,8 @@ const lessonTitle: string = 'Static Properties & Methods';",
     "moduleId": 9,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Abstract Classes
-
-- Class kerangka (blueprint) yang tidak bisa di instansiasi dengan 'new'
-- Abstrak method kontrak untuk anak (child class)",
-    "code": "// TypeScript Abstract Classes
-const lessonTitle: string = 'Abstract Classes';",
+    "content": "# Abstract Classes\n\n- Class kerangka (blueprint) yang tidak bisa di instansiasi dengan 'new'\n- Abstrak method kontrak untuk anak (child class)",
+    "code": "// TypeScript Abstract Classes\nconst lessonTitle: string = 'Abstract Classes';",
     "quiz": {
       "question": "Sebutkan keyword esensial yang membuat sebuah class menjadi kerangka murni dan tidak bisa dibangun via (new)?",
       "options": [
@@ -1452,12 +1240,8 @@ const lessonTitle: string = 'Abstract Classes';",
     "moduleId": 9,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# This Type (Polymorphic this)
-
-- Mereturn tipe this untuk Method Chaining
-- Beradaptasi secara dinamis ke subclass",
-    "code": "// TypeScript This Type (Polymorphic this)
-const lessonTitle: string = 'This Type (Polymorphic this)';",
+    "content": "# This Type (Polymorphic this)\n\n- Mereturn tipe this untuk Method Chaining\n- Beradaptasi secara dinamis ke subclass",
+    "code": "// TypeScript This Type (Polymorphic this)\nconst lessonTitle: string = 'This Type (Polymorphic this)';",
     "quiz": {
       "question": "Pola rekayasa perangkat lunak apa yang sangat diuntungkan oleh return bertipe 'this'?",
       "options": [
@@ -1478,12 +1262,8 @@ const lessonTitle: string = 'This Type (Polymorphic this)';",
     "moduleId": 10,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Decorators (Standar TS 5.0)
-
-- Evolusi metadata standard class dan method ECMAScript
-- Tidak perlu lagi flag experimental",
-    "code": "// TypeScript Decorators (Standar TS 5.0)
-const lessonTitle: string = 'Decorators (Standar TS 5.0)';",
+    "content": "# Decorators (Standar TS 5.0)\n\n- Evolusi metadata standard class dan method ECMAScript\n- Tidak perlu lagi flag experimental",
+    "code": "// TypeScript Decorators (Standar TS 5.0)\nconst lessonTitle: string = 'Decorators (Standar TS 5.0)';",
     "quiz": {
       "question": "Apakah di TypeScript 5.0 dan versi terbaru, flag kompilasi 'experimentalDecorators' masih wajib diaktifkan?",
       "options": [
@@ -1504,12 +1284,8 @@ const lessonTitle: string = 'Decorators (Standar TS 5.0)';",
     "moduleId": 10,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Const Type Parameters (TS 5.0)
-
-- Memaksa generic inferensi tipe literal
-- Sintaks <const T>",
-    "code": "// TypeScript Const Type Parameters (TS 5.0)
-const lessonTitle: string = 'Const Type Parameters (TS 5.0)';",
+    "content": "# Const Type Parameters (TS 5.0)\n\n- Memaksa generic inferensi tipe literal\n- Sintaks <const T>",
+    "code": "// TypeScript Const Type Parameters (TS 5.0)\nconst lessonTitle: string = 'Const Type Parameters (TS 5.0)';",
     "quiz": {
       "question": "Di mana letak penempatan keyword 'const' agar inference generiknya menghasilkan readonly tuple/literal?",
       "options": [
@@ -1530,12 +1306,8 @@ const lessonTitle: string = 'Const Type Parameters (TS 5.0)';",
     "moduleId": 10,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Satisfies Operator (TS 4.9/5.0)
-
-- Memvalidasi bentuk tipe tetapi menjaga ketepatan tipe asli inferensi
-- Mengatasi batas luas dari type annotation dan as",
-    "code": "// TypeScript Satisfies Operator (TS 4.9/5.0)
-const lessonTitle: string = 'Satisfies Operator (TS 4.9/5.0)';",
+    "content": "# Satisfies Operator (TS 4.9/5.0)\n\n- Memvalidasi bentuk tipe tetapi menjaga ketepatan tipe asli inferensi\n- Mengatasi batas luas dari type annotation dan as",
+    "code": "// TypeScript Satisfies Operator (TS 4.9/5.0)\nconst lessonTitle: string = 'Satisfies Operator (TS 4.9/5.0)';",
     "quiz": {
       "question": "Apa keuntungan sentral dari keyword 'satisfies' dibandingkan memberikan type annotation/type casting ('as') eksplisit?",
       "options": [
@@ -1556,12 +1328,8 @@ const lessonTitle: string = 'Satisfies Operator (TS 4.9/5.0)';",
     "moduleId": 10,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Modul Node16/NodeNext (Resolusi)
-
-- Dukungan dual module ESM & CommonJS native di TS modern
-- Penyesuaian import .js file",
-    "code": "// TypeScript Modul Node16/NodeNext (Resolusi)
-const lessonTitle: string = 'Modul Node16/NodeNext (Resolusi)';",
+    "content": "# Modul Node16/NodeNext (Resolusi)\n\n- Dukungan dual module ESM & CommonJS native di TS modern\n- Penyesuaian import .js file",
+    "code": "// TypeScript Modul Node16/NodeNext (Resolusi)\nconst lessonTitle: string = 'Modul Node16/NodeNext (Resolusi)';",
     "quiz": {
       "question": "Selain 'Node16' dan 'NodeNext', setting 'moduleResolution' baru apa di TS 5 yang difokuskan pada pemakaian bundler eksternal seperti Vite/Webpack?",
       "options": [
@@ -1582,12 +1350,8 @@ const lessonTitle: string = 'Modul Node16/NodeNext (Resolusi)';",
     "moduleId": 10,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Menulis Tipe Declarations (.d.ts)
-
-- Sistem pengetikan pada file JavaScript yang tidak memiliki TypeScript (Legacy lib)
-- Global augmentation",
-    "code": "// TypeScript Menulis Tipe Declarations (.d.ts)
-const lessonTitle: string = 'Menulis Tipe Declarations (.d.ts)';",
+    "content": "# Menulis Tipe Declarations (.d.ts)\n\n- Sistem pengetikan pada file JavaScript yang tidak memiliki TypeScript (Legacy lib)\n- Global augmentation",
+    "code": "// TypeScript Menulis Tipe Declarations (.d.ts)\nconst lessonTitle: string = 'Menulis Tipe Declarations (.d.ts)';",
     "quiz": {
       "question": "Ekstensi apa yang harus dipasang untuk merepresentasikan bahwa ini hanya file berisi 'definisi tipe' murni tanpa eksekusi logika kode?",
       "options": [
@@ -1608,12 +1372,8 @@ const lessonTitle: string = 'Menulis Tipe Declarations (.d.ts)';",
     "moduleId": 10,
     "duration": "15 m",
     "level": "Semua",
-    "content": "# Strict Mode & Project References
-
-- Setelan best practice strictness kompilasi untuk enterprise
-- Scale codebase dengan Project References di monorepo",
-    "code": "// TypeScript Strict Mode & Project References
-const lessonTitle: string = 'Strict Mode & Project References';",
+    "content": "# Strict Mode & Project References\n\n- Setelan best practice strictness kompilasi untuk enterprise\n- Scale codebase dengan Project References di monorepo",
+    "code": "// TypeScript Strict Mode & Project References\nconst lessonTitle: string = 'Strict Mode & Project References';",
     "quiz": {
       "question": "Pengaturan flag tsconfig.json mana yang paling signifikan dalam memberikan tingkat keamanan statis tipe (strictness) yang absolut?",
       "options": [
