@@ -280,7 +280,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/typescript@5.4.5/lib/typescript.min.js"></script>
-    <script src="app.js?v=1789637385279"></script>
+    <script src="app.js?v=1790232017067"></script>
     <script>
             
         // Mobile Search Bar Accordion Toggle
@@ -867,6 +867,27 @@
         }
     </script>
 
+
+    <!-- Force clear legacy service worker cache -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (let registration of registrations) {
+            registration.unregister().then(function(boolean) {
+              console.log('Old ServiceWorker unregistered:', boolean);
+            });
+          }
+        });
+        if ('caches' in window) {
+          caches.keys().then(function(names) {
+            for (let name of names) {
+              caches.delete(name);
+              console.log('Cache cleared:', name);
+            }
+          });
+        }
+      }
+    </script>
+
 </body>
-<!-- UI Unified Standard Sync: 2026-09-24 04:40:44 UTC -->
 </html>
